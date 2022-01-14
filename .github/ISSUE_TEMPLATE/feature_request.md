@@ -3,7 +3,7 @@ name: Feature request
 about: Feature description
 title: feature/title-related-to-associated-issue
 labels: Feature
-assignees: 'Team (SOEN 341)'
+assignees: ''
 
 ---
 
