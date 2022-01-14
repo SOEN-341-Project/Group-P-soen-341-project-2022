@@ -2,7 +2,7 @@
 name: Feature request
 about: Feature description
 title: feature/title-related-to-associated-issue
-labels: ''
+labels: 'Feature'
 assignees: ''
 
 ---
@@ -16,9 +16,8 @@ Ex: Home page for online shopping website
 -  Ex: add next button to navigate to next page
 -  Ex: add backend data for prices
 
-## Acceptance Criteria
-- [ ] Test coverage >80%
-- [ ] All specifications met in feature requirements
+## Sub-tasks (sub-issues)
+- [ ] #issue-number
 
 #Additional context
 Add any other context or screenshots about the feature request here.
