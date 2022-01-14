@@ -11,6 +11,7 @@ assignees: ''
 Ex: Home page for online shopping website
 
 ## Feature Requirements
+- [ ] #123 (issue linking)
 -  Ex: add blue navbar
 -  Ex: add next button to navigate to next page
 -  Ex: add backend data for prices
