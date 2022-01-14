@@ -1,3 +1,12 @@
+---
+name: Feature pull request
+about: Feature description
+title: feature/title-related-to-associated-issue
+labels: 'Feature'
+assignees: ''
+
+---
+
 ## Brief Description
 Enter a brief description of PR here.
 
