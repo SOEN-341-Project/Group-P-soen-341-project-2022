@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us squash some bugs
 title: bug/your-title-here
 labels: bug
-assignees: Adamo-O, aspyridakos, oumbarry, emma-amar, KooshaG, jungsoolee1
+assignees: Team (SOEN 341), Adamo-O, aspyridakos, oumbarry, emma-amar, KooshaG, jungsoolee1
 
 ---
 
