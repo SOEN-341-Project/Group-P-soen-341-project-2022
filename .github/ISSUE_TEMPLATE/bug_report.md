@@ -4,7 +4,6 @@ about: Create a report to help us squash some bugs
 title: bug/your-title-here
 labels: bug
 assignees: Adamo-O, aspyridakos, oumbarry, emma-amar, KooshaG, jungsoolee1
-projects: SOEN-341-Project/Online-Shopping-Website
 
 ---
 
