@@ -1,6 +1,9 @@
 ## Brief Description
 Enter a brief description of PR here.
 
+## Linked Issues
+- closes #issue-number
+
 ## Changes
 - change 1
 - change 2
