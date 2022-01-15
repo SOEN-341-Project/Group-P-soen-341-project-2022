@@ -13,6 +13,5 @@
 - Alexandra Spyridakos
 
 ## Programming Languages Used
-- React
-- Next JS
-- Java
+- React.js
+- MySQL
