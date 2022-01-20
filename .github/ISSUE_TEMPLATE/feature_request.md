@@ -19,5 +19,5 @@ Ex: Home page for online shopping website
 - [ ] #issue-number1
 - [ ] #issue-number2
 
-#Additional context
+# Additional context
 Add any other context or screenshots about the feature request here.
