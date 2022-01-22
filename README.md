@@ -11,6 +11,7 @@
 - Jungsoo Lee
 - Adamo Orsini
 - Alexandra Spyridakos
+- Ricky Guan
 
 ## Programming Languages Used
 - React.js
