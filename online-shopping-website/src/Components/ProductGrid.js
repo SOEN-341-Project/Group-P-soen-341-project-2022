@@ -1,5 +1,4 @@
 import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -11,14 +10,6 @@ const ProductPreview = (props) => {
         {/* First column of Product Card. Image renders on top of Card on lg and smaller screens. Renders on the left for lg and xl screens. */}
         <Grid item xs={12} xl={6} sx={{ textAlign: 'center' }}>
           <div className="ProductImageHelper"></div>
-          {/* Card Media crops parts of images as they resize. May be an option, but custom CSS is preferred. */}
-          {/* <CardMedia
-            component="img"
-            alt={props.product.name}
-            height="200"
-            image={props.product.image}
-            className="ProductImage"
-          /> */}
           <img className="ProductImage" src={props.product.image} alt={props.product.name} />
         </Grid>
 
