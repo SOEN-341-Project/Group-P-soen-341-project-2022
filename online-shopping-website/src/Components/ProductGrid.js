@@ -19,6 +19,7 @@ const ProductPreview = (props) => {
             <Grid item xs sx={{ paddingX: '10px' }}>
               <h3>{props.product.name}</h3>
               <p>{props.product.description}</p>
+              <h4>Sold by: {props.product.seller}</h4>
               <h4>Price: {props.product.price} Ɖ</h4>
               <CardActions sx={{ marginLeft: '-10px' }}>
                 <Button variant="contained" className="ProductButtonContained">Add to Cart</Button>
