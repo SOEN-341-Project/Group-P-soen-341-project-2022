@@ -1,3 +1,13 @@
+/* Specifying font families and typography */
+@font-face {
+  font-family: 'CHANEY';
+  src: local('CHANEY'), url(./fonts/CHANEY-Regular.otf) format('opentype');
+}
+
+h1, h2, h3 {
+  font-family: 'CHANEY';
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +15,4 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
