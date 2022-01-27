@@ -6,13 +6,30 @@
 
 ## Team Members
 - Emma Amar
+  - GitHub: emma-amar
+  - Role: Front-end
 - Oumar Barry
+  - GitHub: oumbarry
+  - Role: Back-end
 - Koosha Gholipour
+  - GitHub: KooshaG
+  - Role: Back-end
 - Jungsoo Lee
+  - GitHub: jungsoolee1
+  - Role: Back-end
 - Adamo Orsini
+  - GitHub: Adamo-O
+  - Role: Front-end
 - Alexandra Spyridakos
+  - GitHub: aspyridakos
+  - Role: Front-end
 - Ricky Guan
+  - GitHub: ricks021
+  - Role: Front-end
 
 ## Programming Languages Used
+- HTML
+- CSS
 - React.js
 - MySQL
+- TBD
