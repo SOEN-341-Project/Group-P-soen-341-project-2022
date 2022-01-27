@@ -1,5 +1,5 @@
 import './App.css';
-import ProductGrid from './Components/ProductGrid';
+import { ProductGrid } from './Components/ProductGrid';
 import Products from './TestProducts.json';
 
 function App() {

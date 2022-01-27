@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
-import ProductGrid from './Components/ProductGrid';
+import { ProductGrid } from './Components/ProductGrid';
 import Products from './TestProducts.json';
 
 test('renders', () => {
