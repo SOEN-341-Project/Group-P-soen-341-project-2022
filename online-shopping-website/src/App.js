@@ -1,5 +1,5 @@
 import './App.css';
-import { renderProductGrid } from './Components/ProductGrid';
+import ProductGrid from './Components/ProductGrid';
 import Products from './TestProducts.json';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
       <h1>
         Bobble
       </h1>
-      {renderProductGrid(Products)}
+      <ProductGrid products={Products} />
     </div>
   );
 }

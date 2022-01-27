@@ -45,11 +45,10 @@ const iterateProduct = (data) => {
   })
 }
 
-// Renders Product Grid made up of inputted products.
-export const renderProductGrid = (products) => {
+export const ProductGrid = (props) => {
   return (
     <Grid container spacing={2} rowSpacing={5}>
-      {iterateProduct(products)}
+      {iterateProduct(props.products)}
     </Grid>
   );
 }
