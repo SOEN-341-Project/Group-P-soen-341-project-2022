@@ -18,6 +18,7 @@ const ProductPreview = (props) => {
           <Grid item container direction="column">
             <Grid item xs sx={{ paddingX: '10px' }}>
               <h3>{props.product.name}</h3>
+              <h4>Brand: {props.product.brand}</h4>
               <p>{props.product.description}</p>
               <h4>Sold by: {props.product.seller}</h4>
               <h4>Price: {props.product.price} Ɖ</h4>

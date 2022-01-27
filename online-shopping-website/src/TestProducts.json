@@ -6,6 +6,7 @@
       "image": "https://s3.amazonaws.com/jo.www.bucket/larabar/nodes/images/1410/retina/Banana.png?1446584154",
       "description": "This banana is the peak of human creation.",
       "seller": "Fruits with Friends",
+      "brand": "Fruits with Friends",
       "price": 4
     },
     {
@@ -14,6 +15,7 @@
       "image": "https://www.modernpest.com/uploads/flying-squirrel2.png",
       "description": "That brother is floating in the air.",
       "seller": "Ultimate pets",
+      "brand": "Nature Inc.",
       "price": 16
     },
     {
@@ -22,6 +24,7 @@
       "image": "http://www.nbtrappers.ca/fraccon.gif",
       "description": "🚮.",
       "seller": "Ultimate pets",
+      "brand": "Environment Ltd.",
       "price": 20
     },
     {
@@ -29,7 +32,8 @@
       "name": "French Fries",
       "image": "https://www.buffalowildwings.com/globalassets/modifiers/10320007-french-fries.png",
       "description": "Mmm not french at all.",
-      "seller": "MacDon't",
+      "seller": "Foodies on Wheels",
+      "brand": "MacDon't",
       "price": 8
     },
     {
@@ -38,6 +42,7 @@
       "image": "https://dufflet.com/wp-content/uploads/2021/05/hero_cup_CVANCM_Dec2013.png",
       "description": "As sweet as I don't know what.",
       "seller": "Alan Wake's Cupcakes",
+      "brand": "Sugar Treats & Beets",
       "price": 12
     }
   ]
