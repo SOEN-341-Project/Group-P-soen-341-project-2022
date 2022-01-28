@@ -1,25 +1,10 @@
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
-import {styled} from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CardHeader from '@mui/material/CardHeader';
-
-const ExpandMore = styled((props) => {
-    const {expand, ...other} = props;
-    return <IconButton {...other} />;
-})(({theme, expand}) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
 
 const iterateBrands = (data) => {
     return data.brands.map(brand => {
@@ -58,24 +43,22 @@ const BrandDropdown = (props) => {
         setExpanded(!expanded);
     };
     return (
-        <Card sx={{maxWidth: 345}} xs={3} sm={3} lg={3}>
-            <CardActions disableSpacing>
-                Brands
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
+        <div>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon/>}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
                 >
-                    <ExpandMoreIcon/>
-                </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>{iterateBrands(props.brands)}</Typography>
-                </CardContent>
-            </Collapse>
-        </Card>
+                    <Typography>Brands</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography paragraph>
+                        {iterateBrands(props.brands)}
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+        </div>
     );
 }
 
@@ -86,23 +69,21 @@ const SellerDropdown = (props) => {
         setExpanded(!expanded);
     };
     return (
-        <Card sx={{maxWidth: 345}}>
-            <CardActions disableSpacing>
-                Sellers
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
+        <div>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon/>}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
                 >
-                    <ExpandMoreIcon/>
-                </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>{iterateSellers(props.sellers)}</Typography>
-                </CardContent>
-            </Collapse>
-        </Card>
+                    <Typography>Sellers</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography paragraph>
+                        {iterateSellers(props.sellers)}
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+        </div>
     );
 }
