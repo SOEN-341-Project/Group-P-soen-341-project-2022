@@ -5,26 +5,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-const iterateBrands = (data) => {
-    return data.brands.map(brand => {
-        return (
-            <Grid item>
-                {brand}
-            </Grid>
-        );
-    });
-}
-
-const iterateSellers = (data) => {
-    return data.sellers.map(seller => {
-        return (
-            <Grid item>
-                {seller}
-            </Grid>
-        );
-    })
-}
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 export const SideNav = (props) => {
     return (
@@ -32,7 +15,6 @@ export const SideNav = (props) => {
             <BrandDropdown brands={props.brands}/>
             <SellerDropdown sellers={props.sellers}/>
         </Grid>
-
     );
 }
 
@@ -53,9 +35,7 @@ const BrandDropdown = (props) => {
                     <Typography>Brands</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography paragraph>
-                        {iterateBrands(props.brands)}
-                    </Typography>
+                    {BrandsCheckbox(props)}
                 </AccordionDetails>
             </Accordion>
         </div>
@@ -79,11 +59,93 @@ const SellerDropdown = (props) => {
                     <Typography>Sellers</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography paragraph>
-                        {iterateSellers(props.sellers)}
-                    </Typography>
+                    {SellersCheckbox(props)}
                 </AccordionDetails>
             </Accordion>
+        </div>
+    );
+}
+
+function BrandsCheckbox(props) {
+    const [checked, setChecked] = React.useState([true, false]);
+
+    const handleChange1 = (event) => {
+        setChecked([event.target.checked, event.target.checked]);
+    };
+
+    const handleChange2 = (event) => {
+        setChecked([event.target.checked, checked[1]]);
+    };
+
+    // TODO: play with state to fix when checkboxes are checked
+    function iterateBrands(props, checked) {
+        return props.brands.map(brand => {
+            return (
+                <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
+                    <FormControlLabel
+                        label={brand}
+                        control={<Checkbox checked={checked[0]} onChange={handleChange2}/>}
+                    />
+                </Box>
+            );
+        });
+    }
+
+    return (
+        <div>
+            <FormControlLabel
+                label="Select all"
+                control={
+                    <Checkbox
+                        checked={checked[0] && checked[1]}
+                        indeterminate={checked[0] !== checked[1]}
+                        onChange={handleChange1}
+                    />
+                }
+            />
+            {iterateBrands(props.brands, checked)}
+        </div>
+    );
+}
+
+function SellersCheckbox(props) {
+    const [checked, setChecked] = React.useState([true, false]);
+
+    const handleChange1 = (event) => {
+        setChecked([event.target.checked, event.target.checked]);
+    };
+
+    const handleChange2 = (event) => {
+        setChecked([event.target.checked, checked[1]]);
+    };
+
+    // TODO: play with state to fix when checkboxes are checked
+    function iterateSellers(props, checked) {
+        return props.brands.map(brand => {
+            return (
+                <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
+                    <FormControlLabel
+                        label={brand}
+                        control={<Checkbox checked={checked[0]} onChange={handleChange2}/>}
+                    />
+                </Box>
+            );
+        });
+    }
+
+    return (
+        <div>
+            <FormControlLabel
+                label="Select all"
+                control={
+                    <Checkbox
+                        checked={checked[0] && checked[1]}
+                        indeterminate={checked[0] !== checked[1]}
+                        onChange={handleChange1}
+                    />
+                }
+            />
+            {iterateSellers(props.sellers, checked)}
         </div>
     );
 }
