@@ -45,5 +45,18 @@
       "brand": "Sugar Treats & Beets",
       "price": 12
     }
+  ],
+  "brands": [
+    "Environment Ltd.",
+    "Fruits with Friends",
+    "MacDon't",
+    "Nature Inc.",
+    "Sugar Treats & Beets"
+  ],
+  "sellers": [
+    "Alan Wake's Cupcakes",
+    "Foodies on Wheels",
+    "Fruits with Friends",
+    "Ultimate pets"
   ]
 }
