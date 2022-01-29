@@ -2,9 +2,9 @@ import './App.css';
 import Grid from '@mui/material/Grid';
 import {ProductGrid} from './Components/ProductGrid';
 import {SideNav} from './Components/SideNav';
-import Products from './TestProducts.json';
-import Brands from './TestProducts.json';
-import Sellers from './TestProducts.json';
+import Products from './TestValues.json';
+import Brands from './TestValues.json';
+import Sellers from './TestValues.json';
 
 function App() {
     return (

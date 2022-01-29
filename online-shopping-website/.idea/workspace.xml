@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Components/SideNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SideNav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestProducts.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/TestValues.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +32,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Alex Docs\Concordia\Year 2\Winter 2022\SOEN 341\Online-Shopping-Website\online-shopping-website\src" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="SideNav.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/Components/SideNav.js" working-dir="$PROJECT_DIR$/src/Components">
@@ -49,11 +58,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1643475970362</updated>
-      <workItem from="1643475971415" duration="6114000" />
+      <workItem from="1643475971415" duration="8224000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
