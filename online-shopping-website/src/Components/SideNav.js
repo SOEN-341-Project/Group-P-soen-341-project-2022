@@ -11,7 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 export const SideNav = (props) => {
     return (
-        <Grid container spacing={2} rowspacing={2}>
+        <Grid container xs={12} md={4} sm={4} lg={3}>
             <BrandDropdown brands={props.brands}/>
             <SellerDropdown sellers={props.sellers}/>
         </Grid>
