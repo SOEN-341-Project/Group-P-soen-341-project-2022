@@ -54,8 +54,8 @@ export const SideNav = (props) => {
     return (
         <Grid container xs={5} sm={4} md={4} lg={3}>
             <Grid item spacing={6} xs={5} sm={4} md={4} lg={3}>
-                <Box  sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
-                    <Typography>Price Range: </Typography>
+                <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
+                    <Typography>Price Range </Typography>
                     <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
                     <Slider
                         getAriaLabel={() => 'Minimum distance shift'}
@@ -114,24 +114,19 @@ const SellerDropdown = (props) => {
 }
 
 function BrandsCheckbox(props) {
-    const [checked, setChecked] = React.useState([true, false]);
+    const [checked, setChecked] = React.useState(true);
 
-    const handleChange1 = (event) => {
-        setChecked([event.target.checked, event.target.checked]);
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
     };
 
-    const handleChange2 = (event) => {
-        setChecked([event.target.checked, checked[1]]);
-    };
-
-    // TODO: play with state to fix when checkboxes are checked
-    function iterateBrands(props, checked) {
-        return props.brands.map(brand => {
+    function iterateSellers(props) {
+        return props.brands.map((brand,index) => {
             return (
                 <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
                     <FormControlLabel
                         label={brand}
-                        control={<Checkbox checked={checked[0]} onChange={handleChange2}/>}
+                        control={<Checkbox checked={checked[{index}]} onChange={handleChange}/>}
                     />
                 </Box>
             );
@@ -140,40 +135,25 @@ function BrandsCheckbox(props) {
 
     return (
         <div>
-            <FormControlLabel
-                label="Select all"
-                control={
-                    <Checkbox
-                        checked={checked[0] && checked[1]}
-                        indeterminate={checked[0] !== checked[1]}
-                        onChange={handleChange1}
-                    />
-                }
-            />
-            {iterateBrands(props.brands, checked)}
+            {iterateSellers(props.brands)}
         </div>
     );
 }
 
 function SellersCheckbox(props) {
-    const [checked, setChecked] = React.useState([true, false]);
+    const [checked, setChecked] = React.useState(true);
 
-    const handleChange1 = (event) => {
-        setChecked([event.target.checked, event.target.checked]);
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
     };
 
-    const handleChange2 = (event) => {
-        setChecked([event.target.checked, checked[1]]);
-    };
-
-    // TODO: play with state to fix when checkboxes are checked
-    function iterateSellers(props, checked) {
-        return props.brands.map(brand => {
+    function iterateSellers(props) {
+        return props.sellers.map((seller, index) => {
             return (
                 <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
                     <FormControlLabel
-                        label={brand}
-                        control={<Checkbox checked={checked[0]} onChange={handleChange2}/>}
+                        label={seller}
+                        control={<Checkbox checked={checked[{index}]} onChange={handleChange}/>}
                     />
                 </Box>
             );
@@ -182,17 +162,7 @@ function SellersCheckbox(props) {
 
     return (
         <div>
-            <FormControlLabel
-                label="Select all"
-                control={
-                    <Checkbox
-                        checked={checked[0] && checked[1]}
-                        indeterminate={checked[0] !== checked[1]}
-                        onChange={handleChange1}
-                    />
-                }
-            />
-            {iterateSellers(props.sellers, checked)}
+            {iterateSellers(props.sellers)}
         </div>
     );
 }
