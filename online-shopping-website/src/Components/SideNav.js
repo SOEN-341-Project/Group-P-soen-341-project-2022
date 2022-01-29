@@ -6,12 +6,69 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 export const SideNav = (props) => {
+    const marks = [
+        {
+            value: 0,
+            label: '0Ɖ',
+        },
+        {
+            value: 50,
+            label: '50Ɖ',
+        },
+        {
+            value: 100,
+            label: '100Ɖ',
+        },
+    ];
+
+    function valuetext(value) {
+        return `${value}Ɖ`;
+    }
+
+    const minDistance = 10;
+    const [value, setValue] = React.useState([0, 100]);
+
+    const handleChange = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+
+        if (newValue[1] - newValue[0] < minDistance) {
+            if (activeThumb === 0) {
+                const clamped = Math.min(newValue[0], 100 - minDistance);
+                setValue([clamped, clamped + minDistance]);
+            } else {
+                const clamped = Math.max(newValue[1], minDistance);
+                setValue([clamped - minDistance, clamped]);
+            }
+        } else {
+            setValue(newValue);
+        }
+    };
+
     return (
-        <Grid container xs={12} md={4} sm={4} lg={3}>
+        <Grid container xs={5} sm={4} md={4} lg={3}>
+            <Grid item spacing={6} xs={5} sm={4} md={4} lg={3}>
+                <Box  sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
+                    <Typography>Price Range: </Typography>
+                    <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
+                    <Slider
+                        getAriaLabel={() => 'Minimum distance shift'}
+                        value={value}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        getAriaValueText={valuetext}
+                        step={10}
+                        marks={marks}
+                        disableSwap
+                    />
+                </Box>
+            </Grid>
             <BrandDropdown brands={props.brands}/>
             <SellerDropdown sellers={props.sellers}/>
         </Grid>
@@ -19,11 +76,6 @@ export const SideNav = (props) => {
 }
 
 const BrandDropdown = (props) => {
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
     return (
         <div>
             <Accordion>
@@ -43,11 +95,6 @@ const BrandDropdown = (props) => {
 }
 
 const SellerDropdown = (props) => {
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
     return (
         <div>
             <Accordion>
