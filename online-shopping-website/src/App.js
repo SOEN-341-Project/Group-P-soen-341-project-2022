@@ -13,10 +13,10 @@ function App() {
                 Bobble
             </h1>
             <Grid container columnSpacing={4} rowSpacing={5}>
-                <Grid item md={3} lg={2}>
+                <Grid item xs={12} md={2}>
                     <SideNav brands={Brands} sellers={Sellers}/>
                 </Grid>
-                <Grid item sm={11} md={9} lg={10}>
+                <Grid item xs={12} sm={12} md={10}>
                     <ProductGrid products={Products}/>
                 </Grid>
             </Grid>

@@ -52,7 +52,7 @@ export const SideNav = (props) => {
     };
 
     return (
-        <Grid container xs={5} sm={4} md={4} lg={3}>
+        <Grid item container xs={5} sm={4} md={4} lg={3}>
             <Grid item spacing={6} xs={5} sm={4} md={4} lg={3}>
                 <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
                     <Typography>Price Range </Typography>

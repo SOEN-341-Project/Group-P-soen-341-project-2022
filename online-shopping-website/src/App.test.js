@@ -7,7 +7,7 @@ import Products from './TestValues.json';
 import Brands from './TestValues.json';
 import Sellers from './TestValues.json';
 
-test('renders', () => {
+test('renders Product Grid items', () => {
   render(<ProductGrid products={Products} />);
   Products.products.forEach(product => {
     let productElement = screen.getByText(product.name);
@@ -15,7 +15,7 @@ test('renders', () => {
   });
 });
 
-test('renders', () => {
+test('renders SideNav', () => {
   render(<SideNav brands={Brands} sellers={Sellers} />);
   Brands.brands.forEach(brand => {
     let brandElement = screen.getByText(brand);

@@ -38,7 +38,7 @@ const ProductPreview = (props) => {
 const iterateProduct = (data) => {
   return data.products.map(product => {
     return (
-      <Grid item key={product.id} spacing={6} xs={11} md={5} sm={6} lg={4}>
+      <Grid item key={product.id} spacing={6} xs={12} md={6} lg={4}>
         <ProductPreview key={product.id} product={product} />
       </Grid>
     );
@@ -47,7 +47,7 @@ const iterateProduct = (data) => {
 
 export const ProductGrid = (props) => {
   return (
-    <Grid container spacing={5} rowSpacing={8} lg={11}>
+    <Grid container spacing={5} rowSpacing={8}>
       {iterateProduct(props.products)}
     </Grid>
   );
