@@ -43,4 +43,5 @@
     width:100%;
     min-width: 200px;
     max-width:200px;
+    /*add breakpoint to make everything full width below medium screens*/
 }

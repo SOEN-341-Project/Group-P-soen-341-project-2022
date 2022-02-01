@@ -52,6 +52,7 @@ export const SideNav = (props) => {
     };
 
     return (
+        //TODO: change outer grid to a div and set sidebar to a set width to not overlap with product grid
         <Grid item container xs={5} sm={4} md={4} lg={3}>
             <Grid item spacing={6} xs={5} sm={4} md={4} lg={3}>
                 <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
