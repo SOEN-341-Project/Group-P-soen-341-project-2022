@@ -77,7 +77,7 @@ export const SideNav = (props) => {
 
 const BrandDropdown = (props) => {
     return (
-        <div>
+        <div className="accordion-width">
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon/>}
@@ -96,7 +96,7 @@ const BrandDropdown = (props) => {
 
 const SellerDropdown = (props) => {
     return (
-        <div>
+        <div className="accordion-width">
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon/>}

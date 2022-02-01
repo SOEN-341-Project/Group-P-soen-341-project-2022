@@ -38,3 +38,9 @@
     background-color: rgba(79, 255, 108, 0.198);
     border-color: rgb(122, 218, 122);
 }
+
+.accordion-width {
+    width:100%;
+    min-width: 200px;
+    max-width:200px;
+}
