@@ -1,40 +1,47 @@
 .AppContent {
-  padding: 1em;
+    padding: 1.25em;
 }
 
 /* Product grid styles */
-  .ProductContainer {
+.ProductContainer {
     padding: 0.75em;
     height: 100%;
     color: white;
     background-color: #a75e7d;
     border-radius: 15px;
-  }
+}
 
-  /* Vertically aligns product image of ProductPreview (in ProductGrid) */
-  .ProductImageHelper {
+/* Vertically aligns product image of ProductPreview (in ProductGrid) */
+.ProductImageHelper {
     display: inline-block;
     height: 100%;
     vertical-align: middle;
-  }
+}
 
-  .ProductImage {
+.ProductImage {
     vertical-align: middle;
     max-height: 200px;
     max-width: 100%;
-  }
+}
 
-  .ProductButton {
+.ProductButton {
     color: rgb(203, 253, 203);
     border-color: rgb(78, 219, 78);
     transition: 0.3s all ease-in-out;
-  }
+}
 
-  .ProductButtonContained {
+.ProductButtonContained {
     background-color: rgb(72, 136, 72);
-  }
+}
 
-  .ProductButton:hover, .ProductButtonContained:hover {
+.ProductButton:hover, .ProductButtonContained:hover {
     background-color: rgba(79, 255, 108, 0.198);
     border-color: rgb(122, 218, 122);
-  }
+}
+
+.accordion-width {
+    width:100%;
+    min-width: 200px;
+    max-width:200px;
+    /*add breakpoint to make everything full width below medium screens*/
+}
