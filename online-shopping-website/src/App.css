@@ -4,7 +4,7 @@
 
 /* Product grid styles */
 .ProductContainer {
-    padding: 0.75em;
+    padding: 0.5em 1.75em;
     height: 100%;
     color: white;
     background-color: #a75e7d;
@@ -32,6 +32,10 @@
 
 .ProductButtonContained {
     background-color: rgb(72, 136, 72);
+}
+
+.ProductButton, .ProductButtonContained {
+    height: 3em;
 }
 
 .ProductButton:hover, .ProductButtonContained:hover {
