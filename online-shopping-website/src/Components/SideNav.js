@@ -54,7 +54,7 @@ export const SideNav = (props) => {
     return (
         //TODO: change outer grid to a div and set sidebar to a set width to not overlap with product grid
         <Grid item container xs={5} sm={4} md={4} lg={3}>
-            <Grid item spacing={6} xs={5} sm={4} md={4} lg={3}>
+            <Grid item xs={5} sm={4} md={4} lg={3}>
                 <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
                     <Typography>Price Range </Typography>
                     <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
@@ -147,7 +147,7 @@ function SellersCheckbox(props) {
     function iterateSellers(props) {
         return props.sellers.map((seller, index) => {
             return (
-                <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
+                <Box key={index} sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
                     <FormControlLabel
                         label={seller}
                         control={<Checkbox defaultChecked onChange={handleChange} name={seller} />}

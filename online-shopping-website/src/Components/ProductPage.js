@@ -13,8 +13,6 @@ export const ProductPage = (props) => {
   let [filters] = useState({ brands: [], sellers: [] });
 
   const onSideNavChange = (filterType, filterName, isChecked) => {
-    console.log(filterName + ' Checkbox is ' + (isChecked ? 'checked' : 'not checked'));
-    
     // Add filter to filters state
     if (!isChecked) {
       if (filterType === 'Brand') {
