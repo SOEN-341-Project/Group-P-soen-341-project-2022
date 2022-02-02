@@ -8,13 +8,13 @@ const ProductPreview = (props) => {
   return (
     <Card className="ProductContainer">
       <Stack direction="column" justifyContent="space-between">
-        {/* First column of Product Card. Image renders on top of Card */}
+        {/* Image */}
         <Stack direction="row" justifyContent="center" sx={{ textAlign: 'center' }}>
           <div className="ProductImageHelper"></div>
           <img className="ProductImage" src={props.product.image} alt={props.product.name} />
         </Stack>
 
-        {/* Second column. Contains all text and Buttons. */}
+        {/* Product information */}
         <Stack spacing={2} direction="column" justifyContent="space-between">
             <h3>{props.product.name}</h3>
             <h4>Brand: {props.product.brand}</h4>
@@ -22,6 +22,8 @@ const ProductPreview = (props) => {
             <h4>Sold by: {props.product.seller}</h4>
             <h4>Price: {props.product.price} Ɖ</h4>
         </Stack>
+
+        {/* Buttons */}
         <Stack spacing={1} sx={{width: '100%', paddingY: '20px'}}>
           <Button variant="contained" className="ProductButtonContained">Add to Cart</Button>
           <Button variant="outlined" className="ProductButton">Learn More</Button>
