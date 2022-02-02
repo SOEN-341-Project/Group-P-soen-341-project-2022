@@ -2,6 +2,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import React from 'react';
 
 const ProductPreview = (props) => {
   return (
@@ -35,20 +36,20 @@ const ProductPreview = (props) => {
 }
 
 // Creates a Grid item with a ProductPreview for each product in inputted data. Sets element keys to product ids.
-const iterateProduct = (data) => {
+const iterateProducts = (data) => {
   return data.products.map(product => {
     return (
       <Grid item key={product.id} spacing={6} xs={12} md={6} lg={4}>
         <ProductPreview key={product.id} product={product} />
       </Grid>
     );
-  })
+  });
 }
 
-export const ProductGrid = (props) => {
+export const ProductGrid = (props) => { 
   return (
     <Grid container spacing={5} rowSpacing={8}>
-      {iterateProduct(props.products)}
+      {iterateProducts(props)}
     </Grid>
   );
 }

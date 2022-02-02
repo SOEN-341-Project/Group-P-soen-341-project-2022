@@ -70,8 +70,8 @@ export const SideNav = (props) => {
                     />
                 </Box>
             </Grid>
-            <BrandDropdown brands={props.brands}/>
-            <SellerDropdown sellers={props.sellers}/>
+            <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
+            <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
         </Grid>
     );
 }
@@ -115,19 +115,17 @@ const SellerDropdown = (props) => {
 }
 
 function BrandsCheckbox(props) {
-    const [checked, setChecked] = React.useState(true);
-
     const handleChange = (event) => {
-        setChecked(event.target.checked);
+        props.onCheckboxChange('Brand', event.target.name, event.target.checked);
     };
 
     function iterateSellers(props) {
         return props.brands.map((brand,index) => {
             return (
-                <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
+                <Box key={index} sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
                     <FormControlLabel
                         label={brand}
-                        control={<Checkbox checked={checked[{index}]} onChange={handleChange}/>}
+                        control={<Checkbox defaultChecked onChange={handleChange} name={brand} />}
                     />
                 </Box>
             );
@@ -142,10 +140,8 @@ function BrandsCheckbox(props) {
 }
 
 function SellersCheckbox(props) {
-    const [checked, setChecked] = React.useState(true);
-
     const handleChange = (event) => {
-        setChecked(event.target.checked);
+        props.onCheckboxChange('Seller', event.target.name, event.target.checked);
     };
 
     function iterateSellers(props) {
@@ -154,7 +150,7 @@ function SellersCheckbox(props) {
                 <Box sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
                     <FormControlLabel
                         label={seller}
-                        control={<Checkbox checked={checked[{index}]} onChange={handleChange}/>}
+                        control={<Checkbox defaultChecked onChange={handleChange} name={seller} />}
                     />
                 </Box>
             );
