@@ -10,10 +10,17 @@ import { useState } from 'react';
 export const ProductPage = (props) => {
 
   const [products, setProducts] = useState(Products.products);
-  let [filters] = useState({ brands: [], sellers: [], lowestPrice: null, highestPrice: null});
+  let [filters] = useState(
+    { 
+      brands: [], 
+      sellers: [], 
+      lowestPrice: null, 
+      highestPrice: null
+    }
+  );
 
   const filterProducts = () => {
-    console.log(filters);
+    // Filter products that are within price range, and don't belong to brands or sellers arrays
     setProducts(Products.products.filter(product => (
       (filters.lowestPrice ? (product.price >= filters.lowestPrice) : true)
       && (filters.highestPrice ? (product.price <= filters.highestPrice) : true)
@@ -32,7 +39,7 @@ export const ProductPage = (props) => {
   }
 
   const onCheckboxChange = (filterType, filterName, isChecked) => {
-    // Add filter to filters state
+    // Unchecked checkbox -> Add filter to filters state
     if (!isChecked) {
       if (filterType === 'Brand') {
         filters.brands.push(filterName);
@@ -41,7 +48,7 @@ export const ProductPage = (props) => {
         filters.sellers.push(filterName);
       }
     }
-    // Remove filter from filters state
+    // Checked checkbox -> Remove filter from filters state
     else {
       if (filterType === 'Brand') {
         filters.brands = filters.brands.filter((f) => f !== filterName);
@@ -51,7 +58,7 @@ export const ProductPage = (props) => {
       }
     }
 
-    // Filter out products matching filters state
+    // Update product state with filters
     filterProducts();
   }
 
