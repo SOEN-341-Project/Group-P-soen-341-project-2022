@@ -9,70 +9,86 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Products from '../TestValues.json';
 
 export const SideNav = (props) => {
-    const marks = [
-        {
-            value: 0,
-            label: '0Ɖ',
-        },
-        {
-            value: 50,
-            label: '50Ɖ',
-        },
-        {
-            value: 100,
-            label: '100Ɖ',
-        },
-    ];
-
-    function valuetext(value) {
-        return `${value}Ɖ`;
-    }
-
-    const minDistance = 10;
-    const [value, setValue] = React.useState([0, 100]);
-
-    const handleChange = (event, newValue, activeThumb) => {
-        if (!Array.isArray(newValue)) {
-            return;
-        }
-
-        if (newValue[1] - newValue[0] < minDistance) {
-            if (activeThumb === 0) {
-                const clamped = Math.min(newValue[0], 100 - minDistance);
-                setValue([clamped, clamped + minDistance]);
-            } else {
-                const clamped = Math.max(newValue[1], minDistance);
-                setValue([clamped - minDistance, clamped]);
-            }
-        } else {
-            setValue(newValue);
-        }
-    };
 
     return (
         //TODO: change outer grid to a div and set sidebar to a set width to not overlap with product grid
         <Grid item container xs={5} sm={4} md={4} lg={3}>
             <Grid item xs={5} sm={4} md={4} lg={3}>
-                <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
-                    <Typography>Price Range </Typography>
-                    <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
-                    <Slider
-                        getAriaLabel={() => 'Minimum distance shift'}
-                        value={value}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        getAriaValueText={valuetext}
-                        step={10}
-                        marks={marks}
-                        disableSwap
-                    />
-                </Box>
+                <PriceFilter onSliderChange={props.onSliderChange} />
             </Grid>
             <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
             <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
         </Grid>
+    );
+}
+
+const PriceFilter = (props) => {
+    function valuetext(value) {
+        return `${value}Ɖ`;
+    }
+
+    // Gets highest price of all products by applying Math.max to every product's price using map()
+    const getHighestPrice = (products) => {
+        return Math.max.apply(Math, products.map((product) => { return product.price; }));
+    }
+
+    // Sets lowest and highest prices to show on price slider
+    const lowestPrice = 0;
+    const highestPrice = getHighestPrice(Products.products);
+    
+    // Labels to show under slider range
+    const marks = [
+        {
+            value: lowestPrice,
+            label: valuetext(lowestPrice),
+        },
+        {
+            value: highestPrice,
+            label: valuetext(highestPrice),
+        },
+    ];
+
+    // const minDistance = 0;
+    const [value, setValue] = React.useState([lowestPrice, highestPrice]);
+
+    const handleChange = (event, newValue, activeThumb) => {
+        // if (!Array.isArray(newValue)) {
+        //     return;
+        // }
+
+        // if (newValue[1] - newValue[0] < minDistance) {
+        //     if (activeThumb === 0) {
+        //         const clamped = Math.min(newValue[0], highestPrice - minDistance);
+        //         setValue([clamped, clamped + minDistance]);
+        //     } else {
+        //         const clamped = Math.max(newValue[1], minDistance);
+        //         setValue([clamped - minDistance, clamped]);
+        //     }
+        // } else {
+            setValue(newValue);
+            props.onSliderChange(value);
+        // }
+    };
+    return (
+        <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
+            <Typography>Filter by price:</Typography>
+            <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
+            <Slider
+                getAriaLabel={() => 'Tempearture range'}
+                min={lowestPrice}
+                max={highestPrice}
+                value={value}
+                onChange={handleChange}
+                valueLabelDisplay="auto"
+                getAriaValueText={valuetext}
+                step={1}
+                marks={marks}
+                disableSwap
+            />
+        </Box>
     );
 }
 

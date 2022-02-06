@@ -10,9 +10,28 @@ import { useState } from 'react';
 export const ProductPage = (props) => {
 
   const [products, setProducts] = useState(Products.products);
-  let [filters] = useState({ brands: [], sellers: [] });
+  let [filters] = useState({ brands: [], sellers: [], lowestPrice: null, highestPrice: null});
 
-  const onSideNavChange = (filterType, filterName, isChecked) => {
+  const filterProducts = () => {
+    console.log(filters);
+    setProducts(Products.products.filter(product => (
+      (filters.lowestPrice ? (product.price >= filters.lowestPrice) : true)
+      && (filters.highestPrice ? (product.price <= filters.highestPrice) : true)
+      && !filters.brands.includes(product.brand)
+      && !filters.sellers.includes(product.seller)
+    )));
+  }
+
+  const onSliderChange = (priceRange) => {
+    // Set price range from slider
+    filters.lowestPrice = priceRange[0];
+    filters.highestPrice = priceRange[1];
+
+    // Update product state with filters
+    filterProducts();
+  }
+
+  const onCheckboxChange = (filterType, filterName, isChecked) => {
     // Add filter to filters state
     if (!isChecked) {
       if (filterType === 'Brand') {
@@ -33,15 +52,13 @@ export const ProductPage = (props) => {
     }
 
     // Filter out products matching filters state
-    setProducts(Products.products.filter(product => (
-      !filters.brands.includes(product.brand) && !filters.sellers.includes(product.seller)
-    )));
+    filterProducts();
   }
 
   return (
     <Grid container columnSpacing={4} rowSpacing={5}>
       <Grid item xs={12} md={3} lg={2}>
-        <SideNav brands={Brands} sellers={Sellers} onCheckboxChange={onSideNavChange} />
+        <SideNav brands={Brands} sellers={Sellers} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
       </Grid>
       <Grid item xs={12} md={9} lg={10}>
         <ProductGrid products={products}/>
