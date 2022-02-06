@@ -9,3 +9,27 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User{ // a model is essentially a table in a database. So this is the table for users, all of the information about a user should be in here.
+  id            Int         @id @default(autoincrement()) 
+  username      String      @unique
+  password      String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  firstName     String
+  lastName      String
+  orders        Order[]
+}
+
+model Order{
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [userId], references: [id]) // so this is a little difficult to explain but essentially we need to link a user to a list of orders. We do that by taking the Id of the user and placing it into the table of orders. Technically this isnt required but its a nice to have thing
+  userId        Int
+  items         Item[]
+}
+
+model Item{
+  id            Int         @id @default(autoincrement())
+  name          String
+  orders        Order[]
+}
