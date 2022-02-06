@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 const ProductPreview = (props) => {
   return (
     <Card className="ProductContainer">
-      <Stack direction="column" justifyContent="space-between">
+      <Stack sx={{ height: '100%' }} direction="column" justifyContent="space-between">
         {/* Image */}
         <Stack direction="row" justifyContent="center" sx={{ textAlign: 'center' }}>
           <div className="ProductImageHelper"></div>
