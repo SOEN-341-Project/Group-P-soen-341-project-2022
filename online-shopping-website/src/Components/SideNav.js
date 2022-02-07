@@ -30,13 +30,18 @@ const PriceFilter = (props) => {
         return `${value}Ɖ`;
     }
 
-    // Gets highest price of all products by applying Math.max to every product's price using map()
+    // Gets lowest price of all products
+    const getLowestPrice = (products) => {
+        return Math.min.apply(Math, products.map((product) => { return product.price; }));
+    }
+
+    // Gets highest price of all products
     const getHighestPrice = (products) => {
         return Math.max.apply(Math, products.map((product) => { return product.price; }));
     }
 
     // Sets lowest and highest prices to show on price slider
-    const lowestPrice = 0;
+    const lowestPrice = getLowestPrice(Products.products);
     const highestPrice = getHighestPrice(Products.products);
     
     // Labels to show under slider range
@@ -54,30 +59,16 @@ const PriceFilter = (props) => {
     // const minDistance = 0;
     const [value, setValue] = React.useState([lowestPrice, highestPrice]);
 
-    const handleChange = (event, newValue, activeThumb) => {
-        // if (!Array.isArray(newValue)) {
-        //     return;
-        // }
-
-        // if (newValue[1] - newValue[0] < minDistance) {
-        //     if (activeThumb === 0) {
-        //         const clamped = Math.min(newValue[0], highestPrice - minDistance);
-        //         setValue([clamped, clamped + minDistance]);
-        //     } else {
-        //         const clamped = Math.max(newValue[1], minDistance);
-        //         setValue([clamped - minDistance, clamped]);
-        //     }
-        // } else {
-            setValue(newValue);
-            props.onSliderChange(value);
-        // }
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        props.onSliderChange(value);
     };
     return (
         <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
             <Typography>Filter by price:</Typography>
             <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
             <Slider
-                getAriaLabel={() => 'Tempearture range'}
+                getAriaLabel={() => 'Price range'}
                 min={lowestPrice}
                 max={highestPrice}
                 value={value}
