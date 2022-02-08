@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  email     String   @unique  
+  email     String   @unique
   username  String   @unique
   role      UserRole
   password  String
@@ -25,20 +25,20 @@ model User {
 
   //seller stuffs
 
-  sellerName  String?
-  items       Item[]
+  sellerName String?
+  items      Item[]
 }
 
-enum UserRole{
+enum UserRole {
   CUSTOMER
   SELLER
   ADMIN
 }
 
 model Order {
-  id             Int    @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   createdAt      DateTime @default(now())
-  user           User   @relation(fields: [userId], references: [id]) // so this is a little difficult to explain but essentially we need to link a user to a list of orders. We do that by taking the Id of the user and placing it into the table of orders. Technically this isnt required but its a nice to have thing
+  user           User     @relation(fields: [userId], references: [id]) // so this is a little difficult to explain but essentially we need to link a user to a list of orders. We do that by taking the Id of the user and placing it into the table of orders. Technically this isnt required but its a nice to have thing
   userId         Int
   items          Item[]
   itemQuantities Int[]
@@ -46,24 +46,24 @@ model Order {
 }
 
 model Item {
-  id      Int     @id @default(autoincrement())
-  name    String
-  price   Float
-  salePrice Float?
-  description String
-  picture String
-  promoted Boolean
-  orders  Order[]
-  brand   Brand   @relation(fields: [brandId], references: [id])
-  brandId Int
-  seller  User @relation(fields: [sellerId], references: [id])
-  sellerId Int
+  id            Int     @id @default(autoincrement())
+  name          String
+  price         Float
+  salePrice     Float?
+  description   String
+  picture       String
+  promoted      Boolean
+  orders        Order[]
+  brand         Brand   @relation(fields: [brandId], references: [id])
+  brandId       Int
+  seller        User    @relation(fields: [sellerId], references: [id])
+  sellerId      Int
   totalQuantity Int?
 }
 
 model Brand {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id          Int    @id @default(autoincrement())
+  name        String
   description String
-  items Item[]
+  items       Item[]
 }
