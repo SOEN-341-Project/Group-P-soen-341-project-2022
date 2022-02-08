@@ -42,21 +42,28 @@ model Order {
   userId         Int
   items          Item[]
   itemQuantities Int[]
+
 }
 
 model Item {
   id      Int     @id @default(autoincrement())
   name    String
+  price   Float
+  salePrice Float?
   description String
+  picture String
+  promoted Boolean
   orders  Order[]
   brand   Brand   @relation(fields: [brandId], references: [id])
   brandId Int
   seller  User @relation(fields: [sellerId], references: [id])
   sellerId Int
+  totalQuantity Int?
 }
 
 model Brand {
   id    Int    @id @default(autoincrement())
   name  String
+  description String
   items Item[]
 }
