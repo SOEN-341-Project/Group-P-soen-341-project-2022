@@ -2,10 +2,12 @@
 name: Feature request
 about: Feature description
 title: feature/title-related-to-associated-issue
-labels: Feature
+labels: User Story
 assignees: ''
 
 ---
+## User Story: (# points)
+As a user I want to be able to ...
 
 ## Brief Description
 Ex: Home page for online shopping website
