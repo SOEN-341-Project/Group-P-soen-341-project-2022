@@ -1,17 +1,21 @@
+import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-//import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
-//import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import { alpha } from '@mui/material';
-//import Avatar from '@mui/material/Avatar';
-//import { Container } from '@mui/material/Container';
+import { alpha, styled } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import { Container } from '@mui/material/Container';
+import { borderRight } from '@mui/system';
+import { Menu, MenuItem } from '@mui/material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
-/**const Search = styled('div')(({theme}) => ({
+const Search = styled('div')(({theme}) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -51,16 +55,54 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
         },
     },
 }));
-**/
-const links = ['BOBBLE','Menu','Cart','Sign In','Register'];
+
+const links = ['BOBBLE','Menu','Cart'];
+
+//the below section is some preliminary stuff for the user profile
+// const profileLoggedIn = [maskEmail, 'Profile', 'Logout'];
+// const profile=['Login', 'Register'];
+
+// const maskEmail="";
+// const fakeEmail="jeffb@amazon.com";
+// const prefix = fakeEmail.substring(0,fakeEmail .lastIndexOf("@"));
+// const postfix = fakeEmail.substring(fakeEmail .lastIndexOf('@'));
+
+// for (var i=0; i<prefix.length; i++){
+//     if(i==0 || i==prefix.length-1){
+//         maskEmail=maskEmail+prefix[i].toString();
+//     }
+//     else{
+//         maskEmail = maskEmail + "*";
+//     }
+// }
+// maskEmail = maskEmail+postfix;
 
 export default function NavBar() {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    
+    const handleOpenUserMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorEl(null);
+    };
+    const profileId = 'navbar-account-profile';
+    const renderAccountProfileIcon = (
+        <MenuItem onClick={handleOpenUserMenu}>
+        </MenuItem>
+    )
     return (
         <Box sx={{ flexGrow: 1}}>
-        <AppBar position = "static">
+        <AppBar 
+            className = "NavBar"
+            position = "static"
+            style={{ borderRadius: "1px" }}
+            >
             <Toolbar>
+            <Box display='flex' flexGrow={1}>
                 <Typography 
-                    variant="h2" 
+                    variant ="h3" 
                     noWrap
                     component="div" 
                 >    
@@ -68,19 +110,32 @@ export default function NavBar() {
                 </Typography>
                 <Button color='inherit'>{links[1]}</Button>
                 <Button color='inherit'>{links[2]}</Button>
-                <Button color='inherit'>{links[3]}</Button>
-                <Button color='inherit'>{links[4]}</Button>
-                {/* <Search>
+                {/* <Button color='inherit'>{links[3]}</Button>
+                <Button color='inherit'>{links[4]}</Button> */}
+                </Box>
+                <Search>
                     <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>
-                    <StyledInputBase */}
-                    {/* placeholder = "Search..."
-                    inputProps={{ 'aria-label': 'search'}} */}
-                    {/* /> */}
-                {/* </Search>  */}
+                    <StyledInputBase 
+                        placeholder = "Search..."
+                        inputProps={{ 'aria-label': 'search'}} 
+                    />
+                </Search> 
+                <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={profileId}
+                    aria-haspopup="true"
+                    onClick={handleOpenUserMenu}
+                    color="inherit"
+                >
+              <AccountCircle />
+            </IconButton>
             </Toolbar>
         </AppBar>
+        {renderAccountProfileIcon}
         </Box>
     );
 }

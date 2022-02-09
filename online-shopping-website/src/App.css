@@ -45,3 +45,10 @@
     max-width:200px;
     /*add breakpoint to make everything full width below medium screens*/
 }
+
+.NavBar{
+    margin-bottom: 10px;
+    background-color: rgb(72, 136, 72);
+
+
+}

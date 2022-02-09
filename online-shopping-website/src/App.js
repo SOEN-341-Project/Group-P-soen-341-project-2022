@@ -10,7 +10,7 @@ import Sellers from './TestValues.json';
 function App() {
     return (
         <div className="AppContent">
-           <NavBar />
+           <NavBar sx={<h1></h1>}/>
             <Grid container columnSpacing={4} rowSpacing={5}>
                 <Grid item xs={12} md={2}>
                     <SideNav brands={Brands} sellers={Sellers}/>
