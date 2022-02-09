@@ -24,6 +24,7 @@ CREATE TABLE "Order" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" INTEGER NOT NULL,
     "itemQuantities" INTEGER[],
+    "totalPrice" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
@@ -47,6 +48,7 @@ CREATE TABLE "Item" (
 -- CreateTable
 CREATE TABLE "Brand" (
     "id" SERIAL NOT NULL,
+    "picture" TEXT,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
 

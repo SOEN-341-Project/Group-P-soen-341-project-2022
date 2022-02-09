@@ -69,7 +69,7 @@ async function allItems() {
   return await prisma.item.findMany();
 }
 
-async function createOrder(userId, itemIds) {
+/* async function createOrder(userId, itemIds) {
   await prisma.order.create({
     data: {
       user: {
@@ -80,7 +80,7 @@ async function createOrder(userId, itemIds) {
       },
     },
   });
-}
+} */
 
 async function allOrders() {
   return await prisma.order.findMany({
