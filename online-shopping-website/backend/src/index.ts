@@ -30,22 +30,25 @@ main()
 
 async function main() {
   //await createItem("water");
-  //createUser("coolUser", "coolPassword", "cool", "guy");
-  const items = await allItems();
+  const create = await createUser("coolUser", "coolPassword", "cool", "guy");
+  //const items = await allItems();
   //console.log(items);
-  const itemIds = items.map((i) => i.id);
+  //const itemIds = items.map((i) => i.id);
   //createOrder(1, itemIds);
-  const orders = await allOrders();
-  console.log(orders);
+  //const orders = await allOrders();
+  //console.log(orders);
+  const users = await allUsers();
+  console.log(users);
 }
 
-async function createUser(uName: string, pWord: string, fName: string, lName: string) {
+async function createUser(uName: string, pWord: string, email: string, address1: string) {
   await prisma.user.create({
     data: {
       username: uName,
       password: pWord,
-      firstName: fName,
-      lastName: lName,
+      email: email,
+      address1: address1,
+      role: "CUSTOMER",
     },
   });
 }
@@ -54,13 +57,13 @@ async function allUsers() {
   return await prisma.user.findMany();
 }
 
-async function createItem(name: string) {
+/* async function createItem(name: string) {
   await prisma.item.create({
     data: {
       name: name,
     },
   });
-}
+} */
 
 async function allItems() {
   return await prisma.item.findMany();

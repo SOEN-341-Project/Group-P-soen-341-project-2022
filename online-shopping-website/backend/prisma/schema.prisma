@@ -42,7 +42,7 @@ model Order {
   userId         Int
   items          Item[]
   itemQuantities Int[]
-
+  totalPrice     Float
 }
 
 model Item {
@@ -63,6 +63,7 @@ model Item {
 
 model Brand {
   id          Int    @id @default(autoincrement())
+  picture     String?
   name        String
   description String
   items       Item[]
