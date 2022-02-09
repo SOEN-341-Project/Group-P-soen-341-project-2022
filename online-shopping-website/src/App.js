@@ -1,10 +1,5 @@
 import './App.css';
-import Grid from '@mui/material/Grid';
-import {ProductGrid} from './Components/ProductGrid';
-import {SideNav} from './Components/SideNav';
-import Products from './TestValues.json';
-import Brands from './TestValues.json';
-import Sellers from './TestValues.json';
+import { ProductPage } from './Components/ProductPage';
 
 function App() {
     return (
@@ -12,14 +7,7 @@ function App() {
             <h1>
                 Bobble
             </h1>
-            <Grid container columnSpacing={4} rowSpacing={5}>
-                <Grid item xs={12} md={2}>
-                    <SideNav brands={Brands} sellers={Sellers}/>
-                </Grid>
-                <Grid item xs={12} sm={12} md={10}>
-                    <ProductGrid products={Products}/>
-                </Grid>
-            </Grid>
+            <ProductPage />
         </div>
     );
 }
