@@ -1,33 +1,13 @@
-import Products from '../TestValues.json';
 import Brands from '../TestValues.json';
 import Sellers from '../TestValues.json';
 import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
 import { SideNav } from './SideNav';
-import { useState } from 'react';
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = (props) => {
-
-  const [products, setProducts] = useState(Products.products);
-  let [filters] = useState(
-    { 
-      brands: [], 
-      sellers: [], 
-      lowestPrice: null, 
-      highestPrice: null
-    }
-  );
-
-  const filterProducts = () => {
-    // Filter products that are within price range, and don't belong to brands or sellers arrays
-    setProducts(Products.products.filter(product => (
-      (filters.lowestPrice ? (product.price >= filters.lowestPrice) : true)
-      && (filters.highestPrice ? (product.price <= filters.highestPrice) : true)
-      && !filters.brands.includes(product.brand)
-      && !filters.sellers.includes(product.seller)
-    )));
-  }
+  let filters = props.filters;
+  let filterProducts = props.filterProducts;
 
   const onSliderChange = (priceRange) => {
     // Set price range from slider
@@ -68,7 +48,7 @@ export const ProductPage = (props) => {
         <SideNav brands={Brands} sellers={Sellers} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
       </Grid>
       <Grid item xs={12} md={9} lg={10}>
-        <ProductGrid products={products}/>
+        <ProductGrid products={props.products}/>
       </Grid>
     </Grid>
   );
