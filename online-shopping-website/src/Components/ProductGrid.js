@@ -1,35 +1,32 @@
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
+import ButtonBase from '@mui/material/ButtonBase';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import Stack from '@mui/material/Stack';
 
 const ProductPreview = (props) => {
   return (
-    <Card className="ProductContainer">
-      <Stack sx={{ height: '100%' }} direction="column" justifyContent="space-between">
-        {/* Image */}
-        <Stack direction="row" justifyContent="center" sx={{ textAlign: 'center' }}>
-          <div className="ProductImageHelper"></div>
-          <img className="ProductImage" src={props.product.image} alt={props.product.name} />
-        </Stack>
+    <ButtonBase sx={{ width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}} >
+      <Card className="ProductContainer">
+        <Stack sx={{ height: '100%' }} direction="column" justifyContent="space-between">
+          {/* Image */}
+          <Stack direction="row" justifyContent="center" sx={{ textAlign: 'center' }}>
+            <img className="ProductImage" src={props.product.image} alt={props.product.name} />
+          </Stack>
 
-        {/* Product information */}
-        <Stack spacing={2} direction="column" justifyContent="space-between">
+          {/* Product information */}
+          <div>
             <h3>{props.product.name}</h3>
-            <h4>Brand: {props.product.brand}</h4>
-            <p>{props.product.description}</p>
-            <h4>Sold by: {props.product.seller}</h4>
-            <h4>Price: {props.product.price} Ɖ</h4>
-        </Stack>
+            <p>Brand: {props.product.brand}</p>
+            <p>Sold by: {props.product.seller}</p>
+          </div>
 
-        {/* Buttons */}
-        <Stack spacing={1} sx={{width: '100%', paddingY: '20px'}}>
-          <Button variant="contained" className="ProductButtonContained">Add to Cart</Button>
-          <Button variant="outlined" className="ProductButton">Learn More</Button>
+          {/* Product price */}
+          <h4 className="ProductPrice">{props.product.price} Ɖ</h4>
         </Stack>
-      </Stack>
-    </Card>
+      </Card>
+    </ButtonBase>
   );
 }
 
@@ -46,7 +43,7 @@ const iterateProducts = (data) => {
 
 export const ProductGrid = (props) => { 
   return (
-    <Grid container spacing={5} rowSpacing={8}>
+    <Grid container spacing={5} rowSpacing={5}>
       {iterateProducts(props)}
     </Grid>
   );
