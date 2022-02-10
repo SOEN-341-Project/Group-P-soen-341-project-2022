@@ -1,5 +1,8 @@
 import './App.css';
-import { ProductPage } from './Components/ProductPage';
+import {ProductPage} from './Components/ProductPage';
+import {ProductDetails} from './Components/ProductDetails';
+import Products from './TestValues.json';
+
 
 function App() {
     return (
@@ -7,7 +10,8 @@ function App() {
             <h1>
                 Bobble
             </h1>
-            <ProductPage />
+            {/*<ProductPage />*/}
+            <ProductDetails products={Products}/>
         </div>
     );
 }
