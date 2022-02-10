@@ -20,9 +20,17 @@ function App() {
     );
     
     const filterProducts = () => {
+        // Use RegEx for search query
+        /*
+            ^ = Match beginning of product name
+            i = Case insensitive
+        */
+        const query = new RegExp('^' + filters.searchQuery, 'i');
+        
         // Filter products according to search query, are within price range, and don't belong to brands or sellers arrays
         setProducts(Products.products.filter(product => (
-            (product.name.toLowerCase().includes(filters.searchQuery.toLowerCase()))
+            product.name.split(' ').some(word => word.search(query) > -1)
+            // (product.name.search(query) > -1)
             && (filters.lowestPrice ? (product.price >= filters.lowestPrice) : true)
             && (filters.highestPrice ? (product.price <= filters.highestPrice) : true)
             && !filters.brands.includes(product.brand)
