@@ -29,7 +29,8 @@ function App() {
         
         // Filter products according to search query, are within price range, and don't belong to brands or sellers arrays
         setProducts(Products.products.filter(product => (
-            product.name.split(' ').some(word => word.search(query) > -1)
+            (product.name.split(' ').some(word => word.search(query) > -1) || product.name.search(query) > -1)
+            
             // (product.name.search(query) > -1)
             && (filters.lowestPrice ? (product.price >= filters.lowestPrice) : true)
             && (filters.highestPrice ? (product.price <= filters.highestPrice) : true)
