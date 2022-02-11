@@ -3,10 +3,11 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import Stack from '@mui/material/Stack';
+import { ProductDetails } from './ProductDetails'
 
 const ProductPreview = (props) => {
   return (
-    <ButtonBase sx={{ width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}} >
+    <ButtonBase LinkComponent={ProductDetails} sx={{ width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}} >
       <Card className="ProductContainer">
         <Stack sx={{ height: '100%' }} direction="column" justifyContent="space-between">
           {/* Image */}

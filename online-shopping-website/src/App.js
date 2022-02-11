@@ -10,8 +10,8 @@ function App() {
             <h1>
                 Bobble
             </h1>
-            {/*<ProductPage />*/}
-            <ProductDetails products={Products}/>
+            <ProductPage />
+            <ProductDetails products={Products.products[0]}/>
         </div>
     );
 }
