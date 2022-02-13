@@ -11,7 +11,7 @@ function App() {
                 Bobble
             </h1>
             <ProductPage />
-            <ProductDetails products={Products.products[0]}/>
+            {/*<ProductDetails products={Products.products[0]}/>*/}
         </div>
     );
 }

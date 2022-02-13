@@ -55,11 +55,26 @@ class ProductButtons extends React.Component {
 }
 
 export const ProductDetails = (props) => {
+    // return (
+    //     <ProductInformation product={props}/>
+    // );
     return (
-        <ProductInformation product={props}/>
+        <Grid item>
+            <Grid item xs={12} sm={9}>
+                <img src={props.product.image} alt={props.product.name}/>
+                <p>{props.product.description}</p>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+                <Card>
+                    <h4>Quantity</h4>
+                    <ProductButtons/>
+                </Card>
+            </Grid>
+        </Grid>
     );
 }
 
+/*
 const ProductInformation = (props) => {
     return (
         <Grid item>
@@ -75,4 +90,4 @@ const ProductInformation = (props) => {
             </Grid>
         </Grid>
     );
-}
+}*/
