@@ -43,9 +43,9 @@ class ProductButtons extends React.Component {
 
     render() {
         return (
-            <div>
-                <h4>Quantity</h4>
-                <Stack className="ProductDetails-QuantityButtonsContainer" direction="row" spacing={1}>
+            <div className="ProductDetails-QuantityButtonsContainer">
+                <h3>Quantity</h3>
+                <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                     <Button className="ProductDetails-QuantityButtons" variant="contained"
                             disabled={this.state.quantity == 10}
                             onClick={this.IncrementItem}>
@@ -59,7 +59,7 @@ class ProductButtons extends React.Component {
                     </Button>
                 </Stack>
                 <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
-                <Button  className="ProductDetails-CartButton"variant="contained" endIcon={<AddShoppingCartIcon/>}>
+                <Button className="ProductDetails-CartButton" variant="contained" endIcon={<AddShoppingCartIcon/>}>
                     Add to cart
                 </Button>
             </div>
@@ -93,25 +93,32 @@ export const ProductDetails = () => {
     });
 
     return (
-        <Grid container className="ProductContainer">
-            <Grid item xs={12} sm={9} lg={6}>
+        <Grid container className="ProductDetails-Container">
+            <Grid item xs={12} sm={9} lg={8}>
                 <h1>{selectedProduct.name}</h1>
                 <img className="ProductDetails-Image" src={selectedProduct.image} alt={selectedProduct.name}/>
 
-                <h4>Brand:</h4>
-                <p>{selectedProduct.brand}</p>
+                <Grid item container lg={12}>
+                    <Grid item conatiner lg={6}>
+                            <h3>Brand</h3>
+                            <h4>{selectedProduct.brand}</h4>
+                    </Grid>
 
-                <h4>Seller:</h4>
-                <p>{selectedProduct.seller}</p>
+                    <Grid item lg={6}>
+                        <h3>Seller</h3>
+                        <h4>{selectedProduct.seller}</h4>
+                    </Grid>
+                </Grid>
 
-                <h4>Description:</h4>
-                <p>{selectedProduct.description}</p>
+
+                <h3>Description</h3>
+                <h4>{selectedProduct.description}</h4>
             </Grid>
 
-            <Grid item className="ProductDetails-SelectionPanel" xs={12} sm={3} lg={6}>
-                <Card>
-                    <h4>Unit Price:</h4>
-                    <p>{selectedProduct.price} Ɖ</p>
+            <Grid item xs={12} sm={3} lg={4}>
+                <Card className="ProductDetails-SelectionPanel">
+                    <h3>Unit Price</h3>
+                    <h4>{selectedProduct.price} Ɖ</h4>
 
                     <ProductButtons product={selectedProduct}/>
                 </Card>
