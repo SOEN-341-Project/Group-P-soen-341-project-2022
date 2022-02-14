@@ -37,18 +37,29 @@ class ProductButtons extends React.Component {
         this.setState({quantity: e.target.value});
     }
 
+    get quantity() {
+        return this.state.quantity;
+    }
+
     render() {
         return (
             <div>
-                <Stack direction="row" spacing={1}>
-                    <Button variant="contained" endIcon={<AddIcon/>} disabled={this.state.quantity == 10}
-                            onClick={this.IncrementItem}/>
+                <h4>Quantity</h4>
+                <Stack className="ProductDetails-QuantityButtonsContainer" direction="row" spacing={1}>
+                    <Button className="ProductDetails-QuantityButtons" variant="contained"
+                            disabled={this.state.quantity == 10}
+                            onClick={this.IncrementItem}>
+                        <AddIcon/>
+                    </Button>
                     <input className="inputne" value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button variant="contained" endIcon={<RemoveIcon/>} disabled={this.state.quantity == 1}
-                            onClick={this.DecreaseItem}/>
+                    <Button className="ProductDetails-QuantityButtons" variant="contained"
+                            disabled={this.state.quantity == 1}
+                            onClick={this.DecreaseItem}>
+                        <RemoveIcon/>
+                    </Button>
                 </Stack>
-                <h5>Limit of 10 items per product in cart.</h5>
-                <Button variant="contained" endIcon={<AddShoppingCartIcon/>}>
+                <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
+                <Button  className="ProductDetails-CartButton"variant="contained" endIcon={<AddShoppingCartIcon/>}>
                     Add to cart
                 </Button>
             </div>
@@ -76,41 +87,35 @@ export const ProductDetails = () => {
             selectedProduct.id = product.id;
             selectedProduct.image = product.image;
             selectedProduct.name = product.name;
-            selectedProduct.price = product.price;
+            selectedProduct.price = product.price.toFixed(2);
             selectedProduct.seller = product.seller;
         }
     });
 
     return (
-        <Grid item>
-            <Grid item xs={12} sm={9}>
-                <img src={selectedProduct.image} alt={selectedProduct.name}/>
+        <Grid container className="ProductContainer">
+            <Grid item xs={12} sm={9} lg={6}>
+                <h1>{selectedProduct.name}</h1>
+                <img className="ProductDetails-Image" src={selectedProduct.image} alt={selectedProduct.name}/>
+
+                <h4>Brand:</h4>
+                <p>{selectedProduct.brand}</p>
+
+                <h4>Seller:</h4>
+                <p>{selectedProduct.seller}</p>
+
+                <h4>Description:</h4>
                 <p>{selectedProduct.description}</p>
             </Grid>
-            <Grid item xs={12} sm={3}>
+
+            <Grid item className="ProductDetails-SelectionPanel" xs={12} sm={3} lg={6}>
                 <Card>
-                    <h4>Quantity</h4>
-                    <ProductButtons/>
+                    <h4>Unit Price:</h4>
+                    <p>{selectedProduct.price} Ɖ</p>
+
+                    <ProductButtons product={selectedProduct}/>
                 </Card>
             </Grid>
         </Grid>
     );
 }
-
-/*
-const ProductInformation = (props) => {
-    return (
-        <Grid item>
-            <Grid item xs={12} sm={9}>
-                <img src={props.image} alt={props.name}/>
-                <p>{props.product.description}</p>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-                <Card>
-                    <h4>Quantity</h4>
-                    <ProductButtons/>
-                </Card>
-            </Grid>
-        </Grid>
-    );
-}*/

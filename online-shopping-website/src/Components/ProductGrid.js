@@ -7,9 +7,8 @@ import {ProductDetails} from './ProductDetails';
 import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
 
 const ProductPreview = (props) => {
-    // console.log(props.product);
-
     return (
+        // Navigates to ProductDetails page on click
         <Link to={{
             pathname: `/${props.product.name}`,
             params: {props}

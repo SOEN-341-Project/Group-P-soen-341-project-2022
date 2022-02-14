@@ -11,7 +11,8 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage/>}/>
-                    <Route path="/home" element={<Home/>}/>
+                    {/*Sample routing, can add any additional necessary pages here*/}
+                    <Route path="/samplePage" element={<SamplePage/>}/>
                     <Route path="/:productName" element={<ProductDetails/>}/>
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
@@ -30,10 +31,10 @@ const Layout = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">ProductPage</Link>
+                        <Link to="/">Products</Link>
                     </li>
                     <li>
-                        <Link to="/home">Home</Link>
+                        <Link to="/samplePage">Sample Page</Link>
                     </li>
                 </ul>
             </nav>
@@ -42,8 +43,8 @@ const Layout = () => {
     )
 };
 
-const Home = () => {
-    return <h1>Home</h1>;
+const SamplePage = () => {
+    return <h1>Sample Page</h1>;
 }
 
 const NoPage = () => {

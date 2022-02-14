@@ -23,7 +23,47 @@
     margin: 0;
 }
 
-/* Button styles may be used for other pages */
+.ProductDetails-Image {
+    margin:auto;
+    max-height: 100%;
+    max-width: 100%;
+    background-color: white;
+    border-radius:10px;
+    max-padding:2.5rem;
+}
+
+.ProductDetails-SelectionPanel {
+    padding: 2rem;
+    background-color: aliceblue;
+    border-radius:10px;
+    text-align: center;
+}
+
+.ProductDetails-QuantityButtons {
+    min-width: 10px;
+    padding: 0.3rem;
+}
+
+/*Fix later (trying to center buttons)*/
+.ProductDetails-QuantityButtonsContainer {
+    margin:auto;
+    display: flex;
+}
+
+.inputne {
+    max-width: 30px;
+    text-align:center;
+}
+
+.ProductDetails-ProductLimitText {
+    color: #0283bb;
+}
+
+.ProductDetails-CartButton {
+    margin:auto;
+    display: flex;
+}
+    /* Button styles may be used for other pages */
 /* .ProductButton {
     color: rgb(203, 253, 203);
     border-color: rgb(78, 219, 78);
