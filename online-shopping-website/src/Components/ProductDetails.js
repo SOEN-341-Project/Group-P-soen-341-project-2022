@@ -34,7 +34,13 @@ class ProductButtons extends React.Component {
     }
 
     UpdateValue = (e) => {
-        this.setState({quantity: e.target.value});
+        if (e.target.value < 1) {
+            this.setState({quantity: 0}); //still broken
+        } else if (e.target.value > 10) {
+            this.setState({quantity: 10});
+        } else {
+            this.setState({quantity: e.target.value});
+        }
     }
 
     get quantity() {
@@ -47,15 +53,15 @@ class ProductButtons extends React.Component {
                 <h3>Quantity</h3>
                 <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                     <Button className="ProductDetails-QuantityButtons" variant="contained"
-                            disabled={this.state.quantity == 10}
-                            onClick={this.IncrementItem}>
-                        <AddIcon/>
-                    </Button>
-                    <input className="inputne" value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button className="ProductDetails-QuantityButtons" variant="contained"
                             disabled={this.state.quantity == 1}
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
+                    </Button>
+                    <input className="inputne" value={this.state.quantity} onChange={this.UpdateValue}/>
+                    <Button className="ProductDetails-QuantityButtons" variant="contained"
+                            disabled={this.state.quantity == 10}
+                            onClick={this.IncrementItem}>
+                        <AddIcon/>
                     </Button>
                 </Stack>
                 <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
@@ -100,8 +106,8 @@ export const ProductDetails = () => {
 
                 <Grid item container lg={12}>
                     <Grid item conatiner lg={6}>
-                            <h3>Brand</h3>
-                            <h4>{selectedProduct.brand}</h4>
+                        <h3>Brand</h3>
+                        <h4>{selectedProduct.brand}</h4>
                     </Grid>
 
                     <Grid item lg={6}>
@@ -112,7 +118,7 @@ export const ProductDetails = () => {
 
 
                 <h3>Description</h3>
-                <h4>{selectedProduct.description}</h4>
+                <p>{selectedProduct.description}</p>
             </Grid>
 
             <Grid item xs={12} sm={3} lg={4}>
