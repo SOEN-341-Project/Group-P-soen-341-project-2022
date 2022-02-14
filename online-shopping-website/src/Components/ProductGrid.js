@@ -7,11 +7,11 @@ import {ProductDetails} from './ProductDetails';
 import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
 
 const ProductPreview = (props) => {
-    console.log(props.product);
+    // console.log(props.product);
 
     return (
         <Link to={{
-            pathname: "/:productName",
+            pathname: `/${props.product.name}`,
             params: {props}
         }}>
             <ButtonBase sx={{width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>

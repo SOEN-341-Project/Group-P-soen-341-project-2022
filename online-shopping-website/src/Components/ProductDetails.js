@@ -6,7 +6,8 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import Products from '../TestValues.json';
 
 class ProductButtons extends React.Component {
     constructor(props) {
@@ -56,16 +57,43 @@ class ProductButtons extends React.Component {
 }
 
 export const ProductDetails = () => {
-    const props = useParams();
+    const productName = useParams();
     // return (
     //     <ProductInformation product={props}/>
-    console.log(props);
+    console.log(productName);
+
     // );
+
+    function getProduct() {
+        const selectedProduct = {
+            brand: "",
+            description: "",
+            id: null,
+            image: "",
+            name: "",
+            price: null,
+            seller: ""
+        };
+        Products.products.map(product => {
+            if (productName.productName === product.name) {
+                selectedProduct.brand = product.brand;
+                selectedProduct.description = product.description;
+                selectedProduct.id = product.id;
+                selectedProduct.image = product.image;
+                selectedProduct.name = product.name;
+                selectedProduct.price = product.price;
+                selectedProduct.seller = product.seller;
+            }
+        });
+        return (selectedProduct);
+    }
+
+    console.log(getProduct());
     return (
         <Grid item>
             <Grid item xs={12} sm={9}>
-                <img src={props.product.image} alt={props.product.name}/>
-                {/*<p>{props.product.description}</p>*/}
+                <img src={getProduct().image} alt={getProduct().name}/>
+                <p>{getProduct().description}</p>
             </Grid>
             <Grid item xs={12} sm={3}>
                 <Card>
