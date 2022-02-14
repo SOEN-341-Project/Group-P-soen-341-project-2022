@@ -6,6 +6,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useParams } from 'react-router-dom';
 
 class ProductButtons extends React.Component {
     constructor(props) {
@@ -54,15 +55,17 @@ class ProductButtons extends React.Component {
     }
 }
 
-export const ProductDetails = (props) => {
+export const ProductDetails = () => {
+    const props = useParams();
     // return (
     //     <ProductInformation product={props}/>
+    console.log(props);
     // );
     return (
         <Grid item>
             <Grid item xs={12} sm={9}>
                 <img src={props.product.image} alt={props.product.name}/>
-                <p>{props.product.description}</p>
+                {/*<p>{props.product.description}</p>*/}
             </Grid>
             <Grid item xs={12} sm={3}>
                 <Card>

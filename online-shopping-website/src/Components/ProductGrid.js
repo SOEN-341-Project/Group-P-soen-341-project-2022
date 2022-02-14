@@ -4,37 +4,37 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import {ProductDetails} from './ProductDetails';
+import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
 
 const ProductPreview = (props) => {
-    const handleClick = (event, props) => {
-        console.log(props.name);
-      /*  return (
-            <ProductDetails props={props.name}/>
-        );*/
-    }
+    console.log(props.product);
 
     return (
-        <ButtonBase onClick={((event) => handleClick(event, props.product))}
-                    sx={{width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
-            <Card className="ProductContainer">
-                <Stack sx={{height: '100%'}} direction="column" justifyContent="space-between">
-                    {/* Image */}
-                    <Stack direction="row" justifyContent="center" sx={{textAlign: 'center'}}>
-                        <img className="ProductImage" src={props.product.image} alt={props.product.name}/>
+        <Link to={{
+            pathname: "/:productName",
+            params: {props}
+        }}>
+            <ButtonBase sx={{width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
+                <Card className="ProductContainer">
+                    <Stack sx={{height: '100%'}} direction="column" justifyContent="space-between">
+                        {/* Image */}
+                        <Stack direction="row" justifyContent="center" sx={{textAlign: 'center'}}>
+                            <img className="ProductImage" src={props.product.image} alt={props.product.name}/>
+                        </Stack>
+
+                        {/* Product information */}
+                        <div>
+                            <h3>{props.product.name}</h3>
+                            <p>Brand: {props.product.brand}</p>
+                            <p>Sold by: {props.product.seller}</p>
+                        </div>
+
+                        {/* Product price */}
+                        <h4 className="ProductPrice">{props.product.price} Ɖ</h4>
                     </Stack>
-
-                    {/* Product information */}
-                    <div>
-                        <h3>{props.product.name}</h3>
-                        <p>Brand: {props.product.brand}</p>
-                        <p>Sold by: {props.product.seller}</p>
-                    </div>
-
-                    {/* Product price */}
-                    <h4 className="ProductPrice">{props.product.price} Ɖ</h4>
-                </Stack>
-            </Card>
-        </ButtonBase>
+                </Card>
+            </ButtonBase>
+        </Link>
     );
 }
 
