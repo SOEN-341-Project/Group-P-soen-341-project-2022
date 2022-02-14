@@ -58,42 +58,34 @@ class ProductButtons extends React.Component {
 
 export const ProductDetails = () => {
     const productName = useParams();
-    // return (
-    //     <ProductInformation product={props}/>
-    console.log(productName);
 
-    // );
-
-    function getProduct() {
-        const selectedProduct = {
-            brand: "",
-            description: "",
-            id: null,
-            image: "",
-            name: "",
-            price: null,
-            seller: ""
-        };
-        Products.products.map(product => {
-            if (productName.productName === product.name) {
-                selectedProduct.brand = product.brand;
-                selectedProduct.description = product.description;
-                selectedProduct.id = product.id;
-                selectedProduct.image = product.image;
-                selectedProduct.name = product.name;
-                selectedProduct.price = product.price;
-                selectedProduct.seller = product.seller;
-            }
-        });
-        return (selectedProduct);
+    const selectedProduct = {
+        brand: "",
+        description: "",
+        id: null,
+        image: "",
+        name: "",
+        price: null,
+        seller: ""
     }
 
-    console.log(getProduct());
+    Products.products.map(product => {
+        if (productName.productName === product.name) {
+            selectedProduct.brand = product.brand;
+            selectedProduct.description = product.description;
+            selectedProduct.id = product.id;
+            selectedProduct.image = product.image;
+            selectedProduct.name = product.name;
+            selectedProduct.price = product.price;
+            selectedProduct.seller = product.seller;
+        }
+    });
+
     return (
         <Grid item>
             <Grid item xs={12} sm={9}>
-                <img src={getProduct().image} alt={getProduct().name}/>
-                <p>{getProduct().description}</p>
+                <img src={selectedProduct.image} alt={selectedProduct.name}/>
+                <p>{selectedProduct.description}</p>
             </Grid>
             <Grid item xs={12} sm={3}>
                 <Card>
