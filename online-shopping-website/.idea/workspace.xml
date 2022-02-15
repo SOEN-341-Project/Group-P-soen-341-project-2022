@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SideNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SideNav.js" afterDir="false" />
-    </list>
+    <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
