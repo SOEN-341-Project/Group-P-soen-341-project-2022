@@ -8,6 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {useParams} from 'react-router-dom';
 import Products from '../TestValues.json';
+import {Link} from "react-router-dom";
+
 
 class ProductButtons extends React.Component {
     constructor(props) {
@@ -16,7 +18,7 @@ class ProductButtons extends React.Component {
             quantity: 1,
             show: true,
             max: 5,
-            min: 0
+            min: 0,
         };
     }
 
@@ -34,17 +36,15 @@ class ProductButtons extends React.Component {
     }
 
     UpdateValue = (e) => {
-        if (e.target.value < 1) {
-            this.setState({quantity: 0}); //still broken
-        } else if (e.target.value > 10) {
+        const inputValue = Number(e.target.value);
+
+        if ((inputValue < 1) || (inputValue == NaN)) {
+            this.setState({quantity: 1});
+        } else if (inputValue > 10) {
             this.setState({quantity: 10});
         } else {
-            this.setState({quantity: e.target.value});
+            this.setState({quantity: inputValue});
         }
-    }
-
-    get quantity() {
-        return this.state.quantity;
     }
 
     render() {
@@ -57,7 +57,7 @@ class ProductButtons extends React.Component {
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
                     </Button>
-                    <input className="inputne" value={this.state.quantity} onChange={this.UpdateValue}/>
+                    <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
                     <Button className="ProductDetails-QuantityButtons" variant="contained"
                             disabled={this.state.quantity == 10}
                             onClick={this.IncrementItem}>
@@ -100,34 +100,42 @@ export const ProductDetails = () => {
 
     return (
         <Grid container className="ProductDetails-Container">
-            <Grid item xs={12} sm={9} lg={8}>
-                <h1>{selectedProduct.name}</h1>
-                <img className="ProductDetails-Image" src={selectedProduct.image} alt={selectedProduct.name}/>
+            <Link to="/" className="RoutingLink">
+                <Button variant="contained">
+                    Return to products
+                </Button>
+            </Link>
 
-                <Grid item container lg={12}>
-                    <Grid item conatiner lg={6}>
-                        <h3>Brand</h3>
-                        <h4>{selectedProduct.brand}</h4>
-                    </Grid>
+            <Grid item container xs={12} className="ProductDetails-ItemContainer">
+                <Grid item xs={12} md={7}>
+                    <h1>{selectedProduct.name}</h1>
+                    <div className="ProductDetails-ImageConatiner">
+                        <img className="ProductDetails-Image" src={selectedProduct.image} alt={selectedProduct.name}/>
+                    </div>
 
-                    <Grid item lg={6}>
-                        <h3>Seller</h3>
-                        <h4>{selectedProduct.seller}</h4>
+                    <Grid item container>
+                        <Grid item lg={6}>
+                            <h3>Brand</h3>
+                            <h4>{selectedProduct.brand}</h4>
+                        </Grid>
+
+                        <Grid item lg={6}>
+                            <h3>Seller</h3>
+                            <h4>{selectedProduct.seller}</h4>
+                        </Grid>
                     </Grid>
+                    <h3>Description</h3>
+                    <p>{selectedProduct.description}</p>
                 </Grid>
+                <Grid item md={1}/>
+                <Grid item xs={12} sm={12} md={4}>
+                    <Card className="ProductDetails-SelectionPanel">
+                        <h3>Price</h3>
+                        <h4>{selectedProduct.price} Ɖ</h4>
 
-
-                <h3>Description</h3>
-                <p>{selectedProduct.description}</p>
-            </Grid>
-
-            <Grid item xs={12} sm={3} lg={4}>
-                <Card className="ProductDetails-SelectionPanel">
-                    <h3>Unit Price</h3>
-                    <h4>{selectedProduct.price} Ɖ</h4>
-
-                    <ProductButtons product={selectedProduct}/>
-                </Card>
+                        <ProductButtons product={selectedProduct}/>
+                    </Card>
+                </Grid>
             </Grid>
         </Grid>
     );
