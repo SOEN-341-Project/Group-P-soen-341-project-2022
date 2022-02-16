@@ -2,10 +2,12 @@
 name: Feature request
 about: Feature description
 title: feature/title-related-to-associated-issue
-labels: Feature
+labels: User Story
 assignees: ''
 
 ---
+## User Story: (# points)
+As a user I want to be able to ...
 
 ## Brief Description
 Ex: Home page for online shopping website
@@ -16,8 +18,8 @@ Ex: Home page for online shopping website
 -  Ex: add backend data for prices
 
 ## Sub-tasks (sub-issues)
-- [ ] #issue-number1
-- [ ] #issue-number2
+- [ ] #issue-number1 **(# points)**
+- [ ] #issue-number2 **(# points)**
 
 # Additional context
 Add any other context or screenshots about the feature request here.
