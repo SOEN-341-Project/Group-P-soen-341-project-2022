@@ -23,14 +23,14 @@ class ProductButtons extends React.Component {
     }
 
     IncrementItem = () => {
-        if (this.state.quantity != 10) {
+        if (this.state.quantity !== 10) {
             this.setState({
                 quantity: this.state.quantity + 1
             });
         }
     }
     DecreaseItem = () => {
-        if (this.state.quantity != 1) {
+        if (this.state.quantity !== 1) {
             this.setState({quantity: this.state.quantity - 1});
         }
     }
@@ -38,7 +38,7 @@ class ProductButtons extends React.Component {
     UpdateValue = (e) => {
         const inputValue = Number(e.target.value);
 
-        if ((inputValue < 1) || (inputValue == NaN)) {
+        if ((inputValue < 1) || (inputValue === NaN)) {
             this.setState({quantity: 1});
         } else if (inputValue > 10) {
             this.setState({quantity: 10});
@@ -74,6 +74,10 @@ class ProductButtons extends React.Component {
 }
 
 export const ProductDetails = () => {
+    //Resetting scrolling to top of the page
+    window.scrollTo(0, 0);
+
+    //Getting product name from URL
     const productName = useParams();
 
     const selectedProduct = {
