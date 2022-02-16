@@ -114,14 +114,14 @@ export const ProductDetails = () => {
                     </div>
 
                     <Grid item container>
-                        <Grid item lg={6}>
+                        <Grid item xs={12} md={6}>
                             <h3>Brand</h3>
-                            <h4>{selectedProduct.brand}</h4>
+                            <p>{selectedProduct.brand}</p>
                         </Grid>
 
-                        <Grid item lg={6}>
+                        <Grid item xs={12} md={6}>
                             <h3>Seller</h3>
-                            <h4>{selectedProduct.seller}</h4>
+                            <p>{selectedProduct.seller}</p>
                         </Grid>
                     </Grid>
                     <h3>Description</h3>

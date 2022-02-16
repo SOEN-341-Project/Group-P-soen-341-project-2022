@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/ProductDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ProductDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ProductGrid.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ProductGrid.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +94,7 @@
       <workItem from="1644545909502" duration="5117000" />
       <workItem from="1644718832127" duration="1913000" />
       <workItem from="1644792467544" duration="15859000" />
+      <workItem from="1644977222784" duration="1190000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <created>1644512793774</created>

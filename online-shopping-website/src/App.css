@@ -35,9 +35,11 @@
 }
 
 .ProductDetails-ItemContainer {
-    padding: 3.5rem;
+    margin-top: 1rem;
+    padding: 0.2rem 3rem 3rem 3rem;
     color: white;
-    background-color: #a75e7d;
+    background-color: #09c9c0;
+    /*background-color: #a75e7d;*/
     border-radius: 15px;
 }
 
@@ -54,6 +56,7 @@
 }
 
 .ProductDetails-SelectionPanel {
+    margin: 2rem 0;
     padding: 2rem;
     border-radius:10px;
     text-align: center;
