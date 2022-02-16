@@ -10,7 +10,7 @@ const multerMiddleware = multer({
   storage: multer.memoryStorage(),
   limits: {
     // max 5 mb files
-    filesize: 5 * 1024 * 1024,
+    fileSize: 5 * 1024 * 1024,
   },
 });
 
@@ -19,28 +19,27 @@ app.use(multerMiddleware.single("file"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/uploads', async (req, res, next) => {
+app.post("/uploads", async (req, res, next) => {
   try {
-    const myFile = req.file
-    const imageUrl = await uploadFile(myFile)
-    res
-      .status(200)
-      .json({
-        message: "Upload was successful",
-        data: imageUrl
-      })
+    const myFile = req.file;
+    const name = req.body.name || "notFound";
+    const imageUrl = await uploadFile(myFile, name);
+    res.status(200).json({
+      message: "Upload was successful",
+      data: imageUrl,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 app.use((err, req, res, next) => {
   res.status(500).json({
     error: err,
-    message: 'Internal server error!',
-  })
-  next()
-})
+    message: "Internal server error!",
+  });
+  next();
+});
 
 app.get("/", (req: Request, res: Response) => {
   res.send({ sup: "Cool" });
