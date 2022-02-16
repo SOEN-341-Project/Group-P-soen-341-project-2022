@@ -58,5 +58,48 @@
     "Foodies on Wheels",
     "Fruits with Friends",
     "Ultimate pets"
+  ],
+  "users": [
+    {
+      "id": 0,
+      "email": "hello@123.com",
+      "username": "Bingus",
+      "role": "CUSTOMER",
+      "password": "password",
+      "firstName": "Bing",
+      "lastName": "Bong",
+      "address1": "101 Moon Ave."
+    },
+    {
+      "id": 1,
+      "email": "seriousbusiness@gmail.com",
+      "username": "SeriousBusiness",
+      "role": "SELLER",
+      "password": "123seriouspass",
+      "firstName": "Chuck",
+      "lastName": "Norris",
+      "address1": "3579 Rocket Drive",
+      "sellerName": "Serious Business"
+    },
+    {
+      "id": 2,
+      "email": "admin@admin.com",
+      "username": "admin",
+      "role": "ADMIN",
+      "password": "password",
+      "firstName": "Ad",
+      "lastName": "Min",
+      "address1": "Server"
+    },
+    {
+      "id": 3,
+      "email": "friend@outlook.com",
+      "username": "friend",
+      "role": "CUSTOMER",
+      "password": "ilikecats420",
+      "firstName": "Ben",
+      "lastName": "Lover",
+      "address1": "1 Broadway Street"
+    }
   ]
 }
