@@ -13,8 +13,9 @@ import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
 const Layout = () => {
     return (
         <>
+            <NavBar sx={<h1></h1>}/>
             <div className="AppContent">
-                <h1>Bobble</h1>
+            {/* insert additional app content here*/}
             </div>
             <nav>
                 <ul>
@@ -23,9 +24,6 @@ const Layout = () => {
                     </li>
                     <li>
                         <Link to="/searchbar">Search bar</Link>
-                    </li>
-                    <li>
-                        <Link to="/navbar">Search bar</Link>
                     </li>
                 </ul>
             </nav>
@@ -74,7 +72,6 @@ export default function App() {
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
-                    <Route path="/navbar" element={<NavBar sx={<h1></h1>}/>}/>
                     {/*Sample routing, can add any additional necessary pages here*/}
                     <Route path="/samplePage" element={<SamplePage/>}/>
                     <Route path="/:productName" element={<ProductDetails/>}/>
