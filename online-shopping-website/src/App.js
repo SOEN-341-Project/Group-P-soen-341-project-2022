@@ -1,9 +1,10 @@
 import './App.css';
 import {ProductPage} from './Components/ProductPage';
+import {ProductPreview} from './Components/ProductGrid';
+import {ProductDetails} from './Components/ProductDetails';
 import {SearchBar} from './Components/SearchBar';
 import {useState} from 'react';
 import Products from './TestValues.json';
-import {ProductPreview} from './Components/ProductGrid';
 import ReactDOM from "react-dom";
 import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
 
@@ -68,14 +69,15 @@ export default function App() {
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
-                    <Route path="/:productName" element={<SamplePage/>}/>
+                    {/*Sample routing, can add any additional necessary pages here*/}
+                    <Route path="/samplePage" element={<SamplePage/>}/>
+                    <Route path="/:productName" element={<ProductDetails/>}/>
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
     );
 }
-
 
 const SamplePage = () => {
     return <h1>Sample Page</h1>;
