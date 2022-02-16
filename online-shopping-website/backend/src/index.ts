@@ -1,4 +1,5 @@
 import express, { Response, Request } from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import multer from "multer";
 import { uploadFile } from "./helpers/uploadFile";
@@ -14,15 +15,16 @@ const multerMiddleware = multer({
   },
 });
 
-app.disable("x-powered-by");
-app.use(multerMiddleware.single("file"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors()); // cors allows us to get files from elsewhere if we need to use it
+app.disable("x-powered-by"); // gets rid of the "x-powered-by" header
+app.use(multerMiddleware.single("picture")); // the middleware that lets us process pictures
+app.use(bodyParser.json()); // middleware that enterprets json
+app.use(bodyParser.urlencoded({ extended: false })); // middleware that enterprets urlencoded
 
 app.post("/uploads", async (req, res, next) => {
   try {
     const myFile = req.file;
-    const name = req.body.name || "notFound";
+    const name = req.body.name;
     const imageUrl = await uploadFile(myFile, name);
     res.status(200).json({
       message: "Upload was successful",
@@ -35,8 +37,7 @@ app.post("/uploads", async (req, res, next) => {
 
 app.use((err, req, res, next) => {
   res.status(500).json({
-    error: err,
-    message: "Internal server error!",
+    message: err.message,
   });
   next();
 });
