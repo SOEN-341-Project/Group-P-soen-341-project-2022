@@ -86,6 +86,7 @@ export const ProductDetails = () => {
         seller: ""
     }
 
+    //Refactor using forEach() and product id later
     Products.products.map(product => {
         if (productName.productName === product.name) {
             selectedProduct.brand = product.brand;
@@ -107,7 +108,7 @@ export const ProductDetails = () => {
             </Link>
 
             <Grid item container xs={12} className="ProductDetails-ItemContainer">
-                <Grid item xs={12} md={7}>
+                <Grid item xs={12} md={6}>
                     <h1>{selectedProduct.name}</h1>
                     <div className="ProductDetails-ImageConatiner">
                         <img className="ProductDetails-Image" src={selectedProduct.image} alt={selectedProduct.name}/>
@@ -128,7 +129,7 @@ export const ProductDetails = () => {
                     <p>{selectedProduct.description}</p>
                 </Grid>
                 <Grid item md={1}/>
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item xs={12} sm={12} md={5}>
                     <Card className="ProductDetails-SelectionPanel">
                         <h3>Price</h3>
                         <h4>{selectedProduct.price} Ɖ</h4>
