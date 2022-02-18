@@ -23,6 +23,112 @@
     margin: 0;
 }
 
+.RoutingLink {
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 550px) {
+    .ProductDetails-Container {
+        padding-bottom: 3.5rem;
+        margin: 3.5rem auto;
+        display: flex;
+        width: 80%;
+        max-width: 27rem;
+    }
+
+    .ProductDetails-Image {
+        height: fit-content;
+        width: 100%;
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .ProductDetails-SelectionPanel {
+        margin: 2rem 0;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+        min-height: 90%;
+    }
+}
+
+@media only screen and (min-width: 550px) {
+    .ProductDetails-Container {
+        padding-bottom: 3.5rem;
+        margin: 3.5rem auto;
+        display: flex;
+        max-width: 27rem;
+    }
+
+    .ProductDetails-Image {
+        height: fit-content;
+        width: 100%;
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .ProductDetails-SelectionPanel {
+        margin: 3.5rem 0 0 0;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .ProductDetails-Container {
+        width: 80%;
+        max-width: 55rem;
+    }
+    .ProductDetails-SelectionPanel {
+        margin: 5rem 0 0 -1rem;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+    }
+}
+
+.ProductDetails-ItemContainer {
+    margin-top: 1rem;
+    padding: 0.2rem 3rem 3rem 3rem;
+    color: white;
+    background-color: #5eb8ce;
+    border-radius: 15px;
+}
+
+.ProductDetails-ImageContainer {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.ProductDetails-QuantityButtons {
+    min-width: 10px;
+    padding: 0.3rem;
+}
+
+.ProductDetails-QuantityButtonsContainer {
+    margin-top: 3.5rem;
+}
+
+.ProductDetails-QuantityButtonsStack {
+    display: flex;
+    justify-content: center;
+}
+
+.inputne {
+    max-width: 30px;
+    text-align: center;
+}
+
+.ProductDetails-ProductLimitText {
+    color: #0283bb;
+}
+
+.ProductDetails-CartButton {
+    margin: 4rem auto 1rem auto;
+    display: flex;
+}
+
 /* Button styles may be used for other pages */
 /* .ProductButton {
     color: rgb(203, 253, 203);
@@ -44,9 +150,9 @@
 } */
 
 .accordion-width {
-    width:100%;
+    width: 100%;
     min-width: 200px;
-    max-width:200px;
+    max-width: 200px;
     /*add breakpoint to make everything full width below medium screens*/
 }
 

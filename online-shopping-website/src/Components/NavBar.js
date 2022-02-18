@@ -14,6 +14,7 @@ import { Container } from '@mui/material/Container';
 import { borderRight } from '@mui/system';
 import { Menu, MenuItem } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import {Link} from "react-router-dom";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -101,13 +102,14 @@ export default function NavBar() {
             >
             <Toolbar>
             <Box display='flex' flexGrow={1}>
-                <Typography 
-                    variant ="h3" 
+                <Typography
+                    variant ="h3"
                     noWrap
-                    component="div" 
-                >    
+                    component="div"
+                >
                 {links[0]}
                 </Typography>
+                <Button color='inherit'><Link to="/" className="RoutingLink">Products</Link></Button>
                 <Button color='inherit'>{links[1]}</Button>
                 <Button color='inherit'>{links[2]}</Button>
                 {/* <Button color='inherit'>{links[3]}</Button>
@@ -117,11 +119,11 @@ export default function NavBar() {
                     <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>
-                    <StyledInputBase 
+                    <StyledInputBase
                         placeholder = "Search..."
-                        inputProps={{ 'aria-label': 'search'}} 
+                        inputProps={{ 'aria-label': 'search'}}
                     />
-                </Search> 
+                </Search>
                 <IconButton
                     size="large"
                     edge="end"
