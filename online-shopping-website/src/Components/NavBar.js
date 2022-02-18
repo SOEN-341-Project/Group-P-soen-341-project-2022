@@ -110,6 +110,7 @@ export default function NavBar() {
                 {links[0]}
                 </Typography>
                 <Button color='inherit'><Link to="/" className="RoutingLink">Products</Link></Button>
+                <Button color='inherit'><Link to="/sellerPage" className="RoutingLink">Temporary Seller</Link></Button>
                 <Button color='inherit'>{links[1]}</Button>
                 <Button color='inherit'>{links[2]}</Button>
                 {/* <Button color='inherit'>{links[3]}</Button>

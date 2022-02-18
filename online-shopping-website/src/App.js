@@ -13,20 +13,19 @@ const Layout = () => {
     return (
         <>
             <NavBar sx={<h1></h1>}/>
-            <div className="AppContent">
-            {/* insert additional app content here*/}
-            </div>
-            <nav>
+            {/*<nav>
                 <ul>
                     <li>
                         <Link to="/">Products</Link>
                     </li>
                     <li>
-                        <Link to="/searchbar">Search bar</Link>
+                        <Link to="/samplePage">Sample Page</Link>
                     </li>
                 </ul>
-            </nav>
-            <Outlet/>
+            </nav>*/}
+            <div className="AppContent">
+                <Outlet/>
+            </div>
         </>
     )
 };
@@ -70,7 +69,7 @@ export default function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
-                    <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
+                    {/*<Route path="/sellerPage" element={<SellerProducts/>}/>*/}
                     {/*Sample routing, can add any additional necessary pages here*/}
                     <Route path="/samplePage" element={<SamplePage/>}/>
                     <Route path="/:productName" element={<ProductDetails/>}/>

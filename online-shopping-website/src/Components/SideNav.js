@@ -13,7 +13,6 @@ import Products from '../TestValues.json';
 
 export const SideNav = (props) => {
     return (
-        //TODO: change outer grid to a div and set sidebar to a set width to not overlap with product grid
         <Grid item container xs={5} sm={4} md={4} lg={3}>
             <Grid item xs={5} sm={4} md={4} lg={3}>
                 <PriceFilter onSliderChange={props.onSliderChange} />

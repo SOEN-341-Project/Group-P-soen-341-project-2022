@@ -25,6 +25,11 @@
     <option name="NEW_BASE" value="master" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="feature/products-view-more-page" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -34,6 +39,13 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="master" />
+      </list>
+    </option>
   </component>
   <component name="ProjectId" id="24NfSofFdf3sDRxT69F7kkAztXv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -95,6 +107,7 @@
       <workItem from="1644718832127" duration="1913000" />
       <workItem from="1644792467544" duration="15859000" />
       <workItem from="1644977222784" duration="1254000" />
+      <workItem from="1645200777619" duration="4201000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <created>1644512793774</created>
