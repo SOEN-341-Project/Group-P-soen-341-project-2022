@@ -1,37 +1,52 @@
+import * as React from 'react';
 import Card from '@mui/material/Card';
 import ButtonBase from '@mui/material/ButtonBase';
-import React from 'react';
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import {Link} from "react-router-dom";
+import Products from '../../TestValues.json';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 export const SellerProductsPage = (props) => {
     return (
         <Link to={{
-            pathname: `/${props.product.id}`,
-            params: { props }
+            pathname: `/seller`,
         }} className="RoutingLink">
-            <h1>{props.product.name}</h1>
-            <ButtonBase sx={{ width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px' }}>
-                <Card className="ProductContainer">
-                    <Stack sx={{ height: '100%' }} direction="column" justifyContent="space-between">
-                        {/* Image */}
-                        <Stack direction="row" justifyContent="center" sx={{ textAlign: 'center' }}>
-                            <img className="ProductImage" src={props.product.image} alt={props.product.name} />
-                        </Stack>
-
-                        {/* Product information */}
-                        <div>
-                            <h3>{props.product.name}</h3>
-                            <p>Brand: {props.product.brand}</p>
-                            <p>Sold by: {props.product.seller}</p>
-                        </div>
-
-                        <Grid>
-                            {/* Product price */}
-                            <h4 className="ProductPrice">{props.product.price} Ɖ</h4>
-                        </Grid>
-                    </Stack>
-                </Card>
-            </ButtonBase>
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Product</TableCell>
+                            <TableCell align="center">Price</TableCell>
+                            <TableCell align="left">Description</TableCell>
+                            <TableCell align="left">Image</TableCell>
+                            <TableCell align="left">Brand</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {props.products.map((product) => (
+                            <TableRow
+                                key={product.name}
+                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {product.name}
+                                </TableCell>
+                                <TableCell align="center">{product.price}</TableCell>
+                                <TableCell align="left">{product.description}</TableCell>
+                                <TableCell align="left">{product.image}</TableCell>
+                                <TableCell align="left">{product.brand}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Link>
     );
 }
