@@ -2,8 +2,10 @@ import express, { Response, Request } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import multer from "multer";
+import { format } from "util";
+import bcrypt from "bcrypt";
 import { uploadFile } from "./helpers/uploadFile";
-
+import { createUser, allUsers } from "./prismaFunctions";
 const app = express();
 const port = 4000;
 
@@ -21,6 +23,7 @@ app.use(multerMiddleware.single("picture")); // the middleware that lets us proc
 app.use(bodyParser.json()); // middleware that enterprets json
 app.use(bodyParser.urlencoded({ extended: false })); // middleware that enterprets urlencoded
 
+// temporary route
 app.post("/uploads", async (req, res, next) => {
   try {
     const myFile = req.file;
@@ -35,6 +38,49 @@ app.post("/uploads", async (req, res, next) => {
   }
 });
 
+// user routes
+
+app.post("/api/users/register", async (req: Request, res: Response, next) => {
+  const usr_role: string = req.body.role.toUpperCase(),
+    usr_email: string = req.body.email,
+    usr_password: string = req.body.password;
+  try {
+    // verify that necessary parameters are there
+    if (
+      (usr_role != "CUSTOMER" && usr_role != "SELLER" && usr_role != "ADMIN") ||
+      usr_email == undefined ||
+      usr_password == undefined
+    ) {
+      throw (new Error().message = format(`Data missing`));
+    }
+    const encrypted_password = await bcrypt.hash(usr_password, 5); //encrypt password
+    const newUser = await createUser({
+      email: req.body.email,
+      pWord: encrypted_password,
+      role: usr_role,
+      uName: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      address1: req.body.address1,
+      sellerName: req.body.sellerName,
+    });
+    res.status(200).json({ message: "Success" });
+  } catch (e) {
+    if (e.code == "P2002") {
+      e.message = "Unique constraint on " + e.meta.target + " failed";
+    }
+    res.status(400).json({ error: e, message: e.message });
+    next();
+  }
+});
+
+app.get("/api/users/all", async (req: Request, res: Response) => {
+  //TODO: authenticate only admins for this route
+  const usrs = await allUsers();
+  res.status(200).json(usrs);
+});
+
+// end user routes
 app.use((err, req, res, next) => {
   res.status(500).json({
     message: err.message,

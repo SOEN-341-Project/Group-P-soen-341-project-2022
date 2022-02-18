@@ -2,14 +2,28 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function createUser(uName: string, pWord: string, email: string, address1: string) {
+type UserRole = "CUSTOMER" | "SELLER" | "ADMIN";
+
+export async function createUser(args: {
+  pWord: string;
+  email: string;
+  role: UserRole;
+  uName?: string;
+  firstName?: string;
+  lastName?: string;
+  address1?: string;
+  sellerName?: string;
+}) {
   await prisma.user.create({
     data: {
-      username: uName,
-      password: pWord,
-      email: email,
-      address1: address1,
-      role: "CUSTOMER",
+      username: args.uName,
+      password: args.pWord,
+      email: args.email,
+      role: args.role,
+      address1: args.address1,
+      firstName: args.firstName,
+      lastName: args.lastName,
+      sellerName: args.sellerName,
     },
   });
 }
