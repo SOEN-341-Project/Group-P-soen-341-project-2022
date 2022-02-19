@@ -4,6 +4,7 @@ import {ProductPreview} from './Components/ProductGrid';
 import {ProductDetails} from './Components/ProductDetails';
 import {SearchBar} from './Components/SearchBar';
 import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
+import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
 import {useState} from 'react';
 import Products from './TestValues.json';
 import ReactDOM from "react-dom";
@@ -25,6 +26,9 @@ const Layout = () => {
                     </li>
                     <li>
                         <Link to="/seller">Seller</Link>
+                    </li>
+                    <li>
+                        <Link to="/seller/add-product-form">Seller</Link>
                     </li>
                 </ul>
             </nav>
@@ -73,7 +77,8 @@ export default function App() {
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
-                    <Route path="/seller" element={<SellerProductsPage/>}/>
+                    <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
+                    <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
                     {/*<Route path="/seller/:productId" element={<SellerProductsForm/>}/>*/}
                     {/*Sample routing, can add any additional necessary pages here*/}
                     <Route path="/samplePage" element={<SamplePage/>}/>
