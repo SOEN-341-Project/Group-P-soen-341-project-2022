@@ -38,14 +38,18 @@ const columns = [
 
 export const SellerProductsPage = (props) => {
     return (
-        <Grid item container>
+        <Grid container>
             <Grid item className="sellerButtonsContainer">
-                <Button className="sellerButton" variant="contained" onClick={addProduct}>
-                    Add product <AddIcon/>
-                </Button>
-                <Button className="sellerButton" variant="contained" onClick={editProduct}>
-                    Edit product <EditIcon/>
-                </Button>
+                <Link to="/seller/add-product-form" className="RoutingLink">
+                    <Button className="sellerButton" variant="contained">
+                        Add product <AddIcon/>
+                    </Button>
+                </Link>
+                <Link to="/seller/someId" className="RoutingLink">
+                    <Button className="sellerButton" variant="contained" onClick={editProduct}>
+                        Edit product <EditIcon/>
+                    </Button>
+                </Link>
                 <Button className="sellerButton" variant="outlined" onClick={removeProduct}>
                     Delete product <DeleteIcon/>
                 </Button>
@@ -69,10 +73,6 @@ export const SellerProductsPage = (props) => {
 }
 
 function removeProduct() {
-    return true;
-}
-
-function addProduct() {
     return true;
 }
 
