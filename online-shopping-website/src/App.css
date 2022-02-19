@@ -80,6 +80,7 @@
         width: 80%;
         max-width: 55rem;
     }
+
     .ProductDetails-SelectionPanel {
         margin: 5rem 0 0 -1rem;
         padding: 1.5rem;
@@ -127,6 +128,17 @@
 .ProductDetails-CartButton {
     margin: 4rem auto 1rem auto;
     display: flex;
+}
+
+.sellerImage {
+    max-width: 3rem;
+    max-height: 2rem;
+}
+
+.sellerTable {
+    display:flex;
+    margin:auto;
+    padding: 3rem;
 }
 
 /* Button styles may be used for other pages */

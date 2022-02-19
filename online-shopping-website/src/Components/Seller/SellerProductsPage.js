@@ -12,41 +12,76 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {DataGrid} from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+
+
+const columns = [
+    {field: 'id', headerName: 'ID', type: 'number', width: 20, align: 'center',},
+    {
+        field: 'image',
+        headerName: 'Image',
+        align: 'center',
+        width: 70,
+        renderCell: (params: GridRenderCellParams<Date>) => (
+            <img className="sellerImage" src={params.value}/>
+        ),
+        sortable: false,
+        filterable: false
+    },
+    {field: 'name', headerName: 'Product name', width: 130},
+    {field: 'description', headerName: 'Description', width: 200},
+    {
+        field: 'price', headerName: 'Price', type: 'number', width: 90,
+        valueGetter: (params) =>
+            `${params.value.toFixed(2) || ''} Ɖ`,
+    }
+];
 
 export const SellerProductsPage = (props) => {
     return (
-        <Link to={{
-            pathname: `/seller`,
-        }} className="RoutingLink">
-            <TableContainer component={Paper}>
-                <Table sx={{minWidth: 650}} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Product</TableCell>
-                            <TableCell align="center">Price</TableCell>
-                            <TableCell align="left">Description</TableCell>
-                            <TableCell align="left">Image</TableCell>
-                            <TableCell align="left">Brand</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {props.products.map((product) => (
-                            <TableRow
-                                key={product.name}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {product.name}
-                                </TableCell>
-                                <TableCell align="center">{product.price}</TableCell>
-                                <TableCell align="left">{product.description}</TableCell>
-                                <TableCell align="left">{product.image}</TableCell>
-                                <TableCell align="left">{product.brand}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Link>
+        <Grid item sm={12} className="sellerTable">
+            <div style={{height: 400, width: '100%'}}>
+                <div style={{display: 'flex', height: '100%'}}>
+                    <div style={{flexGrow: 1}}>
+                        <DataGrid
+                            rows={props.products}
+                            columns={columns}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            checkboxSelection
+                        />
+                    </div>
+                </div>
+            </div>
+        </Grid>
     );
 }
+
+/*const SellerButtons = () => {
+    <Button variant="outlined" onClick={removeProduct}>
+        Delete product <DeleteIcon/>
+    </Button>
+    <Button variant="outlined" onClick={addProduct}>
+        Add product <AddIcon/>
+    </Button>
+    <Button variant="outlined" onClick={editProduct}>
+        Edit product <EditIcon/>
+    </Button>
+}
+
+function removeProduct() {
+
+}
+
+function addProduct() {
+
+}
+
+function editProduct() {
+
+}*/
