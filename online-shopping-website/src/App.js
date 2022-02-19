@@ -7,6 +7,7 @@ import {useState} from 'react';
 import Products from './TestValues.json';
 import ReactDOM from "react-dom";
 import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
+import {Register} from './Components/RegisterPage';
 
 const Layout = () => {
     return (
@@ -24,7 +25,7 @@ const Layout = () => {
                     </li>
                 </ul>
             </nav>
-            <Outlet/>
+            <Register />
         </>
     )
 };

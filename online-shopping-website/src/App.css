@@ -50,6 +50,10 @@
         text-align: center;
         min-height: 90%;
     }
+
+    .register-page{
+        width: 90%;
+    }
 }
 
 @media only screen and (min-width: 550px) {
@@ -128,6 +132,21 @@
     margin: 4rem auto 1rem auto;
     display: flex;
 }
+
+.register-page {
+    max-width: 550px;
+    margin: auto;
+    border-style: hidden;
+    border-radius: 10px;
+}
+
+.sign-up {
+    padding: 40px;
+}
+
+/* .textfield-register {
+    background-color: white;
+} */
 
 /* Button styles may be used for other pages */
 /* .ProductButton {
