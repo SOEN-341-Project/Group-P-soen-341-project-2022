@@ -73,7 +73,7 @@ export default function App() {
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
-                    <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
+                    <Route path="/seller" element={<SellerProductsPage/>}/>
                     {/*<Route path="/seller/:productId" element={<SellerProductsForm/>}/>*/}
                     {/*Sample routing, can add any additional necessary pages here*/}
                     <Route path="/samplePage" element={<SamplePage/>}/>
