@@ -5,13 +5,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import {Link} from "react-router-dom";
 import Products from '../../TestValues.json';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
 import {DataGrid} from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 
@@ -27,7 +21,7 @@ const columns = [
         headerName: 'Image',
         align: 'center',
         width: 70,
-        renderCell: (params: GridRenderCellParams<Date>) => (
+        renderCell: (params) => (
             <img className="sellerImage" src={params.value}/>
         ),
         sortable: false,
@@ -44,44 +38,44 @@ const columns = [
 
 export const SellerProductsPage = (props) => {
     return (
-        <Grid item sm={12} className="sellerTable">
-            <div style={{height: 400, width: '100%'}}>
-                <div style={{display: 'flex', height: '100%'}}>
-                    <div style={{flexGrow: 1}}>
-                        <DataGrid
-                            rows={props.products}
-                            columns={columns}
-                            pageSize={5}
-                            rowsPerPageOptions={[5]}
-                            checkboxSelection
-                        />
+        <Grid item container>
+            <Grid item className="sellerButtonsContainer">
+                <Button className="sellerButton" variant="contained" onClick={addProduct}>
+                    Add product <AddIcon/>
+                </Button>
+                <Button className="sellerButton" variant="contained" onClick={editProduct}>
+                    Edit product <EditIcon/>
+                </Button>
+                <Button className="sellerButton" variant="outlined" onClick={removeProduct}>
+                    Delete product <DeleteIcon/>
+                </Button>
+            </Grid>
+            <Grid item sm={12} className="sellerTable">
+                <div style={{height: 400, width: '100%'}}>
+                    <div style={{display: 'flex', height: '100%'}}>
+                        <div style={{flexGrow: 1}}>
+                            <DataGrid
+                                rows={props.products}
+                                columns={columns}
+                                pageSize={5}
+                                rowsPerPageOptions={[5]}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Grid>
         </Grid>
     );
 }
 
-/*const SellerButtons = () => {
-    <Button variant="outlined" onClick={removeProduct}>
-        Delete product <DeleteIcon/>
-    </Button>
-    <Button variant="outlined" onClick={addProduct}>
-        Add product <AddIcon/>
-    </Button>
-    <Button variant="outlined" onClick={editProduct}>
-        Edit product <EditIcon/>
-    </Button>
-}
-
 function removeProduct() {
-
+    return true;
 }
 
 function addProduct() {
-
+    return true;
 }
 
 function editProduct() {
-
-}*/
+    return true;
+}

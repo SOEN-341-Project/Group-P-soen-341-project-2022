@@ -141,6 +141,15 @@
     padding: 3rem;
 }
 
+.sellerButtonsContainer {
+    margin:auto;
+    display:flex;
+}
+
+.sellerButton {
+    margin: 10px;
+}
+
 /* Button styles may be used for other pages */
 /* .ProductButton {
     color: rgb(203, 253, 203);
