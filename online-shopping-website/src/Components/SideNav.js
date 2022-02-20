@@ -14,7 +14,6 @@ import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
     return (
-        //TODO: change outer grid to a div and set sidebar to a set width to not overlap with product grid
         <Stack xs={12}>
             <SearchBar filterProducts={props.filterProducts} filters={props.filters}/>
             <PriceFilter onSliderChange={props.onSliderChange} />

@@ -13,13 +13,6 @@ const Layout = () => {
             <div className="AppContent">
                 <h1>Bobble</h1>
             </div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Products</Link>
-                    </li>
-                </ul>
-            </nav>
             <Outlet/>
         </>
     )
@@ -64,18 +57,12 @@ export default function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
-                    {/*Sample routing, can add any additional necessary pages here*/}
-                    <Route path="/samplePage" element={<SamplePage/>}/>
                     <Route path="/:productName" element={<ProductDetails/>}/>
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
     );
-}
-
-const SamplePage = () => {
-    return <h1>Sample Page</h1>;
 }
 
 const NoPage = () => {
