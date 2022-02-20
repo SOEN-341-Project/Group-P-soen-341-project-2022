@@ -78,30 +78,10 @@ export const ProductDetails = () => {
     window.scrollTo(0, 0);
 
     //Getting product name from URL
-    const productName = useParams();
+    const productId = useParams();
 
-    const selectedProduct = {
-        brand: "",
-        description: "",
-        id: null,
-        image: "",
-        name: "",
-        price: null,
-        seller: ""
-    }
-
-    //Refactor using forEach() and product id later
-    Products.products.map(product => {
-        if (productName.productName === product.name) {
-            selectedProduct.brand = product.brand;
-            selectedProduct.description = product.description;
-            selectedProduct.id = product.id;
-            selectedProduct.image = product.image;
-            selectedProduct.name = product.name;
-            selectedProduct.price = product.price.toFixed(2);
-            selectedProduct.seller = product.seller;
-        }
-    });
+    //Getting product by id from URL
+    const selectedProduct = Products.products.find(product => parseInt(productId.productId.match("[^\/]*")) == product.id)
 
     return (
         <Grid container className="ProductDetails-Container">

@@ -9,7 +9,7 @@ const ProductPreview = (props) => {
     return (
         // Navigates to ProductDetails page on click
         <Link to={{
-            pathname: `/${props.product.name}`,
+            pathname: `/${props.product.id}/${props.product.name}`,
             params: {props}
         }} className="RoutingLink">
             <ButtonBase sx={{width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
