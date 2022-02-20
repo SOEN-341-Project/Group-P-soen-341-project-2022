@@ -7,7 +7,8 @@
       "description": "This banana is the peak of human creation.",
       "seller": "Fruits with Friends",
       "brand": "Fruits with Friends",
-      "price": 4
+      "price": 4,
+      "quantity": 100
     },
     {
       "id": 1,
@@ -16,7 +17,8 @@
       "description": "That brother is floating in the air.",
       "seller": "Ultimate pets",
       "brand": "Nature Inc.",
-      "price": 16
+      "price": 16,
+      "quantity": 4
     },
     {
       "id": 2,
@@ -25,7 +27,8 @@
       "description": "🚮.",
       "seller": "Ultimate pets",
       "brand": "Environment Ltd.",
-      "price": 20
+      "price": 20,
+      "quantity": 6
     },
     {
       "id": 3,
@@ -34,7 +37,8 @@
       "description": "Mmm not french at all.",
       "seller": "Foodies on Wheels",
       "brand": "MacDon't",
-      "price": 8
+      "price": 8,
+      "quantity": 374
     },
     {
       "id": 4,
@@ -43,7 +47,8 @@
       "description": "As sweet as I don't know what.",
       "seller": "Alan Wake's Cupcakes",
       "brand": "Sugar Treats & Beets",
-      "price": 12
+      "price": 12,
+      "quantity": 13
     }
   ],
   "brands": [

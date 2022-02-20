@@ -19,7 +19,7 @@ const Layout = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">Products</Link>
+                        <Link to="/products">Products</Link>
                     </li>
                     <li>
                         <Link to="/searchbar">Search bar</Link>
@@ -31,6 +31,7 @@ const Layout = () => {
                         <Link to="/seller/add-product-form">Seller Add Product</Link>
                     </li>
                 </ul>
+                <br />
             </nav>
             <Outlet/>
         </>
@@ -72,19 +73,18 @@ export default function App() {
 
     return (
         <BrowserRouter>
+            <Layout />
             <Routes>
-                <Route path="/" element={<Layout/>}>
-                    <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
-                           products={products}/>}/>
-                    <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
-                    <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
-                    <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
-                    {/*<Route path="/seller/:productId" element={<SellerProductsForm/>}/>*/}
-                    {/*Sample routing, can add any additional necessary pages here*/}
-                    <Route path="/samplePage" element={<SamplePage/>}/>
-                    <Route path="/:productName" element={<ProductDetails/>}/>
-                    <Route path="*" element={<NoPage/>}/>
-                </Route>
+                <Route index element={<ProductPage filterProducts={filterProducts} filters={filters} products={products}/>}/>
+                <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
+                <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
+                <Route path="/seller/:productId" element={<SellerProductsForm/>}/>
+                <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
+                {/*Sample routing, can add any additional necessary pages here*/}
+                <Route path="/samplePage" element={<SamplePage/>}/>
+                <Route path="/products" element={<ProductPage filterProducts={filterProducts} filters={filters} products={products}/>}/>
+                <Route path="/:productName" element={<ProductDetails/>}/>
+                <Route path="*" element={<NoPage/>}/>
             </Routes>
         </BrowserRouter>
     );
