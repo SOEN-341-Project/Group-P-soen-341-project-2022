@@ -138,10 +138,28 @@
     margin: auto;
     border-style: hidden;
     border-radius: 10px;
+    background-color: #a75e7d;
+    padding: 40px;
 }
 
 .sign-up {
-    padding: 40px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#SignUpButton {
+    color: white;
+    border-color: rgb(78, 219, 78);
+    border-style: solid;
+    transition: 0.3s all ease-in-out;
+    width: 200px;
+    height: 60px;
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: rgb(78, 219, 78);
+    font-size: 2em;
 }
 
 /* .textfield-register {
