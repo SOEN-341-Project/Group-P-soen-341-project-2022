@@ -28,6 +28,14 @@ export async function createUser(args: {
   });
 }
 
+export async function userByEmail(args: { email: string }) {
+  return await prisma.user.findUnique({
+    where: {
+      email: args.email,
+    },
+  });
+}
+
 export async function allUsers() {
   return await prisma.user.findMany();
 }
