@@ -3,8 +3,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import Stack from '@mui/material/Stack';
-import {ProductDetails} from './ProductDetails';
-import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const ProductPreview = (props) => {
     return (
