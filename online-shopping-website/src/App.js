@@ -19,9 +19,6 @@ const Layout = () => {
                     <li>
                         <Link to="/">Products</Link>
                     </li>
-                    <li>
-                        <Link to="/searchbar">Search bar</Link>
-                    </li>
                 </ul>
             </nav>
             <Outlet/>
@@ -68,7 +65,6 @@ export default function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
-                    <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
                     {/*Sample routing, can add any additional necessary pages here*/}
                     <Route path="/samplePage" element={<SamplePage/>}/>
                     <Route path="/:productName" element={<ProductDetails/>}/>

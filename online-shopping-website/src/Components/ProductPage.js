@@ -45,7 +45,7 @@ export const ProductPage = (props) => {
   return (
     <Grid container columnSpacing={4} rowSpacing={5}>
       <Grid item xs={12} md={3} lg={2}>
-        <SideNav brands={Brands} sellers={Sellers} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
+        <SideNav brands={Brands} sellers={Sellers} filterProducts={filterProducts} filters={filters} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
       </Grid>
       <Grid item xs={12} md={9} lg={10}>
         <ProductGrid products={props.products}/>
