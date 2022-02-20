@@ -95,11 +95,12 @@ app.post("/api/users/signin", async (req, res, next) => {
 
 app.get("/api/users/all", async (req, res, next) => {
   //TODO: authenticate only admins for this route
-  const usrs = await allUsers()
-    .then(() => {
-      res.status(200).json(usrs);
+  await allUsers()
+    .then((user) => {
+      res.status(200).json(user);
     })
     .catch((e) => {
+      console.log(e);
       res.status(500).json({ error: e, message: e.message });
       next();
     });
