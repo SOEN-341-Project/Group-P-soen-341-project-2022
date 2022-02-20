@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
 import Products from '../../TestValues.json';
-import { Box } from '@mui/system';
 
 export const SellerProductsForm = () => {
     const { productId } = useParams();
@@ -95,8 +94,7 @@ const AddNewProductForm = () => {
                     */
                 }
                 <TextField label="Brand" required />
-                <TextField label="Seller" required defaultValue={sellerName} />
-                {/* <TextField label="Seller" disabled defaultValue={sellerName} /> */}
+                <TextField label="Seller" disabled defaultValue={sellerName} />
                 <TextField label="Quantity" type="number" required inputProps={{ min: 1 }} />
                 <Button name="Add Product" type="submit">Add Product</Button>
             </Stack>
