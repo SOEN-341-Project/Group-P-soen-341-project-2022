@@ -2,7 +2,6 @@ import './App.css';
 import {ProductPage} from './Components/ProductPage';
 import {ProductPreview} from './Components/ProductGrid';
 import {ProductDetails} from './Components/ProductDetails';
-import {SearchBar} from './Components/SearchBar';
 import {useState} from 'react';
 import Products from './TestValues.json';
 import ReactDOM from "react-dom";
