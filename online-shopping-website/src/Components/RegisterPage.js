@@ -68,7 +68,7 @@ export const Register = () => {
                             {seller ? <TextField required label="Seller name" variant="outlined" value={values.sellerName} onChange={(e) => setValues({ ...values, sellerName: e.target.value })} /> : ''}
                         </div>
                     </RadioGroup>
-                    <Button type="submit" value="Sign Up" id='SignUpButton'>Sign Up</Button>
+                    <Button type="submit" value="Sign Up" variant="contained" id='SignUpButton'>Sign Up</Button>
                 </Stack>
             </form>
         </div>
