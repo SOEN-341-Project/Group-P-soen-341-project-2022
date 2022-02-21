@@ -6,6 +6,7 @@ import {useState} from 'react';
 import Products from './TestValues.json';
 import ReactDOM from "react-dom";
 import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
+import ManageProfile from './Components/ManageProfile';
 
 const Layout = () => {
     return (
@@ -57,6 +58,7 @@ export default function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
+                    <Route path="/manageProfile" element={<ManageProfile />} />
                     <Route path="/:productId/:productName" element={<ProductDetails/>}/>
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
