@@ -1,19 +1,18 @@
 import './App.css';
-import {ProductPage} from './Components/ProductPage';
-import {ProductPreview} from './Components/ProductGrid';
-import {ProductDetails} from './Components/ProductDetails';
-import {useState} from 'react';
+import { ProductPage } from './Components/ProductPage';
+import { ProductDetails } from './Components/ProductDetails';
+import { useState } from 'react';
 import Products from './TestValues.json';
-import ReactDOM from "react-dom";
-import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Outlet, Link, Routes, Route } from "react-router-dom";
 
 const Layout = () => {
     return (
         <>
+        {/* Replace <h1> tag with navbar */}
+            <h1>Bobble</h1> 
             <div className="AppContent">
-                <h1>Bobble</h1>
+                <Outlet />
             </div>
-            <Outlet/>
         </>
     )
 };
@@ -54,11 +53,11 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout/>}>
+                <Route path="/" element={<Layout />}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
-                           products={products}/>}/>
-                    <Route path="/:productId/:productName" element={<ProductDetails/>}/>
-                    <Route path="*" element={<NoPage/>}/>
+                        products={products} />} />
+                    <Route path="/:productId/:productName" element={<ProductDetails />} />
+                    <Route path="*" element={<NoPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
