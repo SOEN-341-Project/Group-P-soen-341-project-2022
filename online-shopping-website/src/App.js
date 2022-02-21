@@ -58,7 +58,6 @@ export default function App() {
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/register" element={<Register/>}/>
-                        products={products} />} />
                     <Route path="/:productId/:productName" element={<ProductDetails />} />
                     <Route path="*" element={<NoPage />} />
                 </Route>
