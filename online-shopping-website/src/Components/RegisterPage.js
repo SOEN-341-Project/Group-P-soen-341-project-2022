@@ -9,7 +9,6 @@ import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 
 const profileProperties = {
-    id: 0,
     email: '',
     username: '',
     role: 'CUSTOMER',
@@ -41,7 +40,7 @@ export const Register = () => {
 
     const processRegister = (event) => {
         event.preventDefault();
-        alert(values.id + '\n' + values.email + '\n' + values.username
+        alert(values.email + '\n' + values.username
             + '\n' + values.role + '\n' + values.password + '\n' + values.firstName + '\n'
             + values.lastName + '\n' + values.address1 + '\n' + values.sellerName);
     }
@@ -50,13 +49,13 @@ export const Register = () => {
         <div className='register-page'>
             <form onSubmit={processRegister} className='sign-up'>
                 <Stack spacing={2}>
-                    <TextField required className='textfield-register' label="First name" variant="outlined" value={values.firstName} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
-                    <TextField required label="Last name" variant="outlined" value={values.lastName} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
-                    <TextField type="email" label="Email" variant="outlined" value={values.email} onChange={(e) => setValues({ ...values, email: e.target.value })} />
-                    <TextField required label="Username" variant="outlined" value={values.username} onChange={(e) => setValues({ ...values, username: e.target.value })} />
+                    <TextField  className='textfield-register' label="First name" variant="outlined" value={values.firstName} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
+                    <TextField  label="Last name" variant="outlined" value={values.lastName} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
+                    <TextField required type="email" label="Email" variant="outlined" value={values.email} onChange={(e) => setValues({ ...values, email: e.target.value })} />
+                    <TextField label="Username" variant="outlined" value={values.username} onChange={(e) => setValues({ ...values, username: e.target.value })} />
                     <TextField required type="password" label="Password" variant="outlined" value={values.password} onChange={(e) => setValues({ ...values, password: e.target.value })} />
                     <TextField required type="password" label="Password" variant="outlined" inputProps={{ pattern: '^'+values.password+'$', title: 'Passwords do not match' }}/>
-                    <TextField required inputProps={{ pattern: '^[0-9]+, [A-Za-z ]+, [A-Za-z ]+, [A-Za-z ]+', title: '"Street number", "Street name", "City", "Province/State"' }} label="Address" variant="outlined" value={values.address1} onChange={(e) => setValues({ ...values, address1: e.target.value })} />
+                    <TextField  inputProps={{ pattern: '^[0-9]+, [A-Za-z ]+, [A-Za-z ]+, [A-Za-z ]+', title: '"Street number", "Street name", "City", "Province/State"' }} label="Address" variant="outlined" value={values.address1} onChange={(e) => setValues({ ...values, address1: e.target.value })} />
                     <FormLabel>Role</FormLabel>
                     <RadioGroup
                         defaultValue="CUSTOMER"
