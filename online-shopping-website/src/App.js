@@ -1,13 +1,11 @@
 import './App.css';
 import {ProductPage} from './Components/ProductPage';
-import {ProductPreview} from './Components/ProductGrid';
 import {ProductDetails} from './Components/ProductDetails';
 import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
 import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
 import {useState} from 'react';
 import Products from './TestValues.json';
-import ReactDOM from "react-dom";
-import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Outlet, Routes, Route} from "react-router-dom";
 
 const Layout = () => {
     return (
