@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import { Link } from "react-router-dom";
-import { DataGrid} from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -28,12 +28,40 @@ const columns = [
         field: 'price', headerName: 'Price', type: 'number', width: 90,
         valueGetter: (params) =>
             `${params.value.toFixed(2) || ''} Ɖ`,
+    },
+    {
+        field: 'modify',
+        headerName: 'Modify',
+        renderCell: (params) => (
+            <Link to={{
+                pathname: `/seller/${params.id}`,
+                params: { params }
+            }} className="RoutingLink">
+                <Button className="sellerButton" variant="text">
+                    <EditIcon />
+                </Button>
+            </Link>
+        ),
+        sortable: false,
+        filterable: false,
+        hideable:false
+    },
+    {
+        field: 'delete',
+        headerName: 'Delete',
+        renderCell: (params) => (
+            <Button className="sellerButton" variant="text" onClick={removeProduct(params.id)}>
+                <DeleteIcon />
+            </Button>
+        ),
+        sortable: false,
+        filterable: false,
+        hideable:false
     }
 ];
 
 export const SellerProductsPage = () => {
     const [selectedSeller, setSelectedSeller] = React.useState(Sellers.sellers[0]);
-    const [selectionModel, setSelectionModel] = React.useState();
 
     const handleSellerClick = (event) => {
         setSelectedSeller(event.target.name);
@@ -64,18 +92,10 @@ export const SellerProductsPage = () => {
             </Grid>
             <Grid item className="sellerButtonsContainer">
                 <Link to="/seller/add-product-form" className="RoutingLink">
-                    <Button className="sellerButton" variant="contained">
+                    <Button variant="contained">
                         Add product <AddIcon />
                     </Button>
                 </Link>
-                <Link to="/seller/someId" className="RoutingLink">
-                    <Button className="sellerButton" variant="contained" onClick={editProduct}>
-                        Edit product <EditIcon />
-                    </Button>
-                </Link>
-                <Button className="sellerButton" variant="outlined" onClick={removeProduct}>
-                    Delete product <DeleteIcon />
-                </Button>
             </Grid>
             <Grid item sm={12} className="sellerTable">
                 <div style={{ height: 400, width: '100%' }}>
@@ -86,23 +106,6 @@ export const SellerProductsPage = () => {
                                 columns={columns}
                                 pageSize={5}
                                 rowsPerPageOptions={[5]}
-                                checkboxSelection
-                                selectionModel={selectionModel}
-                                hideFooterSelectedRowCount
-                                onSelectionModelChange={(selection) => {
-                                    if (selection.length > 1) {
-                                        const selectionSet = new Set(selectionModel);
-                                        const result = selection.filter((s) => !selectionSet.has(s));
-                                        setSelectionModel(result);
-                                    } else {
-                                        setSelectionModel(selection);
-                                        const selectedSet = new Set(selectionModel);
-                                        const selectedRowData = rows.filter((row) =>
-                                            selectedSet.has(row.id)
-                                        );
-                                        console.log(selectedRowData[0].name); //get row id instead of 0 from filter
-                                    }
-                                }}
                             />
                         </div>
                     </div>
@@ -112,10 +115,8 @@ export const SellerProductsPage = () => {
     );
 }
 
-function removeProduct() {
-    return true;
-}
-
-function editProduct() {
+// needs to access database to modify values somehow
+function removeProduct(productId) {
+    console.log(productId);
     return true;
 }
