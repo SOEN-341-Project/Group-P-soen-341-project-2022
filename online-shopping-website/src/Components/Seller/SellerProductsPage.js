@@ -10,25 +10,6 @@ import Products from '../../TestValues.json';
 import Sellers from '../../TestValues.json';
 
 const columns = [
-    { field: 'id', headerName: 'ID', type: 'number', width: 20, align: 'center', },
-    {
-        field: 'image',
-        headerName: 'Image',
-        align: 'center',
-        width: 70,
-        renderCell: (params) => (
-            <img className="sellerImage" src={params.value} alt="n/a" />
-        ),
-        sortable: false,
-        filterable: false
-    },
-    { field: 'name', headerName: 'Product name', width: 130 },
-    { field: 'description', headerName: 'Description', width: 200 },
-    {
-        field: 'price', headerName: 'Price', type: 'number', width: 90,
-        valueGetter: (params) =>
-            `${params.value.toFixed(2) || ''} Ɖ`,
-    },
     {
         field: 'modify',
         headerName: 'Modify',
@@ -44,7 +25,7 @@ const columns = [
         ),
         sortable: false,
         filterable: false,
-        hideable:false
+        hideable: false
     },
     {
         field: 'delete',
@@ -56,8 +37,29 @@ const columns = [
         ),
         sortable: false,
         filterable: false,
-        hideable:false
-    }
+        hideable: false
+    },
+    { field: 'id', headerName: 'ID', type: 'number', width: 20, align: 'center', },
+    {
+        field: 'image',
+        headerName: 'Image',
+        align: 'center',
+        width: 70,
+        renderCell: (params) => (
+            <img className="sellerImage" src={params.value} alt="n/a" />
+        ),
+        sortable: false,
+        filterable: false
+    },
+    { field: 'name', headerName: 'Product name', width: 130 },
+    { field: 'description', headerName: 'Description', width: 200 },
+    { field: 'brand', headerName: 'Brand', width: 200 },
+    {
+        field: 'price', headerName: 'Price', type: 'number', width: 100,
+        valueGetter: (params) =>
+            `${params.value.toFixed(2) || ''} Ɖ`,
+    },
+    { field: 'quantity', headerName: 'Quantity', type: 'number', width: 100 }
 ];
 
 export const SellerProductsPage = () => {
@@ -86,11 +88,11 @@ export const SellerProductsPage = () => {
     const rows = FilterSellerProducts();
 
     return (
-        <Grid container>
+        <Grid container className="sellerContainer">
             <Grid item>
                 {RenderSellerButtons()}
             </Grid>
-            <Grid item className="sellerButtonsContainer">
+            <Grid item xs={12} className="sellerButtonsContainer">
                 <Link to="/seller/add-product-form" className="RoutingLink">
                     <Button variant="contained">
                         Add product <AddIcon />
@@ -98,7 +100,7 @@ export const SellerProductsPage = () => {
                 </Link>
             </Grid>
             <Grid item sm={12} className="sellerTable">
-                <div style={{ height: 400, width: '100%' }}>
+                <div style={{ minHeight: '10.5rem', height: 400, width: '100%' }}>
                     <div style={{ display: 'flex', height: '100%' }}>
                         <div style={{ flexGrow: 1 }}>
                             <DataGrid
@@ -117,6 +119,6 @@ export const SellerProductsPage = () => {
 
 // needs to access database to modify values somehow
 function removeProduct(productId) {
-    console.log(productId);
+    // console.log(productId);
     return true;
 }
