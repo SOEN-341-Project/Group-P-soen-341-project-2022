@@ -2,7 +2,6 @@ import './App.css';
 import {ProductPage} from './Components/ProductPage';
 import {ProductPreview} from './Components/ProductGrid';
 import {ProductDetails} from './Components/ProductDetails';
-import {SearchBar} from './Components/SearchBar';
 import {useState} from 'react';
 import Products from './TestValues.json';
 import ReactDOM from "react-dom";
@@ -14,16 +13,6 @@ const Layout = () => {
             <div className="AppContent">
                 <h1>Bobble</h1>
             </div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Products</Link>
-                    </li>
-                    <li>
-                        <Link to="/searchbar">Search bar</Link>
-                    </li>
-                </ul>
-            </nav>
             <Outlet/>
         </>
     )
@@ -77,10 +66,6 @@ export default function App() {
             </Routes>
         </BrowserRouter>
     );
-}
-
-const SamplePage = () => {
-    return <h1>Sample Page</h1>;
 }
 
 const NoPage = () => {
