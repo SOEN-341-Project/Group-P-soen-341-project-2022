@@ -1,4 +1,3 @@
-import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -10,17 +9,17 @@ import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Products from '../TestValues.json';
+import { SearchBar } from './SearchBar';
+import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
     return (
-        //TODO: change outer grid to a div and set sidebar to a set width to not overlap with product grid
-        <Grid item container xs={5} sm={4} md={4} lg={3}>
-            <Grid item xs={5} sm={4} md={4} lg={3}>
-                <PriceFilter onSliderChange={props.onSliderChange} />
-            </Grid>
+        <Stack xs={12}>
+            <SearchBar filterProducts={props.filterProducts} filters={props.filters}/>
+            <PriceFilter onSliderChange={props.onSliderChange} />
             <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
             <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
-        </Grid>
+        </Stack>
     );
 }
 
