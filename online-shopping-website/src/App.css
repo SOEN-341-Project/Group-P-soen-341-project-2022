@@ -130,18 +130,22 @@
 }
 
 .register-page {
-    max-width: 550px;
+    max-width: 36rem;
     margin: auto;
     border-style: hidden;
     border-radius: 10px;
     background-color: #a75e7d;
-    padding: 40px;
+    padding: 2rem;
 }
 
 .sign-up {
-    padding: 25px;
+    padding: 3rem;
     background-color: white;
     border-radius: 10px;
+}
+
+#SignUpButton {
+    background-color: rgb(72, 136, 72);
 }
 
 /* .textfield-register {
@@ -149,7 +153,7 @@
 } */
 
 /* Button styles may be used for other pages */
-/* .ProductButton {
+.ProductButton {
     color: rgb(203, 253, 203);
     border-color: rgb(78, 219, 78);
     transition: 0.3s all ease-in-out;
@@ -166,7 +170,7 @@
 .ProductButton:hover, .ProductButtonContained:hover {
     background-color: rgba(79, 255, 108, 0.198);
     border-color: rgb(122, 218, 122);
-} */
+}
 
 .accordion-width {
     width: 100%;

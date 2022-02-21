@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Radio from '@mui/material/Radio';
@@ -16,7 +16,6 @@ const profileProperties = {
     firstName: '',
     lastName: '',
     address1: '',
-    role: '',
     sellerName: '',
 }
 
@@ -29,7 +28,7 @@ export const Register = () => {
 
     const handleChange = (event) => {
         setValues({ ...values, role: event.target.value })
-        if (event.target.value == 'CUSTOMER') {
+        if (event.target.value === 'CUSTOMER') {
             setSeller(false);
             setValues({ ...values, sellerName: '' })
         }
@@ -40,7 +39,7 @@ export const Register = () => {
 
     const processRegister = (event) => {
         event.preventDefault();
-        alert(values.email + '\n' + values.username
+        console.log(values.email + '\n' + values.username
             + '\n' + values.role + '\n' + values.password + '\n' + values.firstName + '\n'
             + values.lastName + '\n' + values.address1 + '\n' + values.sellerName);
     }
@@ -68,7 +67,7 @@ export const Register = () => {
                             {seller ? <TextField required label="Seller name" variant="outlined" value={values.sellerName} onChange={(e) => setValues({ ...values, sellerName: e.target.value })} /> : ''}
                         </div>
                     </RadioGroup>
-                    <Button type="submit" value="Sign Up" variant="contained" id='SignUpButton'>Sign Up</Button>
+                    <Button type="submit" value="Sign Up" variant="contained" id="SignUpButton">Sign Up</Button>
                 </Stack>
             </form>
         </div>
