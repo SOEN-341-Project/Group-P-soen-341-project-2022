@@ -32,10 +32,17 @@ const ModifyProductForm = (props) => {
         <form onSubmit={handleSubmit}>
             <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
                 <h1>Modify Product "{props.sellerProduct.name}"</h1>
-                <TextField label="Name" required defaultValue={props.sellerProduct.name} />
-                <TextField label="Price" type="number" required defaultValue={props.sellerProduct.price}
+                <TextField 
+                    label="Name" 
+                    required 
+                    defaultValue={props.sellerProduct.name} />
+                <TextField 
+                    label="Price" 
+                    type="number" 
+                    required 
+                    defaultValue={props.sellerProduct.price}
                     InputProps={{
-                        inputProps: { min: 0 },
+                        inputProps: { min: 0, step: "0.5" },
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }} 
                 />
@@ -52,7 +59,7 @@ const ModifyProductForm = (props) => {
                 <TextField label="Brand" required defaultValue={props.sellerProduct.brand} />
                 <TextField label="Seller" disabled defaultValue={props.sellerProduct.seller} />
                 <TextField label="Quantity" type="number" required inputProps={{ min: 1 }} defaultValue={props.sellerProduct.quantity} />
-                <Button name="Add Product" type="submit">Add Product</Button>
+                <Button name="Save changes" type="submit">Save Changes</Button>
             </Stack>
         </form>
     );
@@ -77,9 +84,12 @@ const AddNewProductForm = () => {
             <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
                 <h1>Add a product</h1>
                 <TextField label="Name" required />
-                <TextField label="Price" type="number" required 
+                <TextField 
+                    label="Price"
+                    type="number"
+                    required 
                     InputProps={{
-                        inputProps: { min: 0 },
+                        inputProps: { min: 0, step: "0.5" },
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }} 
                 />
