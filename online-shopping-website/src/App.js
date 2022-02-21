@@ -2,7 +2,6 @@ import './App.css';
 import {ProductPage} from './Components/ProductPage';
 import {ProductPreview} from './Components/ProductGrid';
 import {ProductDetails} from './Components/ProductDetails';
-import {SearchBar} from './Components/SearchBar';
 import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
 import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
 import {useState} from 'react';
@@ -16,23 +15,6 @@ const Layout = () => {
             <div className="AppContent">
                 <h1>Bobble</h1>
             </div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/products">Products</Link>
-                    </li>
-                    <li>
-                        <Link to="/searchbar">Search bar</Link>
-                    </li>
-                    <li>
-                        <Link to="/seller">Seller</Link>
-                    </li>
-                    <li>
-                        <Link to="/seller/add-product-form">Seller Add Product</Link>
-                    </li>
-                </ul>
-                <br />
-            </nav>
             <Outlet/>
         </>
     )
@@ -75,23 +57,21 @@ export default function App() {
         <BrowserRouter>
             <Layout />
             <Routes>
-                <Route index element={<ProductPage filterProducts={filterProducts} filters={filters} products={products}/>}/>
-                <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
-                <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
-                <Route path="/seller/:productId" element={<SellerProductsForm/>}/>
-                <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
-                {/*Sample routing, can add any additional necessary pages here*/}
-                <Route path="/samplePage" element={<SamplePage/>}/>
-                <Route path="/products" element={<ProductPage filterProducts={filterProducts} filters={filters} products={products}/>}/>
-                <Route path="/:productName" element={<ProductDetails/>}/>
-                <Route path="*" element={<NoPage/>}/>
+                <Route path="/" element={<Layout/>}>
+                    <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
+                           products={products}/>}/>
+                    <Route path="/searchbar" element={<SearchBar filterProducts={filterProducts} filters={filters}/>}/>
+                    <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
+                    <Route path="/seller/:productId" element={<SellerProductsForm/>}/>
+                    <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
+                    {/*Sample routing, can add any additional necessary pages here*/}
+                    <Route path="/samplePage" element={<SamplePage/>}/>
+                    <Route path="/:productId/:productName" element={<ProductDetails/>}/>
+                    <Route path="*" element={<NoPage/>}/>
+                </Route>
             </Routes>
         </BrowserRouter>
     );
-}
-
-const SamplePage = () => {
-    return <h1>Sample Page</h1>;
 }
 
 const NoPage = () => {

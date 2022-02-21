@@ -3,14 +3,13 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import Stack from '@mui/material/Stack';
-import {ProductDetails} from './ProductDetails';
 import {Link} from "react-router-dom";
 
 const ProductPreview = (props) => {
     return (
         // Navigates to ProductDetails page on click
         <Link to={{
-            pathname: `/${props.product.name}`,
+            pathname: `/${props.product.id}/${props.product.name}`,
             params: {props}
         }} className="RoutingLink">
             <ButtonBase sx={{width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
