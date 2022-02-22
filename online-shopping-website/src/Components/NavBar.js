@@ -13,8 +13,6 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
-const links = ['BOBBLE', 'Cart <ShoppingCartOutlinedIcon/>'];
-
 export default function NavBar() {
     const [auth, setAuth] = React.useState(true);
     const [seller, setSeller] = React.useState(false);
