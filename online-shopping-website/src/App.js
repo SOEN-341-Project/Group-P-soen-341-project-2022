@@ -1,28 +1,15 @@
 import './App.css';
 import NavBar from './Components/NavBar';
 import {ProductPage} from './Components/ProductPage';
-import {ProductPreview} from './Components/ProductGrid';
 import {ProductDetails} from './Components/ProductDetails';
-import {SearchBar} from './Components/SearchBar';
 import {useState} from 'react';
 import Products from './TestValues.json';
-import ReactDOM from "react-dom";
-import {BrowserRouter, Outlet, Link, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Outlet, Routes, Route} from "react-router-dom";
 
 const Layout = () => {
     return (
         <>
             <NavBar sx={<h1></h1>}/>
-            {/*<nav>
-                <ul>
-                    <li>
-                        <Link to="/">Products</Link>
-                    </li>
-                    <li>
-                        <Link to="/samplePage">Sample Page</Link>
-                    </li>
-                </ul>
-            </nav>*/}
             <div className="AppContent">
                 <Outlet/>
             </div>
@@ -69,19 +56,14 @@ export default function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
-                    {/*<Route path="/sellerPage" element={<SellerProducts/>}/>*/}
-                    {/*Sample routing, can add any additional necessary pages here*/}
-                    <Route path="/samplePage" element={<SamplePage/>}/>
+                    {/*<Route path="/seller" element={<SellerProducts/>}/>*/}
+                    {/*<Route path="/seller/:productId" element={<SellerProductsForm/>}/>*/}
                     <Route path="/:productName" element={<ProductDetails/>}/>
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
     );
-}
-
-const SamplePage = () => {
-    return <h1>Sample Page</h1>;
 }
 
 const NoPage = () => {
