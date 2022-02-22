@@ -64,7 +64,7 @@ export default function NavBar() {
                 </Typography>
               
                 <Button color='inherit'><Link to="/" className="RoutingLink">Products</Link></Button>
-                <Button color='inherit'><Link to="/seller" className="RoutingLink">View my products</Link></Button>
+                <Button color='inherit'><Link to="/sellerPage" className="RoutingLink">Temporary Seller</Link></Button>
                 <Button color='inherit'>{links[1]}</Button>
                 </Box>
                  {auth && !seller && (
