@@ -1,19 +1,20 @@
 import './App.css';
-import {ProductPage} from './Components/ProductPage';
-import {ProductDetails} from './Components/ProductDetails';
 import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
 import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
-import {useState} from 'react';
+import { ProductPage } from './Components/ProductPage';
+import { ProductDetails } from './Components/ProductDetails';
+import { useState } from 'react';
 import Products from './TestValues.json';
-import {BrowserRouter, Outlet, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Outlet, Link, Routes, Route } from "react-router-dom";
 
 const Layout = () => {
     return (
         <>
+        {/* Replace <h1> tag with navbar */}
+            <h1>Bobble</h1> 
             <div className="AppContent">
-                <h1>Bobble</h1>
+                <Outlet />
             </div>
-            <Outlet/>
         </>
     )
 };
@@ -55,7 +56,7 @@ export default function App() {
         <BrowserRouter>
             <Layout />
             <Routes>
-                <Route path="/" element={<Layout/>}>
+                <Route path="/" element={<Layout />}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
