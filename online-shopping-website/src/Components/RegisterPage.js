@@ -8,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 
+
 const profileProperties = {
     email: '',
     username: '',
@@ -15,7 +16,10 @@ const profileProperties = {
     password: '',
     firstName: '',
     lastName: '',
-    address1: '',
+    streetNb: '',
+    streetName: '',
+    city: '',
+    province: '',
     sellerName: '',
 }
 
@@ -39,22 +43,33 @@ export const Register = () => {
 
     const processRegister = (event) => {
         event.preventDefault();
+        // setValues((state) => {
+        //     return {...values, address1: address}
+        // });
+        outputProfile();
+    }
+
+    const outputProfile = () => {
         console.log(values.email + '\n' + values.username
             + '\n' + values.role + '\n' + values.password + '\n' + values.firstName + '\n'
-            + values.lastName + '\n' + values.address1 + '\n' + values.sellerName);
+            + values.lastName + '\n' + values.streetNb + '\n' + values.streetName + '\n' + values.city + '\n' + values.province +'\n' + values.sellerName);
     }
 
     return (
         <div className='register-page'>
             <form onSubmit={processRegister} className='sign-up'>
                 <Stack spacing={2}>
-                    <TextField  className='textfield-register' label="First name" variant="outlined" value={values.firstName} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
-                    <TextField  label="Last name" variant="outlined" value={values.lastName} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
+                    <TextField className='textfield-register' label="First name" variant="outlined" value={values.firstName} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
+                    <TextField label="Last name" variant="outlined" value={values.lastName} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
                     <TextField required type="email" label="Email" variant="outlined" value={values.email} onChange={(e) => setValues({ ...values, email: e.target.value })} />
                     <TextField label="Username" variant="outlined" value={values.username} onChange={(e) => setValues({ ...values, username: e.target.value })} />
                     <TextField required type="password" label="Password" variant="outlined" value={values.password} onChange={(e) => setValues({ ...values, password: e.target.value })} />
-                    <TextField required type="password" label="Password" variant="outlined" inputProps={{ pattern: '^'+values.password+'$', title: 'Passwords do not match' }}/>
-                    <TextField  inputProps={{ pattern: '^[0-9]+, [A-Za-z ]+, [A-Za-z ]+, [A-Za-z ]+', title: '"Street number", "Street name", "City", "Province/State"' }} label="Address" variant="outlined" value={values.address1} onChange={(e) => setValues({ ...values, address1: e.target.value })} />
+                    <TextField required type="password" label="Password" variant="outlined" inputProps={{ pattern: '^' + values.password + '$', title: 'Passwords do not match' }} />
+                    <br/><label>Shipping address:</label><br/>
+                    <TextField required inputProps={{ pattern: '^[0-9]+$', title: 'Input must be a number' }} label="Street number" variant="outlined" value={values.streetNb} onChange={(e) => setValues({...values, streetNb: e.target.value})} />
+                    <TextField required inputProps={{ pattern: '^[A-Za-z0-9 ]+$', title: 'Valid Characters: A-Z, a-z, 0-9' }} label="Street name" variant="outlined" value={values.streetName} onChange={(e) => setValues({ ...values, streetName: e.target.value})} />
+                    <TextField required inputProps={{ pattern: '^[A-Za-z0-9 ]+$', title: 'Valid Characters: A-Z, a-z, 0-9' }} label="City" variant="outlined" value={values.city} onChange={(e) => setValues({ ...values, city: e.target.value})} />
+                    <TextField required inputProps={{ pattern: '^[A-Za-z0-9 ]+$', title: 'Valid Characters: A-Z, a-z, 0-9' }} label="Province" variant="outlined" value={values.province} onChange={(e) => setValues({ ...values, province: e.target.value})} />
                     <FormLabel>Role</FormLabel>
                     <RadioGroup
                         defaultValue="CUSTOMER"
