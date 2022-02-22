@@ -81,7 +81,7 @@ export const ProductDetails = () => {
     const productId = useParams();
 
     //Getting product by id from URL
-    const selectedProduct = Products.products.find(product => parseInt(productId.productId.match("[^\/]*")) == product.id)
+    const selectedProduct = Products.products.find(product => parseInt(productId.productId.match("[^/]*")) === product.id)
 
     return (
         <Grid container className="ProductDetails-Container">
