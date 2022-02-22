@@ -54,9 +54,8 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            <Layout />
             <Routes>
-                <Route path="/" element={<Layout />}>
+                <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>

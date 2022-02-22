@@ -55,6 +55,14 @@
     text-align: center;
     min-height: 90%;
   }
+
+  .navbar-links{
+    display:none;
+  }
+
+  .Navbar-LogoLarge{
+    display:none;
+  }
 }
 
 @media only screen and (min-width: 550px) {
@@ -77,6 +85,10 @@
     padding: 1.5rem;
     border-radius: 10px;
     text-align: center;
+  }
+
+  .Navbar-LogoSmall{
+    display:none;
   }
 }
 
@@ -161,6 +173,22 @@
   padding: 1rem 0;
 }
 
+
+/*Navbar styles*/
+
+.NavBar{
+  margin-bottom: 10px;
+  background-color: rgb(50, 96, 50);
+}
+
+.Navbar-RoutingLink{
+  color:white;
+  text-decoration:none;
+}
+
+
+
+
 /* Button styles may be used for other pages */
 /* .ProductButton {
     color: rgb(203, 253, 203);
@@ -186,11 +214,4 @@
     min-width: 200px;
     max-width: 200px;
     /*add breakpoint to make everything full width below medium screens*/
-}
-
-.NavBar{
-    margin-bottom: 10px;
-    background-color: rgb(50, 96, 50);
-
-
 }
