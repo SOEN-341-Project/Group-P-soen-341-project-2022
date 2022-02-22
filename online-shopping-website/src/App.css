@@ -1,132 +1,159 @@
 .AppContent {
-    padding: 1.25em;
+  padding: 1.25em;
 }
 
 /* Product grid styles */
 .ProductContainer {
-    padding: 1.75em;
-    width: 100%;
-    height: 100%;
-    color: white;
-    background-color: #a75e7d;
-    border-radius: 15px;
+  padding: 1.75em;
+  width: 100%;
+  height: 100%;
+  color: white;
+  background-color: #a75e7d;
+  border-radius: 15px;
 }
 
 .ProductImage {
-    vertical-align: middle;
-    height: 200px;
-    max-width: 100%;
+  vertical-align: middle;
+  height: 200px;
+  max-width: 100%;
 }
 
 .ProductPrice {
-    font-size: 1.5em;
-    margin: 0;
+  font-size: 1.5em;
+  margin: 0;
 }
 
 .RoutingLink {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 @media only screen and (max-width: 550px) {
-    .ProductDetails-Container {
-        padding-bottom: 3.5rem;
-        margin: 3.5rem auto;
-        display: flex;
-        width: 80%;
-        max-width: 27rem;
-    }
+  .ProductDetails-Container {
+    padding-bottom: 3.5rem;
+    margin: 3.5rem auto;
+    display: flex;
+    width: 80%;
+    max-width: 27rem;
+  }
 
-    .ProductDetails-Image {
-        height: fit-content;
-        width: 100%;
-        background-color: white;
-        border-radius: 10px;
-    }
+  .ProductDetails-Image {
+    height: fit-content;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+  }
 
-    .ProductDetails-SelectionPanel {
-        margin: 2rem 0;
-        padding: 2rem;
-        border-radius: 10px;
-        text-align: center;
-        min-height: 90%;
-    }
+  .ProductDetails-SelectionPanel {
+    margin: 2rem 0;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    min-height: 90%;
+  }
 }
 
 @media only screen and (min-width: 550px) {
-    .ProductDetails-Container {
-        padding-bottom: 3.5rem;
-        margin: 3.5rem auto;
-        display: flex;
-        max-width: 27rem;
-    }
+  .ProductDetails-Container {
+    padding-bottom: 3.5rem;
+    margin: 3.5rem auto;
+    display: flex;
+    max-width: 27rem;
+  }
 
-    .ProductDetails-Image {
-        height: fit-content;
-        width: 100%;
-        background-color: white;
-        border-radius: 10px;
-    }
+  .ProductDetails-Image {
+    height: fit-content;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+  }
 
-    .ProductDetails-SelectionPanel {
-        margin: 3.5rem 0 0 0;
-        padding: 1.5rem;
-        border-radius: 10px;
-        text-align: center;
-    }
+  .ProductDetails-SelectionPanel {
+    margin: 3.5rem 0 0 0;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+  }
 }
 
 @media only screen and (min-width: 900px) {
-    .ProductDetails-Container {
-        width: 80%;
-        max-width: 55rem;
-    }
-    .ProductDetails-SelectionPanel {
-        margin: 5rem 0 0 -1rem;
-        padding: 1.5rem;
-        border-radius: 10px;
-        text-align: center;
-    }
+  .ProductDetails-Container {
+    width: 80%;
+    max-width: 55rem;
+  }
+
+  .ProductDetails-SelectionPanel {
+    margin: 5rem 0 0 -1rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+  }
 }
 
 .ProductDetails-ItemContainer {
-    margin-top: 1rem;
-    padding: 0.2rem 3rem 3rem 3rem;
-    color: white;
-    background-color: #5eb8ce;
-    border-radius: 15px;
+  margin-top: 1rem;
+  padding: 0.2rem 3rem 3rem 3rem;
+  color: white;
+  background-color: #5eb8ce;
+  border-radius: 15px;
 }
 
 .ProductDetails-ImageContainer {
-    background-color: white;
-    border-radius: 10px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .ProductDetails-QuantityButtons {
-    min-width: 10px;
-    padding: 0.3rem;
+  min-width: 10px;
+  padding: 0.3rem;
 }
 
 .ProductDetails-QuantityButtonsContainer {
-    margin-top: 3.5rem;
+  margin-top: 3.5rem;
 }
 
 .ProductDetails-QuantityButtonsStack {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .inputne {
-    max-width: 30px;
-    text-align: center;
+  max-width: 30px;
+  text-align: center;
 }
 
 .ProductDetails-ProductLimitText {
-    color: #0283bb;
+  color: #0283bb;
 }
 
 .ProductDetails-CartButton {
-    margin: 4rem auto 1rem auto;
-    display: flex;
+  margin: 4rem auto 1rem auto;
+  display: flex;
+}
+
+/* Seller Products Page */
+
+.sellerContainer {
+  padding: 1.5rem;
+  margin: auto;
+  display: flex;
+  max-width:68.8rem;
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+
+.sellerImage {
+  max-width: 3rem;
+  max-height: 2rem;
+}
+
+.sellerTable {
+  background-color: white;
+  border-radius: 10px;
+  width: 70rem;
+}
+
+.sellerButtonsContainer {
+  padding: 1rem 0;
 }
 
 .register-page {
@@ -173,8 +200,8 @@
 }
 
 .accordion-width {
-    width: 100%;
-    min-width: 200px;
-    max-width: 200px;
-    /*add breakpoint to make everything full width below medium screens*/
+  width: 100%;
+  min-width: 200px;
+  max-width: 200px;
+  /*add breakpoint to make everything full width below medium screens*/
 }

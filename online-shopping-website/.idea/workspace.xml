@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/RegisterPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/RegisterPage.js" afterDir="false" />
-    </list>
+    <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="routing-hotfix" />
+        <entry key="$PROJECT_DIR$/.." value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -69,6 +65,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Alex Docs\Concordia\Year 2\Winter 2022\SOEN 341\Online-Shopping-Website\online-shopping-website\src" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\aspyr\OneDrive\Documents\Concordia\Year 2\SOEN 341\Group-P-soen341project2022\online-shopping-website\src\Components\Seller" />
+    </key>
   </component>
   <component name="RunManager" selected="npm.start">
     <configuration name="SideNav.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="SideNav.js" working-dir="$PROJECT_DIR$/src/Components">
@@ -108,6 +107,7 @@
       <workItem from="1644718832127" duration="1913000" />
       <workItem from="1644792467544" duration="15859000" />
       <workItem from="1644977222784" duration="1254000" />
+      <workItem from="1645208696656" duration="3878000" />
       <workItem from="1645387544995" duration="2013000" />
       <workItem from="1645471247799" duration="1005000" />
     </task>
