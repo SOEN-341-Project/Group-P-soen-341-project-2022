@@ -30,6 +30,7 @@
 
 .RoutingLink {
     text-decoration: none;
+    color: white;
 }
 
 @media only screen and (max-width: 550px) {
@@ -163,7 +164,7 @@
 
 .NavBar{
     margin-bottom: 10px;
-    background-color: rgb(72, 136, 72);
+    background-color: rgb(50, 96, 50);
 
 
 }
