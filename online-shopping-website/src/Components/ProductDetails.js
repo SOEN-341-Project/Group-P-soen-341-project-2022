@@ -38,7 +38,7 @@ class ProductButtons extends React.Component {
     UpdateValue = (e) => {
         const inputValue = Number(e.target.value);
 
-        if ((inputValue < 1) || (inputValue === NaN)) {
+        if ((inputValue < 1) || (inputValue.isNaN())) {
             this.setState({quantity: 1});
         } else if (inputValue > 10) {
             this.setState({quantity: 10});
@@ -53,13 +53,13 @@ class ProductButtons extends React.Component {
                 <h3>Quantity</h3>
                 <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                     <Button className="ProductDetails-QuantityButtons" variant="contained"
-                            disabled={this.state.quantity == 1}
+                            disabled={this.state.quantity === 1}
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
                     </Button>
                     <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
                     <Button className="ProductDetails-QuantityButtons" variant="contained"
-                            disabled={this.state.quantity == 10}
+                            disabled={this.state.quantity === 10}
                             onClick={this.IncrementItem}>
                         <AddIcon/>
                     </Button>
@@ -78,30 +78,10 @@ export const ProductDetails = () => {
     window.scrollTo(0, 0);
 
     //Getting product name from URL
-    const productName = useParams();
+    const productId = useParams();
 
-    const selectedProduct = {
-        brand: "",
-        description: "",
-        id: null,
-        image: "",
-        name: "",
-        price: null,
-        seller: ""
-    }
-
-    //Refactor using forEach() and product id later
-    Products.products.map(product => {
-        if (productName.productName === product.name) {
-            selectedProduct.brand = product.brand;
-            selectedProduct.description = product.description;
-            selectedProduct.id = product.id;
-            selectedProduct.image = product.image;
-            selectedProduct.name = product.name;
-            selectedProduct.price = product.price.toFixed(2);
-            selectedProduct.seller = product.seller;
-        }
-    });
+    //Getting product by id from URL
+    const selectedProduct = Products.products.find(product => parseInt(productId.productId.match("[^/]*")) === product.id)
 
     return (
         <Grid container className="ProductDetails-Container">

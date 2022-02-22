@@ -1,10 +1,12 @@
 import './App.css';
 import NavBar from './Components/NavBar';
-import {ProductPage} from './Components/ProductPage';
-import {ProductDetails} from './Components/ProductDetails';
-import {useState} from 'react';
+import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
+import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
+import { ProductPage } from './Components/ProductPage';
+import { ProductDetails } from './Components/ProductDetails';
+import { useState } from 'react';
 import Products from './TestValues.json';
-import {BrowserRouter, Outlet, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 
 const Layout = () => {
     return (
@@ -52,13 +54,15 @@ export default function App() {
 
     return (
         <BrowserRouter>
+            <Layout />
             <Routes>
-                <Route path="/" element={<Layout/>}>
+                <Route path="/" element={<Layout />}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
-                    {/*<Route path="/seller" element={<SellerProducts/>}/>*/}
-                    {/*<Route path="/seller/:productId" element={<SellerProductsForm/>}/>*/}
-                    <Route path="/:productName" element={<ProductDetails/>}/>
+                    <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
+                    <Route path="/seller/:productId" element={<SellerProductsForm/>}/>
+                    <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
+                    <Route path="/:productId/:productName" element={<ProductDetails/>}/>
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
             </Routes>
