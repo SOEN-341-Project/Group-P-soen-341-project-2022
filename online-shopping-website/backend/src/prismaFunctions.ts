@@ -8,10 +8,10 @@ export async function createUser(args: {
   pWord: string;
   email: string;
   role: UserRole;
+  address1: string;
   uName?: string;
   firstName?: string;
   lastName?: string;
-  address1?: string;
   sellerName?: string;
 }) {
   await prisma.user.create({

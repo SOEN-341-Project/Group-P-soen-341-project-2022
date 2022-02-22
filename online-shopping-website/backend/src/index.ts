@@ -41,19 +41,18 @@ app.post("/uploads", async (req, res, next) => {
 // user routes
 
 app.post("/api/users/register", async (req: Request, res: Response, next) => {
-  const usr_role: string = req.body.role.toUpperCase(),
-    usr_email: string = req.body.email,
-    usr_password: string = req.body.password;
+  const usr_role: string = req.body.role.toUpperCase();
   try {
     // verify that necessary parameters are there
     if (
       (usr_role !== "CUSTOMER" && usr_role !== "SELLER" && usr_role !== "ADMIN") ||
-      usr_email === undefined ||
-      usr_password === undefined
+      req.body.email === undefined ||
+      req.body.password === undefined ||
+      req.body.address1 === undefined
     ) {
       throw (new Error().message = format(`Data missing`));
     }
-    const encrypted_password = await bcrypt.hash(usr_password, 5); //encrypt password
+    const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
       email: req.body.email,
       pWord: encrypted_password,
