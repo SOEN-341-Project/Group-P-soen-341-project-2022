@@ -62,10 +62,11 @@ const PriceFilter = (props) => {
         props.onSliderChange(value);
     };
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140}}>
+        <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140, paddingTop:'1rem',}}>
             <Typography>Filter by price:</Typography>
             <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
             <Slider
+                className='SideNavPriceFilter'
                 getAriaLabel={() => 'Price range'}
                 min={lowestPrice}
                 max={highestPrice}

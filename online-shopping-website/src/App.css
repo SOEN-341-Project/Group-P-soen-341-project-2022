@@ -2,13 +2,18 @@
   padding: 1.25em;
 }
 
+.SearchBar{
+    max-width: 12.5rem;
+    margin-bottom: 1rem;
+}
+
 /* Product grid styles */
 .ProductContainer {
   padding: 1.75em;
   width: 100%;
   height: 100%;
   color: white;
-  background-color: #a75e7d;
+  background-color: #e88c8c;
   border-radius: 15px;
 }
 
@@ -24,7 +29,7 @@
 }
 
 .RoutingLink {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 550px) {
@@ -50,6 +55,18 @@
     text-align: center;
     min-height: 90%;
   }
+
+  .navbar-links{
+    display:none;
+  }
+
+  .Navbar-LogoLarge{
+    display:none;
+  }
+
+  .Navbar-LogoSmall{
+    max-width:3.5rem;
+  }
 }
 
 @media only screen and (min-width: 550px) {
@@ -72,6 +89,10 @@
     padding: 1.5rem;
     border-radius: 10px;
     text-align: center;
+  }
+
+  .Navbar-LogoSmall{
+    display:none;
   }
 }
 
@@ -181,9 +202,21 @@
     background-color: rgb(72, 136, 72);
 }
 
-/* .textfield-register {
-    background-color: white;
-} */
+/*Navbar styles*/
+
+.NavBar{
+  margin-bottom: 10px;
+  background-color: rgb(50, 120, 50);
+}
+
+.Navbar-RoutingLink{
+  color:white;
+  text-decoration:none;
+}
+
+.SideNavPriceFilter{
+    color: rgb(50, 120, 50);
+}
 
 /* Button styles may be used for other pages */
 .ProductButton {
@@ -206,8 +239,16 @@
 }
 
 .accordion-width {
-  width: 100%;
-  min-width: 200px;
-  max-width: 200px;
-  /*add breakpoint to make everything full width below medium screens*/
+    width: 100%;
+    min-width: 200px;
+    max-width: 200px;
+    /*add breakpoint to make everything full width below medium screens*/
+}
+
+.Bobble{
+    width: 330px;
+}
+
+.BobbleLogoPadding{
+    padding: 0.5em;
 }
