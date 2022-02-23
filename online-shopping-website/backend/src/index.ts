@@ -117,10 +117,13 @@ app.get("/", (req: Request, res: Response) => {
   res.send({ sup: "Cool" });
 });
 
-app.get("/api/:id", (req: Request, res: Response) => {
-  res.send({ sup: "API", method: req.method, id: req.params.id });
+app.get("/api/test", (req: Request, res: Response) => {
+  res.send({ sup: "This product is available" });
 });
+
+
 
 app.listen(port, () => {
   console.log("listening on port " + port);
 });
+
