@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists." />
+    <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
+      <change beforePath="$PROJECT_DIR$/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,6 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
+        <entry key="$PROJECT_DIR$/.." value="feature/products-view-more-page" />
         <entry key="$PROJECT_DIR$/.." value="master" />
       </map>
     </option>
@@ -42,6 +45,9 @@
         <option value="master" />
       </list>
     </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/App.js" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="24NfSofFdf3sDRxT69F7kkAztXv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -107,6 +113,7 @@
       <workItem from="1644718832127" duration="1913000" />
       <workItem from="1644792467544" duration="15859000" />
       <workItem from="1644977222784" duration="1254000" />
+      <workItem from="1645200777619" duration="4201000" />
       <workItem from="1645208696656" duration="3878000" />
       <workItem from="1645387544995" duration="2013000" />
     </task>
