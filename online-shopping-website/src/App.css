@@ -156,6 +156,12 @@
   padding: 1rem 0;
 }
 
+.Sign-Up-Text {
+  font-size: 3em;
+  margin: 0%;
+  margin-bottom: 2rem;
+}
+
 .register-page {
     max-width: 36rem;
     margin: auto;
