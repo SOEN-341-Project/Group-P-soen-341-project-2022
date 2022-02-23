@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import {Menu, MenuItem} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import {Link} from "react-router-dom";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import navLogo from '../icons/BOBBLE-05.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
@@ -49,16 +49,11 @@ export default function NavBar() {
             >
                 <Toolbar>
                     <Box display='flex' flexGrow={1}>
-                        <Typography
-                            variant="h3"
-                            noWrap
-                            component="div"
-                            className="Navbar-LogoLarge"
-                        >
-                            Bobble
-                        </Typography>
-                        {/*FIXME: image route is incorrect*/}
-                        <img className="Navbar-LogoSmall" src="./icons/bobbleLogo.png"/>
+                        <Link to="/" className="Navbar-RoutingLink">
+                        <div className="BobbleLogoPadding">
+                        <img className='Bobble' src={navLogo} alt='Bobble'/>
+                        </div>
+                        </Link>
                         <Link to="/" className="Navbar-RoutingLink"><Button color='inherit'><h4 className="navbar-links">Products</h4> <ShoppingBagOutlinedIcon/></Button></Link>
                         <Link to="/seller" className="Navbar-RoutingLink"><Button color='inherit'><h4 className="navbar-links">Seller</h4> <StorefrontOutlinedIcon/></Button></Link>
                         <Link to="/my-shopping-cart" className="Navbar-RoutingLink"><Button color='inherit'><h4 className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon/></Button></Link>
@@ -165,7 +160,6 @@ export default function NavBar() {
                     )}
                 </Toolbar>
             </AppBar>
-            {renderAccountProfileIcon}
         </Box>
     );
 }
