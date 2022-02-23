@@ -63,6 +63,10 @@
   .Navbar-LogoLarge{
     display:none;
   }
+
+  .Navbar-LogoSmall{
+    max-width:3.5rem;
+  }
 }
 
 @media only screen and (min-width: 550px) {
@@ -186,7 +190,9 @@
   text-decoration:none;
 }
 
-
+.SideNavPriceFilter{
+    color: rgb(50, 120, 50);
+}
 
 
 /* Button styles may be used for other pages */

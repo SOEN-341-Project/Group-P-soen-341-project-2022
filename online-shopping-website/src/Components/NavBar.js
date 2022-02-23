@@ -9,6 +9,7 @@ import {Menu, MenuItem} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import {Link} from "react-router-dom";
 import navLogo from '../icons/BOBBLE-05.png';
+import smallNavLogo from '../icons/BOBBLE-03.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
@@ -51,7 +52,8 @@ export default function NavBar() {
                     <Box display='flex' flexGrow={1}>
                         <Link to="/" className="Navbar-RoutingLink">
                         <div className="BobbleLogoPadding">
-                        <img className='Bobble' src={navLogo} alt='Bobble'/>
+                        <img className='Bobble Navbar-LogoLarge' src={navLogo} alt='Bobble'/>
+                        <img className='Bobble Navbar-LogoSmall' src={smallNavLogo} alt='Bobble'/>
                         </div>
                         </Link>
                         <Link to="/" className="Navbar-RoutingLink"><Button color='inherit'><h4 className="navbar-links">Products</h4> <ShoppingBagOutlinedIcon/></Button></Link>
