@@ -38,4 +38,7 @@ Admins will have access to all user profiles, users' order histories, and detail
 - CSS
 - React.js
 - MySQL
+- Examples for acceptance suites:
+  - TestCafe
+  - Jest
 - TBD
