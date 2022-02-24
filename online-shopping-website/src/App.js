@@ -6,6 +6,7 @@ import { ProductPage } from './Components/ProductPage';
 import { ProductDetails } from './Components/ProductDetails';
 import { useState } from 'react';
 import Products from './TestValues.json';
+import {Register} from './Components/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 
 const Layout = () => {
@@ -58,6 +59,7 @@ export default function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
+                    <Route path="/register" element={<Register/>}/>
                     <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
                     <Route path="/seller/:productId" element={<SellerProductsForm/>}/>
                     <Route path="/seller" element={<SellerProductsPage products={products}/>}/>

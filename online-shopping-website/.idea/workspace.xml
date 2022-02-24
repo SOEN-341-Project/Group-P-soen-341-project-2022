@@ -64,7 +64,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.RegExp" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="typescript.add.unambiguous.imports.on.the.fly" value="true" />
   </component>
   <component name="RecentsManager">
@@ -116,6 +116,7 @@
       <workItem from="1645200777619" duration="4201000" />
       <workItem from="1645208696656" duration="3878000" />
       <workItem from="1645387544995" duration="2013000" />
+      <workItem from="1645471247799" duration="1005000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <created>1644512793774</created>

@@ -177,6 +177,30 @@
   padding: 1rem 0;
 }
 
+.Sign-Up-Text {
+  font-size: 3em;
+  margin: 0%;
+  margin-bottom: 2rem;
+}
+
+.register-page {
+    max-width: 36rem;
+    margin: auto;
+    border-style: hidden;
+    border-radius: 10px;
+    background-color: #a75e7d;
+    padding: 2rem;
+}
+
+.sign-up {
+    padding: 3rem;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#SignUpButton {
+    background-color: rgb(72, 136, 72);
+}
 
 /*Navbar styles*/
 
@@ -194,9 +218,8 @@
     color: rgb(50, 120, 50);
 }
 
-
 /* Button styles may be used for other pages */
-/* .ProductButton {
+.ProductButton {
     color: rgb(203, 253, 203);
     border-color: rgb(78, 219, 78);
     transition: 0.3s all ease-in-out;
@@ -213,7 +236,7 @@
 .ProductButton:hover, .ProductButtonContained:hover {
     background-color: rgba(79, 255, 108, 0.198);
     border-color: rgb(122, 218, 122);
-} */
+}
 
 .accordion-width {
     width: 100%;
