@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v2.3.1
       with:
         name: BuildOutput
-        path: online-shopping-website/frontend/build
+        path: online-shopping-website/frontend
 
   deploy:
     name: Deploy Bobble App to Google Cloud 🚀
@@ -58,8 +58,6 @@ jobs:
       id: 'deploy'
       run: |
         ls
-        pwd
-        cd ./online-shopping-website/frontend/
         gcloud app deploy frontend.yaml --version ${{ github.run_number }} --project ${{ secrets.GCP_PROJECT }}
 
 #     - name: Deploy to Google Cloud App Engine 🚀
