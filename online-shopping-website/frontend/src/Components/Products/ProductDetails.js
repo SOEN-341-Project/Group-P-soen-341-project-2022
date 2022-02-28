@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {useParams} from 'react-router-dom';
-import Products from '../TestValues.json';
+import Products from '../../TestValues.json';
 import {Link} from "react-router-dom";
 
 
@@ -52,22 +52,24 @@ class ProductButtons extends React.Component {
             <div className="ProductDetails-QuantityButtonsContainer">
                 <h3>Quantity</h3>
                 <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
-                    <Button className="ProductDetails-QuantityButtons" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons ProductButtonContained" variant="contained"
                             disabled={this.state.quantity === 1}
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
                     </Button>
                     <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button className="ProductDetails-QuantityButtons" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons ProductButtonContained" variant="contained"
                             disabled={this.state.quantity === 10}
                             onClick={this.IncrementItem}>
                         <AddIcon/>
                     </Button>
                 </Stack>
                 <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
-                <Button className="ProductDetails-CartButton" variant="contained" endIcon={<AddShoppingCartIcon/>}>
-                    Add to cart
-                </Button>
+                <Link to="/my-shopping-cart" className="RoutingLink">
+                    <Button className="ProductDetails-CartButton ProductButtonContained" variant="contained" endIcon={<AddShoppingCartIcon/>}>
+                        Add to cart
+                    </Button>
+                </Link>
             </div>
         );
     }

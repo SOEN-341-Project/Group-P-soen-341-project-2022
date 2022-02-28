@@ -33,6 +33,10 @@
 }
 
 @media only screen and (max-width: 550px) {
+  .CartItemImage {
+    display:none;
+  }
+
   .ProductDetails-Container {
     padding-bottom: 3.5rem;
     margin: 3.5rem auto;
@@ -70,6 +74,14 @@
 }
 
 @media only screen and (min-width: 550px) {
+  .CartItemImage {
+    max-width: 8rem;
+    max-height: 8rem;
+    padding: 1rem;
+    margin:auto;
+    display:flex;
+  }
+
   .ProductDetails-Container {
     padding-bottom: 3.5rem;
     margin: 3.5rem auto;
@@ -114,7 +126,7 @@
   margin-top: 1rem;
   padding: 0.2rem 3rem 3rem 3rem;
   color: white;
-  background-color: #5eb8ce;
+  background-color: #e88c8c;
   border-radius: 15px;
 }
 
@@ -143,7 +155,7 @@
 }
 
 .ProductDetails-ProductLimitText {
-  color: #0283bb;
+  color: #e88c8c;
 }
 
 .ProductDetails-CartButton {
@@ -177,6 +189,71 @@
   padding: 1rem 0;
 }
 
+
+/* Cart Page */
+.Cart-Container {
+  max-width:90rem;
+  margin:auto;
+}
+
+.Cart-Alert {
+  margin: 1.5rem auto 0 auto;
+  display: flex;
+}
+
+.CartItemsContainer {
+  color: white;
+}
+
+.CartItem {
+  background-color: rgb(72, 136, 72);
+  margin-bottom:2rem;
+  border-radius: 10px;
+}
+
+.Cart-RetailerInfo {
+  display:flex;
+}
+
+.Cart-SideBannerContainer {
+  height: fit-content;
+}
+
+.Cart-SideBanner {
+  height: fit-content;
+  min-width:19rem;
+  max-width:19rem;
+  border-radius: 10px;
+  border: solid 7px #e88c8c;
+  padding: 0 2rem;
+  margin: 0 auto;
+}
+
+.Cart-OrderButton{
+  padding: 2rem 0;
+}
+
+.Cart-ItemButtons {
+  padding-top: 1rem;
+}
+
+.Cart-Quantity {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.Cart-CloseButton {
+  float: right;
+  color: #9de52b;
+}
+
+.Cart-ProductsBackButton {
+  color: #e88c8c;
+}
+
+
+/* Register Page */
 .Sign-Up-Text {
   font-size: 3em;
   margin: 0%;
@@ -188,7 +265,7 @@
     margin: auto;
     border-style: hidden;
     border-radius: 10px;
-    background-color: #a75e7d;
+    background-color: #e88c8c;
     padding: 2rem;
 }
 
@@ -229,13 +306,21 @@
     background-color: rgb(72, 136, 72);
 }
 
-.ProductButton, .ProductButtonContained {
+.ProductButtonContainedPurple{
+  background-color: #a75e7d;
+}
+
+.ProductButtonContainedPurple:hover{
+  background-color: #c46d92;
+}
+
+.ProductButton, .ProductButtonContained, .ProductButtonContainedPurple {
     height: 3em;
 }
 
 .ProductButton:hover, .ProductButtonContained:hover {
-    background-color: rgba(79, 255, 108, 0.198);
-    border-color: rgb(122, 218, 122);
+  background-color: rgb(88, 176, 88);
+  border-color: rgb(60, 121, 60);
 }
 
 .accordion-width {

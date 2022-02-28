@@ -1,12 +1,13 @@
 import './App.css';
 import NavBar from './Components/NavBar';
-import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
-import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
+import { SellerProductsPage } from './Components/Seller/SellerProductsPage';
+import { SellerProductsForm } from './Components/Seller/SellerProductsForm';
 import { ProductPage } from './Components/ProductPage';
 import { ProductDetails } from './Components/ProductDetails';
+import { CartPage } from './Components/CartPage';
 import { useState } from 'react';
-import Products from './TestValues.json';
-import {Register} from './Components/RegisterPage';
+import TestData from './TestValues.json';
+import { Register } from './Components/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 
 const Layout = () => {
@@ -22,7 +23,7 @@ const Layout = () => {
 
 export default function App() {
     // Products that will render
-    const [products, setProducts] = useState(Products.products);
+    const [products, setProducts] = useState(TestData.products);
 
     // Filters
     let [filters] = useState(
@@ -44,7 +45,7 @@ export default function App() {
         const query = new RegExp('^' + filters.searchQuery, 'i');
 
         // Filter products according to search query, are within price range, and don't belong to brands or sellers arrays
-        setProducts(Products.products.filter(product => (
+        setProducts(TestData.products.filter(product => (
             (product.name.split(' ').some(word => word.search(query) > -1) || product.name.search(query) > -1)
             && (filters.lowestPrice ? (product.price >= filters.lowestPrice) : true)
             && (filters.highestPrice ? (product.price <= filters.highestPrice) : true)
@@ -60,6 +61,7 @@ export default function App() {
                     <Route index element={<ProductPage filterProducts={filterProducts} filters={filters}
                            products={products}/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/my-shopping-cart" element={<CartPage cart={TestData.cart}/>}/>
                     <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
                     <Route path="/seller/:productId" element={<SellerProductsForm/>}/>
                     <Route path="/seller" element={<SellerProductsPage products={products}/>}/>
