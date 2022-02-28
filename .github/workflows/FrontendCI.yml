@@ -46,7 +46,7 @@ jobs:
       id: 'deploy'
       uses: 'google-github-actions/deploy-appengine@v0'
       with:
-#         working_directory: online-shopping-website/frontend
+        working_directory: ./
         deliverables: online-shopping-website/frontend/frontend.yaml
         promote: true
         version: ${{ github.run_number }}
