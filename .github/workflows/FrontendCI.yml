@@ -6,12 +6,10 @@ env:
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
-    name: Test and Build Bobble App 💭
+    name: Build Bobble App 💭
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo 😵
@@ -22,11 +20,10 @@ jobs:
         node-version: '16.x'
         cache: 'npm'
         cache-dependency-path: online-shopping-website/frontend/package-lock.json
-    - name: npm CI, Test, Build 💪
+    - name: Build App 💪
       run: |
         cd ./online-shopping-website/frontend
         npm ci
-        npm test
         npm run build
     - name: Upload Build Output 👆
       uses: actions/upload-artifact@v2.3.1
@@ -53,15 +50,6 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
-#     - name: Set up Google Cloud SDK ☁
-#       id: 'gcloud-setup'
-#       uses: 'google-github-actions/setup-gcloud@v0'
-#     - name: Deploy to Google Cloud App Engine 🚀
-#       id: 'deploy'
-#       run: |
-#         ls
-#         gcloud app deploy frontend.yaml --version ${{ github.run_number }} --project ${{ secrets.GCP_PROJECT }}
-
     - name: Deploy to Google Cloud App Engine 🚀
       id: 'deploy'
       uses: 'google-github-actions/deploy-appengine@v0'
