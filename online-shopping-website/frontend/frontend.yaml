@@ -1,9 +1,15 @@
+# Google Cloud App Engine Frontend Service
+
 runtime: nodejs16
 service: frontend
 handlers:
+
+# Any url with a file extension will be served statically
 - url: /(.*\..+)$
   static_files: build/\1
   upload: build/(.*\..+)$
+
+# All other urls will be sent to index.html (regular traffic)
 - url: /.*
   static_files: build/index.html
   upload: build/index.html

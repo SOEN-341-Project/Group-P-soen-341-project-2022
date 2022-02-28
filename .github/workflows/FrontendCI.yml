@@ -1,3 +1,7 @@
+# Continuous Integration pipeline
+# Triggers on any commit in a pull request
+# Tests app to ensure no errors will be merged into master
+
 name: Bobble Frontend Test CI
 
 env:

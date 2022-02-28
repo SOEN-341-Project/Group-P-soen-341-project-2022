@@ -1,3 +1,7 @@
+# Continuous Delivery pipeline
+# Triggers when PR merges into master
+# Builds app, and deploys it to Google Cloud App Engine with new version
+
 name: Bobble Frontend CD
 
 env:
