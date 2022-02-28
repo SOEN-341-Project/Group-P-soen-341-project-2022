@@ -20,6 +20,13 @@ jobs:
         node-version: '16.x'
         cache: 'npm'
         cache-dependency-path: online-shopping-website/frontend/package-lock.json
+    # Need to create .env file separately from built-in env variables since Node.js does not recognize them
+      # env vars in the workflow are strictly used in a workflow
+    - name: Create .env file for Node.js build 📄
+      run: |
+        cd ./online-shopping-website/frontend
+        touch .env
+        echo PUBLIC_URL=${{ secrets.PUBLIC_URL }} >> .env
     - name: Build App 💪
       run: |
         cd ./online-shopping-website/frontend
