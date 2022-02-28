@@ -1,15 +1,13 @@
-name: Bobble CI
+name: Bobble Frontend Test CI
 
 env:
   CI: false    # Used to avoid warnings turning into errors
 
-on:
-  push:
-    branches: [ master ]
+on: pull_request
 
 jobs:
-  build:
-    name: Build Bobble App 💭
+  test:
+    name: Test App 🧪
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo 😵
@@ -17,46 +15,11 @@ jobs:
     - name: Use Node.js 16.x 🥌
       uses: actions/setup-node@v2
       with:
-        node-version: '16.x'
+        node-version: 16.x
         cache: 'npm'
         cache-dependency-path: online-shopping-website/frontend/package-lock.json
-    - name: Build App 💪
+    - name: Test 🎯
       run: |
         cd ./online-shopping-website/frontend
         npm ci
-        npm run build
-    - name: Upload Build Output 👆
-      uses: actions/upload-artifact@v2.3.1
-      with:
-        name: BuildOutput
-        path: |
-          online-shopping-website/frontend/build
-          online-shopping-website/frontend/frontend.yaml
-
-  deploy:
-    name: Deploy Bobble App to Google Cloud 🚀
-    
-    # Only runs after build job is complete
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download Build Output 👇
-      uses: actions/download-artifact@v2.1.0
-      with:
-        name: BuildOutput
-        path: ./
-    - name: Authorize Google Cloud 📜
-      id: 'auth'
-      uses: 'google-github-actions/auth@v0'
-      with:
-        credentials_json: '${{ secrets.GCP_SA_KEY }}'
-    - name: Deploy to Google Cloud App Engine 🚀
-      id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v0'
-      with:
-        working_directory: ./
-        deliverables: frontend.yaml
-        promote: true
-        version: ${{ github.run_number }}
-        
-
+        npm test
