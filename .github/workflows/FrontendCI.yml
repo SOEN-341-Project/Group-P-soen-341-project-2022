@@ -34,6 +34,8 @@ jobs:
     # Only runs after build job is complete
     needs: build
     runs-on: ubuntu-latest
+    
+    
     steps:
     - name: Authorize Google Cloud 📜
       id: 'auth'
@@ -44,7 +46,8 @@ jobs:
       id: 'deploy'
       uses: 'google-github-actions/deploy-appengine@v0'
       with:
-        deliverables: 'online-shopping-website/frontend/frontend.yaml'
+        working-directory: './online-shopping-website/frontend'
+        deliverables: 'frontend.yaml'
         promote: true
         version: ${{ github.run_number }}
         
