@@ -27,6 +27,9 @@ app.use(bodyParser.urlencoded({ extended: false })); // middleware that enterpre
 app.post("/uploads", async (req, res, next) => {
   try {
     const myFile = req.file;
+    if (myFile === undefined) {
+      throw new Error("File not recieved");
+    }
     const name = req.body.name;
     const imageUrl = await uploadFile(myFile, name);
     res.status(200).json({
@@ -64,7 +67,7 @@ app.post("/api/users/register", async (req: Request, res: Response, next) => {
       sellerName: req.body.sellerName,
     });
     // TODO: give the user an authentication token at this point
-    res.status(200).json({ message: "Success" });
+    res.status(200).json({ message: "Success", user: newUser, hello: true });
   } catch (e) {
     if (e.code === "P2002") {
       e.message = "Unique constraint on " + e.meta.target + " failed";
@@ -121,9 +124,6 @@ app.get("/api/test", (req: Request, res: Response) => {
   res.send({ sup: "This product is available" });
 });
 
-
-
 app.listen(port, () => {
   console.log("listening on port " + port);
 });
-
