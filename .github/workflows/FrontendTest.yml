@@ -7,17 +7,18 @@ on: pull_request
 
 jobs:
   test:
+    name: Test App 🧪
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo 😵
       uses: actions/checkout@v2
-    - name: Use Node.js 16.x
+    - name: Use Node.js 16.x 🥌
       uses: actions/setup-node@v2
       with:
         node-version: 16.x
         cache: 'npm'
         cache-dependency-path: online-shopping-website/frontend/package-lock.json
-    - name: Test App 🧪
+    - name: Test 🎯
       run: |
         cd ./online-shopping-website/frontend
         npm ci
