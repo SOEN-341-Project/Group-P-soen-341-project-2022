@@ -48,6 +48,8 @@ jobs:
     - name: Deploy to Google Cloud App Engine 🚀
       id: 'deploy'
       run: |
+        ls
+        pwd
         cd ./online-shopping-website/frontend/
         gcloud app deploy frontend.yaml --version ${{ github.run_number }} --project ${{ secrets.GCP_PROJECT }}
 
