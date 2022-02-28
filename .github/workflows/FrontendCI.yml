@@ -1,7 +1,7 @@
 name: Bobble CI
 
 env:
-  CI: false
+  CI: false    # Used to avoid warnings turning into errors
 
 on:
   push:
@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    name: Test and Build Bobble App 💭
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo 😵
@@ -26,8 +27,12 @@ jobs:
         cd ./online-shopping-website/frontend
         npm ci
         npm test
-        npm run build --if-present
+        npm run build
   deploy:
+    name: Deploy Bobble App to Google Cloud 🚀
+    
+    # Only runs after build job is complete
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Authorize Google Cloud 📜
