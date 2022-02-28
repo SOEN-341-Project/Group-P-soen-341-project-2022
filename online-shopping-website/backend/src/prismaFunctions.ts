@@ -1,6 +1,6 @@
 import prisma from "./prismaClient";
 
-type UserRole = "CUSTOMER" | "SELLER" | "ADMIN";
+export type UserRole = "CUSTOMER" | "SELLER" | "ADMIN";
 
 export async function createUser(args: {
   pWord: string;
@@ -12,7 +12,7 @@ export async function createUser(args: {
   lastName?: string;
   sellerName?: string;
 }) {
-  await prisma.user.create({
+  return await prisma.user.create({
     data: {
       username: args.uName,
       password: args.pWord,
