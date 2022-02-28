@@ -13,17 +13,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repo
+    - name: Checkout repo 😵
       uses: actions/checkout@v2
-    - name: Use Node.js 16.x
+    - name: Use Node.js 16.x 🥌
       uses: actions/setup-node@v2
       with:
         node-version: '16.x'
         cache: 'npm'
         cache-dependency-path: online-shopping-website/frontend/package-lock.json
-    - name: npm CI, Test, Build
+    - name: npm CI, Test, Build 💪
       run: |
         cd ./online-shopping-website/frontend
         npm ci
         npm test
         npm run build --if-present
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Authorize Google Cloud 📜
+      id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+    - name: Deploy to Google Cloud App Engine 🚀
+      id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v0'
+      with:
+        deliverables: 'online-shopping-website/frontend/frontend.yaml'
+        promote: true
+        version: ${{ github.run_number }}
+        
+
