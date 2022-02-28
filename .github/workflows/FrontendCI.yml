@@ -19,6 +19,7 @@ jobs:
         cache-dependency-path: online-shopping-website/frontend/package-lock.json
     - name: Build
       run: |
+        cd ./online-shopping-website/frontend
         npm ci
         npm test
         npm run build --if-present
