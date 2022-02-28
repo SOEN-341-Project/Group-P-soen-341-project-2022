@@ -32,7 +32,9 @@ jobs:
       uses: actions/upload-artifact@v2.3.1
       with:
         name: BuildOutput
-        path: online-shopping-website/frontend
+        path: |
+          online-shopping-website/frontend/build
+          online-shopping-website/frontend/frontend.yaml
 
   deploy:
     name: Deploy Bobble App to Google Cloud 🚀
