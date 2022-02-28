@@ -10,11 +10,13 @@ export const SearchBar = (props) => {
     }
 
     return (
-        <TextField 
-            label="Search Products" 
-            variant="outlined"
-            type="search"
-            onChange={(e) => handleSearchChange(e)}
-        />
+        <div classaName="SearchBar">
+            <TextField
+                label="Search Products"
+                variant="outlined"
+                type="search"
+                onChange={(e) => handleSearchChange(e)}
+            />
+        </div>
     );
 }

@@ -15,7 +15,7 @@ import { Stack } from '@mui/material';
 export const SideNav = (props) => {
     return (
         <Stack xs={12}>
-            <SearchBar filterProducts={props.filterProducts} filters={props.filters}/>
+            <SearchBar className="SearchBar" filterProducts={props.filterProducts} filters={props.filters}/>
             <PriceFilter onSliderChange={props.onSliderChange} />
             <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
             <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
