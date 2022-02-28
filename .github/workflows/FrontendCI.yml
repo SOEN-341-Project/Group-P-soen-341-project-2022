@@ -8,9 +8,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./online-shopping-website/frontend
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js 16.x
@@ -18,8 +19,13 @@ jobs:
       with:
         node-version: '16.x'
         cache: 'npm'
-    - run: |
-        cd ./online-shopping-website/frontend
+    - name: Build
+      run: |
         npm ci
         npm test
         npm run build --if-present
+
+#     - run: |
+#         npm ci
+#         npm test
+#         npm run build --if-present
