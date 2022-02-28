@@ -42,13 +42,22 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
+    - name: Set up Google Cloud SDK ☁
+      id: 'gcloud-setup'
+      uses: 'google-github-actions/setup-gcloud@v0'
     - name: Deploy to Google Cloud App Engine 🚀
       id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v0'
-      with:
-        working_directory: ${{ github.workspace }}/online-shopping-website/frontend/
-        deliverables: frontend.yaml
-        promote: true
-        version: ${{ github.run_number }}
+      run: |
+        cd ./online-shopping-website/frontend/
+        gcloud app deploy frontend.yaml --version ${{ github.run_number }} --project ${{ secrets.GCP_PROJECT }}
+
+#     - name: Deploy to Google Cloud App Engine 🚀
+#       id: 'deploy'
+#       uses: 'google-github-actions/deploy-appengine@v0'
+#       with:
+#         working_directory: ${{ github.workspace }}/online-shopping-website/frontend/
+#         deliverables: frontend.yaml
+#         promote: true
+#         version: ${{ github.run_number }}
         
 
