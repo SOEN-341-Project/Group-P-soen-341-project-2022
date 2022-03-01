@@ -13,18 +13,39 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 export const CartPage = (props) => {
     const [alertVisible, setAlertVisible] = React.useState(false);
+    const GST = (calculateSubtotal() * 0.05);
+    const QST = (calculateSubtotal() * 0.0975);
 
-    const [GST, setGST] = React.useState(0.00);
-    const [QST, setQST] = React.useState(0.00);
+    function showPriceBreakdown() {
+        return (
+            props.cart.map((item) => {
+                return (
+                    <Grid item xs={12} sx={{ display: 'flex' }}>
+                        <Grid item xs={6} sx={{ overflowX: 'hidden' }}>
+                            <p><em>{item.name}</em></p>
+                        </Grid>
+                        <Grid item xs={6} sx={{ textAlign: 'right' }}>
+                            <p>{item.quantity} x {item.price.toFixed(2)} Ɖ</p>
+                        </Grid>
+                    </Grid>
+                );
+            })
+        )
+    }
 
     function calculateSubtotal() {
-        const subtotal = 0;
+        let subtotal = 0;
+
+        props.cart.forEach((item) => {
+            subtotal += (item.quantity) * (item.price);
+        });
+
         return subtotal;
     }
 
+
     function calculateTotal() {
-        const total = 0;
-        return total;
+        return (calculateSubtotal() + GST + QST);
     }
 
     return (
@@ -57,18 +78,41 @@ export const CartPage = (props) => {
             <Grid item xs={3} className="Cart-SideBanner">
                 <Grid item xs={12}>
                     <h3 className='TextGreen'>Subtotal</h3>
+                    {showPriceBreakdown()}
+                    <hr />
+                    <h4 style={{ margin: '1rem 0', textAlign: 'right' }} className='TextPink'>{calculateSubtotal().toFixed(2)} Ɖ</h4>
                 </Grid>
-                <Grid item xs={12}>
-                    <h4 className='TextPink'>GST: 5.0%</h4>
-                    <p>{GST.toFixed(2)} Ɖ</p>
-                </Grid>
-                <Grid item xs={12}>
-                    <h4 className='TextPink'>QST: 9.975%</h4>
-                    <p>{QST.toFixed(2)} Ɖ</p>
-                </Grid>
+                <hr />
                 <Grid item xs={12}>
                     <h3 className='TextGreen'>Total</h3>
-                    <p>{calculateTotal().toFixed(2)} Ɖ</p>
+                </Grid>
+                <Grid item xs={12} sx={{ display: 'flex', marginTop: '2rem' }}>
+                    <Grid item xs={6}>
+                        <h5 style={{ margin: 0 }} >GST: 5.0%</h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <h5 style={{ marginTop: 0, textAlign: 'right' }}>{GST.toFixed(2)} Ɖ</h5>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ display: 'flex', marginTop: 0 }}>
+                    <Grid item xs={6}>
+                        <h5 style={{ margin: 0 }} >QST: 9.975%</h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <h5 style={{ marginTop: 0, textAlign: 'right' }}>{QST.toFixed(2)} Ɖ</h5>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} sx={{ display: 'flex', marginTop: 0 }}>
+                    <Grid item xs={6}>
+                        <h5 style={{ margin: 0 }} >Shipping</h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <h5 style={{ marginTop: 0, textAlign: 'right' }} className='TextGreen'><em>Free</em></h5>
+                    </Grid>
+                </Grid>
+                <hr />
+                <Grid item xs={12}>
+                    <h4 style={{ margin: 0, textAlign: 'right' }} className='TextGreen'>{calculateTotal().toFixed(2)} Ɖ</h4>
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
                     <Button variant="contained" className="GreenButtonContained" onClick={function () {
@@ -78,7 +122,6 @@ export const CartPage = (props) => {
                         Place order
                     </Button>
                 </Grid>
-
             </Grid>
             <Grid item xs={12}>
                 <Link to="/" className='RoutingLink'>

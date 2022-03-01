@@ -251,7 +251,7 @@
   border-radius: 10px;
   border: solid 7px #e88c8c;
   padding: 0 2rem;
-  margin: 0 auto;
+  margin: 0 auto 2rem auto ;
 }
 
 .Cart-OrderButton {
