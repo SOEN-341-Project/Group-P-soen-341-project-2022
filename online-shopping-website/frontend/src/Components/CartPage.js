@@ -104,12 +104,12 @@ const ItemPreview = (props) => {
         props.cart.map((item) => {
             return (
                 <Grid container className="CartItem">
-                    <Grid item  md={2} sx={{ position: 'relative' }}>
+                    <Grid item sm={1} md={2} sx={{ position: 'relative' }}>
                         <img className="CartItemImage" src={item.image} alt={item.name} />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sm={10}>
                         <Grid item xs={12} lg={12} sx={{ display: 'flex' }}>
-                            <Grid item xs={9} md={11}>
+                            <Grid item sm={9} md={11}>
                                 <h3 style={{ margin: '1rem 0' }}>{item.name}</h3>
                             </Grid>
                             <Grid item xs={3} md={1} sx={{ margin: 'auto', textAlign: 'center' }}>
