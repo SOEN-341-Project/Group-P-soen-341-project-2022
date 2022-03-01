@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
-import { ProductGrid } from './Components/ProductGrid';
+import { ProductGrid } from './Components/Products/ProductGrid';
 import { SideNav } from './Components/SideNav';
 import Products from './TestValues.json';
 import Brands from './TestValues.json';
