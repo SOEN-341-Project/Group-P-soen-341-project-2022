@@ -1,0 +1,72 @@
+# Continuous Delivery pipeline
+# Triggers when PR merges into master
+# Builds app, and deploys it to Google Cloud App Engine with new version
+
+name: Bobble Frontend CD
+
+env:
+  CI: false # Used to avoid warnings turning into errors
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "online-shopping-website/backend/**"
+
+jobs:
+  build:
+    name: Build Bobble Backend 💭
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo 😵
+        uses: actions/checkout@v2
+      - name: Use Node.js 16.x 🥌
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          cache: "npm"
+          cache-dependency-path: online-shopping-website/backend/package-lock.json
+      # Need to create .env file separately from built-in env variables since Node.js does not recognize them
+      # env vars in the workflow are strictly used in a workflow
+      - name: Create .env file for Node.js build 📄
+        run: |
+          cd ./online-shopping-website/backend
+          touch .env
+          echo DB_CONNECTION=${{ secrets.DEV_DB_URL_GOOGLE }} >> .env
+      - name: Build Backend 💪
+        run: |
+          cd ./online-shopping-website/backend
+          npm ci
+          npm run build
+      - name: Upload Build Output 👆
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: BuildOutput
+          path: |
+            online-shopping-website/backend/ts-built
+            online-shopping-website/backend/api.yaml
+  deploy:
+    name: Deploy Bobble Backend to Google Cloud 🚀
+
+    # Only runs after build job is complete
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Build Output 👇
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: BuildOutput
+          path: ./
+      - name: Authorize Google Cloud 📜
+        id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+      - name: Deploy to Google Cloud App Engine 🚀
+        id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v0"
+        with:
+          working_directory: ./
+          deliverables: api.yaml
+          promote: true
+          version: ${{ github.run_number }}
