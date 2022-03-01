@@ -103,43 +103,39 @@ const ItemPreview = (props) => {
     return (
         props.cart.map((item) => {
             return (
-                <Grid container xs={12} className="CartItem">
-                    <Grid item xs={2} sx={{ position: 'relative' }}>
+                <Grid container className="CartItem">
+                    <Grid item  md={2} sx={{ position: 'relative' }}>
                         <img className="CartItemImage" src={item.image} alt={item.name} />
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={12}>
                         <Grid item xs={12} lg={12} sx={{ display: 'flex' }}>
-                            <Grid item xs={11}>
-                                <h3 style={{margin:'1rem 0'}}>{item.name}</h3>
+                            <Grid item xs={9} md={11}>
+                                <h3 style={{ margin: '1rem 0' }}>{item.name}</h3>
                             </Grid>
-                            <Grid item xs={1} sx={{margin:'auto', textAlign:'center'}}>
+                            <Grid item xs={3} md={1} sx={{ margin: 'auto', textAlign: 'center' }}>
                                 <Button className="Cart-CloseButton" onClick={removeItem(item)}>
                                     <CloseIcon />
                                 </Button>
                             </Grid>
 
                         </Grid>
-                        <Grid item xs={12} sx={{display: 'flex', paddingBottom: '1rem' }}>
-                            <Grid item xs={12} lg={6} sx={{ display: 'flex' }}>
-                                <Grid item xs={12} lg={6}>
-                                    <h4 style={{margin:0}}>Seller:</h4>
-                                    <p style={{margin:'0.5rem 0'}}>{item.seller}</p>
-                                </Grid>
-                                <Grid item xs={12} lg={6}>
-                                    <h4 style={{margin:0}}>Brand:</h4>
-                                    <p style={{margin:'0.5rem 0'}}>{item.brand}</p>
-                                </Grid>
+                        <Grid item xs={12} className='CartText'>
+                            <Grid item xs={12} lg={3}>
+                                <h4 style={{ margin: 0 }}>Seller:</h4>
+                                <p style={{ margin: '0.5rem 0' }}>{item.seller}</p>
                             </Grid>
                             <Grid item xs={12} lg={3}>
-                                <h4 style={{margin:0}}>Price: {item.price} Ɖ</h4>
+                                <h4 style={{ margin: 0 }}>Brand:</h4>
+                                <p style={{ margin: '0.5rem 0' }}>{item.brand}</p>
+                            </Grid>
+                            <Grid item xs={12} lg={3}>
+                                <h4 style={{ margin: 0 }}>Price: {item.price} Ɖ</h4>
                                 <h4>Promotion: 20% off</h4>
                             </Grid>
                             <Grid item xs={12} lg={3}>
                                 <QuantityButtons item={item} />
                             </Grid>
-     
                         </Grid>
-
                     </Grid>
                 </Grid>
             );

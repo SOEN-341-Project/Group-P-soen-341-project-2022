@@ -33,6 +33,13 @@
 }
 
 @media only screen and (max-width: 550px) {
+  .CartText{
+    text-align:center;
+    margin:auto;
+    justify-content: center;
+    padding-bottom: 1rem;
+  }
+
   .CartItemImage {
     display: none;
   }
@@ -74,17 +81,9 @@
 }
 
 @media only screen and (min-width: 550px) {
-  .CartItemImage {
-    max-width:8rem;
-    max-height: 8rem;
-    width:auto;
-    height:auto;
-    position:absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+  .CartText{
+    display: flex;
+    padding-bottom: 1rem;
   }
 
   .ProductDetails-Container {
@@ -138,6 +137,27 @@
 .ProductDetails-ImageContainer {
   background-color: white;
   border-radius: 10px;
+}
+
+@media only screen and (max-width: 900px) {
+  .CartItemImage {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .CartItemImage {
+    max-width: 8rem;
+    max-height: 8rem;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
 }
 
 /* Shared between cart page and product details */
@@ -195,8 +215,6 @@
   padding: 1rem 0;
 }
 
-
-
 /* Cart Page */
 .Cart-Container {
   max-width: 90rem;
@@ -243,12 +261,12 @@
 .Cart-Quantity {
   display: flex;
   justify-content: center;
-  margin:0 auto 1rem auto;
+  margin: 0 auto 1rem auto;
 }
 
 .Cart-CloseButton {
-  padding:0;
-  border-radius:40px;
+  padding: 0;
+  border-radius: 40px;
   color: #ff7e7e;
 }
 
@@ -260,18 +278,15 @@
   color: white;
 }
 
-
 .Cart-ProductsBackButton {
   color: #c46b6b;
-  padding:0 0.5rem 0 0;
-  max-height:2rem;
+  padding: 0 0.5rem 0 0;
+  max-height: 2rem;
 }
 
 .Cart-ProductsBackButton:hover {
   background-color: #e88c8c10;
 }
-
-
 
 /* Register Page */
 
@@ -289,8 +304,6 @@
   background-color: white;
   border-radius: 10px;
 }
-
-
 
 /*Navbar styles*/
 
@@ -318,11 +331,11 @@
 }
 
 .GreenButtonText {
-  color:rgb(74, 143, 74);
+  color: rgb(74, 143, 74);
 }
 
 .GreenButtonText:hover {
-  background-color:rgba(74, 143, 74, 0.055);
+  background-color: rgba(74, 143, 74, 0.055);
 }
 
 .PinkButtonContained {
@@ -401,6 +414,7 @@
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: rgb(60, 121, 60) !important;
 }
+
 
 .MuiInput-underline:after {
   border-color: rgb(60, 121, 60) !important;
