@@ -33,7 +33,7 @@ const ModifyProductForm = (props) => {
     return (
         <form onSubmit={handleSubmit}>
             <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto', textAlign: 'center' }}>
-                <h1 className='TextPink'>Modify Product "{props.sellerProduct.name}"</h1>
+                <h1 className='TextGreen'>Modify Product "{props.sellerProduct.name}"</h1>
                 <TextField
                     label="Name"
                     required
@@ -85,8 +85,8 @@ const AddNewProductForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
-                <h1>Add a product</h1>
+            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto', textAlign: 'center' }}>
+                <h1 className='TextPink'>Add a product</h1>
                 <TextField label="Name" required />
                 <TextField
                     label="Price"
@@ -110,7 +110,9 @@ const AddNewProductForm = () => {
                 <TextField label="Brand" required />
                 <TextField label="Seller" disabled defaultValue={sellerName} />
                 <TextField label="Quantity" type="number" required inputProps={{ min: 1 }} />
-                <Button name="Add Product" type="submit">Add Product</Button>
+                <Link to="/seller" className="RoutingLink" style={{ textAlign: 'center', padding: '1rem' }}>
+                    <Button sx={{ maxWidth: '10rem' }} className="PinkButtonContained" variant="contained" name="Add Product" type="submit">Add Product</Button>
+                </Link>
             </Stack>
         </form>
     );
