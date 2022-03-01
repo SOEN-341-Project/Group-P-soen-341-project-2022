@@ -83,7 +83,7 @@ export const CartPage = (props) => {
             <Grid item xs={12}>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="Cart-ProductsBackButton">
-                        <ArrowBackIosNewIcon/>Return to products
+                        <ArrowBackIosNewIcon/><h4>Return to products</h4>
                     </Button>
                 </Link>
             </Grid>
@@ -185,13 +185,13 @@ class QuantityButtons extends React.Component {
             <div>
                 <h4 className="Cart-Quantity">Quantity</h4>
                 <Stack className="Cart-Quantity" direction="row" spacing={1}>
-                    <Button className="ProductDetails-QuantityButtons PurpleButtonContained" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons PinkButtonContained" variant="contained"
                             disabled={this.state.quantity === 1}
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
                     </Button>
                     <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button className="ProductDetails-QuantityButtons PurpleButtonContained" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons PinkButtonContained" variant="contained"
                             disabled={this.state.quantity === 10}
                             onClick={this.IncrementItem}>
                         <AddIcon/>
