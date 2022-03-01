@@ -75,11 +75,16 @@
 
 @media only screen and (min-width: 550px) {
   .CartItemImage {
-    max-width: 8rem;
+    max-width:8rem;
     max-height: 8rem;
-    padding: 1rem;
+    width:auto;
+    height:auto;
+    position:absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     margin: auto;
-    display: flex;
   }
 
   .ProductDetails-Container {
@@ -135,9 +140,10 @@
   border-radius: 10px;
 }
 
-.ProductDetails-QuantityButtons {
+/* Shared between cart page and product details */
+.QuantityButtons-Shared {
   min-width: 10px;
-  padding: 0.3rem;
+  padding: 0.6rem;
 }
 
 .ProductDetails-QuantityButtonsContainer {
@@ -150,7 +156,7 @@
 }
 
 .inputne {
-  max-width: 30px;
+  max-width: 35px;
   text-align: center;
 }
 
@@ -234,24 +240,26 @@
   padding: 2rem 0;
 }
 
-.Cart-ItemButtons {
-  padding-top: 1rem;
-}
-
 .Cart-Quantity {
-  margin-top: 2rem;
   display: flex;
   justify-content: center;
+  margin:0 auto 1rem auto;
 }
 
 .Cart-CloseButton {
-  float: right;
+  padding:0;
+  border-radius:40px;
   color: #ff7e7e;
 }
 
 .Cart-CloseButton:hover {
   color: #e47272;
 }
+
+.Cart-CloseButton:active {
+  color: white;
+}
+
 
 .Cart-ProductsBackButton {
   color: #c46b6b;
