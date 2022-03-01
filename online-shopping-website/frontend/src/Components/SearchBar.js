@@ -10,7 +10,7 @@ export const SearchBar = (props) => {
     }
 
     return (
-        <div classaName="SearchBar">
+        <div className="SearchBar">
             <TextField
                 label="Search Products"
                 variant="outlined"
