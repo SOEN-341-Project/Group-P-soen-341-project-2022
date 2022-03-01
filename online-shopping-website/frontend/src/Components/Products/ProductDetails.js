@@ -52,13 +52,13 @@ class ProductButtons extends React.Component {
             <div className="ProductDetails-QuantityButtonsContainer">
                 <h3 className='TextGreen'>Quantity</h3>
                 <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
-                    <Button className="ProductDetails-QuantityButtons GreenButtonContained" variant="contained"
+                    <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
                             disabled={this.state.quantity === 1}
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
                     </Button>
                     <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button className="ProductDetails-QuantityButtons GreenButtonContained" variant="contained"
+                    <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
                             disabled={this.state.quantity === 10}
                             onClick={this.IncrementItem}>
                         <AddIcon/>
