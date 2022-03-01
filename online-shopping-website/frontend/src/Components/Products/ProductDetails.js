@@ -52,13 +52,13 @@ class ProductButtons extends React.Component {
             <div className="ProductDetails-QuantityButtonsContainer">
                 <h3>Quantity</h3>
                 <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
-                    <Button className="ProductDetails-QuantityButtons ProductButtonContained" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons GreenButtonContained" variant="contained"
                             disabled={this.state.quantity === 1}
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
                     </Button>
                     <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button className="ProductDetails-QuantityButtons ProductButtonContained" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons GreenButtonContained" variant="contained"
                             disabled={this.state.quantity === 10}
                             onClick={this.IncrementItem}>
                         <AddIcon/>
@@ -66,7 +66,7 @@ class ProductButtons extends React.Component {
                 </Stack>
                 <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
                 <Link to="/my-shopping-cart" className="RoutingLink">
-                    <Button className="ProductDetails-CartButton ProductButtonContained" variant="contained" endIcon={<AddShoppingCartIcon/>}>
+                    <Button className="ProductDetails-CartButton GreenButtonContained" variant="contained" endIcon={<AddShoppingCartIcon/>}>
                         Add to cart
                     </Button>
                 </Link>
@@ -88,7 +88,7 @@ export const ProductDetails = () => {
     return (
         <Grid container className="ProductDetails-Container">
             <Link to="/" className="RoutingLink">
-                <Button variant="contained">
+                <Button className="GreenButtonContained" variant="contained">
                     Return to products
                 </Button>
             </Link>
