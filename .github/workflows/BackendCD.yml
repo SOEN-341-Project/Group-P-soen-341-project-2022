@@ -2,10 +2,7 @@
 # Triggers when PR merges into master
 # Builds app, and deploys it to Google Cloud App Engine with new version
 
-name: Bobble Frontend CD
-
-env:
-  CI: false # Used to avoid warnings turning into errors
+name: Bobble Backend CD
 
 on:
   push:
@@ -45,6 +42,7 @@ jobs:
           path: |
             online-shopping-website/backend/ts-built
             online-shopping-website/backend/api.yaml
+            online-shopping-website/backend/package.json
   deploy:
     name: Deploy Bobble Backend to Google Cloud 🚀
 
