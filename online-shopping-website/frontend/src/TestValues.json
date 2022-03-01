@@ -63,5 +63,37 @@
     "Foodies on Wheels",
     "Fruits with Friends",
     "Ultimate pets"
+  ],
+  "cart": [
+    {
+      "id": 0,
+      "name": "Banana",
+      "image": "https://s3.amazonaws.com/jo.www.bucket/larabar/nodes/images/1410/retina/Banana.png?1446584154",
+      "description": "This banana is the peak of human creation.",
+      "seller": "Fruits with Friends",
+      "brand": "Fruits with Friends",
+      "price": 4,
+      "quantity":2
+    },
+    {
+      "id": 1,
+      "name": "Flying squirrel",
+      "image": "https://www.modernpest.com/uploads/flying-squirrel2.png",
+      "description": "That brother is floating in the air.",
+      "seller": "Ultimate pets",
+      "brand": "Nature Inc.",
+      "price": 16,
+      "quantity":5
+    },
+    {
+      "id": 2,
+      "name": "Raccoon",
+      "image": "http://www.nbtrappers.ca/fraccon.gif",
+      "description": ":put_litter_in_its_place:.",
+      "seller": "Ultimate pets",
+      "brand": "Environment Ltd.",
+      "price": 20,
+      "quantity":1
+    }
   ]
 }

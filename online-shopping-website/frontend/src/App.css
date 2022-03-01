@@ -2,9 +2,9 @@
   padding: 1.25em;
 }
 
-.SearchBar{
-    max-width: 12.5rem;
-    margin-bottom: 1rem;
+.SearchBar {
+  max-width: 12.5rem;
+  margin-bottom: 1rem;
 }
 
 /* Product grid styles */
@@ -13,7 +13,7 @@
   width: 100%;
   height: 100%;
   color: white;
-  background-color: #e88c8c;
+  background-color: #dd8484;
   border-radius: 15px;
 }
 
@@ -29,12 +29,12 @@
 }
 
 .RoutingLink {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 @media only screen and (max-width: 550px) {
   .CartItemImage {
-    display:none;
+    display: none;
   }
 
   .ProductDetails-Container {
@@ -60,16 +60,16 @@
     min-height: 90%;
   }
 
-  .navbar-links{
-    display:none;
+  .navbar-links {
+    display: none;
   }
 
-  .Navbar-LogoLarge{
-    display:none;
+  .Navbar-LogoLarge {
+    display: none;
   }
 
-  .Navbar-LogoSmall{
-    max-width:3.5rem;
+  .Navbar-LogoSmall {
+    max-width: 3.5rem;
   }
 }
 
@@ -78,8 +78,8 @@
     max-width: 8rem;
     max-height: 8rem;
     padding: 1rem;
-    margin:auto;
-    display:flex;
+    margin: auto;
+    display: flex;
   }
 
   .ProductDetails-Container {
@@ -103,8 +103,8 @@
     text-align: center;
   }
 
-  .Navbar-LogoSmall{
-    display:none;
+  .Navbar-LogoSmall {
+    display: none;
   }
 }
 
@@ -126,7 +126,7 @@
   margin-top: 1rem;
   padding: 0.2rem 3rem 3rem 3rem;
   color: white;
-  background-color: #e88c8c;
+  background-color: #dd8484;
   border-radius: 15px;
 }
 
@@ -169,7 +169,7 @@
   padding: 1.5rem;
   margin: auto;
   display: flex;
-  max-width:68.8rem;
+  max-width: 68.8rem;
   background-color: whitesmoke;
   border-radius: 10px;
 }
@@ -190,10 +190,11 @@
 }
 
 
+
 /* Cart Page */
 .Cart-Container {
-  max-width:90rem;
-  margin:auto;
+  max-width: 90rem;
+  margin: auto;
 }
 
 .Cart-Alert {
@@ -206,13 +207,13 @@
 }
 
 .CartItem {
-  background-color: rgb(72, 136, 72);
-  margin-bottom:2rem;
+  background-color: rgb(75, 156, 75);
+  margin-bottom: 2rem;
   border-radius: 10px;
 }
 
 .Cart-RetailerInfo {
-  display:flex;
+  display: flex;
 }
 
 .Cart-SideBannerContainer {
@@ -221,15 +222,15 @@
 
 .Cart-SideBanner {
   height: fit-content;
-  min-width:19rem;
-  max-width:19rem;
+  min-width: 19rem;
+  max-width: 19rem;
   border-radius: 10px;
   border: solid 7px #e88c8c;
   padding: 0 2rem;
   margin: 0 auto;
 }
 
-.Cart-OrderButton{
+.Cart-OrderButton {
   padding: 2rem 0;
 }
 
@@ -245,95 +246,118 @@
 
 .Cart-CloseButton {
   float: right;
-  color: #9de52b;
+  color: #ff7e7e;
+}
+
+.Cart-CloseButton:hover {
+  color: #e47272;
 }
 
 .Cart-ProductsBackButton {
-  color: #e88c8c;
+  color: #c46b6b;
 }
+
+.Cart-ProductsBackButton:hover {
+  background-color: #e88c8c10;
+}
+
 
 
 /* Register Page */
-.Sign-Up-Text {
-  font-size: 3em;
-  margin: 0%;
-  margin-bottom: 2rem;
-}
 
 .register-page {
-    max-width: 36rem;
-    margin: auto;
-    border-style: hidden;
-    border-radius: 10px;
-    background-color: #e88c8c;
-    padding: 2rem;
+  max-width: 36rem;
+  margin: 2rem auto;
+  border-style: hidden;
+  border-radius: 10px;
+  background-color: #e88c8c;
+  padding: 2rem;
 }
 
 .sign-up {
-    padding: 3rem;
-    background-color: white;
-    border-radius: 10px;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 10px;
 }
 
-#SignUpButton {
-    background-color: rgb(72, 136, 72);
-}
+
 
 /*Navbar styles*/
 
-.NavBar{
+.NavBar {
   margin-bottom: 10px;
-  background-color: rgb(50, 120, 50);
+  background-color: rgb(62, 134, 62);
 }
 
-.Navbar-RoutingLink{
-  color:white;
-  text-decoration:none;
+.Navbar-RoutingLink {
+  color: white;
+  text-decoration: none;
 }
 
-.SideNavPriceFilter{
-    color: rgb(50, 120, 50);
-}
+/* Global Styles */
 
 /* Button styles may be used for other pages */
 .ProductButton {
-    color: rgb(203, 253, 203);
-    border-color: rgb(78, 219, 78);
-    transition: 0.3s all ease-in-out;
+  color: rgb(203, 253, 203);
+  border-color: rgb(78, 219, 78);
+  transition: 0.3s all ease-in-out;
 }
 
-.ProductButtonContained {
-    background-color: rgb(72, 136, 72);
+.GreenButtonContained {
+  /* background-color: rgb(72, 136, 72); */
+  background-color: rgb(74, 143, 74);
 }
 
-.ProductButtonContainedPurple{
-  background-color: #a75e7d;
+.PurpleButtonContained {
+  /* background-color: #a75e7d; */
+  background-color: #e88c8c;
 }
 
-.ProductButtonContainedPurple:hover{
-  background-color: #c46d92;
+.PurpleButtonContained:hover {
+  background-color: #d48181;
 }
 
-.ProductButton, .ProductButtonContained, .ProductButtonContainedPurple {
-    height: 3em;
+.ProductButton,
+.GreenButtonContained,
+.PurpleButtonContained {
+  height: 3em;
 }
 
-.ProductButton:hover, .ProductButtonContained:hover {
-  background-color: rgb(88, 176, 88);
+.ProductButton:hover,
+.GreenButtonContained:hover {
+  background-color: rgb(59, 121, 59);
   border-color: rgb(60, 121, 60);
 }
 
+/* Text colors */
+.TextPink {
+  color: #ca6c6c;
+}
+
+.TextGreen {
+  color: rgb(60, 121, 60);
+}
+
 .accordion-width {
-    width: 100%;
-    min-width: 200px;
-    max-width: 200px;
-    /*add breakpoint to make everything full width below medium screens*/
+  width: 100%;
+  min-width: 200px;
+  max-width: 200px;
+  /*add breakpoint to make everything full width below medium screens*/
 }
 
-.Bobble{
-    width: 330px;
+.Bobble {
+  width: 330px;
 }
 
-.BobbleLogoPadding{
-    padding: 0.5em;
+.BobbleLogoPadding {
+  padding: 0.5em;
+}
+
+/* TextField Override (Green Border) */
+.MuiFormLabel-root.Mui-focused {
+  color: rgb(60, 121, 60) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(60, 121, 60) !important;
 }

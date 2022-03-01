@@ -49,29 +49,29 @@ export const CartPage = (props) => {
                 </Alert>
             </Collapse>
             <Grid item xs={12} sx={{paddingBottom: '1rem'}}>
-                <h1>My Shopping Cart</h1>
+                <h1 className='TextPink'>My Shopping Cart</h1>
             </Grid>
-            <Grid item conatiner xs={9} className="CartItemsContainer">
+            <Grid item conatiner xs={12} lg={9} className="CartItemsContainer">
                 <ItemPreview cart={props.cart}/>
             </Grid>
             <Grid item xs={3} className="Cart-SideBanner">
                 <Grid item xs={12}>
-                    <h3>Subtotal</h3>
+                    <h3 className='TextGreen'>Subtotal</h3>
                 </Grid>
                 <Grid item xs={12}>
-                    <h4>GST: 5.0%</h4>
+                    <h4 className='TextPink'>GST: 5.0%</h4>
                     <p>{GST.toFixed(2)} Ɖ</p>
                 </Grid>
                 <Grid item xs={12}>
-                    <h4>QST: 9.975%</h4>
+                    <h4 className='TextPink'>QST: 9.975%</h4>
                     <p>{QST.toFixed(2)} Ɖ</p>
                 </Grid>
                 <Grid item xs={12}>
-                    <h3>Total</h3>
+                    <h3 className='TextGreen'>Total</h3>
                     <p>{calculateTotal().toFixed(2)} Ɖ</p>
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
-                    <Button variant="contained" className="ProductButtonContainedPurple" onClick={function () {
+                    <Button variant="contained" className="GreenButtonContained" onClick={function () {
                         setAlertVisible(true);
                         window.scrollTo(0, 0);
                     }}>
@@ -185,13 +185,13 @@ class QuantityButtons extends React.Component {
             <div>
                 <h4 className="Cart-Quantity">Quantity</h4>
                 <Stack className="Cart-Quantity" direction="row" spacing={1}>
-                    <Button className="ProductDetails-QuantityButtons ProductButtonContainedPurple" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons PurpleButtonContained" variant="contained"
                             disabled={this.state.quantity === 1}
                             onClick={this.DecreaseItem}>
                         <RemoveIcon/>
                     </Button>
                     <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button className="ProductDetails-QuantityButtons ProductButtonContainedPurple" variant="contained"
+                    <Button className="ProductDetails-QuantityButtons PurpleButtonContained" variant="contained"
                             disabled={this.state.quantity === 10}
                             onClick={this.IncrementItem}>
                         <AddIcon/>
