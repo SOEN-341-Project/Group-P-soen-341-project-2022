@@ -7,7 +7,11 @@ name: Bobble Frontend Test CI
 env:
   CI: false    # Used to avoid warnings turning into errors
 
-on: pull_request
+# Only do workflow when changes to the front end are done
+on:
+  pull_request:
+    paths:
+      - "online-shopping-website/frontend/**"
 
 jobs:
   test:
