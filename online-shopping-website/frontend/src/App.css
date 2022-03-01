@@ -170,7 +170,7 @@
   margin: auto;
   display: flex;
   max-width: 68.8rem;
-  background-color: whitesmoke;
+  background-color: #e99898;
   border-radius: 10px;
 }
 
@@ -207,7 +207,7 @@
 }
 
 .CartItem {
-  background-color: rgb(75, 156, 75);
+  background-color: rgba(89, 163, 89, 0.842);
   margin-bottom: 2rem;
   border-radius: 10px;
 }
@@ -255,6 +255,8 @@
 
 .Cart-ProductsBackButton {
   color: #c46b6b;
+  padding:0 0.5rem 0 0;
+  max-height:2rem;
 }
 
 .Cart-ProductsBackButton:hover {
@@ -308,18 +310,26 @@
   background-color: rgb(74, 143, 74);
 }
 
-.PurpleButtonContained {
+.GreenButtonText {
+  color:rgb(74, 143, 74);
+}
+
+.GreenButtonText:hover {
+  background-color:rgba(74, 143, 74, 0.055);
+}
+
+.PinkButtonContained {
   /* background-color: #a75e7d; */
   background-color: #e88c8c;
 }
 
-.PurpleButtonContained:hover {
+.PinkButtonContained:hover {
   background-color: #d48181;
 }
 
 .ProductButton,
 .GreenButtonContained,
-.PurpleButtonContained {
+.PinkButtonContained {
   height: 3em;
 }
 

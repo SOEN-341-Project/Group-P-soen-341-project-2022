@@ -50,7 +50,7 @@ class ProductButtons extends React.Component {
     render() {
         return (
             <div className="ProductDetails-QuantityButtonsContainer">
-                <h3>Quantity</h3>
+                <h3 className='TextGreen'>Quantity</h3>
                 <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                     <Button className="ProductDetails-QuantityButtons GreenButtonContained" variant="contained"
                             disabled={this.state.quantity === 1}
@@ -117,8 +117,8 @@ export const ProductDetails = () => {
                 <Grid item md={1}/>
                 <Grid item xs={12} sm={12} md={5}>
                     <Card className="ProductDetails-SelectionPanel">
-                        <h3>Price</h3>
-                        <h4>{selectedProduct.price} Ɖ</h4>
+                        <h3 className='TextGreen'>Price</h3>
+                        <h4 className='TextPink'>{selectedProduct.price} Ɖ</h4>
 
                         <ProductButtons product={selectedProduct}/>
                     </Card>
