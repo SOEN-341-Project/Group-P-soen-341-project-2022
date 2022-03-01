@@ -5,7 +5,9 @@ node_modules
 
 # Google cloud keywords
 gckey.json
-api.yaml
+
+#jest coverage reports
+coverage/
 
 # built javascript
 ts-built

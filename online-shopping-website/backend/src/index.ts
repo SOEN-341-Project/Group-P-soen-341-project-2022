@@ -5,7 +5,8 @@ import multer from "multer";
 import { format } from "util";
 import bcrypt from "bcrypt";
 import { uploadFile } from "./helpers/uploadFile";
-import { createUser, allUsers, userByEmail } from "./prismaFunctions";
+import hasRequiredUserCreationParams from "./helpers/verifyUserCreation";
+import { createUser, allUsers, userByEmail, UserRole } from "./prismaFunctions";
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -44,17 +45,19 @@ app.post("/uploads", async (req, res, next) => {
 // user routes
 
 app.post("/api/users/register", async (req: Request, res: Response, next) => {
-  const usr_role: string = req.body.role.toUpperCase();
   try {
     // verify that necessary parameters are there
     if (
-      (usr_role !== "CUSTOMER" && usr_role !== "SELLER" && usr_role !== "ADMIN") ||
-      req.body.email === undefined ||
-      req.body.password === undefined ||
-      req.body.address1 === undefined
+      !hasRequiredUserCreationParams({
+        email: req.body.email,
+        password: req.body.password,
+        address1: req.body.address1,
+        role: req.body.role,
+      })
     ) {
       throw (new Error().message = format(`Data missing`));
     }
+    const usr_role: UserRole = req.body.role;
     const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
       email: req.body.email,

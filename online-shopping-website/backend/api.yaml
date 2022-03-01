@@ -1,0 +1,6 @@
+runtime: nodejs16
+
+service: api
+
+env_variables:
+  DB_CONNECTION: postgres://dev:dev@localhost/dev?host=/cloudsql/bobble-db:northamerica-northeast1:bobble-db

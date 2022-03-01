@@ -1,5 +1,6 @@
-import prisma from "./prismaClient";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 export type UserRole = "CUSTOMER" | "SELLER" | "ADMIN";
 
 export async function createUser(args: {
@@ -38,27 +39,31 @@ export async function allUsers() {
   return await prisma.user.findMany();
 }
 
-export async function createItem(
-  name: string,
-  price: number,
-  description: string,
-  picture: string,
-  promoted: boolean,
-  brandId: number,
-  sellerId: number
-) {
-  await prisma.item.create({
+export async function createItem(args: {
+  name: string;
+  price: number;
+  description: string;
+  picture: string;
+  promoted: boolean;
+  brandId: number;
+  sellerId: number;
+  salePrice?: number;
+  totalQuantity?: number;
+}) {
+  return await prisma.item.create({
     data: {
-      name: name,
-      price: price,
-      description: description,
-      picture: picture,
-      promoted: promoted,
+      name: args.name,
+      price: args.price,
+      description: args.description,
+      picture: args.picture,
+      promoted: args.promoted,
+      salePrice: args.salePrice,
+      totalQuantity: args.totalQuantity,
       seller: {
-        connect: { id: sellerId },
+        connect: { id: args.sellerId },
       },
       brand: {
-        connect: { id: brandId },
+        connect: { id: args.brandId },
       },
     },
   });
@@ -68,16 +73,16 @@ export async function allItems() {
   return await prisma.item.findMany();
 }
 
-export async function createOrder(userId: number, itemIds: number[], totalPrice: number) {
-  await prisma.order.create({
+export async function createOrder(args: { userId: number; itemIds: number[]; totalPrice: number }) {
+  return await prisma.order.create({
     data: {
       user: {
-        connect: { id: userId },
+        connect: { id: args.userId },
       },
       items: {
-        connect: itemIds.map((i) => ({ id: i })),
+        connect: args.itemIds.map((i) => ({ id: i })),
       },
-      totalPrice: totalPrice,
+      totalPrice: args.totalPrice,
     },
   });
 }
