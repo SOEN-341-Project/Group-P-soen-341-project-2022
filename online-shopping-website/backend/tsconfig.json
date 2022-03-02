@@ -3,9 +3,9 @@
     "module": "commonjs",
     "target": "ESnext",
     "outDir": "ts-built",
-    "rootDir": "src",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strictNullChecks": true
   },
   "moduleResolution": "node",
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tests/**/*"]
 }
