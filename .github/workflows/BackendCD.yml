@@ -5,11 +5,10 @@
 name: Bobble Backend CD
 
 on:
-  [pull_request]
-  #push:
-  #  branches: [master]
-  #  paths:
-  #    - "online-shopping-website/backend/**"
+  push:
+    branches: [master]
+    paths:
+      - "online-shopping-website/backend/**"
 
 jobs:
   build:
