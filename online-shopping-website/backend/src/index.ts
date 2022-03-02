@@ -5,7 +5,8 @@ import multer from "multer";
 import { format } from "util";
 import bcrypt from "bcrypt";
 import { uploadFile } from "./helpers/uploadFile";
-import { createUser, allUsers, userByEmail } from "./prismaFunctions";
+import hasRequiredUserCreationParams from "./helpers/verifyUserCreation";
+import { createUser, allUsers, userByEmail, UserRole } from "./prismaFunctions";
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -27,6 +28,9 @@ app.use(bodyParser.urlencoded({ extended: false })); // middleware that enterpre
 app.post("/uploads", async (req, res, next) => {
   try {
     const myFile = req.file;
+    if (myFile === undefined) {
+      throw new Error("File not recieved");
+    }
     const name = req.body.name;
     const imageUrl = await uploadFile(myFile, name);
     res.status(200).json({
@@ -41,17 +45,19 @@ app.post("/uploads", async (req, res, next) => {
 // user routes
 
 app.post("/api/users/register", async (req: Request, res: Response, next) => {
-  const usr_role: string = req.body.role.toUpperCase();
   try {
     // verify that necessary parameters are there
     if (
-      (usr_role !== "CUSTOMER" && usr_role !== "SELLER" && usr_role !== "ADMIN") ||
-      req.body.email === undefined ||
-      req.body.password === undefined ||
-      req.body.address1 === undefined
+      !hasRequiredUserCreationParams({
+        email: req.body.email,
+        password: req.body.password,
+        address1: req.body.address1,
+        role: req.body.role,
+      })
     ) {
       throw (new Error().message = format(`Data missing`));
     }
+    const usr_role: UserRole = req.body.role;
     const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
       email: req.body.email,
@@ -64,7 +70,7 @@ app.post("/api/users/register", async (req: Request, res: Response, next) => {
       sellerName: req.body.sellerName,
     });
     // TODO: give the user an authentication token at this point
-    res.status(200).json({ message: "Success" });
+    res.status(200).json({ message: "Success", user: newUser, hello: true });
   } catch (e) {
     if (e.code === "P2002") {
       e.message = "Unique constraint on " + e.meta.target + " failed";
@@ -121,9 +127,6 @@ app.get("/api/test", (req: Request, res: Response) => {
   res.send({ sup: "This product is available" });
 });
 
-
-
 app.listen(port, () => {
   console.log("listening on port " + port);
 });
-

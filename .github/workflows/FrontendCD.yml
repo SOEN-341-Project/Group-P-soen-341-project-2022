@@ -7,9 +7,12 @@ name: Bobble Frontend CD
 env:
   CI: false    # Used to avoid warnings turning into errors
 
+# Only do workflow when changes to the front end are merged into master
 on:
   push:
     branches: [ master ]
+    paths:
+      - "online-shopping-website/fronend/**"
 
 jobs:
   build:
