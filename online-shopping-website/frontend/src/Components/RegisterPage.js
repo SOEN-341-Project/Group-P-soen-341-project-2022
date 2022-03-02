@@ -126,7 +126,7 @@ export const Register = () => {
                             }
                             label="Seller"
                         />
-                        <TextField required disabled={!seller} label="Seller name" variant="outlined" value={values.sellerName} onChange={(e) => setValues({ ...values, sellerName: e.target.value })} />
+                        {seller?<TextField required label="Seller name" variant="outlined" value={values.sellerName} onChange={(e) => setValues({ ...values, sellerName: e.target.value })}/> : null}
                     </RadioGroup>
                     <div style={{textAlign:'center'}}>
                         <Button type="submit" value="Sign Up" variant="contained" className='GreenButtonContained' sx={{ maxWidth: '10rem'}}>Sign Up</Button>
