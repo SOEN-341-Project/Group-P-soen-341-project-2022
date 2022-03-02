@@ -4,7 +4,8 @@
 
 name: Bobble Backend CD
 
-on: [pull_request]
+on:
+  [pull_request]
   #push:
   #  branches: [master]
   #  paths:
@@ -43,6 +44,7 @@ jobs:
             online-shopping-website/backend/ts-built
             online-shopping-website/backend/api.yaml
             online-shopping-website/backend/package.json
+            online-shopping-website/backend/prisma/schema.prisma
   deploy:
     name: Deploy Bobble Backend to Google Cloud 🚀
 
