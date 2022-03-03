@@ -2,11 +2,13 @@ import express, { Response, Request } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import multer from "multer";
-import { format } from "util";
+import { format, promisify } from "util";
 import bcrypt from "bcrypt";
 import { uploadFile } from "./helpers/uploadFile";
 import hasRequiredUserCreationParams from "./helpers/verifyUserCreation";
-import { createUser, allUsers, userByEmail, UserRole } from "./prismaFunctions";
+import { UserRole } from "@prisma/client";
+import { createUser, allUsers, userByEmail, userById, updateUser } from "./prismaFunctions/userFuncs";
+import e from "express";
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -95,6 +97,37 @@ app.post("/api/users/signin", async (req, res, next) => {
       // password is incorrect
       res.status(400).json({ error: "Invalid Password", message: "Password is incorrect" });
     }
+  }
+});
+
+app.post("/api/users/update", async (req, res, next) => {
+  const usr_id = parseInt(req.body.id);
+  const usr = await userById({ id: usr_id });
+  try {
+    if (usr_id === NaN) res.status(400).json({ error: "Invalid Id" });
+    if (usr === null || usr === undefined) {
+      throw new Error(`User ${req.body.id} does not exist`);
+    }
+    // TODO: check authentication and see if user is changing their own account
+    let encrypted_password: string | undefined;
+    if (req.body.password !== undefined) {
+      //new password
+      encrypted_password = await bcrypt.hash(req.body.password, 5);
+    }
+    const new_usr = await updateUser({
+      userId: usr.id,
+      email: req.body.email || usr.email,
+      pWord: encrypted_password || usr.password,
+      role: usr.role,
+      uName: req.body.username || usr.username,
+      firstName: req.body.firstName || usr.firstName,
+      lastName: req.body.lastName || usr.lastName,
+      address1: req.body.address1 || usr.address1,
+      sellerName: req.body.sellerName || usr.sellerName,
+    });
+    res.status(200).json({ user: new_usr });
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.message });
   }
 });
 
