@@ -7,7 +7,8 @@
     "runOnce": "npx ts-node src/index",
     "dev": "echo \"⚠️ \t Dev mode enabled\" && nodemon src/index.ts",
     "build": "echo \"Building for production...\" && npx tsc -p ./",
-    "start": "node ./ts-built/src/index.js"
+    "start": "node ./ts-built/src/index.js",
+    "gcp-build": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
