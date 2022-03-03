@@ -63,5 +63,9 @@
     "Foodies on Wheels",
     "Fruits with Friends",
     "Ultimate pets"
+  ],
+  "sellerAccounts": [
+    "abc@gmail.com",
+    "blabla@hotmail.com"
   ]
 }

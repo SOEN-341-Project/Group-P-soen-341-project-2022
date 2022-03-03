@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
-      <change beforePath="$PROJECT_DIR$/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/TestValues.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/TestValues.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +50,7 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/App.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/frontend/src/Components/NavBar.js" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="24NfSofFdf3sDRxT69F7kkAztXv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -60,7 +63,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last.edited.regexp" value="01533/navkbrkja315fsbrg" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend/package.json" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -80,7 +83,7 @@
       <method v="2" />
     </configuration>
     <configuration name="start" type="js.build_tools.npm">
-      <package-json value="$PROJECT_DIR$/package.json" />
+      <package-json value="$PROJECT_DIR$/frontend/package.json" />
       <command value="start" />
       <node-interpreter value="project" />
       <envs />
