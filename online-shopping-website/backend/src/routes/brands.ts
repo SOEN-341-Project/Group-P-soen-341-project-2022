@@ -34,6 +34,7 @@ brandRouter.post("/create", async (req: Request, res: Response) => {
 });
 
 brandRouter.delete("/delete", async (req: Request, res: Response, next) => {
+  // TODO: make sure there are no items attached to the brand and that only admins can use this route
   let brandId = parseInt(req.query["id"] as string);
   try {
     if (brandId === undefined || isNaN(brandId)) {
@@ -47,11 +48,14 @@ brandRouter.delete("/delete", async (req: Request, res: Response, next) => {
 });
 
 brandRouter.post("/update", async (req: Request, res: Response, next) => {
+  // TODO: make sure only admins can use this route (or adjust the database that only the seller that created it can update)
   const brandId = parseInt(req.body.id);
   try {
     if (isNaN(brandId)) throw new Error("Invalid ID");
     const oldBrand = await brandById({ brandId: brandId });
-    if (oldBrand === undefined || oldBrand === null) throw new Error("Brand Not Found");
+    if (oldBrand === undefined || oldBrand === null) {
+      throw new Error("Brand Not Found");
+    }
     let pictureURL;
     if (req.file !== undefined) {
       const picture = req.file;
@@ -66,7 +70,6 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => {
     });
     res.status(200).json({ brand: brand });
   } catch (e) {
-    const message = e.meta.cause || e.message;
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
 });

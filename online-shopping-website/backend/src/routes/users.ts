@@ -10,17 +10,18 @@ const userRouter = express.Router();
 userRouter.post("/register", async (req: Request, res: Response) => {
   try {
     // verify that necessary parameters are there
+    const role = (req.body.role as string).toUpperCase();
     if (
       !hasRequiredUserCreationParams({
         email: req.body.email,
         password: req.body.password,
         address1: req.body.address1,
-        role: req.body.role,
+        role: role,
       })
     ) {
       throw (new Error().message = format(`Data missing`));
     }
-    const usr_role: UserRole = req.body.role;
+    const usr_role: UserRole = role as UserRole;
     const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
       email: req.body.email,
@@ -33,12 +34,9 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       sellerName: req.body.sellerName,
     });
     // TODO: give the user an authentication token at this point
-    res.status(200).json({ message: "Success", user: newUser, hello: true });
+    res.status(200).json({ message: "Success", user: newUser });
   } catch (e) {
-    if (e.code === "P2002") {
-      e.message = "Unique constraint on " + e.meta.target + " failed";
-    }
-    res.status(400).json({ error: e, message: e.message });
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
 });
 

@@ -5,6 +5,7 @@ import multerMiddleware from "./helpers/multerMiddleware";
 
 import userRouter from "./routes/users";
 import brandRouter from "./routes/brands";
+import itemRouter from "./routes/items";
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -22,6 +23,8 @@ app.use(multerMiddleware.single("picture"));
 app.use("/api/users", userRouter);
 // brand routes
 app.use("/api/brand", brandRouter);
+// item routes
+app.use("/api/item", itemRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({
@@ -41,3 +44,5 @@ app.get("/api/test", (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log("listening on port " + port);
 });
+
+
