@@ -9,7 +9,7 @@ export async function createBrand(args: { name: string; description: string; pic
   });
 }
 
-export async function updateBrand(args: { brandId: number; name: string; description: string; picture?: string }) {
+export async function updateBrand(args: { brandId: number; name?: string; description?: string; picture?: string }) {
   return await prisma.brand.update({
     where: {
       id: args.brandId,
@@ -22,7 +22,7 @@ export async function updateBrand(args: { brandId: number; name: string; descrip
   });
 }
 
-export async function deleteBrand(args: { brandId: number; name: string; description: string; picture?: string }) {
+export async function deleteBrand(args: { brandId: number }) {
   return await prisma.brand.delete({
     where: {
       id: args.brandId,
@@ -43,6 +43,7 @@ export async function brandByName(args: { name: string }) {
     where: {
       name: {
         contains: args.name,
+        mode: "insensitive",
       },
     },
   });

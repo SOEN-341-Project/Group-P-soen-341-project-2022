@@ -1,8 +1,14 @@
 import prisma from "./PrismaClient";
 
-export async function createOrder(args: { userId: number; itemIds: number[]; totalPrice: number }) {
+export async function createOrder(args: {
+  userId: number;
+  itemIds: number[];
+  itemQuantities: number[];
+  totalPrice: number;
+}) {
   return await prisma.order.create({
     data: {
+      itemQuantities: args.itemQuantities,
       user: {
         connect: { id: args.userId },
       },

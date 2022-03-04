@@ -1,5 +1,3 @@
-import express, { Response, Request } from "express";
-
 export default function hasRequiredUserCreationParams(args: {
   email: string;
   password: string;

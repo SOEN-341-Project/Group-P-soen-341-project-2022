@@ -42,7 +42,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post("/signin", async (req, res) => {
+userRouter.post("/signin", async (req: Request, res: Response) => {
   // check if email is attatched to a user
   const usr = await userByEmail({ email: req.body.email });
   if (usr === null) res.status(400).json({ error: "User not found" });
@@ -60,11 +60,11 @@ userRouter.post("/signin", async (req, res) => {
   }
 });
 
-userRouter.post("/update", async (req, res) => {
+userRouter.post("/update", async (req: Request, res: Response) => {
   const usr_id = parseInt(req.body.id);
   const usr = await userById({ id: usr_id });
   try {
-    if (usr_id === NaN) res.status(400).json({ error: "Invalid Id" });
+    if (isNaN(usr_id)) res.status(400).json({ error: "Invalid Id" });
     if (usr === null || usr === undefined) {
       throw new Error(`User ${req.body.id} does not exist`);
     }
@@ -94,7 +94,7 @@ userRouter.post("/update", async (req, res) => {
   }
 });
 
-userRouter.get("/all", async (req, res) => {
+userRouter.get("/all", async (req: Request, res: Response) => {
   //TODO: authenticate only admins for this route
   await allUsers()
     .then((user) => {
