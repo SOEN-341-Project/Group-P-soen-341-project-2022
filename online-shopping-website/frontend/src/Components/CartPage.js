@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import TestData from '../TestValues.json';
 
 export const CartPage = (props) => {
     const [alertVisible, setAlertVisible] = React.useState(false);
@@ -20,11 +21,11 @@ export const CartPage = (props) => {
         return (
             props.cart.map((item) => {
                 return (
-                    <Grid item xs={12} sx={{ display: 'flex' }}>
-                        <Grid item xs={6} sx={{ overflowX: 'hidden' }}>
+                    <Grid item xs={12} sx={{display: 'flex'}}>
+                        <Grid item xs={6} sx={{overflowX: 'hidden'}}>
                             <p><em>{item.name}</em></p>
                         </Grid>
-                        <Grid item xs={6} sx={{ textAlign: 'right' }}>
+                        <Grid item xs={6} sx={{textAlign: 'right'}}>
                             <p>{item.quantity} x {item.price.toFixed(2)} Ɖ</p>
                         </Grid>
                     </Grid>
@@ -45,7 +46,7 @@ export const CartPage = (props) => {
 
 
     function calculateTotal() {
-        return (calculateSubtotal() + GST + QST);
+        return (calculateSubtotal() + GST + QST).toFixed(2);
     }
 
     return (
@@ -61,58 +62,59 @@ export const CartPage = (props) => {
                                 setAlertVisible(false);
                             }}
                         >
-                            <CloseIcon fontSize="inherit" />
+                            <CloseIcon fontSize="inherit"/>
                         </IconButton>
                     }
-                    sx={{ mb: 2 }}
+                    sx={{mb: 2}}
                 >
                     Order has successfully been placed.
                 </Alert>
             </Collapse>
-            <Grid item xs={12} sx={{ paddingBottom: '1rem' }}>
+            <Grid item xs={12} sx={{paddingBottom: '1rem'}}>
                 <h1 className='TextPink'>My Shopping Cart</h1>
             </Grid>
             <Grid item conatiner xs={12} lg={9} className="CartItemsContainer">
-                <ItemPreview cart={props.cart} />
+                <ItemPreview cart={props.cart}/>
             </Grid>
             <Grid item xs={3} className="Cart-SideBanner">
                 <Grid item xs={12}>
                     <h3 className='TextGreen'>Subtotal</h3>
                     {showPriceBreakdown()}
-                    <hr />
-                    <h4 style={{ margin: '1rem 0', textAlign: 'right' }} className='TextPink'>{calculateSubtotal().toFixed(2)} Ɖ</h4>
+                    <hr/>
+                    <h4 style={{margin: '1rem 0', textAlign: 'right'}}
+                        className='TextGreen'>{calculateSubtotal().toFixed(2)} Ɖ</h4>
                 </Grid>
-                <hr />
+                <hr/>
                 <Grid item xs={12}>
                     <h3 className='TextGreen'>Total</h3>
                 </Grid>
-                <Grid item xs={12} sx={{ display: 'flex', marginTop: '2rem' }}>
+                <Grid item xs={12} sx={{display: 'flex', marginTop: '2rem'}}>
                     <Grid item xs={6}>
-                        <h5 style={{ margin: 0 }} >GST: 5.0%</h5>
+                        <h5 style={{margin: 0}}>GST: 5.0%</h5>
                     </Grid>
                     <Grid item xs={6}>
-                        <h5 style={{ marginTop: 0, textAlign: 'right' }}>{GST.toFixed(2)} Ɖ</h5>
-                    </Grid>
-                </Grid>
-                <Grid item xs={12} sx={{ display: 'flex', marginTop: 0 }}>
-                    <Grid item xs={6}>
-                        <h5 style={{ margin: 0 }} >QST: 9.975%</h5>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <h5 style={{ marginTop: 0, textAlign: 'right' }}>{QST.toFixed(2)} Ɖ</h5>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{GST.toFixed(2)} Ɖ</h5>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sx={{ display: 'flex', marginTop: 0 }}>
+                <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
                     <Grid item xs={6}>
-                        <h5 style={{ margin: 0 }} >Shipping</h5>
+                        <h5 style={{margin: 0}}>QST: 9.975%</h5>
                     </Grid>
                     <Grid item xs={6}>
-                        <h5 style={{ marginTop: 0, textAlign: 'right' }} className='TextGreen'><em>Free</em></h5>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{QST.toFixed(2)} Ɖ</h5>
                     </Grid>
                 </Grid>
-                <hr />
+                <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
+                    <Grid item xs={6}>
+                        <h5 style={{margin: 0}}>Shipping</h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}} className='TextGreen'><em>Free</em></h5>
+                    </Grid>
+                </Grid>
+                <hr/>
                 <Grid item xs={12}>
-                    <h4 style={{ margin: 0, textAlign: 'right' }} className='TextGreen'>{calculateTotal().toFixed(2)} Ɖ</h4>
+                    <h4 style={{margin: 0, textAlign: 'right'}} className='TextPink'>{calculateTotal()} Ɖ</h4>
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
                     <Button variant="contained" className="GreenButtonContained" onClick={function () {
@@ -126,7 +128,7 @@ export const CartPage = (props) => {
             <Grid item xs={12}>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="Cart-ProductsBackButton">
-                        <ArrowBackIosNewIcon /><h4>Return to products</h4>
+                        <ArrowBackIosNewIcon/><h4>Return to products</h4>
                     </Button>
                 </Link>
             </Grid>
@@ -147,36 +149,36 @@ const ItemPreview = (props) => {
         props.cart.map((item) => {
             return (
                 <Grid container className="CartItem">
-                    <Grid item sm={1} md={2} sx={{ position: 'relative' }}>
-                        <img className="CartItemImage" src={item.image} alt={item.name} />
+                    <Grid item sm={1} md={2} sx={{position: 'relative'}}>
+                        <img className="CartItemImage" src={item.image} alt={item.name}/>
                     </Grid>
                     <Grid item xs={12} sm={10}>
-                        <Grid item xs={12} lg={12} sx={{ display: 'flex' }}>
+                        <Grid item xs={12} lg={12} sx={{display: 'flex'}}>
                             <Grid item sm={9} md={11}>
-                                <h3 style={{ margin: '1rem 0' }}>{item.name}</h3>
+                                <h3 style={{margin: '1rem 0'}}>{item.name}</h3>
                             </Grid>
-                            <Grid item xs={3} md={1} sx={{ margin: 'auto', textAlign: 'center' }}>
+                            <Grid item xs={3} md={1} sx={{margin: 'auto', textAlign: 'center'}}>
                                 <Button className="Cart-CloseButton" onClick={removeItem(item)}>
-                                    <CloseIcon />
+                                    <CloseIcon/>
                                 </Button>
                             </Grid>
 
                         </Grid>
                         <Grid item xs={12} className='CartText'>
                             <Grid item xs={12} lg={3}>
-                                <h4 style={{ margin: 0 }}>Seller:</h4>
-                                <p style={{ margin: '0.5rem 0' }}>{item.seller}</p>
+                                <h4 style={{margin: 0}}>Seller:</h4>
+                                <p style={{margin: '0.5rem 0'}}>{item.seller}</p>
                             </Grid>
                             <Grid item xs={12} lg={3}>
-                                <h4 style={{ margin: 0 }}>Brand:</h4>
-                                <p style={{ margin: '0.5rem 0' }}>{item.brand}</p>
+                                <h4 style={{margin: 0}}>Brand:</h4>
+                                <p style={{margin: '0.5rem 0'}}>{item.brand}</p>
                             </Grid>
                             <Grid item xs={12} lg={3}>
-                                <h4 style={{ margin: 0 }}>Price: {item.price} Ɖ</h4>
+                                <h4 style={{margin: 0}}>Price: {item.price} Ɖ</h4>
                                 <h4>Promotion: 20% off</h4>
                             </Grid>
                             <Grid item xs={12} lg={3}>
-                                <QuantityButtons item={item} />
+                                <QuantityButtons item={item}/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -190,7 +192,9 @@ const ItemPreview = (props) => {
 class QuantityButtons extends React.Component {
     constructor(props) {
         super(props);
+        this.cart = TestData.cart;
         this.state = {
+            itemID: props.item.id,
             quantity: props.item.quantity,
             show: true,
             max: 5,
@@ -200,28 +204,20 @@ class QuantityButtons extends React.Component {
 
     IncrementItem = () => {
         if (this.state.quantity !== 10) {
-            this.setState({
-                quantity: this.state.quantity + 1
-            });
+            this.setState({quantity: this.state.quantity + 1});
         }
+        this.cart[(this.state.itemID)].quantity += 1;
+        // console.log("increment " + this.state.itemID);
+        // console.log(this.cart[this.state.itemID].quantity);
     }
+
     DecreaseItem = () => {
         if (this.state.quantity !== 1) {
-            this.setState({ quantity: this.state.quantity - 1 });
+            this.setState({quantity: this.state.quantity - 1});
         }
-    }
-
-    //Need to update database too
-    UpdateValue = (e) => {
-        const inputValue = Number(e.target.value);
-
-        if ((inputValue < 1) || (inputValue.isNaN)) {
-            this.setState({ quantity: 1 });
-        } else if (inputValue > 10) {
-            this.setState({ quantity: 10 });
-        } else {
-            this.setState({ quantity: inputValue });
-        }
+        this.cart[(this.state.itemID)].quantity -= 1;
+        // console.log("decrement " + this.state.itemID);
+        // console.log(this.cart[this.state.itemID].quantity);
     }
 
     render() {
@@ -230,15 +226,15 @@ class QuantityButtons extends React.Component {
                 <h4 className="Cart-Quantity">Quantity</h4>
                 <Stack className="Cart-Quantity" direction="row" spacing={1}>
                     <Button className="QuantityButtons-Shared PinkButtonContained" variant="contained"
-                        disabled={this.state.quantity === 1}
-                        onClick={this.DecreaseItem}>
-                        <RemoveIcon />
+                            disabled={this.state.quantity === 1}
+                            onClick={this.DecreaseItem}>
+                        <RemoveIcon/>
                     </Button>
-                    <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue} />
+                    <input className="inputne" disabled={true} value={this.state.quantity}/>
                     <Button className="QuantityButtons-Shared PinkButtonContained" variant="contained"
-                        disabled={this.state.quantity === 10}
-                        onClick={this.IncrementItem}>
-                        <AddIcon />
+                            disabled={this.state.quantity === 10}
+                            onClick={this.IncrementItem}>
+                        <AddIcon/>
                     </Button>
                 </Stack>
             </div>
