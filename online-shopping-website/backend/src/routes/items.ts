@@ -1,5 +1,4 @@
 import express, { Response, Request } from "express";
-import multerMiddleware from "../helpers/multerMiddleware";
 import uploadFile from "../helpers/uploadFile";
 import hasRequiredItemCreationParams from "../helpers/verifyItemCreation";
 import { allItems, createItem, deleteItem, findItems, itemById, updateItem } from "../prismaFunctions/itemFuncs";
@@ -20,7 +19,7 @@ itemRouter.post("/create", async (req: Request, res: Response) => {
     ) {
       throw new Error("Data missing or invalid");
     }
-    const isPromoted = req.body.promoted === "true";
+    const isPromoted = req.body.promoted == "true";
     const itemNoPic = await createItem({
       name: req.body.name,
       price: parseFloat(req.body.price),
@@ -30,6 +29,7 @@ itemRouter.post("/create", async (req: Request, res: Response) => {
       sellerId: parseInt(req.body.sellerId),
       promoted: isPromoted,
       salePrice: isNaN(parseFloat(req.body.salePrice)) ? undefined : parseFloat(req.body.salePrice),
+      totalQuantity: isNaN(parseFloat(req.body.totalQuantity)) ? undefined : parseFloat(req.body.totalQuantity),
     });
     const pictureURL = await uploadFile({
       file: req.file as Express.Multer.File,
@@ -47,7 +47,7 @@ itemRouter.post("/create", async (req: Request, res: Response) => {
 });
 
 itemRouter.delete("/delete", async (req: Request, res: Response) => {
-  // TODO: make sure only the seller that created this item is allowed to delete
+  // TODO: make sure an admin or only the seller that created this item is allowed to delete
   const itemId = parseInt(req.query["id"] as string);
   try {
     if (itemId === undefined || isNaN(itemId)) {
@@ -74,7 +74,6 @@ itemRouter.post("/update", async (req: Request, res: Response) => {
       throw new Error("Item Not Found");
     }
     let pictureURL;
-    console.log(req.file);
     if (req.file !== undefined && req.file !== null) {
       pictureURL = await uploadFile({
         file: req.file,

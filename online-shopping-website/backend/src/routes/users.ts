@@ -34,7 +34,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       sellerName: req.body.sellerName,
     });
     // TODO: give the user an authentication token at this point
-    res.status(200).json({ message: "Success", user: newUser });
+    res.status(200).json({ newUser });
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }

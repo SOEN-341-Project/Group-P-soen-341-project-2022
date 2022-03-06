@@ -1,5 +1,4 @@
 import express, { Response, Request } from "express";
-import multerMiddleware from "../helpers/multerMiddleware";
 import hasRequiredBrandCreationParams from "../helpers/verifyBrandCreation";
 import uploadFile from "../helpers/uploadFile";
 import {

@@ -6,6 +6,8 @@ import multerMiddleware from "./helpers/multerMiddleware";
 import userRouter from "./routes/users";
 import brandRouter from "./routes/brands";
 import itemRouter from "./routes/items";
+import orderRouter from "./routes/orders";
+
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -22,9 +24,11 @@ app.use(multerMiddleware.single("picture"));
 // user routes
 app.use("/api/users", userRouter);
 // brand routes
-app.use("/api/brand", brandRouter);
+app.use("/api/brands", brandRouter);
 // item routes
-app.use("/api/item", itemRouter);
+app.use("/api/items", itemRouter);
+// order routes
+app.use("/api/orders", orderRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({
@@ -37,12 +41,18 @@ app.get("/", (req: Request, res: Response) => {
   res.send({ sup: "Cool" });
 });
 
-app.get("/api/test", (req: Request, res: Response) => {
-  res.send({ sup: "This product is available" });
+app.post("/post", (req: Request, res: Response) => {
+  res.send({ queryParams: req.query, body: req.body }).status(200);
+});
+
+app.get("/get", (req: Request, res: Response) => {
+  res.send({ queryParams: req.query, body: req.body }).status(200);
+});
+
+app.delete("/delete", (req: Request, res: Response) => {
+  res.send({ queryParams: req.query, body: req.body }).status(200);
 });
 
 app.listen(port, () => {
   console.log("listening on port " + port);
 });
-
-
