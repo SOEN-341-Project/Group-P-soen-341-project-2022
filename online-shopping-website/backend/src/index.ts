@@ -42,15 +42,15 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/post", (req: Request, res: Response) => {
-  res.send({ queryParams: req.query, body: req.body }).status(200);
+  res.send({ queryParams: req.query, body: req.body, method: req.method }).status(200);
 });
 
 app.get("/get", (req: Request, res: Response) => {
-  res.send({ queryParams: req.query, body: req.body }).status(200);
+  res.send({ queryParams: req.query, body: req.body, method: req.method }).status(200);
 });
 
 app.delete("/delete", (req: Request, res: Response) => {
-  res.send({ queryParams: req.query, body: req.body }).status(200);
+  res.send({ queryParams: req.query, body: req.body, method: req.method }).status(200);
 });
 
 app.listen(port, () => {
