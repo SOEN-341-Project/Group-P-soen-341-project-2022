@@ -25,9 +25,25 @@ export default function NavBar() {
     // const [auth, setAuth] = React.useState(true);
     const [auth, setAuth] = React.useState(false);
     const [seller, setSeller] = React.useState(false);
+    const [admin, setAdmin] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [user, setUser] = React.useState({
+        email: '',
+        password: ''
+    });
 
     const [openLogin, setOpenLogin] = React.useState(false);
+
+    const handleLogout = () => {
+        setAuth(false);
+        setSeller(false);
+        setAdmin(false);
+        setUser({
+            email: '',
+            password: ''
+        });
+        window.alert("Successfully logged out.");
+    }
 
     const handleOpenLogin = () => {
         setOpenLogin(true);
@@ -37,11 +53,32 @@ export default function NavBar() {
         setOpenLogin(false);
     };
 
-    const handleLoginSubmit = (email, password) => {
-        if(TestData.users.includes(email) && TestData.users.includes(password) && TestData.users.indexOf(email) === TestData.users.indexOf(password))
-        setAuth(true);
-        if(TestData.sellerAccounts.includes(email)){
-            setSeller(true);
+    const handleLoginSubmit = (event) => {
+        if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.password === user.password)[0]) {
+            setAuth(true);
+            console.log("valid user");
+            if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.role === "seller")[0]) {
+                setSeller(true);
+                console.log("user is a seller");
+            } else if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.role === "admin")[0]) {
+                setAdmin(true);
+                console.log("user is an admin");
+            } else {
+                console.log("user is a customer");
+            }
+            handleCloseLogin();
+        } else if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.password !== user.password)[0]) {
+            console.log("email and password don't match");
+            window.alert("Incorrect Password");
+            event.preventDefault();
+        } else if (!(TestData.users.filter(tempUser => tempUser.email === user.email)[0])) {
+            console.log("invalid email");
+            window.alert("There is no account associated with this email.");
+            event.preventDefault();
+        } else {
+            console.log("incorrect email or password");
+            window.alert("Incorrect login credentials. Verify that email and password have been entered correctly.");
+            event.preventDefault();
         }
     };
 
@@ -56,7 +93,9 @@ export default function NavBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorEl(null);
-        setOpenLogin(true);
+        if (!auth) {
+            setOpenLogin(true);
+        }
     };
 
     const profileId = 'navbar-account-profile';
@@ -89,7 +128,7 @@ export default function NavBar() {
                         <Link to="/my-shopping-cart" className="Navbar-RoutingLink"><Button color='inherit'><h4
                             className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon/></Button></Link>
                     </Box>
-                    {auth && !seller && (
+                    {auth && !seller && !admin && (
                         <div>
                             <IconButton
                                 size="large"
@@ -119,10 +158,11 @@ export default function NavBar() {
                             >
                                 <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
                     )}
-                    {auth && seller && (
+                    {auth && seller && !admin && (
                         <div>
                             <IconButton
                                 size="large"
@@ -153,13 +193,51 @@ export default function NavBar() {
                                 <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}>Manage Products</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}><Link to="/seller">Manage
+                                    Products</Link></MenuItem>
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
                     )}
-                    {!auth && !seller && (
+                    {auth && admin && !seller && (
                         <div>
                             <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={sellerId}
+                                aria-haspopup="true"
+                                onClick={handleOpenUserMenu}
+                                color="inherit"
+                            >
+                                <AccountCircle/>
+                            </IconButton>
+                            <Menu
+                                id='navbar-seller-profile'
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </Menu>
+                        </div>
+                    )}
+                    {!auth && (
+                        <div>
+                            <IconButton
+                                sx={{borderRadius: '10px !important'}}
                                 size="small"
                                 edge="end"
                                 aria-label="account of non member"
@@ -168,10 +246,9 @@ export default function NavBar() {
                                 onClick={handleOpenLogin}
                                 color="inherit"
                             >
-                                <p style={{paddingRight:'0.5rem'}}>Login / Sign up</p>
+                                <p style={{paddingRight: '0.5rem'}}>Login / Sign up</p>
                                 <AccountCircle/>
                             </IconButton>
-
                         </div>
                     )}
                 </Toolbar>
@@ -179,36 +256,44 @@ export default function NavBar() {
             {openLogin &&
             <div>
                 <Dialog open={openLogin} onClose={handleCloseLogin}>
-                    <DialogTitle style={{paddingBottom:0}}>Login</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="email"
-                            label="Username / Email Address"
-                            type="email"
-                            fullWidth
-                            variant="standard"
-                            required
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="password"
-                            label="Password"
-                            type="password"
-                            fullWidth
-                            variant="standard"
-                            required
-                        />
-                        <DialogContentText style={{paddingTop:'1rem'}}>
-                            Don't already have an account? <Link className="GreenLink" to='/register' onClick={handleCloseLogin}>Sign up</Link> here.
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button className='GreenButtonText' onClick={handleCloseLogin}>Cancel</Button>
-                        <Button className='GreenButtonOutlined' variant='outlined' onClick={handleCloseLogin && handleLoginSubmit} type='submit'>Login</Button>
-                    </DialogActions>
+                    <DialogTitle style={{paddingBottom: 0}}>Login</DialogTitle>
+                    <form onSubmit={handleLoginSubmit} action="/">
+                        <DialogContent>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                label="Email Address"
+                                value={user.email}
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                required
+                                onChange={(e) => setUser({...user, email: e.target.value})}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                label="Password"
+                                value={user.password}
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                required
+                                onChange={(e) => setUser({...user, password: e.target.value})}
+                            />
+
+                            <DialogContentText style={{paddingTop: '1rem'}}>
+                                Don't already have an account? <Link className="GreenLink" to='/register'
+                                                                     onClick={handleCloseLogin}>Sign up</Link> here.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button className='GreenButtonText' onClick={handleCloseLogin}>Cancel</Button>
+                            <Button className='GreenButtonOutlined' variant='outlined' type='submit'>Login</Button>
+                        </DialogActions>
+                    </form>
                 </Dialog>
             </div>}
         </Box>

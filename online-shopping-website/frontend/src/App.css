@@ -253,7 +253,14 @@
 
 .GreenButtonOutlined:hover {
   background-color: rgba(74, 143, 74, 0.055);
+  border-color: rgb(74, 143, 74);
 }
+
+.GreenButtonOutlined:active {
+  color: rgb(74, 143, 74);
+  border-color: rgb(74, 143, 74);
+}
+
 
 .accordion-width {
     width: 100%;
