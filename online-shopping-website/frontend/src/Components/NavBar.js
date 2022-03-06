@@ -22,7 +22,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TestData from '../TestValues.json';
 
 export default function NavBar() {
-    // const [auth, setAuth] = React.useState(true);
     const [auth, setAuth] = React.useState(false);
     const [seller, setSeller] = React.useState(false);
     const [admin, setAdmin] = React.useState(false);
@@ -246,7 +245,30 @@ export default function NavBar() {
                                 onClick={handleOpenLogin}
                                 color="inherit"
                             >
-                                <p style={{paddingRight: '0.5rem'}}>Login / Sign up</p>
+                                <p style={{paddingRight: '0.5rem'}}>Login</p>
+                            </IconButton>
+                            <IconButton
+                                sx={{borderRadius: '10px !important'}}
+                                size="small"
+                                edge="end"
+                                aria-label="account of non member"
+                                aria-controls={unProfileId}
+                                aria-haspopup="true"
+                                color="inherit"
+                            >
+                                <Link className="Navbar-RoutingLink" to='/register'><p
+                                    style={{paddingRight: '1rem'}}>Sign
+                                    up</p></Link>
+                            </IconButton>
+                            <IconButton
+                                sx={{borderRadius: '10px !important', ':disabled':{ color: 'white'}}}
+                                size="small"
+                                edge="end"
+                                aria-label="account of non member"
+                                aria-controls={unProfileId}
+                                aria-haspopup="true"
+                                disabled
+                            >
                                 <AccountCircle/>
                             </IconButton>
                         </div>
