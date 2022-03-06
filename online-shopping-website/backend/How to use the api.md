@@ -51,17 +51,20 @@ Test routes are only there for you to test if the api is working properly
   - Method: GET
   - Requires: nothing
   - Optional: Any parameters and any body
+  - Returns: Parameters and body
 
 - #### Route: `/post`
 
   - Method: POST
   - Requires: nothing
   - Optional: Any parameters and any body
+  - Returns: Parameters and body
 
 - #### Route: `/delete`
   - Method: DELETE
   - Requires: nothing
   - Optional: Any parameters and any body
+  - Returns: Parameters and body
 
 ### User Routes `/api/users`
 
