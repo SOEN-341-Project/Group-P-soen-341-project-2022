@@ -7,8 +7,8 @@ import Products from './TestValues.json';
 import Brands from './TestValues.json';
 import Sellers from './TestValues.json';
 import React from 'react';
-import { shallow } from 'enzyme';
-import NavBar from "./Components/NavBar";
+// import { shallow } from 'enzyme';
+// import NavBar from "./Components/NavBar";
 
 test('returns true all the time!', () => {
   expect(true).toBe(true);
