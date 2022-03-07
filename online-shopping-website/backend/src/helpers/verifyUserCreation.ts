@@ -1,4 +1,4 @@
-import express, { Response, Request } from "express";
+import { UserRole } from "@prisma/client";
 
 export default function hasRequiredUserCreationParams(args: {
   email: string;
@@ -9,7 +9,7 @@ export default function hasRequiredUserCreationParams(args: {
   if (args.role === undefined) return false;
   const role: string = args.role.toUpperCase();
   return (
-    (role === "CUSTOMER" || role === "SELLER" || role === "ADMIN") &&
+    (role === UserRole.CUSTOMER || role === UserRole.SELLER || role === UserRole.ADMIN) &&
     args.email !== undefined &&
     args.password !== undefined &&
     args.address1 !== undefined
