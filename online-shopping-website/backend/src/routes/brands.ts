@@ -26,7 +26,7 @@ brandRouter.post("/create", async (req: Request, res: Response) => {
       pictureURL = await uploadFile({ file: picture, filename: brandNoPic.id.toString(), path: "brands/" });
     }
     const brand = await updateBrand({ brandId: brandNoPic.id, picture: pictureURL });
-    res.status(200).json({ brand: brand });
+    res.status(200).json(brand);
   } catch (e) {
     res.status(400).json({ error: e, message: e.message });
   }
@@ -67,7 +67,7 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => {
       description: req.body.description || oldBrand.description,
       picture: pictureURL || oldBrand.picture,
     });
-    res.status(200).json({ brand: brand });
+    res.status(200).json(brand);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }

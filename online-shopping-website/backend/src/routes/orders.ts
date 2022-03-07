@@ -21,7 +21,7 @@ orderRouter.post("/create", async (req: Request, res: Response) => {
       itemQuantities: itemQuantities,
       totalPrice: parseFloat(req.body.totalPrice as string),
     });
-    res.json({ newOrder }).status(200);
+    res.json(newOrder).status(200);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta.cause || e.message });
   }
@@ -34,7 +34,7 @@ orderRouter.delete("/delete", async (req: Request, res: Response) => {
       throw new Error("ID is invalid");
     }
     const deletedOrder = await deleteOrder({ orderId: orderId });
-    res.json({ deletedOrder }).status(200);
+    res.json(deletedOrder).status(200);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
@@ -59,7 +59,7 @@ orderRouter.post("/update", async (req: Request, res: Response) => {
       itemQuantities: itemQuantities,
       totalPrice: parseFloat(req.body.totalPrice as string),
     });
-    res.json({ newOrder }).status(200);
+    res.json(newOrder).status(200);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
