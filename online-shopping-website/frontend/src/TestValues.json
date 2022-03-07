@@ -63,5 +63,31 @@
     "Foodies on Wheels",
     "Fruits with Friends",
     "Ultimate pets"
+  ],
+  "sellerAccounts": [
+    "abc@gmail.com",
+    "blabla@hotmail.com"
+  ],
+  "users": [
+    {
+      "email": "abcd@gmail.com",
+      "password": "Cbcdef678&",
+      "role": "customer"
+    },
+    {
+      "email": "abc@gmail.com",
+      "password": "Abcdef678&",
+      "role": "seller"
+    },
+    {
+      "email": "blabla@hotmail.com",
+      "password": "Bbcdef678&",
+      "role": "seller"
+    },
+    {
+      "email": "admin@outlook.com",
+      "password": "Dbcdef678&",
+      "role": "admin"
+    }
   ]
 }
