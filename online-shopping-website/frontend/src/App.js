@@ -4,8 +4,6 @@ import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
 import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
 import { ProductPage } from './Components/ProductPage';
 import { ProductDetails } from './Components/ProductDetails';
-import { useState } from 'react';
-import Products from './TestValues.json';
 import {Register} from './Components/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 
