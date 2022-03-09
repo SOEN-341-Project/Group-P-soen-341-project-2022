@@ -4,11 +4,11 @@
 
 name: Bobble Backend CD
 
-on:
-  push:
-    branches: [master]
-    paths:
-      - "online-shopping-website/backend/**"
+on: pull_request
+  #push:
+  #  branches: [master]
+  #  paths:
+  #    - "online-shopping-website/backend/**"
 
 jobs:
   build:
@@ -61,7 +61,7 @@ jobs:
           mkdir ts-built/keys
           cd ts-built/keys
           touch gckey.json
-          echo ${{secrets.GOOGLE_UPLOAD_STORAGE_AUTH}} >> gckey.json
+          echo "${{secrets.GOOGLE_UPLOAD_STORAGE_AUTH}}" >> gckey.json
             
       - name: Authorize Google Cloud 📜
         id: "auth"
