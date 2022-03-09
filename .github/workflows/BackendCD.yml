@@ -58,7 +58,7 @@ jobs:
         with:
           name: BuildOutput
           path: ./
-      - name: Add Google Authentication Keys
+      - name: Add Google Authentication Keys 🗝️
         run: |
           mkdir ts-built/keys
           cd ts-built/keys
