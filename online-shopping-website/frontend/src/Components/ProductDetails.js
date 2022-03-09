@@ -7,9 +7,8 @@ import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {useParams} from 'react-router-dom';
-import Products from '../TestValues.json';
 import {Link} from "react-router-dom";
-
+import axios from 'axios';
 
 class ProductButtons extends React.Component {
     constructor(props) {
@@ -77,12 +76,25 @@ export const ProductDetails = () => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
+    const [selectedProduct, setSelectedProduct] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+
     //Getting product name from URL
-    const productId = useParams();
+    const productParams = useParams();
+    
+    // Get product by id
+    React.useEffect(() => {
+        axios.get("http://localhost:8080/api/items/find/?id=" + productParams.productId).then((res) => {
+            setSelectedProduct(res.data);
+            setLoading(false);
+        });
+    }, [productParams.productId]);
 
-    //Getting product by id from URL
-    const selectedProduct = Products.products.find(product => parseInt(productId.productId.match("[^/]*")) === product.id)
-
+    // Display load screen while getting data
+    if (loading) {
+        return <h1>Loading product: {productParams.productName}...</h1>;
+    }
+    
     return (
         <Grid container className="ProductDetails-Container">
             <Link to="/" className="RoutingLink">
@@ -95,18 +107,18 @@ export const ProductDetails = () => {
                 <Grid item xs={12} md={6}>
                     <h1>{selectedProduct.name}</h1>
                     <div className="ProductDetails-ImageConatiner">
-                        <img className="ProductDetails-Image" src={selectedProduct.image} alt={selectedProduct.name}/>
+                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name}/>
                     </div>
 
                     <Grid item container>
                         <Grid item xs={12} md={6}>
                             <h3>Brand</h3>
-                            <p>{selectedProduct.brand}</p>
+                            <p>{selectedProduct.brand.name}</p>
                         </Grid>
 
                         <Grid item xs={12} md={6}>
                             <h3>Seller</h3>
-                            <p>{selectedProduct.seller}</p>
+                            <p>{selectedProduct.seller.sellerName}</p>
                         </Grid>
                     </Grid>
                     <h3>Description</h3>

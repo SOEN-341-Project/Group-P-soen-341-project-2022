@@ -1,14 +1,30 @@
-import { useState } from 'react';
-import TestData from '../TestValues.json';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
 import { SideNav } from './SideNav';
+import axios from 'axios';
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {
+  // Getting backend products
+  const [products, setProducts] = useState(null);
+  const [brands, setBrands] = useState(null);
+  const [sellers, setSellers] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Products that will render
-  const [products, setProducts] = useState(TestData.products);
+  useEffect(() => {
+    const getProducts = axios.get("http://localhost:8080/api/items/all");
+    const getBrands = axios.get("http://localhost:8080/api/brands/all");
+    const getSellers = axios.get("http://localhost:8080/api/users/sellers");
+
+    axios.all([ getProducts, getBrands, getSellers ]).then(axios.spread((resProducts, resBrands, resSellers) => {
+      setProducts(resProducts.data);
+      setBrands(resBrands.data);
+      setSellers(resSellers.data);
+      setLoading(false);
+    }));
+
+  }, []);
 
   // Filters
   let [filters] = useState(
@@ -30,7 +46,7 @@ export const ProductPage = () => {
       const query = new RegExp('^' + filters.searchQuery, 'i');
 
       // Filter products according to search query, are within price range, and don't belong to brands or sellers arrays
-      setProducts(TestData.products.filter(product => (
+      setProducts(products.filter(product => (
           (product.name.split(' ').some(word => word.search(query) > -1) || product.name.search(query) > -1)
           && (filters.lowestPrice ? (product.price >= filters.lowestPrice) : true)
           && (filters.highestPrice ? (product.price <= filters.highestPrice) : true)
@@ -72,10 +88,15 @@ export const ProductPage = () => {
     filterProducts();
   }
 
+  // Waiting for products during GET
+  if (loading) {
+    return <h1>Loading products...</h1>;
+  }
+
   return (
     <Grid container columnSpacing={4} rowSpacing={5}>
       <Grid item xs={12} md={3} lg={2}>
-        <SideNav brands={TestData} sellers={TestData} filterProducts={filterProducts} filters={filters} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
+        <SideNav brands={brands} sellers={sellers} filterProducts={filterProducts} filters={filters} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
       </Grid>
       <Grid item xs={12} md={9} lg={10}>
         <ProductGrid products={products}/>

@@ -126,12 +126,12 @@ function BrandsCheckbox(props) {
     };
 
     function iterateSellers(props) {
-        return props.brands.map((brand,index) => {
+        return props.map((brand,index) => {
             return (
                 <Box key={index} sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
                     <FormControlLabel
-                        label={brand}
-                        control={<Checkbox defaultChecked onChange={handleChange} name={brand} />}
+                        label={brand.name}
+                        control={<Checkbox defaultChecked onChange={handleChange} name={brand.name} />}
                     />
                 </Box>
             );
@@ -151,12 +151,12 @@ function SellersCheckbox(props) {
     };
 
     function iterateSellers(props) {
-        return props.sellers.map((seller, index) => {
+        return props.map((seller, index) => {
             return (
                 <Box key={index} sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
                     <FormControlLabel
-                        label={seller}
-                        control={<Checkbox defaultChecked onChange={handleChange} name={seller} />}
+                        label={seller.sellerName}
+                        control={<Checkbox defaultChecked onChange={handleChange} name={seller.sellerName} />}
                     />
                 </Box>
             );

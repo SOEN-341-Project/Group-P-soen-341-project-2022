@@ -1,7 +1,7 @@
 import './App.css';
 import NavBar from './Components/NavBar';
 import {SellerProductsPage} from './Components/Seller/SellerProductsPage';
-import {SellerProductsForm} from './Components/Seller/SellerProductsForm';
+import { ModifyProductForm, AddNewProductForm } from './Components/Seller/SellerProductsForm';
 import { ProductPage } from './Components/ProductPage';
 import { ProductDetails } from './Components/ProductDetails';
 import {Register} from './Components/RegisterPage';
@@ -25,8 +25,8 @@ export default function App() {
               <Route path="/" element={<Layout/>}>
                   <Route index element={<ProductPage />}/>
                   <Route path="/register" element={<Register/>}/>
-                  <Route path="/seller/add-product-form" element={<SellerProductsForm/>}/>
-                  <Route path="/seller/:productId" element={<SellerProductsForm/>}/>
+                  <Route path="/seller/add-product-form" element={<AddNewProductForm />}/>
+                  <Route path="/seller/:productId" element={<ModifyProductForm />}/>
                   <Route path="/seller" element={<SellerProductsPage />}/>
                   <Route path="/:productId/:productName" element={<ProductDetails/>}/>
                   <Route path="*" element={<NoPage/>}/>
