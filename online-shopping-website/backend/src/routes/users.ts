@@ -34,7 +34,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       sellerName: req.body.sellerName,
     });
     // TODO: give the user an authentication token at this point
-    res.status(200).json({ newUser });
+    res.status(200).json(newUser);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
@@ -83,7 +83,7 @@ userRouter.post("/update", async (req: Request, res: Response) => {
       address1: req.body.address1 || usr.address1,
       sellerName: req.body.sellerName || usr.sellerName,
     });
-    res.status(200).json({ user: new_usr });
+    res.status(200).json(new_usr);
   } catch (e) {
     if (e.code === "P2002") {
       e.message = "Unique constraint on " + e.meta.target + " failed";

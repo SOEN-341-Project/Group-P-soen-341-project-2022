@@ -55,20 +55,16 @@ export async function orderByItem(args: { itemId: number }) {
     where: {
       items: { some: { id: args.itemId } },
     },
-    include: { items: true },
+    include: {
+      items: true,
+    },
   });
 }
 
 export async function allOrders() {
   return await prisma.order.findMany({
-    select: {
-      id: true,
-      items: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+    include: {
+      items: true,
     },
   });
 }

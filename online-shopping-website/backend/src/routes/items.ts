@@ -40,7 +40,7 @@ itemRouter.post("/create", async (req: Request, res: Response) => {
       itemId: itemNoPic.id,
       picture: pictureURL as string,
     });
-    res.status(200).json({ item: item });
+    res.status(200).json(item);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
@@ -55,7 +55,7 @@ itemRouter.delete("/delete", async (req: Request, res: Response) => {
     }
     const deletedItem = await deleteItem({ id: itemId });
     // TODO: delete the picture from google cloud
-    res.status(200).json({ item: deletedItem });
+    res.status(200).json(deletedItem);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
@@ -90,7 +90,7 @@ itemRouter.post("/update", async (req: Request, res: Response) => {
       promoted: isPromoted || oldItem.promoted,
       salePrice: isNaN(parseFloat(req.body.salePrice)) ? undefined : parseFloat(req.body.salePrice),
     });
-    res.status(200).json({ item });
+    res.status(200).json(item);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
@@ -114,7 +114,7 @@ itemRouter.get("/find", async (req: Request, res: Response) => {
 
 itemRouter.get("/all", async (req: Request, res: Response) => {
   const items = await allItems();
-  res.status(200).json({ items });
+  res.status(200).json(items);
 });
 
 export default itemRouter;
