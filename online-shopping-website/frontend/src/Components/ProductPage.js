@@ -3,7 +3,6 @@ import TestData from '../TestValues.json';
 import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
 import { SideNav } from './SideNav';
-import {SearchBar} from './SearchBar';
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {
@@ -79,7 +78,7 @@ export const ProductPage = () => {
         <SideNav brands={TestData} sellers={TestData} filterProducts={filterProducts} filters={filters} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
       </Grid>
       <Grid item xs={12} md={9} lg={10}>
-        <ProductGrid products={TestData.products}/>
+        <ProductGrid products={products}/>
       </Grid>
     </Grid>
   );
