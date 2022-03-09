@@ -4,7 +4,9 @@
 
 name: Bobble Backend CD
 
-on: pull_request
+on: 
+  pull_request:
+    paths: ".github/workflows/BackendCD.yml"
   #push:
   #  branches: [master]
   #  paths:
