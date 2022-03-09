@@ -12,7 +12,7 @@ on:
   push:
     branches: [ master ]
     paths:
-      - "online-shopping-website/fronend/**"
+      - "online-shopping-website/frontend/**"
 
 jobs:
   build:
