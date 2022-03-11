@@ -84,7 +84,7 @@ export const ProductDetails = () => {
     
     // Get product by id
     React.useEffect(() => {
-        axios.get("http://localhost:8080/api/items/find/?id=" + productParams.productId).then((res) => {
+        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productParams.productId).then((res) => {
             setSelectedProduct(res.data);
             setLoading(false);
         });

@@ -13,7 +13,7 @@ import axios from 'axios';
 
 //     // Get product by id
 //     useEffect(() => {
-//         axios.get("http://localhost:8080/api/items/find/?id=" + productId).then((res) => {
+//         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
 //             setModifyingProduct(res.data);
 //             setLoading(false);
 //         });
@@ -41,7 +41,7 @@ export const ModifyProductForm = (props) => {
 
     // Get product by ID, use it to autofill form fields
     useEffect(() => {
-        axios.get("http://localhost:8080/api/items/find/?id=" + productId).then((res) => {
+        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
             console.log(res.data);
             setModifiedProduct(res.data);
             setLoading(false);
@@ -50,7 +50,7 @@ export const ModifyProductForm = (props) => {
     
     const handleSubmit = () => {
         // TODO: Get brand by id, then post that brand id correctly
-        axios.post("http://localhost:8080/api/items/update", modifiedProduct)
+        axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/update", modifiedProduct)
         .then((res) => {
             console.log(res);
         });

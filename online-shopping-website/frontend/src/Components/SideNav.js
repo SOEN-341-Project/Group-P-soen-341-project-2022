@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Products from '../TestValues.json';
+// import Products from '../TestValues.json';
 import { SearchBar } from './SearchBar';
 import { Stack } from '@mui/material';
 
@@ -16,7 +16,7 @@ export const SideNav = (props) => {
     return (
         <Stack xs={12}>
             <SearchBar filterProducts={props.filterProducts} filters={props.filters}/>
-            <PriceFilter onSliderChange={props.onSliderChange} />
+            <PriceFilter unfilteredProducts={props.unfilteredProducts} onSliderChange={props.onSliderChange} />
             <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
             <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
         </Stack>
@@ -24,24 +24,23 @@ export const SideNav = (props) => {
 }
 
 const PriceFilter = (props) => {
+    
     function valuetext(value) {
         return `${value}Ɖ`;
     }
-
+    
     // Gets lowest price of all products
     const getLowestPrice = (products) => {
         return Math.min.apply(Math, products.map((product) => { return product.price; }));
     }
-
+    
     // Gets highest price of all products
     const getHighestPrice = (products) => {
         return Math.max.apply(Math, products.map((product) => { return product.price; }));
     }
-
-    // Sets lowest and highest prices to show on price slider
-    const lowestPrice = getLowestPrice(Products.products);
-    const highestPrice = getHighestPrice(Products.products);
     
+    const lowestPrice = getLowestPrice(props.unfilteredProducts);
+    const highestPrice = getHighestPrice(props.unfilteredProducts);
     // Labels to show under slider range
     const marks = [
         {
@@ -53,13 +52,14 @@ const PriceFilter = (props) => {
             label: valuetext(highestPrice),
         },
     ];
-
+    
     // const minDistance = 0;
     const [value, setValue] = React.useState([lowestPrice, highestPrice]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        props.onSliderChange(value);
+        props.onSliderChange(newValue);
+        // console.log(`lowestPrice: ${getLowestPrice(props.unfilteredProducts)}, highestPrice: ${getHighestPrice(props.unfilteredProducts)}, value: ${newValue}, lowestPriceConst: ${lowestPrice}, highestPriceConst: ${highestPrice}`);
     };
     return (
         <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140, paddingTop:'1rem',}}>
