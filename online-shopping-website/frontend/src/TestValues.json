@@ -95,7 +95,6 @@
       "price": 20,
       "quantity":1
     }
-<<<<<<< HEAD
   ],
   "sellerAccounts": [
     "abc@gmail.com",
@@ -122,7 +121,5 @@
       "password": "Dbcdef678&",
       "role": "admin"
     }
-=======
->>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
   ]
 }
