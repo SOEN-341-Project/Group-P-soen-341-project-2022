@@ -6,15 +6,15 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import {useParams} from 'react-router-dom';
-import Products from '../../TestValues.json';
-import {Link} from "react-router-dom";
+import {Link, useParams} from 'react-router-dom';
+import TestData from '../../TestValues.json';
 
 
 class ProductButtons extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            item: props,
             quantity: 1,
             show: true,
             max: 5,
@@ -35,10 +35,29 @@ class ProductButtons extends React.Component {
         }
     }
 
+    AddToCart = () => {
+        // Add remaining logic for modifying cart cookie
+        let item = this.state.item;
+        const newCartItem =     {
+            id: item.id,
+            name: item.name,
+            image: item.img,
+            description: item.description,
+            seller: item.seller,
+            brand: item.brand,
+            price: item.quantity,
+            quantity: this.state.quantity
+        }
+
+        //replace TestData.cart with cart cookie
+        TestData.cart.append(newCartItem);
+        console.log(TestData.cart);
+    }
+
     UpdateValue = (e) => {
         const inputValue = Number(e.target.value);
 
-        if ((inputValue < 1) || (inputValue.isNaN())) {
+        if ((inputValue < 1) || (inputValue.isNaN)) {
             this.setState({quantity: 1});
         } else if (inputValue > 10) {
             this.setState({quantity: 10});
@@ -66,7 +85,8 @@ class ProductButtons extends React.Component {
                 </Stack>
                 <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
                 <Link to="/my-shopping-cart" className="RoutingLink">
-                    <Button className="ProductDetails-CartButton GreenButtonContained" variant="contained" endIcon={<AddShoppingCartIcon/>}>
+                    <Button className="ProductDetails-CartButton GreenButtonContained" variant="contained"
+                            endIcon={<AddShoppingCartIcon/>} onClick={this.AddToCart}>
                         Add to cart
                     </Button>
                 </Link>
@@ -83,7 +103,7 @@ export const ProductDetails = () => {
     const productId = useParams();
 
     //Getting product by id from URL
-    const selectedProduct = Products.products.find(product => parseInt(productId.productId.match("[^/]*")) === product.id)
+    const selectedProduct = TestData.products.find(product => parseInt(productId.productId.match("[^/]*")) === product.id)
 
     return (
         <Grid container className="ProductDetails-Container">

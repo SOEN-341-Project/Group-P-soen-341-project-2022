@@ -65,7 +65,7 @@ export const CartPage = () => {
                 <h1 className='TextPink'>My Shopping Cart</h1>
             </Grid>
             <Grid item conatiner xs={12} lg={9} className="CartItemsContainer">
-                <CartItem cart={cart} setCart={setCart}/>
+                {/*<CartItem cart={cart} setCart={setCart}/>*/}
             </Grid>
             <Grid item xs={3} className="Cart-SideBanner">
                 <Grid item xs={12}>
