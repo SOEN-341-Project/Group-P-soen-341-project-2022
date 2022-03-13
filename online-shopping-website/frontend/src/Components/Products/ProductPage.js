@@ -1,4 +1,7 @@
+<<<<<<< HEAD:online-shopping-website/frontend/src/Components/Products/ProductPage.js
 import { useState } from 'react';
+=======
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d:online-shopping-website/frontend/src/Components/ProductPage.js
 import TestData from '../../TestValues.json';
 import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';

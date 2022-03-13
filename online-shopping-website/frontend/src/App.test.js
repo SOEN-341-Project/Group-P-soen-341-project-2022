@@ -3,12 +3,16 @@ import '@testing-library/jest-dom';
 import App from './App';
 import { ProductGrid } from './Components/Products/ProductGrid';
 import { SideNav } from './Components/SideNav';
+<<<<<<< HEAD
 import Products from './TestValues.json';
 import Brands from './TestValues.json';
 import Sellers from './TestValues.json';
 import React from 'react';
 // import { shallow } from 'enzyme';
 // import NavBar from "./Components/NavBar";
+=======
+import TestData from './TestValues.json';
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
 
 test('returns true all the time!', () => {
   expect(true).toBe(true);

@@ -261,6 +261,7 @@
   display: flex;
   justify-content: center;
   margin: 0 auto 1rem auto;
+<<<<<<< HEAD
 }
 
 .Cart-CloseButton {
@@ -269,6 +270,16 @@
   color: #ff7e7e;
 }
 
+=======
+}
+
+.Cart-CloseButton {
+  padding: 0;
+  border-radius: 40px;
+  color: #ff7e7e;
+}
+
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
 .Cart-CloseButton:hover {
   color: #e47272;
 }
@@ -326,6 +337,10 @@
 }
 
 .GreenButtonContained {
+<<<<<<< HEAD
+=======
+  /* background-color: rgb(72, 136, 72); */
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
   background-color: rgb(74, 143, 74);
 }
 
@@ -338,6 +353,7 @@
 }
 
 .PinkButtonContained {
+<<<<<<< HEAD
   background-color: #e88c8c;
 }
 
@@ -382,6 +398,35 @@
 .GreenButtonOutlined:hover {
   background-color: rgba(74, 143, 74, 0.055);
   border-color: rgb(74, 143, 74);
+=======
+  /* background-color: #a75e7d; */
+  background-color: #e88c8c;
+}
+
+.PinkButtonContained:hover {
+  background-color: #d48181;
+}
+
+.ProductButton,
+.GreenButtonContained,
+.PinkButtonContained {
+  height: 3em;
+}
+
+.ProductButton:hover,
+.GreenButtonContained:hover {
+  background-color: rgb(59, 121, 59);
+  border-color: rgb(60, 121, 60);
+}
+
+/* Text colors */
+.TextPink {
+  color: #ca6c6c;
+}
+
+.TextGreen {
+  color: rgb(60, 121, 60);
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
 }
 
 .GreenButtonOutlined:active {
@@ -403,6 +448,7 @@
 
 .BobbleLogoPadding {
   padding: 0.5em;
+<<<<<<< HEAD
 }
 
 /* TextField Override (Green Border) */
@@ -432,4 +478,15 @@
 
 .GreenLink:visited {
   color: #ca6c6c;
+=======
+}
+
+/* TextField Override (Green Border) */
+.MuiFormLabel-root.Mui-focused {
+  color: rgb(60, 121, 60) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(60, 121, 60) !important;
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
 }
