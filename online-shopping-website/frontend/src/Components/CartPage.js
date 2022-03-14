@@ -14,7 +14,6 @@ import TestData from '../TestValues.json';
 import {useState} from "react";
 
 export const CartPage = () => {
-    // const [cart, setCart] = useState(TestData.cart);
     const [GST, setGST] = useState(0.00);
     const [QST, setQST] = useState(0.00);
     const [alertVisible, setAlertVisible] = useState(false);
@@ -65,7 +64,7 @@ export const CartPage = () => {
                 <h1 className='TextPink'>My Shopping Cart</h1>
             </Grid>
             <Grid item conatiner xs={12} lg={9} className="CartItemsContainer">
-                {/*<CartItem cart={cart} setCart={setCart}/>*/}
+                <CartItem cart={cart}/>
             </Grid>
             <Grid item xs={3} className="Cart-SideBanner">
                 <Grid item xs={12}>
@@ -146,13 +145,13 @@ const PriceBreakdown = (props) => {
     )
 }
 
-const CartItem = (cart, setCart) => {
+const CartItem = (cart) => {
 
     function IncrementItem(item) {
         if (item.quantity !== 10) {
             let tempCart = cart.cart;
             tempCart[item.id].quantity++;
-            setCart(tempCart);
+            cart = tempCart;
         }
     }
 
@@ -160,17 +159,15 @@ const CartItem = (cart, setCart) => {
         if (item.quantity !== 1) {
             let tempCart = cart.cart;
             tempCart[item.id].quantity--;
-            setCart(tempCart);
+            cart = tempCart;
         }
     }
 
     function RemoveItem(item) {
         let tempCart = cart.cart;
         tempCart = tempCart.splice(item.id, item.id);
-        setCart(tempCart);
+        cart = tempCart;
     }
-
-    // console.log(cart.cart[0]);
 
     return (
         cart.cart.map((item) => {
