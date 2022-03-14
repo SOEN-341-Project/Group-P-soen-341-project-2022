@@ -14,30 +14,36 @@ import TestData from '../TestValues.json';
 import {useState} from "react";
 
 export const CartPage = () => {
-    const [GST, setGST] = useState(0.00);
-    const [QST, setQST] = useState(0.00);
-    const [alertVisible, setAlertVisible] = useState(false);
-    const [subtotal, setSubtotal] = useState(0.00);
-    const [total, setTotal] = useState(0.00);
-
     let [cart] = useState(TestData.cart);
+    let [subtotal] = useState(0.00);
+    let [GST] = useState(0.00);
+    let [QST] = useState(0.00);
+    let [total] = useState(0.00);
+    const [alertVisible, setAlertVisible] = useState(false);
 
     const calculateSubtotal = () => {
-        let subtotalCalc = 0;
-
+        console.log("entered subtotal fn");
         cart.forEach((item) => {
-            subtotalCalc += ((item.quantity) * (item.price));
+            subtotal += ((item.quantity) * (item.price));
         });
-        setSubtotal(subtotalCalc);
-
-        return subtotal;
     }
 
+    const calculateGST = () => {
+        GST = subtotal * 0.05;
+    }
+
+    const calculateQST = () => {
+        QST = subtotal * 0.0975;
+    }
 
     const calculateTotal = () => {
-        setTotal(subtotal + GST + QST);
-        return total.toFixed(2);
+        total = subtotal + GST + QST;
     }
+
+    calculateSubtotal();
+    calculateGST();
+    calculateQST();
+    calculateTotal();
 
     return (
         <Grid container className="Cart-Container">
@@ -72,7 +78,7 @@ export const CartPage = () => {
                     <PriceBreakdown cart={cart}/>
                     <hr/>
                     <h4 style={{margin: '1rem 0', textAlign: 'right'}}
-                        className='TextGreen'> {subtotal} Ɖ
+                        className='TextGreen'> {subtotal.toFixed(2)} Ɖ
                     </h4>
                 </Grid>
                 <hr/>
@@ -84,7 +90,7 @@ export const CartPage = () => {
                         <h5 style={{margin: 0}}>GST: 5.0%</h5>
                     </Grid>
                     <Grid item xs={6}>
-                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{GST} Ɖ</h5>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{GST.toFixed(2)} Ɖ</h5>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
@@ -92,7 +98,7 @@ export const CartPage = () => {
                         <h5 style={{margin: 0}}>QST: 9.975%</h5>
                     </Grid>
                     <Grid item xs={6}>
-                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{QST} Ɖ</h5>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{QST.toFixed(2)} Ɖ</h5>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
@@ -106,7 +112,7 @@ export const CartPage = () => {
                 <hr/>
                 <Grid item xs={12}>
                     <h4 style={{margin: 0, textAlign: 'right'}}
-                        className='TextPink'>{subtotal + GST + QST} Ɖ</h4>
+                        className='TextPink'>{total.toFixed(2)} Ɖ</h4>
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
                     <Button variant="contained" className="GreenButtonContained" onClick={function () {
@@ -145,35 +151,34 @@ const PriceBreakdown = (props) => {
     )
 }
 
-const CartItem = (cart) => {
+const CartItem = (props) => {
 
     function IncrementItem(item) {
         if (item.quantity !== 10) {
-            let tempCart = cart.cart;
-            tempCart[item.id].quantity++;
-            cart = tempCart;
+            // console.log("quantity before:" + props.cart[item.id].quantity);
+            props.cart[item.id].quantity++;
+            // console.log("quantity after:" + props.cart[item.id].quantity);
+
         }
     }
 
     function DecreaseItem(item) {
         if (item.quantity !== 1) {
-            let tempCart = cart.cart;
-            tempCart[item.id].quantity--;
-            cart = tempCart;
+            // console.log("quantity before:" + props.cart[item.id].quantity);
+            props.cart[item.id].quantity--;
+            // console.log("quantity after:" + props.cart[item.id].quantity);
+
         }
     }
 
     function RemoveItem(item) {
-        let tempCart = cart.cart;
-        tempCart = tempCart.splice(item.id, item.id);
-        cart = tempCart;
+        props.cart.splice(item.id, item.id);
     }
 
     return (
-        cart.cart.map((item) => {
-                console.log(item);
+        props.cart.map((item, index) => {
                 return (
-                    <Grid container className="CartItem">
+                    <Grid container className="CartItem" key={index}>
                         <Grid item sm={1} md={2} sx={{position: 'relative'}}>
                             <img className="CartItemImage" src={item.image} alt={item.name}/>
                         </Grid>
@@ -215,8 +220,8 @@ const CartItem = (cart) => {
                                             <input className="inputne" disabled={true} value={item.quantity}/>
                                             <Button className="QuantityButtons-Shared PinkButtonContained"
                                                     variant="contained"
-                                                    disabled={item.item.quantity === 10}
-                                                    onClick={IncrementItem(item)}>
+                                                    disabled={item.quantity === 10}
+                                                    onClick={() => IncrementItem(item)}>
                                                 <AddIcon/>
                                             </Button>
                                         </Stack>
