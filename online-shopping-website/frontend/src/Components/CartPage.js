@@ -1,7 +1,8 @@
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
@@ -11,7 +12,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import TestData from '../TestValues.json';
-import {useState} from "react";
 
 export const CartPage = () => {
     let [cart] = useState(TestData.cart);
@@ -140,9 +140,11 @@ export const CartPage = () => {
 const PriceBreakdown = (props) => {
     return (
         props.cart.map((item, index) => {
+            /*
             console.log(item.name);
             console.log(item.quantity);
             console.log(item.price);
+            */
             return (
                 <Grid item xs={12} sx={{display: 'flex'}} key={index}>
                     <Grid item xs={6} sx={{overflowX: 'hidden'}}>
@@ -158,20 +160,41 @@ const PriceBreakdown = (props) => {
 }
 
 const CartItem = (props) => {
-    function IncrementItem(item) {
-        if (item.quantity !== 10) {
-            props.cart[item.id].quantity++;
+    const [state, setState] = useState(0);
+    const forceUpdate = () => setState(state + 1);
+    let navigate = useNavigate();
+
+
+    function IncrementItem(itemID) {
+        if (props.cart[itemID].quantity !== 10) {
+            props.cart[itemID].quantity++;
         }
+        forceUpdate();
+        console.log("increment clicked");
     }
 
-    function DecreaseItem(item) {
-        if (item.quantity !== 1) {
-            props.cart[item.id].quantity--;
+    function DecreaseItem(itemID) {
+        if (props.cart[itemID].quantity !== 1) {
+            props.cart[itemID].quantity--;
         }
+        forceUpdate();
+        console.log("decrement clicked");
     }
 
-    function RemoveItem(item) {
-        props.cart.splice(item.id, item.id);
+    function RemoveItem(itemID) {
+        let updatedCart = props.cart.slice(itemID, itemID);
+
+        for (let i = 0; i < updatedCart.length; i++) {
+            props.cart[i] = updatedCart[i];
+        }
+
+        props.cart.pop();
+        forceUpdate();
+
+        if (props.cart.length === 0) {
+            window.alert("Cart emptied. Returning to home page.");
+            navigate(`/`);
+        }
     }
 
     return (
@@ -187,7 +210,8 @@ const CartItem = (props) => {
                                     <h3 style={{margin: '1rem 0'}}>{item.name}</h3>
                                 </Grid>
                                 <Grid item xs={3} md={1} sx={{margin: 'auto', textAlign: 'center'}}>
-                                    <Button className="Cart-CloseButton" onClick={RemoveItem(item)}>
+                                    <Button className="Cart-CloseButton"
+                                            onClick={() => RemoveItem(index)}>
                                         <CloseIcon/>
                                     </Button>
                                 </Grid>
@@ -213,14 +237,15 @@ const CartItem = (props) => {
                                             <Button className="QuantityButtons-Shared PinkButtonContained"
                                                     variant="contained"
                                                     disabled={item.quantity === 1}
-                                                    onClick={DecreaseItem(item)}>
+                                                    onClick={() => DecreaseItem(index)}>
                                                 <RemoveIcon/>
                                             </Button>
-                                            <input className="inputne" disabled={true} value={item.quantity}/>
+                                            <input className="inputne" disabled={true}
+                                                   value={item.quantity}/>
                                             <Button className="QuantityButtons-Shared PinkButtonContained"
                                                     variant="contained"
                                                     disabled={item.quantity === 10}
-                                                    onClick={() => IncrementItem(item)}>
+                                                    onClick={() => IncrementItem(index)}>
                                                 <AddIcon/>
                                             </Button>
                                         </Stack>
