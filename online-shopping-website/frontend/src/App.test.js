@@ -1,18 +1,25 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
-import { ProductGrid } from './Components/ProductGrid';
+import { ProductGrid } from './Components/Products/ProductGrid';
 import { SideNav } from './Components/SideNav';
-import Products from './TestValues.json';
 import Brands from './TestValues.json';
 import Sellers from './TestValues.json';
 import React from 'react';
 // import { shallow } from 'enzyme';
 // import NavBar from "./Components/NavBar";
+import TestData from './TestValues.json';
 
 test('returns true all the time!', () => {
   expect(true).toBe(true);
 });
+
+
+/*
+TODO:
+  - add cart page tests
+  - add login tests
+*/
 
 /*
 //contains errors --> to be fixed in separate PR

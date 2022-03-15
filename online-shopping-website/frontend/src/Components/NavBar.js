@@ -101,8 +101,7 @@ export default function NavBar() {
     const unProfileId = 'navbar-unaccount-profile';
     const sellerId = 'navbar-seller-profile';
     const renderAccountProfileIcon = (
-        <MenuItem onClick={handleOpenUserMenu}>
-        </MenuItem>
+        <MenuItem onClick={handleOpenUserMenu}/>
     )
 
     return (

@@ -18,7 +18,7 @@ const columns = [
                 pathname: `/seller/${params.id}`,
                 params: { params }
             }} className="RoutingLink">
-                <Button className="sellerButton" variant="text">
+                <Button className="sellerButton GreenButtonText" variant="text">
                     <EditIcon />
                 </Button>
             </Link>
@@ -31,7 +31,7 @@ const columns = [
         field: 'delete',
         headerName: 'Delete',
         renderCell: (params) => (
-            <Button className="sellerButton" variant="text" onClick={removeProduct(params.id)}>
+            <Button className="sellerButton GreenButtonText" variant="text" onClick={removeProduct(params.id)}>
                 <DeleteIcon />
             </Button>
         ),
@@ -72,7 +72,7 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             Sellers.sellers.map((seller, index) => {
-                return <Button key={index} name={seller} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller}</Button>;
+                return <Button key={index} name={seller} className="GreenButtonText" variant="text" onClick={(e) => handleSellerClick(e)}>{seller}</Button>;
             })
         );
     }
@@ -94,7 +94,7 @@ export const SellerProductsPage = () => {
             </Grid>
             <Grid item xs={12} className="sellerButtonsContainer">
                 <Link to="/seller/add-product-form" className="RoutingLink">
-                    <Button variant="contained">
+                    <Button className="GreenButtonContained" variant="contained">
                         Add product <AddIcon />
                     </Button>
                 </Link>

@@ -15,7 +15,7 @@ import { Stack } from '@mui/material';
 export const SideNav = (props) => {
     return (
         <Stack xs={12}>
-            <SearchBar filterProducts={props.filterProducts} filters={props.filters}/>
+            <SearchBar className="SearchBar" filterProducts={props.filterProducts} filters={props.filters} />
             <PriceFilter onSliderChange={props.onSliderChange} />
             <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
             <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
@@ -41,7 +41,7 @@ const PriceFilter = (props) => {
     // Sets lowest and highest prices to show on price slider
     const lowestPrice = getLowestPrice(Products.products);
     const highestPrice = getHighestPrice(Products.products);
-    
+
     // Labels to show under slider range
     const marks = [
         {
@@ -62,11 +62,11 @@ const PriceFilter = (props) => {
         props.onSliderChange(value);
     };
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', ml: 3, width: 140, paddingTop:'1rem',}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3, width: 140, paddingTop: '1rem', }}>
             <Typography>Filter by price:</Typography>
             <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
             <Slider
-                className='SideNavPriceFilter'
+                className='TextPink'
                 getAriaLabel={() => 'Price range'}
                 min={lowestPrice}
                 max={highestPrice}
@@ -87,7 +87,7 @@ const BrandDropdown = (props) => {
         <div className="accordion-width">
             <Accordion>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
+                    expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
@@ -106,7 +106,7 @@ const SellerDropdown = (props) => {
         <div className="accordion-width">
             <Accordion>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
+                    expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
@@ -126,12 +126,13 @@ function BrandsCheckbox(props) {
     };
 
     function iterateSellers(props) {
-        return props.brands.map((brand,index) => {
+        return props.brands.map((brand, index) => {
             return (
-                <Box key={index} sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
+                <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
                         label={brand}
-                        control={<Checkbox defaultChecked onChange={handleChange} name={brand} />}
+                        control={<Checkbox sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
+                            defaultChecked onChange={handleChange} name={brand} />}
                     />
                 </Box>
             );
@@ -153,10 +154,17 @@ function SellersCheckbox(props) {
     function iterateSellers(props) {
         return props.sellers.map((seller, index) => {
             return (
-                <Box key={index} sx={{display: 'flex', flexDirection: 'column', ml: 3}}>
+                <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
                         label={seller}
-                        control={<Checkbox defaultChecked onChange={handleChange} name={seller} />}
+                        control={
+                            <Checkbox
+                                sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
+                                defaultChecked
+                                onChange={handleChange}
+                                name={seller} 
+                            />
+                        }
                     />
                 </Box>
             );
