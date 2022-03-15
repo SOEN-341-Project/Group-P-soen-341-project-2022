@@ -1,13 +1,14 @@
-import express, { Response, Request } from "express";
-import { format, promisify } from "util";
-import bcrypt from "bcrypt";
-import hasRequiredUserCreationParams from "../helpers/verifyUserCreation";
-import { UserRole } from "@prisma/client";
-import { createUser, allUsers, userByEmail, userById, updateUser } from "../prismaFunctions/userFuncs";
+import express, { Response, Request } from 'express';
+import { format, promisify } from 'util';
+import bcrypt from 'bcrypt';
+import hasRequiredUserCreationParams from '../helpers/verifyUserCreation';
+import { User, UserRole } from '@prisma/client';
+import { createUser, allUsers, userByEmail, userById, updateUser, allSellers } from '../prismaFunctions/userFuncs';
+import {signToken, verifyToken, objectFromRequest} from '../helpers/jwtFuncs'
 
 const userRouter = express.Router();
 
-userRouter.post("/register", async (req: Request, res: Response) => {
+userRouter.post('/register', async (req: Request, res: Response) => {
   try {
     // verify that necessary parameters are there
     const role = (req.body.role as string).toUpperCase();
@@ -33,38 +34,36 @@ userRouter.post("/register", async (req: Request, res: Response) => {
       address1: req.body.address1,
       sellerName: req.body.sellerName,
     });
-    // TODO: give the user an authentication token at this point
-    res.status(200).json(newUser);
+    const userToken = signToken(newUser)
+    res.status(200).json({user: newUser, token: userToken});
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
 });
 
-userRouter.post("/signin", async (req: Request, res: Response) => {
+userRouter.post('/signin', async (req: Request, res: Response) => {
   // check if email is attatched to a user
   const usr = await userByEmail({ email: req.body.email });
-  if (usr === null) res.status(400).json({ error: "User not found" });
+  if (usr === null) res.status(400).json({ error: 'User not found' });
   // user does exist, check if password is correct
   else {
     const match = await bcrypt.compare(req.body.password, usr.password);
     if (match) {
       // password is correct
-      // TODO: give the user an authentication token
-      res.status(200).json({ message: "Password is correct" });
+      const userToken = signToken(usr)
+      res.status(200).json({ token: userToken });
     } else {
       // password is incorrect
-      res.status(400).json({ error: "Invalid Password", message: "Password is incorrect" });
+      res.status(400).json({ error: 'Invalid Password', message: 'Password is incorrect' });
     }
   }
 });
 
-userRouter.post("/update", async (req: Request, res: Response) => {
-  const usr_id = parseInt(req.body.id);
-  const usr = await userById({ id: usr_id });
+userRouter.post('/update', async (req: Request, res: Response) => {
+  const usr = objectFromRequest(req) as User;
   try {
-    if (isNaN(usr_id)) res.status(400).json({ error: "Invalid Id" });
     if (usr === null || usr === undefined) {
-      throw new Error(`User ${req.body.id} does not exist`);
+      throw new Error(`Token is invalid`);
     }
     // TODO: check authentication and see if user is changing their own account
     let encrypted_password: string | undefined;
@@ -83,16 +82,26 @@ userRouter.post("/update", async (req: Request, res: Response) => {
       address1: req.body.address1 || usr.address1,
       sellerName: req.body.sellerName || usr.sellerName,
     });
-    res.status(200).json(new_usr);
+    res.status(200).json({new_usr, usr});
   } catch (e) {
-    if (e.code === "P2002") {
-      e.message = "Unique constraint on " + e.meta.target + " failed";
+    if (e.code === 'P2002') {
+      e.message = 'Unique constraint on ' + e.meta.target + ' failed';
     }
     res.status(400).json({ error: e, message: e.message });
   }
 });
 
-userRouter.get("/all", async (req: Request, res: Response) => {
+userRouter.get('/sellers', async (req: Request, res: Response) => {
+  await allSellers()
+    .then((sellers) => {
+      res.status(200).json(sellers);
+    })
+    .catch((e) => {
+      res.status(500).json({ error: e, message: e.message });
+    });
+});
+
+userRouter.get('/all', async (req: Request, res: Response) => {
   //TODO: authenticate only admins for this route
   await allUsers()
     .then((user) => {

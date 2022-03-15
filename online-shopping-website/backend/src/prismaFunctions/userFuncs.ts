@@ -1,5 +1,5 @@
-import prisma from "./PrismaClient";
-import { UserRole } from "@prisma/client";
+import prisma from './PrismaClient';
+import { UserRole } from '@prisma/client';
 
 export async function createUser(args: {
   pWord: string;
@@ -65,6 +65,14 @@ export async function userByEmail(args: { email: string }) {
   return await prisma.user.findUnique({
     where: {
       email: args.email,
+    },
+  });
+}
+
+export async function allSellers() {
+  return await prisma.user.findMany({
+    where: {
+      role: UserRole.SELLER,
     },
   });
 }
