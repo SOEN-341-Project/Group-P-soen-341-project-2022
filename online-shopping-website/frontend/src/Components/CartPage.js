@@ -17,7 +17,9 @@ export const CartPage = () => {
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
+    //TODO: Replace TestData.cart with cookies value
     let [cart] = useState(TestData.cart);
+
     let [subtotal] = useState(0.00);
     let [GST] = useState(0.00);
     let [QST] = useState(0.00);
@@ -106,6 +108,7 @@ export const CartPage = () => {
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
                     <Button variant="contained" className="GreenButtonContained" onClick={function () {
+                        //TODO: add order to backend on click
                         setAlertVisible(true);
                         window.scrollTo(0, 0);
                     }} disabled={cart.length === 0}>

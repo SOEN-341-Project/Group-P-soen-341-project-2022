@@ -14,6 +14,13 @@ test('returns true all the time!', () => {
   expect(true).toBe(true);
 });
 
+
+/*
+TODO:
+  - add cart page tests
+  - add login tests
+*/
+
 /*
 //contains errors --> to be fixed in separate PR
 describe("NavBar component", () => {
