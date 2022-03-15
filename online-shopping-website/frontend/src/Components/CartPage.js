@@ -22,22 +22,25 @@ export const CartPage = () => {
     const [alertVisible, setAlertVisible] = useState(false);
 
     const calculateSubtotal = () => {
-        console.log("entered subtotal fn");
         cart.forEach((item) => {
             subtotal += ((item.quantity) * (item.price));
         });
+        console.log("calculated subtotal");
     }
 
     const calculateGST = () => {
         GST = subtotal * 0.05;
+        console.log("calculated GST");
     }
 
     const calculateQST = () => {
         QST = subtotal * 0.0975;
+        console.log("calculated QST");
     }
 
     const calculateTotal = () => {
         total = subtotal + GST + QST;
+        console.log("calculated total");
     }
 
     calculateSubtotal();
@@ -69,7 +72,7 @@ export const CartPage = () => {
             <Grid item xs={12} sx={{paddingBottom: '1rem'}}>
                 <h1 className='TextPink'>My Shopping Cart</h1>
             </Grid>
-            <Grid item conatiner xs={12} lg={9} className="CartItemsContainer">
+            <Grid item container xs={12} lg={9} className="CartItemsContainer">
                 <CartItem cart={cart}/>
             </Grid>
             <Grid item xs={3} className="Cart-SideBanner">
@@ -137,6 +140,9 @@ export const CartPage = () => {
 const PriceBreakdown = (props) => {
     return (
         props.cart.map((item, index) => {
+            console.log(item.name);
+            console.log(item.quantity);
+            console.log(item.price);
             return (
                 <Grid item xs={12} sx={{display: 'flex'}} key={index}>
                     <Grid item xs={6} sx={{overflowX: 'hidden'}}>
@@ -152,22 +158,15 @@ const PriceBreakdown = (props) => {
 }
 
 const CartItem = (props) => {
-
     function IncrementItem(item) {
         if (item.quantity !== 10) {
-            // console.log("quantity before:" + props.cart[item.id].quantity);
             props.cart[item.id].quantity++;
-            // console.log("quantity after:" + props.cart[item.id].quantity);
-
         }
     }
 
     function DecreaseItem(item) {
         if (item.quantity !== 1) {
-            // console.log("quantity before:" + props.cart[item.id].quantity);
             props.cart[item.id].quantity--;
-            // console.log("quantity after:" + props.cart[item.id].quantity);
-
         }
     }
 
