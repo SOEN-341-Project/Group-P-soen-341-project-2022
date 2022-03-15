@@ -14,6 +14,9 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import TestData from '../TestValues.json';
 
 export const CartPage = () => {
+    const [state, setState] = useState(0);
+    const forceUpdate = () => setState(state + 1);
+
     let [cart] = useState(TestData.cart);
     let [subtotal] = useState(0.00);
     let [GST] = useState(0.00);
@@ -21,32 +24,16 @@ export const CartPage = () => {
     let [total] = useState(0.00);
     const [alertVisible, setAlertVisible] = useState(false);
 
-    const calculateSubtotal = () => {
+    const calculateCartTally = () => {
         cart.forEach((item) => {
             subtotal += ((item.quantity) * (item.price));
         });
-        console.log("calculated subtotal");
-    }
-
-    const calculateGST = () => {
         GST = subtotal * 0.05;
-        console.log("calculated GST");
-    }
-
-    const calculateQST = () => {
         QST = subtotal * 0.0975;
-        console.log("calculated QST");
-    }
-
-    const calculateTotal = () => {
         total = subtotal + GST + QST;
-        console.log("calculated total");
     }
 
-    calculateSubtotal();
-    calculateGST();
-    calculateQST();
-    calculateTotal();
+    calculateCartTally();
 
     return (
         <Grid container className="Cart-Container">
@@ -73,7 +60,7 @@ export const CartPage = () => {
                 <h1 className='TextPink'>My Shopping Cart</h1>
             </Grid>
             <Grid item container xs={12} lg={9} className="CartItemsContainer">
-                <CartItem cart={cart}/>
+                <CartItem cart={cart} forceUpdate={forceUpdate}/>
             </Grid>
             <Grid item xs={3} className="Cart-SideBanner">
                 <Grid item xs={12}>
@@ -121,7 +108,7 @@ export const CartPage = () => {
                     <Button variant="contained" className="GreenButtonContained" onClick={function () {
                         setAlertVisible(true);
                         window.scrollTo(0, 0);
-                    }}>
+                    }} disabled={cart.length === 0}>
                         Place order
                     </Button>
                 </Grid>
@@ -140,11 +127,6 @@ export const CartPage = () => {
 const PriceBreakdown = (props) => {
     return (
         props.cart.map((item, index) => {
-            /*
-            console.log(item.name);
-            console.log(item.quantity);
-            console.log(item.price);
-            */
             return (
                 <Grid item xs={12} sx={{display: 'flex'}} key={index}>
                     <Grid item xs={6} sx={{overflowX: 'hidden'}}>
@@ -160,17 +142,14 @@ const PriceBreakdown = (props) => {
 }
 
 const CartItem = (props) => {
-    const [state, setState] = useState(0);
-    const forceUpdate = () => setState(state + 1);
     let navigate = useNavigate();
-
+    let forceUpdate = props.forceUpdate;
 
     function IncrementItem(itemID) {
         if (props.cart[itemID].quantity !== 10) {
             props.cart[itemID].quantity++;
         }
         forceUpdate();
-        console.log("increment clicked");
     }
 
     function DecreaseItem(itemID) {
@@ -178,7 +157,6 @@ const CartItem = (props) => {
             props.cart[itemID].quantity--;
         }
         forceUpdate();
-        console.log("decrement clicked");
     }
 
     function RemoveItem(itemID) {

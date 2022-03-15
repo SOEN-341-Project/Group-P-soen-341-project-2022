@@ -158,6 +158,12 @@
     right: 0;
     margin: auto;
   }
+  .CartItem {
+    background-color: rgba(89, 163, 89, 0.842);
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    max-height: 15rem;
+  }
 }
 
 /* Shared between cart page and product details */
