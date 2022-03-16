@@ -3,7 +3,7 @@
 So, you want to use the backend, huh? <br>
 It's pretty easy if you use this handy dandy reference guide!
 
-Accessing the backend needs one crucial thing and another one is sometimes needed, [**request methods**](#request-methods) and **authorization** (not built in yet)
+Accessing the backend needs one crucial thing and another one is sometimes needed, [**request methods**](#request-methods) and [**authorization**](#authorization)
 
 ## Table of Contents
 
@@ -13,6 +13,7 @@ Accessing the backend needs one crucial thing and another one is sometimes neede
     - [Get Requests:](#get-requests)
     - [Delete Requests:](#delete-requests)
     - [Post Requests:](#post-requests)
+  - [Authorization:](#authorization)
   - [Routes](#routes)
     - [Test Routes](#test-routes)
     - [User Routes `/api/users`](#user-routes-apiusers)
@@ -40,6 +41,10 @@ Delete requests are the simplest requests as they are only used when you want to
 
 Post requests are the most complex requests as they are the ones that are used when you want to send data to the server. These will be the main request method for creating and updating anything.
 
+## Authorization:
+
+Authorization isn't that big of a deal. This API uses a token based authentication so whenever a request is made that requires authentication, you'll need to add a token to the authorization header of the request. The authorization header should look like this `Authentication: Bearer {jwt token}`. It is very important that the `Bearer` keyword is there because it tells the server what type of authenticaion is being used. The token will most likely be stored in the cookies of the client and it'll have to be attatched maually to the request.
+
 ## Routes
 
 ### Test Routes
@@ -65,6 +70,13 @@ Test routes are only there for you to test if the api is working properly
   - Requires: nothing
   - Optional: Any parameters and any body
   - Returns: Parameters and body
+- #### Route: `/token`
+  - Method: POST
+  - Requires: 
+    - Headers:
+      - Authorization: Yes
+  - Optional: None
+  - Returns: The decrypted token
 
 ### User Routes `/api/users`
 
@@ -87,7 +99,7 @@ Test routes are only there for you to test if the api is working properly
         | `firstname`  | The user's first name     |
         | `lastname`   | The user's last name      |
         | `sellername` | The seller's display name |
-  - Returns: User object
+  - Returns: User object named `user` and the encrypted user object named `token`
 
 - #### Route: `/signin`
   - Method: POST
@@ -98,10 +110,11 @@ Test routes are only there for you to test if the api is working properly
         | `email`    | The user's email               |
         | `password` | The plain password of the user |
   - Optional: None
-  - Returns: A success or failure message (for now)
+  - Returns: User object named `user` and the encrypted user object named `token` or failure message
 - #### Route: `/update`
   - Method: POST
   - Requires:
+    - Authorization: Any User (they can only update their own account)
     - Body:
       - | Key  | Value         |
         | ---- | ------------- |
@@ -117,10 +130,11 @@ Test routes are only there for you to test if the api is working properly
         | `firstname`  | The user's first name          |
         | `lastname`   | The user's last name           |
         | `sellername` | The seller's display name      |
-  - Returns: Updated User object
+  - Returns: Updated User object named `user` and new token named `token`
 - #### Route: `/all`
   - Method: GET
-  - Requires: None
+  - Requires: 
+    - Authorization: Token, must be admin to use route
   - Optional: None
   - Returns: All users
 
@@ -129,6 +143,7 @@ Test routes are only there for you to test if the api is working properly
 - #### Route: `/create`
   - Method: POST
   - Requires:
+    - Authorization: Token, user must be seller
     - Body:
       - | Key           | Value                                          |
         | ------------- | ---------------------------------------------- |
@@ -150,7 +165,7 @@ Test routes are only there for you to test if the api is working properly
 
   - Method: DELETE
   - Requires:
-
+    - Authorization: Token, user must be the seller that created the item or an admin
     - Parameters:
       - | Key  | Value         |
         | ---- | ------------- |
@@ -162,6 +177,7 @@ Test routes are only there for you to test if the api is working properly
 - #### Route: `/update`
   - Method: POST
   - Requires:
+    - Authorization: Token, user must be the seller that created the item or an admin
     - Body:
       - | Key  | Value         |
         | ---- | ------------- |
@@ -181,6 +197,15 @@ Test routes are only there for you to test if the api is working properly
         | `promoted`      | If the item is promoted (default: false)                   |
   - Returns: Updated Item
 - #### Route: `/find`
+  - Method: GET
+  - Requires: 
+    - Parameters:
+      - | Key  | Value         |
+        | ---- | ------------- |
+        | `id` | The item's id |
+  - Optional: None
+  - Returns: All Items
+- #### Route: `/findAll`
   - Method: GET
   - Requires: None
   - Optional:
@@ -203,6 +228,7 @@ Test routes are only there for you to test if the api is working properly
 
   - Method: POST
   - Requires:
+    - Authorization: Token, User cannot be a Customer to use route
     - Body:
       - | Key           | Value                        |
         | ------------- | ---------------------------- |
@@ -220,6 +246,7 @@ Test routes are only there for you to test if the api is working properly
 - #### Route: `/delete`
   - Method: DELETE
   - Requires:
+    - Authorization: Token, User cannot be a Customer to use route
     - Parameters:
       - | Key  | Value         |
         | ---- | ------------- |
@@ -229,6 +256,7 @@ Test routes are only there for you to test if the api is working properly
 - #### Route: `/update`
   - Method: POST
   - Requires:
+  - Authorization: Token, User must be an Admin to use route
     - Body:
       - | Key  | Value          |
         | ---- | -------------- |
@@ -261,6 +289,7 @@ Test routes are only there for you to test if the api is working properly
 - #### Route: `/create`
   - Method: POST
   - Requires:
+    - Authorization: Token, user must be Customer to use route
     - Body:
       - | Key              | Value                                                                            |
         | ---------------- | -------------------------------------------------------------------------------- |
@@ -273,6 +302,7 @@ Test routes are only there for you to test if the api is working properly
 - #### Route: `/delete`
   - Method: DELETE
   - Requires:
+    - Authorization: Token, user must be Customer that created the order they are trying to delete or an Admin to use route
     - Parameters:
       - | Key  | Value          |
         | ---- | -------------- |
@@ -282,6 +312,7 @@ Test routes are only there for you to test if the api is working properly
 - #### Route: `/update`
   - Method: POST
   - Requires:
+    - Authorization: Token, user must be Customer that created the order they are trying to delete or an Admin to use route
     - Parameters:
       - | Key  | Value          |
         | ---- | -------------- |

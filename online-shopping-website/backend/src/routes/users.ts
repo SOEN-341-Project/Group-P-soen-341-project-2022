@@ -51,7 +51,7 @@ userRouter.post('/signin', async (req: Request, res: Response) => {
     if (match) {
       // password is correct
       const userToken = signToken(usr);
-      res.status(200).json({ token: userToken });
+      res.status(200).json({ token: userToken, user: usr });
     } else {
       // password is incorrect
       res.status(400).json({ error: 'Invalid Password', message: 'Password is incorrect' });
@@ -82,7 +82,7 @@ userRouter.post('/update', async (req: Request, res: Response) => {
       sellerName: req.body.sellerName || usr.sellerName,
     });
     const new_token = signToken(new_usr);
-    res.status(200).json({ new_usr, new_token });
+    res.status(200).json({ user: new_usr, token: new_token });
   } catch (e) {
     if (e.code === 'P2002') {
       e.message = 'Unique constraint on ' + e.meta.target + ' failed';

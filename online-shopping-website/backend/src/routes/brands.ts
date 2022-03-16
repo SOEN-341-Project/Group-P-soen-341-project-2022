@@ -65,7 +65,7 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => {
 
   const brandId = parseInt(req.body.id);
   try {
-    if (user == undefined || user == null || (user as User).role === UserRole.ADMIN) {
+    if (user == undefined || user == null || (user as User).role !== UserRole.ADMIN) {
       throw new Error('Invalid Authorization');
     }
     if (isNaN(brandId)) throw new Error("Invalid ID");
