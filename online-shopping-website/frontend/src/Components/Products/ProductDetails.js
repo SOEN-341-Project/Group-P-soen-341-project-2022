@@ -9,11 +9,16 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import TestData from '../../TestValues.json';
-
+import { useCookies } from "react-cookie";
 
 const ProductButtons = (props) => {
+    let [cookies] = useCookies(["name"]);
+    //let [product] = useState("");
+    
+    
+
     //TODO: Replace TestData.cart with cookies value
-    let [cart] = useState(TestData.cart);
+    let [cart] = useState(cookies.product);
 
     const [quantity, setQuantity] = useState(1);
     let navigate = useNavigate();
@@ -33,31 +38,32 @@ const ProductButtons = (props) => {
         }
         forceUpdate();
     }
+    
 
-    const AddToCart = () => {
-        let item = props.product;
-
-        if (cart.find(product => item.id === product.id)) {
-            if (window.confirm("Item is already in shopping cart. Navigate to cart to modify order quantity.")) {
-                navigate('/my-shopping-cart')
+           const AddToCart = () => {
+            let item = props.product;
+    
+            if (cart.find(product => item.id === product.id)) {
+                if (window.confirm("Item is already in shopping cart. Navigate to cart to modify order quantity.")) {
+                    navigate('/my-shopping-cart')
+                }
+            } else {
+                const newCartItem = {
+                    id: item.id,
+                    name: item.name,
+                    image: item.image,
+                    description: item.description,
+                    seller: item.seller,
+                    brand: item.brand,
+                    price: item.quantity,
+                    quantity: quantity
+                }
+                cart.push(newCartItem);
+                window.alert("Item(s) successfully added to cart.");
+                product = cart;
             }
-        } else {
-            const newCartItem = {
-                id: item.id,
-                name: item.name,
-                image: item.image,
-                description: item.description,
-                seller: item.seller,
-                brand: item.brand,
-                price: item.quantity,
-                quantity: quantity
-            }
-            cart.push(newCartItem);
-            window.alert("Item(s) successfully added to cart.");
+            console.log(cart);
         }
-        console.log(cart);
-    }
-
     return (
         <div className="ProductDetails-QuantityButtonsContainer">
             <h3 className='TextGreen'>Quantity</h3>
@@ -75,8 +81,9 @@ const ProductButtons = (props) => {
                 </Button>
             </Stack>
             <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
+            {/* {cookies.user && <p>{cookies.user}</p>} */}
             <Button className="ProductDetails-CartButton GreenButtonContained" variant="contained"
-                    endIcon={<AddShoppingCartIcon/>} onClick={AddToCart}>
+                    endIcon={<AddShoppingCartIcon/>}onClick={AddToCart} >
                 Add to cart
             </Button>
         </div>

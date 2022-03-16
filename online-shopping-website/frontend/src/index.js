@@ -4,10 +4,14 @@ import './index.css';
 import App from './App';
 import { StyledEngineProvider } from '@mui/material/styles';
 // import reportWebVitals from './reportWebVitals';
+import { CookiesProvider } from "react-cookie";
+
 
 ReactDOM.render(
   <StyledEngineProvider injectFirst>
+    <CookiesProvider>
     <App />
+  </CookiesProvider>
   </StyledEngineProvider>,
   document.getElementById('root')
 );

@@ -9,7 +9,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import provinces from 'provinces-ca';
-
+import { useCookies } from "react-cookie";
 //key-value pairs for profile components
 const profileProperties = {
     email: '',
@@ -34,6 +34,14 @@ export const Register = () => {
 
     //state for profile components
     const [values, setValues] = useState(profileProperties);
+
+    const [cookies, setCookie] = useCookies(["user"]);
+
+    function handleCookie() {
+        setCookie("Product", "", {
+          path: "/"
+        });
+      }
 
     //function executes when user selects seller or customer through radio buttons
     const handleChange = (event) => {
@@ -129,7 +137,8 @@ export const Register = () => {
                         {seller?<TextField required label="Seller name" variant="outlined" value={values.sellerName} onChange={(e) => setValues({ ...values, sellerName: e.target.value })}/> : null}
                     </RadioGroup>
                     <div style={{textAlign:'center'}}>
-                        <Button type="submit" value="Sign Up" variant="contained" className='GreenButtonContained' sx={{ maxWidth: '10rem'}}>Sign Up</Button>
+                    {cookies.user && <p>{cookies.user}</p>}
+                        <Button type="submit" value="Sign Up" variant="contained" className='GreenButtonContained' sx={{ maxWidth: '10rem'}} onClick={handleCookie}>Sign Up</Button>
                     </div>
                 </Stack>
             </form>
