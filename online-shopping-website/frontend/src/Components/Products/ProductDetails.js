@@ -12,13 +12,13 @@ import TestData from '../../TestValues.json';
 import { useCookies } from "react-cookie";
 
 const ProductButtons = (props) => {
-    let [cookies] = useCookies(["name"]);
+    let [cartCookie] = useCookies(["cart"]);
     //let [product] = useState("");
     
     
 
     //TODO: Replace TestData.cart with cookies value
-    let [cart] = useState(cookies.product);
+    let [cart] = useState(cartCookie.cart);
 
     const [quantity, setQuantity] = useState(1);
     let navigate = useNavigate();
@@ -60,7 +60,7 @@ const ProductButtons = (props) => {
                 }
                 cart.push(newCartItem);
                 window.alert("Item(s) successfully added to cart.");
-                product = cart;
+                cartCookie = cart;
             }
             console.log(cart);
         }

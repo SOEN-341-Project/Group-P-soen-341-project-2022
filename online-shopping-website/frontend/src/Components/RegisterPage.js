@@ -35,10 +35,10 @@ export const Register = () => {
     //state for profile components
     const [values, setValues] = useState(profileProperties);
 
-    const [cookies, setCookie] = useCookies(["user"]);
+    const [cookies, setCookie] = useCookies(["cartCookie"]);
 
     function handleCookie() {
-        setCookie("Product", "", {
+        setCookie("Cart", [], {
           path: "/"
         });
       }
