@@ -2,11 +2,17 @@ import express, { Response, Request } from 'express';
 import uploadFile from '../helpers/uploadFile';
 import hasRequiredItemCreationParams from '../helpers/verifyItemCreation';
 import { allItems, createItem, deleteItem, findItems, itemById, updateItem } from '../prismaFunctions/itemFuncs';
+import {objectFromRequest} from '../helpers/jwtFuncs';
+import { User, UserRole } from '@prisma/client';
 
 const itemRouter = express.Router();
 
 itemRouter.post('/create', async (req: Request, res: Response) => {
+  const user = objectFromRequest(req);
   try {
+    if (user == undefined || user == null || (user as User).role !== UserRole.SELLER) {
+      throw new Error('Invalid Authorization');
+    }
     if (
       !hasRequiredItemCreationParams({
         name: req.body.name,
@@ -47,11 +53,21 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
 });
 
 itemRouter.delete('/delete', async (req: Request, res: Response) => {
-  // TODO: make sure an admin or only the seller that created this item is allowed to delete
+  const user = objectFromRequest(req);
   const itemId = parseInt(req.query['id'] as string);
   try {
+    // only sellers or admins allowed
+    if (user == undefined || user == null || (user as User).role === UserRole.CUSTOMER) {
+      throw new Error('Invalid Authorization');
+    }
     if (itemId === undefined || isNaN(itemId)) {
       throw new Error('ID is invalid');
+    }
+    const item = await itemById({ id: itemId })
+    
+    // check if the item being deleted is owned by this seller or is an admin
+    if ((user as User).role === UserRole.SELLER && item?.sellerId !== (user as User).id){
+      throw new Error('Invalid Authorization');
     }
     const deletedItem = await deleteItem({ id: itemId });
     // TODO: delete the picture from google cloud
@@ -62,15 +78,18 @@ itemRouter.delete('/delete', async (req: Request, res: Response) => {
 });
 
 itemRouter.post('/update', async (req: Request, res: Response) => {
-  // TODO: make sure only the seller that created this item is allowed to update
+  const user = objectFromRequest(req);
   const isPromoted = req.body.promoted === 'true';
   const itemId = parseInt(req.body.id);
   try {
+    if (user == undefined || user == null || (user as User).role !== UserRole.SELLER) {
+      throw new Error('Invalid Authorization');
+    }
     if (itemId === undefined || isNaN(itemId)) {
       throw new Error('ID is invalid');
     }
     const oldItem = await itemById({ id: itemId });
-    if (oldItem === undefined || oldItem === null) {
+    if (oldItem === undefined || oldItem === null || oldItem.sellerId !== (user as User).id) {
       throw new Error('Item Not Found');
     }
     let pictureURL;

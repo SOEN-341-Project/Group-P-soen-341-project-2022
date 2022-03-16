@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import hasRequiredUserCreationParams from '../helpers/verifyUserCreation';
 import { User, UserRole } from '@prisma/client';
 import { createUser, allUsers, userByEmail, userById, updateUser, allSellers } from '../prismaFunctions/userFuncs';
-import {signToken, verifyToken, objectFromRequest} from '../helpers/jwtFuncs'
+import { signToken, verifyToken, objectFromRequest } from '../helpers/jwtFuncs';
 
 const userRouter = express.Router();
 
@@ -34,8 +34,8 @@ userRouter.post('/register', async (req: Request, res: Response) => {
       address1: req.body.address1,
       sellerName: req.body.sellerName,
     });
-    const userToken = signToken(newUser)
-    res.status(200).json({user: newUser, token: userToken});
+    const userToken = signToken(newUser);
+    res.status(200).json({ user: newUser, token: userToken });
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
@@ -50,7 +50,7 @@ userRouter.post('/signin', async (req: Request, res: Response) => {
     const match = await bcrypt.compare(req.body.password, usr.password);
     if (match) {
       // password is correct
-      const userToken = signToken(usr)
+      const userToken = signToken(usr);
       res.status(200).json({ token: userToken });
     } else {
       // password is incorrect
@@ -63,9 +63,8 @@ userRouter.post('/update', async (req: Request, res: Response) => {
   const usr = objectFromRequest(req) as User;
   try {
     if (usr === null || usr === undefined) {
-      throw new Error(`Token is invalid`);
+      throw new Error(`Authentication is invalid`);
     }
-    // TODO: check authentication and see if user is changing their own account
     let encrypted_password: string | undefined;
     if (req.body.password !== undefined) {
       //new password
@@ -82,7 +81,8 @@ userRouter.post('/update', async (req: Request, res: Response) => {
       address1: req.body.address1 || usr.address1,
       sellerName: req.body.sellerName || usr.sellerName,
     });
-    res.status(200).json({new_usr, usr});
+    const new_token = signToken(new_usr);
+    res.status(200).json({ new_usr, new_token });
   } catch (e) {
     if (e.code === 'P2002') {
       e.message = 'Unique constraint on ' + e.meta.target + ' failed';
@@ -102,7 +102,14 @@ userRouter.get('/sellers', async (req: Request, res: Response) => {
 });
 
 userRouter.get('/all', async (req: Request, res: Response) => {
-  //TODO: authenticate only admins for this route
+  const auth = objectFromRequest(req);
+  try {
+    if (auth == undefined || auth == null) {
+      throw new Error(`Invalid authentication`);
+    }
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.message });
+  }
   await allUsers()
     .then((user) => {
       res.status(200).json(user);
