@@ -6,12 +6,27 @@ import { SideNav } from './Components/SideNav';
 import Brands from './TestValues.json';
 import Sellers from './TestValues.json';
 import React from 'react';
+import {CartPage} from './Components/CartPage';
+
 // import { shallow } from 'enzyme';
 // import NavBar from "./Components/NavBar";
 import TestData from './TestValues.json';
 
 test('returns true all the time!', () => {
   expect(true).toBe(true);
+});
+
+describe("CartPage Component", () => {
+  it('should render cart items if cart is non-empty', () => {
+    render(<CartPage/>);
+    TestData.cart.forEach(item => {
+      expect(screen.getByText(item.name)).toBeInTheDocument();
+      expect(screen.getByText(item.price)).toBeInTheDocument();
+      expect(screen.getByText(item.seller)).toBeInTheDocument();
+      expect(screen.getByText(item.brand)).toBeInTheDocument();
+      expect(screen.getByText(item.quantity)).toBeInTheDocument();
+    });
+  })
 });
 
 
