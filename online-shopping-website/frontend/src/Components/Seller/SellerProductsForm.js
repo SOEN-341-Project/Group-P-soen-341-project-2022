@@ -2,72 +2,67 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
 import axios from 'axios';
-// import Products from '../../TestValues.json';
-
-// const SellerProductsForm = () => {
-//     // Get product ID from URL parameters
-//     const { productId } = useParams();
-
-//     const [modifyingProduct, setModifyingProduct] = useState(null);
-//     const [loading, setLoading] = useState(true);
-
-//     // Get product by id
-//     useEffect(() => {
-//         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
-//             setModifyingProduct(res.data);
-//             setLoading(false);
-//         });
-//     }, [productId]);
-    
-    
-//     // Find seller product by product ID
-//     const findSellerProduct = () => {
-//         if (productId) {
-//             const sellerProduct = Products.products.find((product) => product.id === parseInt(productId));
-//             return <ModifyProductForm sellerProduct={sellerProduct} />;
-//         }
-//         return <AddNewProductForm />;
-//     }
-
-//     return findSellerProduct();
-// }
 
 export const ModifyProductForm = (props) => {
     // Get product ID from URL parameters
     const { productId } = useParams();
 
-    const [modifiedProduct, setModifiedProduct] = useState(null);
+    // Waiting for HTTP requests
     const [loading, setLoading] = useState(true);
+    
+    // Chosen product
+    const [modifiedProduct, setModifiedProduct] = useState(null);
+
+    // States for image preview
+    const [fileSelected, setFileSelected] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
     // Get product by ID, use it to autofill form fields
     useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
-            console.log(res.data);
             setModifiedProduct(res.data);
+            setImagePreview(res.data.picture);
             setLoading(false);
         });
     }, [productId]);
-    
+
+    // Load image preview when file changes
+    useEffect(() => {
+        if (!fileSelected) {
+            setImagePreview(undefined);
+            return;
+        }
+
+        // Make a temporary image URL for previewing
+        const imageURL = URL.createObjectURL(fileSelected);
+        setImagePreview(imageURL);
+
+        return () => URL.revokeObjectURL(imageURL);
+    }, [fileSelected]);
+   
     const handleSubmit = () => {
-        // TODO: Get brand by id, then post that brand id correctly
         axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/update", modifiedProduct)
-        .then((res) => {
-            console.log(res);
+        .then(() => {
+            window.location.reload();
         });
     }
 
     const handleFieldChange = (event) => {
-        console.log(`Change! Target name: ${event.target.name}\nTarget value: ${event.target.value}`)
         setModifiedProduct({
             ...modifiedProduct,
             [event.target.name]: event.target.value
         });
     }
     
-    // TODO: Add image uploading
-    // const handleImageChange = (e) => {
-
-    // }
+    const handleImageChange = (e) => {
+        if (!e.target.files || e.target.files.length === 0) {
+            setFileSelected(undefined);
+            return;
+        }
+        setFileSelected(e.target.files[0]); // One image only
+        modifiedProduct.picture = e.target.files[0];
+        setModifiedProduct(modifiedProduct);
+    }
     
     if (loading) {
         return <h1>Loading form...</h1>;
@@ -92,7 +87,7 @@ export const ModifyProductForm = (props) => {
                     value={modifiedProduct.price}
                     onChange={handleFieldChange}
                     InputProps={{
-                        inputProps: { min: 0 },
+                        inputProps: { min: 0, step: 0.01 },
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }} 
                 />
@@ -106,14 +101,12 @@ export const ModifyProductForm = (props) => {
                     onChange={handleFieldChange}
                     />
                 {
-                    // TODO: Add image uploading
-                    /* 
-                    <Button component="label">
-                    Upload Image
-                    <input type="file" accept="image/*" hidden required onChange={handleImageChange} />
-                    </Button> 
-                    */
+                    imagePreview && <img src={imagePreview} alt="Product Preview" />
                 }
+                <Button type="button" component="label">
+                    Upload Image
+                    <input name="picture" type="file" accept="image/*" hidden onChange={handleImageChange} />
+                </Button> 
                 <TextField 
                     label="Brand" 
                     name="brand"
@@ -137,54 +130,126 @@ export const ModifyProductForm = (props) => {
                     value={modifiedProduct.totalQuantity}
                     onChange={handleFieldChange} 
                     />
-                <Button name="Save changes" type="submit">Save Changes</Button>
+                <Button type="submit">Save Changes</Button>
             </Stack>
         </form>
     );
 }
 
 export const AddNewProductForm = () => {
+    // New product values
+    const [newProduct, setNewProduct] = useState({
+        name: '',
+        price: 0,
+        description: '',
+        picture: null,
+        brand: {
+            name: ''
+        },
+        seller: {
+            sellerName: ''
+        },
+        totalQuantity: 0
+    });
+
+    // States for image preview
+    const [fileSelected, setFileSelected] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+
+    useEffect(() => {
+        if (!fileSelected) {
+            setImagePreview(undefined);
+            return;
+        }
+
+        const imageURL = URL.createObjectURL(fileSelected);
+        setImagePreview(imageURL);
+
+        return () => URL.revokeObjectURL(imageURL);
+    }, [fileSelected]);
 
     // TODO: Replace with logged in seller name when account management or adding with params ready
+    // TODO Get route for seller id -> name
     const sellerName = '';
 
-    const handleSubmit = () => {
-        // TODO: Add product to database
+    const handleFieldChange = (event) => {
+        setNewProduct({
+            ...newProduct,
+            [event.target.name]: event.target.value
+        });
     }
 
-    // TODO: Add image uploading
-    // const handleImageChange = (e) => {
+    const handleSubmit = (e) => {
+        axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/create", newProduct).then((res) => {
+            window.location.reload();
+        });
+    }
 
-    // }
+    const handleImageChange = (e) => {
+        if (!e.target.files || e.target.files.length === 0) {
+            setFileSelected(undefined);
+            return;
+        }
+        setFileSelected(e.target.files[0]); // One image only
+    }
 
     return (
         <form onSubmit={handleSubmit}>
             <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
                 <h1>Add a product</h1>
-                <TextField label="Name" required />
+                <TextField 
+                    label="Name" 
+                    required
+                    value={newProduct.name}
+                    onChange={handleFieldChange} 
+                    />
                 <TextField 
                     label="Price"
                     type="number"
                     required 
+                    value={newProduct.price}
+                    onChange={handleFieldChange} 
                     InputProps={{
                         inputProps: { min: 0, step: "0.5" },
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }} 
                 />
-                <TextField label="Description" required multiline rows={4} />
+                <TextField 
+                    label="Description" 
+                    required 
+                    value={newProduct.description}
+                    onChange={handleFieldChange} 
+                    multiline 
+                    rows={4}
+                    />
                 {
-                    // TODO: Add image uploading
-                    /* 
-                    <Button component="label">
+                    fileSelected && <img src={imagePreview} alt="Product Preview" />
+                }
+                <Button component="label">
                     Upload Image
                     <input type="file" accept="image/*" hidden required onChange={handleImageChange} />
-                    </Button> 
-                    */
-                }
-                <TextField label="Brand" required />
-                <TextField label="Seller" disabled value={sellerName} />
-                <TextField label="Quantity" type="number" required inputProps={{ min: 1 }} />
-                <Button name="Add Product" type="submit">Add Product</Button>
+                </Button> 
+                <TextField 
+                    label="Brand" 
+                    required
+                    value={newProduct.brand.name}
+                    onChange={handleFieldChange} 
+                />
+                <TextField 
+                    label="Seller" 
+                    disabled 
+                    value={sellerName} 
+                    onChange={handleFieldChange} 
+                />
+                <TextField 
+                    label="Quantity" 
+                    type="number" 
+                    required 
+                    value={newProduct.totalQuantity}
+                    onChange={handleFieldChange} 
+                    inputProps={{ min: 1 }} 
+                />
+                <Button type="submit">Add Product</Button>
             </Stack>
         </form>
     );
