@@ -34,6 +34,7 @@ jobs:
         cd ./online-shopping-website/frontend
         touch .env
         echo PUBLIC_URL=${{ secrets.PUBLIC_URL }} >> .env
+        echo REACT_APP_BACKEND_URL=${{secrets.PUBLIC_BACKEND_URL}} >> .env
     - name: Build App 💪
       run: |
         cd ./online-shopping-website/frontend
