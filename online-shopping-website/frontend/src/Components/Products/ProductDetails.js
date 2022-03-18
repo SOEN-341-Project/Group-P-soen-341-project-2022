@@ -125,12 +125,12 @@ export const ProductDetails = () => {
                     <Grid item container>
                         <Grid item xs={12} md={6}>
                             <h3>Brand</h3>
-                            <p>{selectedProduct.brand}</p>
+                            <p>{selectedProduct.brand.name}</p>
                         </Grid>
 
                         <Grid item xs={12} md={6}>
                             <h3>Seller</h3>
-                            <p>{selectedProduct.seller}</p>
+                            <p>{selectedProduct.seller.sellerName}</p>
                         </Grid>
                     </Grid>
                     <h3>Description</h3>
