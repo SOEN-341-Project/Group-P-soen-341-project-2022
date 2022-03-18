@@ -39,10 +39,10 @@ export const CartPage = () => {
     const PlaceOrder = () => {
         setAlertVisible(true);
         window.scrollTo(0, 0);
-        axios.post("/api/orders/create", {
+        axios.post(process.env.REACT_APP_DB_CONNECTION + '/api/orders/create', {
             //TODO: replace with cookie values
-            userId: 0,
-            itemIds: [0, 1, 2],
+            userId: 3,
+            itemIds: [5, 8, 14],
             itemQuantities: [2, 5, 3],
             totalPrice: total
         }).then(function (response) {
@@ -50,11 +50,135 @@ export const CartPage = () => {
         }).catch(function (error) {
             console.log("Order addition to backend failed.");
         });
-        cart = null;
-        //TODO: delete cart cookie on alert open
+
+        cart = null;    //TODO: replace with delete cart cookie (on alert open)
+        forceUpdate();
+    }
+
+    const PriceBreakdown = () => {
+        return (
+            cart.map((item, index) => {
+                return (
+                    <Grid item xs={12} sx={{display: 'flex'}} key={index}>
+                        <Grid item xs={6} sx={{overflowX: 'hidden'}}>
+                            <p><em>{item.name}</em></p>
+                        </Grid>
+                        <Grid item xs={6} sx={{textAlign: 'right'}}>
+                            <p>{item.quantity} x {item.price.toFixed(2)} Ɖ</p>
+                        </Grid>
+                    </Grid>
+                );
+            })
+        )
+    }
+
+    const CartItem = () => {
+        let navigate = useNavigate();
+
+        function IncrementItem(itemID) {
+            if (cart[itemID].quantity !== 10) {
+                cart[itemID].quantity++;
+            }
+            forceUpdate();
+        }
+
+        function DecreaseItem(itemID) {
+            if (cart[itemID].quantity !== 1) {
+                cart[itemID].quantity--;
+            }
+            forceUpdate();
+        }
+
+        function RemoveItem(itemID) {
+            let updatedCart = cart.filter((item) => item.id !== itemID);
+
+            for (let i = 0; i < updatedCart.length; i++) {
+                cart[i] = updatedCart[i];
+            }
+
+            cart.pop();
+            forceUpdate();
+
+            /*        if (cart.length === 0) {
+                        window.alert("Cart emptied. Returning to home page.");
+                        navigate(`/`);
+                    }*/
+        }
+
+        return (
+            cart.map((item, index) => {
+                    return (
+                        <Grid container className="CartItem" key={index}>
+                            <Grid item sm={1} md={2} sx={{position: 'relative'}}>
+                                <img className="CartItemImage" src={item.image} alt={item.name}/>
+                            </Grid>
+                            <Grid item xs={12} sm={10}>
+                                <Grid item xs={12} lg={12} sx={{display: 'flex'}}>
+                                    <Grid item sm={9} md={11}>
+                                        <h3 style={{margin: '1rem 0'}}>{item.name}</h3>
+                                    </Grid>
+                                    <Grid item xs={3} md={1} sx={{margin: 'auto', textAlign: 'center'}}>
+                                        <Button className="Cart-CloseButton"
+                                                onClick={() => RemoveItem(index)}>
+                                            <CloseIcon/>
+                                        </Button>
+                                    </Grid>
+
+                                </Grid>
+                                <Grid item xs={12} className='CartText'>
+                                    <Grid item xs={12} lg={3}>
+                                        <h4 style={{margin: 0}}>Seller:</h4>
+                                        <p style={{margin: '0.5rem 0'}}>{item.seller}</p>
+                                    </Grid>
+                                    <Grid item xs={12} lg={3}>
+                                        <h4 style={{margin: 0}}>Brand:</h4>
+                                        <p style={{margin: '0.5rem 0'}}>{item.brand}</p>
+                                    </Grid>
+                                    <Grid item xs={12} lg={3}>
+                                        <h4 style={{margin: 0}}>Price: {item.price} Ɖ</h4>
+                                        <h4>Promotion: 20% off</h4>
+                                    </Grid>
+                                    <Grid item xs={12} lg={3}>
+                                        <div>
+                                            <h4 className="Cart-Quantity">Quantity</h4>
+                                            <Stack className="Cart-Quantity" direction="row" spacing={1}>
+                                                <Button className="QuantityButtons-Shared PinkButtonContained"
+                                                        variant="contained"
+                                                        disabled={item.quantity === 1}
+                                                        onClick={() => DecreaseItem(index)}>
+                                                    <RemoveIcon/>
+                                                </Button>
+                                                <input className="inputne" disabled={true}
+                                                       value={item.quantity}/>
+                                                <Button className="QuantityButtons-Shared PinkButtonContained"
+                                                        variant="contained"
+                                                        disabled={item.quantity === 10}
+                                                        onClick={() => IncrementItem(index)}>
+                                                    <AddIcon/>
+                                                </Button>
+                                            </Stack>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    );
+                }
+            )
+        )
     }
 
     calculateCartTally();
+
+    if (!cart) {
+        return (
+            <Grid conatiner>
+                <div>
+                    Cart empty. Return to products page to add more items to your cart.
+                </div>
+            </Grid>
+        );
+    }
 
     return (
         <Grid container className="Cart-Container">
@@ -83,56 +207,64 @@ export const CartPage = () => {
             <Grid item container xs={12} lg={9} className="CartItemsContainer">
                 <CartItem cart={cart} forceUpdate={forceUpdate}/>
             </Grid>
-            <Grid item xs={3} className="Cart-SideBanner">
-                <Grid item xs={12}>
-                    <h3 className='TextGreen'>Subtotal</h3>
-                    <PriceBreakdown cart={cart}/>
+            {cart && (
+                <Grid item xs={3} className="Cart-SideBanner">
+                    <Grid item xs={12}>
+                        <h3 className='TextGreen'>Subtotal</h3>
+                        <PriceBreakdown/>
+                        <hr/>
+                        <h4 style={{margin: '1rem 0', textAlign: 'right'}}
+                            className='TextGreen'> {subtotal.toFixed(2)} Ɖ
+                        </h4>
+                    </Grid>
                     <hr/>
-                    <h4 style={{margin: '1rem 0', textAlign: 'right'}}
-                        className='TextGreen'> {subtotal.toFixed(2)} Ɖ
-                    </h4>
-                </Grid>
-                <hr/>
-                <Grid item xs={12}>
-                    <h3 className='TextGreen'>Total</h3>
-                </Grid>
-                <Grid item xs={12} sx={{display: 'flex', marginTop: '2rem'}}>
-                    <Grid item xs={6}>
-                        <h5 style={{margin: 0}}>GST: 5.0%</h5>
+                    <Grid item xs={12}>
+                        <h3 className='TextGreen'>Total</h3>
                     </Grid>
-                    <Grid item xs={6}>
-                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{GST.toFixed(2)} Ɖ</h5>
+                    <Grid item xs={12} sx={{display: 'flex', marginTop: '2rem'}}>
+                        <Grid item xs={6}>
+                            <h5 style={{margin: 0}}>GST: 5.0%</h5>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <h5 style={{marginTop: 0, textAlign: 'right'}}>{GST.toFixed(2)} Ɖ</h5>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
+                        <Grid item xs={6}>
+                            <h5 style={{margin: 0}}>QST: 9.975%</h5>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <h5 style={{marginTop: 0, textAlign: 'right'}}>{QST.toFixed(2)} Ɖ</h5>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
+                        <Grid item xs={6}>
+                            <h5 style={{margin: 0}}>Shipping</h5>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <h5 style={{marginTop: 0, textAlign: 'right'}} className='TextGreen'><em>Free</em></h5>
+                        </Grid>
+                    </Grid>
+                    <hr/>
+                    <Grid item xs={12}>
+                        <h4 style={{margin: 0, textAlign: 'right'}}
+                            className='TextPink'>{total.toFixed(2)} Ɖ</h4>
+                    </Grid>
+                    <Grid item xs={12} className="Cart-OrderButton">
+                        <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
+                                disabled={cart.length === 0}>
+                            Place order
+                        </Button>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
-                    <Grid item xs={6}>
-                        <h5 style={{margin: 0}}>QST: 9.975%</h5>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{QST.toFixed(2)} Ɖ</h5>
-                    </Grid>
+            )}
+            {!cart && (
+                <Grid conatiner>
+                    <div>
+                        Cart empty. Return to products page to add more items to your cart.
+                    </div>
                 </Grid>
-                <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
-                    <Grid item xs={6}>
-                        <h5 style={{margin: 0}}>Shipping</h5>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <h5 style={{marginTop: 0, textAlign: 'right'}} className='TextGreen'><em>Free</em></h5>
-                    </Grid>
-                </Grid>
-                <hr/>
-                <Grid item xs={12}>
-                    <h4 style={{margin: 0, textAlign: 'right'}}
-                        className='TextPink'>{total.toFixed(2)} Ɖ</h4>
-                </Grid>
-                <Grid item xs={12} className="Cart-OrderButton">
-                    {/*Add backend to on click orders*/}
-                    <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
-                            disabled={cart.length === 0}>
-                        Place order
-                    </Button>
-                </Grid>
-            </Grid>
+            )}
             <Grid item xs={12}>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="Cart-ProductsBackButton">
@@ -144,117 +276,3 @@ export const CartPage = () => {
     );
 }
 
-const PriceBreakdown = (props) => {
-    return (
-        props.cart.map((item, index) => {
-            return (
-                <Grid item xs={12} sx={{display: 'flex'}} key={index}>
-                    <Grid item xs={6} sx={{overflowX: 'hidden'}}>
-                        <p><em>{item.name}</em></p>
-                    </Grid>
-                    <Grid item xs={6} sx={{textAlign: 'right'}}>
-                        <p>{item.quantity} x {item.price.toFixed(2)} Ɖ</p>
-                    </Grid>
-                </Grid>
-            );
-        })
-    )
-}
-
-const CartItem = (props) => {
-    let navigate = useNavigate();
-    let forceUpdate = props.forceUpdate;
-
-    function IncrementItem(itemID) {
-        if (props.cart[itemID].quantity !== 10) {
-            props.cart[itemID].quantity++;
-        }
-        forceUpdate();
-    }
-
-    function DecreaseItem(itemID) {
-        if (props.cart[itemID].quantity !== 1) {
-            props.cart[itemID].quantity--;
-        }
-        forceUpdate();
-    }
-
-    function RemoveItem(itemID) {
-        let updatedCart = props.cart.filter((item) => item.id !== itemID);
-
-        for (let i = 0; i < updatedCart.length; i++) {
-            props.cart[i] = updatedCart[i];
-        }
-
-        props.cart.pop();
-        forceUpdate();
-
-        if (props.cart.length === 0) {
-            window.alert("Cart emptied. Returning to home page.");
-            navigate(`/`);
-        }
-    }
-
-    return (
-        props.cart.map((item, index) => {
-                return (
-                    <Grid container className="CartItem" key={index}>
-                        <Grid item sm={1} md={2} sx={{position: 'relative'}}>
-                            <img className="CartItemImage" src={item.image} alt={item.name}/>
-                        </Grid>
-                        <Grid item xs={12} sm={10}>
-                            <Grid item xs={12} lg={12} sx={{display: 'flex'}}>
-                                <Grid item sm={9} md={11}>
-                                    <h3 style={{margin: '1rem 0'}}>{item.name}</h3>
-                                </Grid>
-                                <Grid item xs={3} md={1} sx={{margin: 'auto', textAlign: 'center'}}>
-                                    <Button className="Cart-CloseButton"
-                                            onClick={() => RemoveItem(index)}>
-                                        <CloseIcon/>
-                                    </Button>
-                                </Grid>
-
-                            </Grid>
-                            <Grid item xs={12} className='CartText'>
-                                <Grid item xs={12} lg={3}>
-                                    <h4 style={{margin: 0}}>Seller:</h4>
-                                    <p style={{margin: '0.5rem 0'}}>{item.seller}</p>
-                                </Grid>
-                                <Grid item xs={12} lg={3}>
-                                    <h4 style={{margin: 0}}>Brand:</h4>
-                                    <p style={{margin: '0.5rem 0'}}>{item.brand}</p>
-                                </Grid>
-                                <Grid item xs={12} lg={3}>
-                                    <h4 style={{margin: 0}}>Price: {item.price} Ɖ</h4>
-                                    <h4>Promotion: 20% off</h4>
-                                </Grid>
-                                <Grid item xs={12} lg={3}>
-                                    <div>
-                                        <h4 className="Cart-Quantity">Quantity</h4>
-                                        <Stack className="Cart-Quantity" direction="row" spacing={1}>
-                                            <Button className="QuantityButtons-Shared PinkButtonContained"
-                                                    variant="contained"
-                                                    disabled={item.quantity === 1}
-                                                    onClick={() => DecreaseItem(index)}>
-                                                <RemoveIcon/>
-                                            </Button>
-                                            <input className="inputne" disabled={true}
-                                                   value={item.quantity}/>
-                                            <Button className="QuantityButtons-Shared PinkButtonContained"
-                                                    variant="contained"
-                                                    disabled={item.quantity === 10}
-                                                    onClick={() => IncrementItem(index)}>
-                                                <AddIcon/>
-                                            </Button>
-                                        </Stack>
-                                    </div>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                );
-            }
-        )
-    )
-
-}
