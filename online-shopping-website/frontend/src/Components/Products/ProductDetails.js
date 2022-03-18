@@ -1,75 +1,87 @@
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import * as React from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import {useParams} from 'react-router-dom';
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import TestData from '../../TestValues.json';
 import axios from 'axios';
 
-class ProductButtons extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            quantity: 1,
-            show: true,
-            max: 5,
-            min: 0,
-        };
-    }
+const ProductButtons = (props) => {
+    //TODO: Replace TestData.cart with cookies value
+    let [cart] = useState(TestData.cart);
 
-    IncrementItem = () => {
-        if (this.state.quantity !== 10) {
-            this.setState({
-                quantity: this.state.quantity + 1
-            });
+    const [quantity, setQuantity] = useState(1);
+    let navigate = useNavigate();
+
+    const [state, setState] = useState(0);
+    const forceUpdate = () => setState(state + 1);
+
+    const IncrementItem = () => {
+        if (quantity !== 10) {
+            setQuantity(quantity + 1);
         }
+        forceUpdate();
     }
-    DecreaseItem = () => {
-        if (this.state.quantity !== 1) {
-            this.setState({quantity: this.state.quantity - 1});
+    const DecreaseItem = () => {
+        if (quantity !== 1) {
+            setQuantity(quantity - 1);
         }
+        forceUpdate();
     }
 
-    UpdateValue = (e) => {
-        const inputValue = Number(e.target.value);
+    const AddToCart = () => {
+        let item = props.product;
 
-        if ((inputValue < 1) || (inputValue.isNaN())) {
-            this.setState({quantity: 1});
-        } else if (inputValue > 10) {
-            this.setState({quantity: 10});
+        if (cart.find(product => item.id === product.id)) {
+            if (window.confirm("Item is already in shopping cart. Navigate to cart to modify order quantity.")) {
+                navigate('/my-shopping-cart')
+            }
         } else {
-            this.setState({quantity: inputValue});
+            const newCartItem = {
+                id: item.id,
+                name: item.name,
+                image: item.image,
+                description: item.description,
+                seller: item.seller,
+                brand: item.brand,
+                price: item.quantity,
+                quantity: quantity
+            }
+            cart.push(newCartItem);
+            window.alert("Item(s) successfully added to cart.");
         }
+        console.log(cart);
     }
 
-    render() {
-        return (
-            <div className="ProductDetails-QuantityButtonsContainer">
-                <h3>Quantity</h3>
-                <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
-                    <Button className="ProductDetails-QuantityButtons" variant="contained"
-                            disabled={this.state.quantity === 1}
-                            onClick={this.DecreaseItem}>
-                        <RemoveIcon/>
-                    </Button>
-                    <input className="inputne" disabled={true} value={this.state.quantity} onChange={this.UpdateValue}/>
-                    <Button className="ProductDetails-QuantityButtons" variant="contained"
-                            disabled={this.state.quantity === 10}
-                            onClick={this.IncrementItem}>
-                        <AddIcon/>
-                    </Button>
-                </Stack>
-                <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
-                <Button className="ProductDetails-CartButton" variant="contained" endIcon={<AddShoppingCartIcon/>}>
-                    Add to cart
+    return (
+        <div className="ProductDetails-QuantityButtonsContainer">
+            <h3 className='TextGreen'>Quantity</h3>
+            <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
+                <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
+                        disabled={quantity === 1}
+                        onClick={DecreaseItem}>
+                    <RemoveIcon/>
                 </Button>
-            </div>
-        );
-    }
+                <input className="inputne" disabled={true} value={quantity}/>
+                <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
+                        disabled={quantity === 10}
+                        onClick={IncrementItem}>
+                    <AddIcon/>
+                </Button>
+            </Stack>
+            <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
+            <Button className="ProductDetails-CartButton GreenButtonContained" variant="contained"
+                    endIcon={<AddShoppingCartIcon/>} onClick={AddToCart}>
+                Add to cart
+            </Button>
+        </div>
+    );
+
 }
 
 export const ProductDetails = () => {
@@ -81,7 +93,7 @@ export const ProductDetails = () => {
 
     //Getting product name from URL
     const productParams = useParams();
-    
+
     // Get product by id
     React.useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productParams.productId).then((res) => {
@@ -94,7 +106,7 @@ export const ProductDetails = () => {
     if (loading) {
         return <h1>Loading product: {productParams.productName}...</h1>;
     }
-    
+
     return (
         <Grid container className="ProductDetails-Container">
             <Link to="/" className="RoutingLink">
@@ -113,12 +125,12 @@ export const ProductDetails = () => {
                     <Grid item container>
                         <Grid item xs={12} md={6}>
                             <h3>Brand</h3>
-                            <p>{selectedProduct.brand.name}</p>
+                            <p>{selectedProduct.brand}</p>
                         </Grid>
 
                         <Grid item xs={12} md={6}>
                             <h3>Seller</h3>
-                            <p>{selectedProduct.seller.sellerName}</p>
+                            <p>{selectedProduct.seller}</p>
                         </Grid>
                     </Grid>
                     <h3>Description</h3>
@@ -129,7 +141,6 @@ export const ProductDetails = () => {
                     <Card className="ProductDetails-SelectionPanel">
                         <h3>Price</h3>
                         <h4>{selectedProduct.price} Ɖ</h4>
-
                         <ProductButtons product={selectedProduct}/>
                     </Card>
                 </Grid>

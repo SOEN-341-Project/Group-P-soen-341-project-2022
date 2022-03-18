@@ -1,5 +1,5 @@
 import { useEffect, useState, createRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
 import axios from 'axios';
 
@@ -135,7 +135,7 @@ export const ModifyProductForm = (props) => {
                     InputProps={{
                         inputProps: { min: 0, step: 0.01 },
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
-                    }} 
+                    }}
                 />
                 <TextField 
                     label="Description" 
@@ -306,7 +306,7 @@ export const AddNewProductForm = () => {
                     InputProps={{
                         inputProps: { min: 0, step: "0.5" },
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
-                    }} 
+                    }}
                 />
                 <TextField 
                     name="description"

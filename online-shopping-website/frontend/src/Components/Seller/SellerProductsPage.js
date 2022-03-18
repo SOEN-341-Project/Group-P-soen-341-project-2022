@@ -123,7 +123,7 @@ export const SellerProductsPage = () => {
             </Grid>
             <Grid item xs={12} className="sellerButtonsContainer">
                 <Link to="/seller/add-product-form" className="RoutingLink">
-                    <Button variant="contained">
+                    <Button className="GreenButtonContained" variant="contained">
                         Add product <AddIcon />
                     </Button>
                 </Link>
