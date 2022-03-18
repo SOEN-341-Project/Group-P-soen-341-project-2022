@@ -1,9 +1,13 @@
 import { useEffect, useState, createRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
 import axios from 'axios';
 
+
 export const ModifyProductForm = (props) => {
+    // React router navigation (for redirecting)
+    let navigate = useNavigate();
+
     // Get product ID from URL parameters
     const { productId } = useParams();
 
@@ -42,66 +46,43 @@ export const ModifyProductForm = (props) => {
         return () => URL.revokeObjectURL(imageURL);
     }, [fileSelected]);
    
-    const handleSubmit = () => {
-        // Get brand ID by name -> POST brandId instead of brand name
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + modifiedProduct.brand.name)
-        .then((res) => {
-            // TODO Fix -> Only taking first found brand id, have to consider duplicate brands
-            console.log(res.data);
-            let brands = res.data;
+    const handleSubmit = async(event) => {
+        event.preventDefault();
 
-            // If no brand found with that ID, create it
-            if (!brands[0]) {
-                console.log(modifiedProduct.brand.name);
-                axios({
-                    method: "post",
-                    url: process.env.REACT_APP_DB_CONNECTION + "/api/brands/create",
-                    data: {
-                        name: modifiedProduct.brand.name
-                    },
-                    headers: { "Content-Type": "multipart/form-data" }
-                })
-                .then((createBrandRes) => {
-                    console.log(createBrandRes.data);
-                    brands = [createBrandRes.data];
-                    // Update product with new product data
-                    return axios({
-                        method: "post",
-                        url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
-                        data: {
-                            ...modifiedProduct,
-                            brandId: brands[0].id,
-                            // TODO Get seller ID from cookie
-                            sellerId: 9
-                        },
-                        headers: { "Content-Type": "multipart/form-data" }
-                    });
+        // Create form data for file uploading
+        let formData = new FormData();
 
-                })
-                .catch(() => {
-                    return;
-                });
-            }
-            else {
-                
-                // Update product with new product data
-                return axios({
-                    method: "post",
-                    url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
-                    data: {
-                        ...modifiedProduct,
-                        brandId: brands[0].id,
-                        // TODO Get seller ID from cookie
-                        sellerId: 9
-                    },
-                    headers: { "Content-Type": "multipart/form-data" }
-                });
-            }
-        })
-        .then((res) => {
-            console.log(res);
-            // window.location.reload();
+        // Check if brand already exists
+        const brands = await axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + modifiedProduct.brand.name);
+
+        let selectedBrand = brands.data[0];
+
+        // No brand found, create the brand
+        if (!selectedBrand) {
+            selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
+                name: modifiedProduct.brand.name
+            });
+        }
+
+        // Add form fields to form data
+        for (const field in modifiedProduct) {
+            formData.append(field, modifiedProduct[field]);
+        }
+        formData.append('picture', fileSelected);
+        formData.append('brandId', selectedBrand.id);
+
+        // TODO Get seller ID from cookie
+        formData.append('sellerId', 9);
+
+        // Update product with new product data
+        await axios({
+            method: "post",
+            url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" }
         });
+
+        navigate('/seller');
     }
 
     const handleFieldChange = (event) => {
@@ -127,8 +108,6 @@ export const ModifyProductForm = (props) => {
             return;
         }
         setFileSelected(e.target.files[0]); // One image only
-        modifiedProduct.picture = e.target.files[0];
-        setModifiedProduct(modifiedProduct);
     }
     
     if (loading) {
@@ -204,12 +183,14 @@ export const ModifyProductForm = (props) => {
 }
 
 export const AddNewProductForm = () => {
-    // New product values
+    // React router navigator (for redirecting)
+    let navigate = useNavigate();
+
+    // New product structure
     const [newProduct, setNewProduct] = useState({
         name: '',
         price: 0,
         description: '',
-        picture: null,
         brand: {
             name: ''
         },
@@ -218,7 +199,6 @@ export const AddNewProductForm = () => {
         },
         totalQuantity: 0
     });
-    // const [newProduct, setNewProduct] = useState({});
 
     // States for image preview
     const [fileSelected, setFileSelected] = useState(null);
@@ -258,69 +238,43 @@ export const AddNewProductForm = () => {
         }
     }
 
-    const handleSubmit = () => {
-        // Get brand ID by name -> POST brandId instead of brand name
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + newProduct.brand.name)
-        .then((res) => {
-            // TODO Fix -> Only taking first found brand id, have to consider duplicate brands
-            console.log(res.data);
-            let brands = res.data;
+    const handleSubmit = async(event) => {
+        event.preventDefault();
 
-            // If no brand found with that ID, create it
-            if (!brands[0]) {
-                console.log(newProduct.brand.name);
-                return axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
-                    name: newProduct.brand.name
-                })
-                // axios({
-                //     method: "post",
-                //     url: process.env.REACT_APP_DB_CONNECTION + "/api/brands/create",
-                //     data: {
-                //         name: newProduct.brand.name
-                //     },
-                //     headers: { "Content-Type": "multipart/form-data" }
-                // })
-                .then((createBrandRes) => {
-                    console.log(createBrandRes.data);
-                    brands = [createBrandRes.data];
-                    // Update product with new product data
-                    return axios({
-                        method: "post",
-                        url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
-                        data: {
-                            ...newProduct,
-                            brandId: brands[0].id,
-                            // TODO Get seller ID from cookie
-                            sellerId: 9
-                        },
-                        headers: { "Content-Type": "multipart/form-data" }
-                    });
+        // Create form data for file uploading
+        let formData = new FormData();
 
-                })
-                .catch(() => {
-                    return;
-                });
-            }
-            else {
-                
-                // Update product with new product data
-                return axios({
-                    method: "post",
-                    url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
-                    data: {
-                        ...newProduct,
-                        brandId: brands[0].id,
-                        // TODO Get seller ID from cookie
-                        sellerId: 9
-                    },
-                    headers: { "Content-Type": "multipart/form-data" }
-                });
-            }
-        })
-        .then((res) => {
-            console.log(res);
-            // window.location.reload();
+        // Check if brand already exists
+        const brands = await axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + newProduct.brand.name);
+
+        let selectedBrand = brands.data[0];
+
+        // No brand found, create the brand
+        if (!selectedBrand) {
+            selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
+                name: newProduct.brand.name
+            });
+        }
+
+        // Add form fields to form data
+        for (const field in newProduct) {
+            formData.append(field, newProduct[field]);
+        }
+        formData.append('picture', fileSelected);
+        formData.append('brandId', selectedBrand.id);
+
+        // TODO Get seller ID from cookie
+        formData.append('sellerId', 9);
+
+        // Update product with new product data
+        await axios({
+            method: "post",
+            url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" }
         });
+
+        navigate('/seller');
     }
 
     const handleImageChange = (e) => {

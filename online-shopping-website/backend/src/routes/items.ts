@@ -2,11 +2,13 @@ import express, { Response, Request } from "express";
 import uploadFile from "../helpers/uploadFile";
 import hasRequiredItemCreationParams from "../helpers/verifyItemCreation";
 import { allItems, createItem, deleteItem, findItems, itemById, updateItem } from "../prismaFunctions/itemFuncs";
+import { deleteUnusedBrands } from "../prismaFunctions/brandFuncs";
 
 const itemRouter = express.Router();
 
 itemRouter.post("/create", async (req: Request, res: Response) => {
   try {
+    console.log(`Hey this is the file: ${req.file} \n ${req.file?.stream}`)
     if (
       !hasRequiredItemCreationParams({
         name: req.body.name,
@@ -55,6 +57,10 @@ itemRouter.delete("/delete", async (req: Request, res: Response) => {
     }
     const deletedItem = await deleteItem({ id: itemId });
     // TODO: delete the picture from google cloud
+    if(deletedItem){
+      // if that was the last item in a brand, delete the brand entirely and all others that may not have items either
+      await deleteUnusedBrands();
+    }
     res.status(200).json(deletedItem);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });

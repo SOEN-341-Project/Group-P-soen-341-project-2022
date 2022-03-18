@@ -125,6 +125,18 @@ export async function findItems(args: { name?: string; sellerId?: number; brandI
         equals: args.sellerId,
       },
     },
+    include: {
+      seller: {
+        select: {
+          sellerName: true
+        },
+      },
+      brand: {
+        select: {
+          name: true
+        },
+      },
+    },
   });
 }
 
