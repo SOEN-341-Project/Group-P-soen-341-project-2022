@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
 import axios from 'axios';
@@ -16,11 +16,13 @@ export const ModifyProductForm = (props) => {
     // States for image preview
     const [fileSelected, setFileSelected] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    let imageRef = createRef();
 
     // Get product by ID, use it to autofill form fields
     useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
             setModifiedProduct(res.data);
+            console.log(res.data);
             setImagePreview(res.data.picture);
             setLoading(false);
         });
@@ -41,17 +43,82 @@ export const ModifyProductForm = (props) => {
     }, [fileSelected]);
    
     const handleSubmit = () => {
-        axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/update", modifiedProduct)
-        .then(() => {
-            window.location.reload();
+        // Get brand ID by name -> POST brandId instead of brand name
+        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + modifiedProduct.brand.name)
+        .then((res) => {
+            // TODO Fix -> Only taking first found brand id, have to consider duplicate brands
+            console.log(res.data);
+            let brands = res.data;
+
+            // If no brand found with that ID, create it
+            if (!brands[0]) {
+                console.log(modifiedProduct.brand.name);
+                axios({
+                    method: "post",
+                    url: process.env.REACT_APP_DB_CONNECTION + "/api/brands/create",
+                    data: {
+                        name: modifiedProduct.brand.name
+                    },
+                    headers: { "Content-Type": "multipart/form-data" }
+                })
+                .then((createBrandRes) => {
+                    console.log(createBrandRes.data);
+                    brands = [createBrandRes.data];
+                    // Update product with new product data
+                    return axios({
+                        method: "post",
+                        url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
+                        data: {
+                            ...modifiedProduct,
+                            brandId: brands[0].id,
+                            // TODO Get seller ID from cookie
+                            sellerId: 9
+                        },
+                        headers: { "Content-Type": "multipart/form-data" }
+                    });
+
+                })
+                .catch(() => {
+                    return;
+                });
+            }
+            else {
+                
+                // Update product with new product data
+                return axios({
+                    method: "post",
+                    url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
+                    data: {
+                        ...modifiedProduct,
+                        brandId: brands[0].id,
+                        // TODO Get seller ID from cookie
+                        sellerId: 9
+                    },
+                    headers: { "Content-Type": "multipart/form-data" }
+                });
+            }
+        })
+        .then((res) => {
+            console.log(res);
+            // window.location.reload();
         });
     }
 
     const handleFieldChange = (event) => {
-        setModifiedProduct({
-            ...modifiedProduct,
-            [event.target.name]: event.target.value
-        });
+        // TODO Autocomplete brand names with available brands (may be >1 brand with name, have to choose correct id)
+        if (event.target.name === "brandName") {
+            setModifiedProduct({
+                ...modifiedProduct,
+                brand: {
+                    name: event.target.value
+                }
+            })
+        } else {
+            setModifiedProduct({
+                ...modifiedProduct,
+                [event.target.name]: event.target.value
+            });
+        }
     }
     
     const handleImageChange = (e) => {
@@ -105,20 +172,20 @@ export const ModifyProductForm = (props) => {
                 }
                 <Button type="button" component="label">
                     Upload Image
-                    <input name="picture" type="file" accept="image/*" hidden onChange={handleImageChange} />
+                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden onChange={handleImageChange} />
                 </Button> 
                 <TextField 
                     label="Brand" 
-                    name="brand"
+                    name="brandName"
                     required 
                     value={modifiedProduct.brand.name}
                     onChange={handleFieldChange}
                     />
                 <TextField 
                     label="Seller" 
-                    name="seller"
+                    name="sellerName"
                     disabled 
-                    value={modifiedProduct.seller.sellerName}
+                    defaultValue={modifiedProduct.seller.sellerName}
                     onChange={handleFieldChange}
                     />
                 <TextField 
@@ -151,10 +218,12 @@ export const AddNewProductForm = () => {
         },
         totalQuantity: 0
     });
+    // const [newProduct, setNewProduct] = useState({});
 
     // States for image preview
     const [fileSelected, setFileSelected] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    let imageRef = createRef();
 
     useEffect(() => {
         if (!fileSelected) {
@@ -173,15 +242,84 @@ export const AddNewProductForm = () => {
     const sellerName = '';
 
     const handleFieldChange = (event) => {
-        setNewProduct({
-            ...newProduct,
-            [event.target.name]: event.target.value
-        });
+        // TODO Autocomplete brand names with available brands (may be >1 brand with name, have to choose correct id)
+        if (event.target.name === "brandName") {
+            setNewProduct({
+                ...newProduct,
+                brand: {
+                    name: event.target.value
+                }
+            })
+        } else {
+            setNewProduct({
+                ...newProduct,
+                [event.target.name]: event.target.value
+            });
+        }
     }
 
-    const handleSubmit = (e) => {
-        axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/create", newProduct).then((res) => {
-            window.location.reload();
+    const handleSubmit = () => {
+        // Get brand ID by name -> POST brandId instead of brand name
+        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + newProduct.brand.name)
+        .then((res) => {
+            // TODO Fix -> Only taking first found brand id, have to consider duplicate brands
+            console.log(res.data);
+            let brands = res.data;
+
+            // If no brand found with that ID, create it
+            if (!brands[0]) {
+                console.log(newProduct.brand.name);
+                return axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
+                    name: newProduct.brand.name
+                })
+                // axios({
+                //     method: "post",
+                //     url: process.env.REACT_APP_DB_CONNECTION + "/api/brands/create",
+                //     data: {
+                //         name: newProduct.brand.name
+                //     },
+                //     headers: { "Content-Type": "multipart/form-data" }
+                // })
+                .then((createBrandRes) => {
+                    console.log(createBrandRes.data);
+                    brands = [createBrandRes.data];
+                    // Update product with new product data
+                    return axios({
+                        method: "post",
+                        url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
+                        data: {
+                            ...newProduct,
+                            brandId: brands[0].id,
+                            // TODO Get seller ID from cookie
+                            sellerId: 9
+                        },
+                        headers: { "Content-Type": "multipart/form-data" }
+                    });
+
+                })
+                .catch(() => {
+                    return;
+                });
+            }
+            else {
+                
+                // Update product with new product data
+                return axios({
+                    method: "post",
+                    url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
+                    data: {
+                        ...newProduct,
+                        brandId: brands[0].id,
+                        // TODO Get seller ID from cookie
+                        sellerId: 9
+                    },
+                    headers: { "Content-Type": "multipart/form-data" }
+                });
+            }
+        })
+        .then((res) => {
+            console.log(res);
+            // window.location.reload();
         });
     }
 
@@ -198,12 +336,14 @@ export const AddNewProductForm = () => {
             <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
                 <h1>Add a product</h1>
                 <TextField 
+                    name="name"
                     label="Name" 
                     required
                     value={newProduct.name}
                     onChange={handleFieldChange} 
                     />
                 <TextField 
+                    name="price"
                     label="Price"
                     type="number"
                     required 
@@ -215,6 +355,7 @@ export const AddNewProductForm = () => {
                     }} 
                 />
                 <TextField 
+                    name="description"
                     label="Description" 
                     required 
                     value={newProduct.description}
@@ -227,21 +368,24 @@ export const AddNewProductForm = () => {
                 }
                 <Button component="label">
                     Upload Image
-                    <input type="file" accept="image/*" hidden required onChange={handleImageChange} />
+                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required onChange={handleImageChange} />
                 </Button> 
                 <TextField 
+                    name="brandName"
                     label="Brand" 
                     required
                     value={newProduct.brand.name}
                     onChange={handleFieldChange} 
                 />
                 <TextField 
+                    name="sellerName"
                     label="Seller" 
                     disabled 
                     value={sellerName} 
                     onChange={handleFieldChange} 
                 />
                 <TextField 
+                    name="totalQuantity"
                     label="Quantity" 
                     type="number" 
                     required 
