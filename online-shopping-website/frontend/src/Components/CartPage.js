@@ -12,6 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import TestData from '../TestValues.json';
+import axios from 'axios';
 
 export const CartPage = () => {
     const [state, setState] = useState(0);
@@ -33,6 +34,24 @@ export const CartPage = () => {
         GST = subtotal * 0.05;
         QST = subtotal * 0.0975;
         total = subtotal + GST + QST;
+    }
+
+    const PlaceOrder = () => {
+        setAlertVisible(true);
+        window.scrollTo(0, 0);
+        axios.post("/api/orders/create", {
+            //TODO: replace with cookie values
+            userId: 0,
+            itemIds: [0, 1, 2],
+            itemQuantities: [2, 5, 3],
+            totalPrice: total
+        }).then(function (response) {
+            console.log("Order added to backend.")
+        }).catch(function (error) {
+            console.log("Order addition to backend failed.");
+        });
+        cart = null;
+        //TODO: delete cart cookie on alert open
     }
 
     calculateCartTally();
@@ -107,11 +126,9 @@ export const CartPage = () => {
                         className='TextPink'>{total.toFixed(2)} Ɖ</h4>
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
-                    <Button variant="contained" className="GreenButtonContained" onClick={function () {
-                        //TODO: add order to backend on click
-                        setAlertVisible(true);
-                        window.scrollTo(0, 0);
-                    }} disabled={cart.length === 0}>
+                    {/*Add backend to on click orders*/}
+                    <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
+                            disabled={cart.length === 0}>
                         Place order
                     </Button>
                 </Grid>
@@ -163,7 +180,7 @@ const CartItem = (props) => {
     }
 
     function RemoveItem(itemID) {
-        let updatedCart = props.cart.slice(itemID, itemID);
+        let updatedCart = props.cart.filter((item) => item.id !== itemID);
 
         for (let i = 0; i < updatedCart.length; i++) {
             props.cart[i] = updatedCart[i];

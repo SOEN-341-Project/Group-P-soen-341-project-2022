@@ -49,7 +49,7 @@ const ProductButtons = (props) => {
                 description: item.description,
                 seller: item.seller,
                 brand: item.brand,
-                price: item.quantity,
+                price: item.price,
                 quantity: quantity
             }
             cart.push(newCartItem);
