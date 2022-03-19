@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TestData from '../../TestValues.json';
 import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
-import { SideNav } from '../SideNav';
+import { SideNav } from './SideNav';
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {
@@ -75,7 +75,7 @@ export const ProductPage = () => {
   return (
     <Grid container columnSpacing={4} rowSpacing={5}>
       <Grid item xs={12} md={3} lg={2}>
-        <SideNav brands={TestData} sellers={TestData} filterProducts={filterProducts} filters={filters} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
+        <SideNav filterProducts={filterProducts} filters={filters} onCheckboxChange={onCheckboxChange} onSliderChange={onSliderChange} />
       </Grid>
       <Grid item xs={12} md={9} lg={10}>
         <ProductGrid products={products}/>

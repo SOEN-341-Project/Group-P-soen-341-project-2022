@@ -8,8 +8,8 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Products from '../TestValues.json';
-import { SearchBar } from './SearchBar';
+import TestData from '../../TestValues.json';
+import { SearchBar } from '../SearchBar';
 import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
@@ -17,8 +17,8 @@ export const SideNav = (props) => {
         <Stack xs={12}>
             <SearchBar className="SearchBar" filterProducts={props.filterProducts} filters={props.filters} />
             <PriceFilter onSliderChange={props.onSliderChange} />
-            <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
-            <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
+            <BrandDropdown brands={TestData.brands} onCheckboxChange={props.onCheckboxChange} />
+            <SellerDropdown sellers={TestData.sellers} onCheckboxChange={props.onCheckboxChange} />
         </Stack>
     );
 }
@@ -39,8 +39,8 @@ const PriceFilter = (props) => {
     }
 
     // Sets lowest and highest prices to show on price slider
-    const lowestPrice = getLowestPrice(Products.products);
-    const highestPrice = getHighestPrice(Products.products);
+    const lowestPrice = getLowestPrice(TestData.products);
+    const highestPrice = getHighestPrice(TestData.products);
 
     // Labels to show under slider range
     const marks = [
@@ -125,8 +125,8 @@ function BrandsCheckbox(props) {
         props.onCheckboxChange('Brand', event.target.name, event.target.checked);
     };
 
-    function iterateSellers(props) {
-        return props.brands.map((brand, index) => {
+    function iterateSellers() {
+        return TestData.brands.map((brand, index) => {
             return (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
@@ -141,7 +141,7 @@ function BrandsCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers(props.brands)}
+            {iterateSellers()}
         </div>
     );
 }
@@ -151,8 +151,8 @@ function SellersCheckbox(props) {
         props.onCheckboxChange('Seller', event.target.name, event.target.checked);
     };
 
-    function iterateSellers(props) {
-        return props.sellers.map((seller, index) => {
+    function iterateSellers() {
+        return TestData.sellers.map((seller, index) => {
             return (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
@@ -173,7 +173,7 @@ function SellersCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers(props.sellers)}
+            {iterateSellers()}
         </div>
     );
 }

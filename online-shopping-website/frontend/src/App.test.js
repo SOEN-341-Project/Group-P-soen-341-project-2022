@@ -2,9 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
 import { ProductGrid } from './Components/Products/ProductGrid';
-import { SideNav } from './Components/SideNav';
-import Brands from './TestValues.json';
-import Sellers from './TestValues.json';
+import { SideNav } from './Components/Products/SideNav';
 import React from 'react';
 // import { shallow } from 'enzyme';
 // import NavBar from "./Components/NavBar";
@@ -21,9 +19,8 @@ TODO:
   - add login tests
 */
 
-/*
 //contains errors --> to be fixed in separate PR
-describe("NavBar component", () => {
+/*describe("NavBar component", () => {
   it("should change openLogin state to true when handleOpenLogin is called", () => {
     const wrapper = shallow(<NavBar/>);
 
@@ -46,22 +43,21 @@ describe("NavBar component", () => {
   expect(changeSize).toBeCalled();
 });*/
 
-/*
-test('renders Product Grid items', () => {
-  render(<ProductGrid products={Products.products} />);
-  Products.products.forEach(product => {
+/*test('renders Product Grid items', () => {
+  render(<ProductGrid products={TestData.products} />);
+  TestData.products.forEach(product => {
     let productElement = screen.getByText(product.name);
     expect(productElement).toBeInTheDocument();
   });
-});
+});*/
 
-test('renders SideNav', () => {
-  render(<SideNav brands={Brands} sellers={Sellers} />);
-  Brands.brands.forEach(brand => {
+/*test('renders SideNav', () => {
+  render(<SideNav brands={TestData} sellers={TestData} />);
+  TestData.brands.forEach(brand => {
     let brandElement = screen.getByText(brand);
     expect(brandElement).toBeInTheDocument();
   });
-  Sellers.sellers.forEach(seller => {
+  TestData.sellers.forEach(seller => {
     let sellerElement = screen.getByText(seller);
     expect(sellerElement).toBeInTheDocument();
   });
