@@ -13,6 +13,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import TestData from '../TestValues.json';
 import axios from 'axios';
+import Typography from "@mui/material/Typography";
 
 export const CartPage = () => {
     const [state, setState] = useState(0);
@@ -51,7 +52,7 @@ export const CartPage = () => {
             console.log("Order addition to backend failed.");
         });
 
-        cart = null;    //TODO: replace with delete cart cookie (on alert open)
+        cart = [];    //TODO: replace with delete cart cookie (on alert open)
         forceUpdate();
     }
 
@@ -99,10 +100,10 @@ export const CartPage = () => {
             cart.pop();
             forceUpdate();
 
-            /*        if (cart.length === 0) {
-                        window.alert("Cart emptied. Returning to home page.");
-                        navigate(`/`);
-                    }*/
+            if (cart.length === 0) {
+                window.alert("Cart emptied. Returning to home page.");
+                navigate(`/`);
+            }
         }
 
         return (
@@ -169,17 +170,46 @@ export const CartPage = () => {
     }
 
     calculateCartTally();
-
-    if (!cart) {
+    if (cart == false) {
         return (
-            <Grid conatiner>
-                <div>
-                    Cart empty. Return to products page to add more items to your cart.
-                </div>
+            <Grid container className="Cart-Container">
+                <Collapse in={alertVisible} className="Cart-Alert">
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={function () {
+                                    setAlertVisible(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit"/>
+                            </IconButton>
+                        }
+                        sx={{mb: 2}}
+                    >
+                        Order has successfully been placed.
+                    </Alert>
+                </Collapse>
+                <Grid item xs={12} sx={{paddingBottom: '1rem'}}>
+                    <h1 className='TextPink'>My Shopping Cart</h1>
+                </Grid>
+                <Grid item container sx={{paddingBottom: '2rem'}}>
+                    <Typography>
+                        Cart is empty. Return to products page to add products to cart.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Link to="/" className='RoutingLink'>
+                        <Button variant="text" className="Cart-ProductsBackButton">
+                            <ArrowBackIosNewIcon/><h4>Return to products</h4>
+                        </Button>
+                    </Link>
+                </Grid>
             </Grid>
-        );
+        )
     }
-
     return (
         <Grid container className="Cart-Container">
             <Collapse in={alertVisible} className="Cart-Alert">
@@ -205,66 +235,57 @@ export const CartPage = () => {
                 <h1 className='TextPink'>My Shopping Cart</h1>
             </Grid>
             <Grid item container xs={12} lg={9} className="CartItemsContainer">
-                <CartItem cart={cart} forceUpdate={forceUpdate}/>
+                <CartItem/>
             </Grid>
-            {cart && (
-                <Grid item xs={3} className="Cart-SideBanner">
-                    <Grid item xs={12}>
-                        <h3 className='TextGreen'>Subtotal</h3>
-                        <PriceBreakdown/>
-                        <hr/>
-                        <h4 style={{margin: '1rem 0', textAlign: 'right'}}
-                            className='TextGreen'> {subtotal.toFixed(2)} Ɖ
-                        </h4>
-                    </Grid>
+            <Grid item xs={3} className="Cart-SideBanner">
+                <Grid item xs={12}>
+                    <h3 className='TextGreen'>Subtotal</h3>
+                    <PriceBreakdown/>
                     <hr/>
-                    <Grid item xs={12}>
-                        <h3 className='TextGreen'>Total</h3>
+                    <h4 style={{margin: '1rem 0', textAlign: 'right'}}
+                        className='TextGreen'> {subtotal.toFixed(2)} Ɖ
+                    </h4>
+                </Grid>
+                <hr/>
+                <Grid item xs={12}>
+                    <h3 className='TextGreen'>Total</h3>
+                </Grid>
+                <Grid item xs={12} sx={{display: 'flex', marginTop: '2rem'}}>
+                    <Grid item xs={6}>
+                        <h5 style={{margin: 0}}>GST: 5.0%</h5>
                     </Grid>
-                    <Grid item xs={12} sx={{display: 'flex', marginTop: '2rem'}}>
-                        <Grid item xs={6}>
-                            <h5 style={{margin: 0}}>GST: 5.0%</h5>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <h5 style={{marginTop: 0, textAlign: 'right'}}>{GST.toFixed(2)} Ɖ</h5>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
-                        <Grid item xs={6}>
-                            <h5 style={{margin: 0}}>QST: 9.975%</h5>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <h5 style={{marginTop: 0, textAlign: 'right'}}>{QST.toFixed(2)} Ɖ</h5>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
-                        <Grid item xs={6}>
-                            <h5 style={{margin: 0}}>Shipping</h5>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <h5 style={{marginTop: 0, textAlign: 'right'}} className='TextGreen'><em>Free</em></h5>
-                        </Grid>
-                    </Grid>
-                    <hr/>
-                    <Grid item xs={12}>
-                        <h4 style={{margin: 0, textAlign: 'right'}}
-                            className='TextPink'>{total.toFixed(2)} Ɖ</h4>
-                    </Grid>
-                    <Grid item xs={12} className="Cart-OrderButton">
-                        <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
-                                disabled={cart.length === 0}>
-                            Place order
-                        </Button>
+                    <Grid item xs={6}>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{GST.toFixed(2)} Ɖ</h5>
                     </Grid>
                 </Grid>
-            )}
-            {!cart && (
-                <Grid conatiner>
-                    <div>
-                        Cart empty. Return to products page to add more items to your cart.
-                    </div>
+                <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
+                    <Grid item xs={6}>
+                        <h5 style={{margin: 0}}>QST: 9.975%</h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}}>{QST.toFixed(2)} Ɖ</h5>
+                    </Grid>
                 </Grid>
-            )}
+                <Grid item xs={12} sx={{display: 'flex', marginTop: 0}}>
+                    <Grid item xs={6}>
+                        <h5 style={{margin: 0}}>Shipping</h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <h5 style={{marginTop: 0, textAlign: 'right'}} className='TextGreen'><em>Free</em></h5>
+                    </Grid>
+                </Grid>
+                <hr/>
+                <Grid item xs={12}>
+                    <h4 style={{margin: 0, textAlign: 'right'}}
+                        className='TextPink'>{total.toFixed(2)} Ɖ</h4>
+                </Grid>
+                <Grid item xs={12} className="Cart-OrderButton">
+                    <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
+                            disabled={cart.length === 0}>
+                        Place order
+                    </Button>
+                </Grid>
+            </Grid>
             <Grid item xs={12}>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="Cart-ProductsBackButton">
