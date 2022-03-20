@@ -34,7 +34,7 @@ jobs:
         cd ./online-shopping-website/frontend
         touch .env
         echo PUBLIC_URL=${{ secrets.PUBLIC_URL }} >> .env
-        echo REACT_APP_BACKEND_URL=${{secrets.PUBLIC_BACKEND_URL}} >> .env
+        echo REACT_APP_DB_CONNECTION=https://api.bobbleshop.me >> .env
     - name: Build App 💪
       run: |
         cd ./online-shopping-website/frontend

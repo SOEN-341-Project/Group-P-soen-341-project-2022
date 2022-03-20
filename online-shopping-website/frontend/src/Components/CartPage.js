@@ -202,7 +202,7 @@ export const CartPage = () => {
 
     calculateCartTally();
 
-    //When cart is empty diaplsy message
+    //When cart is empty display message
     if (cart == false) {
         return (
             <Grid container className="Cart-Container">

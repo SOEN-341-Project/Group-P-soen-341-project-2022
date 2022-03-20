@@ -3,7 +3,7 @@ import { format, promisify } from "util";
 import bcrypt from "bcrypt";
 import hasRequiredUserCreationParams from "../helpers/verifyUserCreation";
 import { UserRole } from "@prisma/client";
-import { createUser, allUsers, userByEmail, userById, updateUser } from "../prismaFunctions/userFuncs";
+import { createUser, allUsers, userByEmail, userById, updateUser, allSellers } from "../prismaFunctions/userFuncs";
 
 const userRouter = express.Router();
 
@@ -91,6 +91,14 @@ userRouter.post("/update", async (req: Request, res: Response) => {
     res.status(400).json({ error: e, message: e.message });
   }
 });
+
+userRouter.get('/sellers', async (req: Request, res: Response) => {
+  await allSellers()
+    .then((sellers) => {
+      res.status(200).json(sellers);
+    })
+    .catch((e) => {res.status(500).json({ error: e, message: e.message })})
+})
 
 userRouter.get("/all", async (req: Request, res: Response) => {
   //TODO: authenticate only admins for this route

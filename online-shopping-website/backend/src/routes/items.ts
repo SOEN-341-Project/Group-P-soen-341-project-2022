@@ -2,11 +2,13 @@ import express, { Response, Request } from "express";
 import uploadFile from "../helpers/uploadFile";
 import hasRequiredItemCreationParams from "../helpers/verifyItemCreation";
 import { allItems, createItem, deleteItem, findItems, itemById, updateItem } from "../prismaFunctions/itemFuncs";
+import { deleteUnusedBrands } from "../prismaFunctions/brandFuncs";
 
 const itemRouter = express.Router();
 
 itemRouter.post("/create", async (req: Request, res: Response) => {
   try {
+    console.log(`Hey this is the file: ${req.file} \n ${req.file?.stream}`)
     if (
       !hasRequiredItemCreationParams({
         name: req.body.name,
@@ -55,6 +57,10 @@ itemRouter.delete("/delete", async (req: Request, res: Response) => {
     }
     const deletedItem = await deleteItem({ id: itemId });
     // TODO: delete the picture from google cloud
+    if(deletedItem){
+      // if that was the last item in a brand, delete the brand entirely and all others that may not have items either
+      await deleteUnusedBrands();
+    }
     res.status(200).json(deletedItem);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
@@ -89,6 +95,7 @@ itemRouter.post("/update", async (req: Request, res: Response) => {
       picture: pictureURL || oldItem.picture,
       promoted: isPromoted || oldItem.promoted,
       salePrice: isNaN(parseFloat(req.body.salePrice)) ? undefined : parseFloat(req.body.salePrice),
+      totalQuantity: isNaN(parseInt(req.body.totalQuantity)) ? undefined : parseInt(req.body.totalQuantity),
     });
     res.status(200).json(item);
   } catch (e) {
@@ -97,6 +104,16 @@ itemRouter.post("/update", async (req: Request, res: Response) => {
 });
 
 itemRouter.get("/find", async (req: Request, res: Response) => {
+  const itemId = parseInt(req.query["id"] as string);
+  try {
+    const item = await itemById({id: itemId});
+    res.status(200).json(item);
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
+  }
+})
+
+itemRouter.get("/findAll", async (req: Request, res: Response) => {
   const searchName = req.query["name"] as string;
   const sellerId = parseInt(req.query["sellerId"] as string);
   const brandId = parseInt(req.query["brandId"] as string);

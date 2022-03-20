@@ -15,7 +15,7 @@ const brandRouter = express.Router();
 brandRouter.post("/create", async (req: Request, res: Response) => {
   // TODO: check if user that added this brand is a seller (or an admin?)
   try {
-    if (!hasRequiredBrandCreationParams({ name: req.body.name, description: req.body.description }))
+    if (!hasRequiredBrandCreationParams({ name: req.body.name }))
       throw new Error(`Data Missing`);
 
     const brandNoPic = await createBrand({ name: req.body.name, description: req.body.description });
