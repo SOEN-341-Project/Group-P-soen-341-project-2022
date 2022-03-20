@@ -10,38 +10,36 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { SearchBar } from '../SearchBar';
 import { Stack } from '@mui/material';
-import TestData from '../../TestValues.json';
 
 export const SideNav = (props) => {
     return (
         <Stack xs={12}>
             <SearchBar className="SearchBar" filterProducts={props.filterProducts} filters={props.filters} />
-            <PriceFilter onSliderChange={props.onSliderChange} />
-            <BrandDropdown brands={TestData.brands} onCheckboxChange={props.onCheckboxChange} />
-            <SellerDropdown sellers={TestData.sellers} onCheckboxChange={props.onCheckboxChange} />
+            <PriceFilter unfilteredProducts={props.unfilteredProducts} onSliderChange={props.onSliderChange} />
+            <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
+            <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
         </Stack>
     );
 }
 
 const PriceFilter = (props) => {
+    
     function valuetext(value) {
         return `${value}Ɖ`;
     }
-
+    
     // Gets lowest price of all products
     const getLowestPrice = (products) => {
         return Math.min.apply(Math, products.map((product) => { return product.price; }));
     }
-
+    
     // Gets highest price of all products
     const getHighestPrice = (products) => {
         return Math.max.apply(Math, products.map((product) => { return product.price; }));
     }
-
-    // Sets lowest and highest prices to show on price slider
-    const lowestPrice = getLowestPrice(TestData.products);
-    const highestPrice = getHighestPrice(TestData.products);
-
+    
+    const lowestPrice = getLowestPrice(props.unfilteredProducts);
+    const highestPrice = getHighestPrice(props.unfilteredProducts);
     // Labels to show under slider range
     const marks = [
         {
@@ -53,12 +51,14 @@ const PriceFilter = (props) => {
             label: valuetext(highestPrice),
         },
     ];
-
+    
+    // const minDistance = 0;
     const [value, setValue] = React.useState([lowestPrice, highestPrice]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        props.onSliderChange(value);
+        props.onSliderChange(newValue);
+        // console.log(`lowestPrice: ${getLowestPrice(props.unfilteredProducts)}, highestPrice: ${getHighestPrice(props.unfilteredProducts)}, value: ${newValue}, lowestPriceConst: ${lowestPrice}, highestPriceConst: ${highestPrice}`);
     };
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3, width: 140, paddingTop: '1rem', }}>
@@ -124,14 +124,14 @@ function BrandsCheckbox(props) {
         props.onCheckboxChange('Brand', event.target.name, event.target.checked);
     };
 
-    function iterateSellers() {
-        return TestData.brands.map((brand, index) => {
+    function iterateBrands(props) {
+        return props.brands.map((brand,index) => {
             return (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
-                        label={brand}
+                        label={brand.name}
                         control={<Checkbox sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
-                            defaultChecked onChange={handleChange} name={brand} />}
+                            defaultChecked onChange={handleChange} name={brand.name} />}
                     />
                 </Box>
             );
@@ -140,7 +140,7 @@ function BrandsCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers()}
+            {iterateBrands(props)}
         </div>
     );
 }
@@ -150,18 +150,18 @@ function SellersCheckbox(props) {
         props.onCheckboxChange('Seller', event.target.name, event.target.checked);
     };
 
-    function iterateSellers() {
-        return TestData.sellers.map((seller, index) => {
+    function iterateSellers(props) {
+        return props.sellers.map((seller, index) => {
             return (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
-                        label={seller}
+                        label={seller.sellerName}
                         control={
                             <Checkbox
                                 sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
                                 defaultChecked
                                 onChange={handleChange}
-                                name={seller} 
+                                name={seller.sellerName} 
                             />
                         }
                     />
@@ -172,7 +172,7 @@ function SellersCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers()}
+            {iterateSellers(props)}
         </div>
     );
 }

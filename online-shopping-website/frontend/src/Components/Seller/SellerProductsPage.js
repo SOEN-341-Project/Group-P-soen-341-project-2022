@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { Link } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
@@ -6,86 +7,114 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import Products from '../../TestValues.json';
-import Sellers from '../../TestValues.json';
-
-const columns = [
-    {
-        field: 'modify',
-        headerName: 'Modify',
-        renderCell: (params) => (
-            <Link to={{
-                pathname: `/seller/${params.id}`,
-                params: { params }
-            }} className="RoutingLink">
-                <Button className="sellerButton GreenButtonText" variant="text">
-                    <EditIcon />
-                </Button>
-            </Link>
-        ),
-        sortable: false,
-        filterable: false,
-        hideable: false
-    },
-    {
-        field: 'delete',
-        headerName: 'Delete',
-        renderCell: (params) => (
-            <Button className="sellerButton GreenButtonText" variant="text" onClick={removeProduct(params.id)}>
-                <DeleteIcon />
-            </Button>
-        ),
-        sortable: false,
-        filterable: false,
-        hideable: false
-    },
-    { field: 'id', headerName: 'ID', type: 'number', width: 20, align: 'center', },
-    {
-        field: 'image',
-        headerName: 'Image',
-        align: 'center',
-        width: 70,
-        renderCell: (params) => (
-            <img className="sellerImage" src={params.value} alt="n/a" />
-        ),
-        sortable: false,
-        filterable: false
-    },
-    { field: 'name', headerName: 'Product name', width: 130 },
-    { field: 'description', headerName: 'Description', width: 200 },
-    { field: 'brand', headerName: 'Brand', width: 200 },
-    {
-        field: 'price', headerName: 'Price', type: 'number', width: 100,
-        valueGetter: (params) =>
-            `${params.value.toFixed(2) || ''} Ɖ`,
-    },
-    { field: 'quantity', headerName: 'Quantity', type: 'number', width: 100 }
-];
+import axios from 'axios';
 
 export const SellerProductsPage = () => {
-    const [selectedSeller, setSelectedSeller] = React.useState(Sellers.sellers[0]);
+    // DataGrid columns
+    const columns = [
+        {
+            field: 'modify',
+            headerName: 'Modify',
+            renderCell: (params) => (
+                <Link to={{
+                    pathname: `/seller/${params.id}`,
+                    params: { params }
+                }} className="RoutingLink">
+                    <Button className="sellerButton" variant="text">
+                        <EditIcon />
+                    </Button>
+                </Link>
+            ),
+            sortable: false,
+            filterable: false,
+            hideable: false
+        },
+        {
+            field: 'delete',
+            headerName: 'Delete',
+            renderCell: (params) => (
+                <Button className="sellerButton" variant="text" onClick={() => removeProduct(params.id)}>
+                    <DeleteIcon />
+                </Button>
+            ),
+            sortable: false,
+            filterable: false,
+            hideable: false
+        },
+        { field: 'id', headerName: 'ID', type: 'number', width: 20, align: 'center', },
+        {
+            field: 'picture',
+            headerName: 'Image',
+            align: 'center',
+            width: 70,
+            renderCell: (params) => (
+                <img className="sellerImage" src={params.value} alt="n/a" />
+            ),
+            sortable: false,
+            filterable: false
+        },
+        { field: 'name', headerName: 'Product name', width: 130 },
+        { field: 'description', headerName: 'Description', width: 200 },
+        { field: 'brandName', headerName: 'Brand', width: 200 },
+        {
+            field: 'price', headerName: 'Price', type: 'number', width: 100,
+            valueGetter: (params) =>
+                `${params.value.toFixed(2) || ''} Ɖ`,
+        },
+        { field: 'totalQuantity', headerName: 'Quantity', type: 'number', width: 100 }
+    ];
 
-    const handleSellerClick = (event) => {
-        setSelectedSeller(event.target.name);
+    const [loading, setLoading] = useState(true);
+    const [sellers, setSellers] = useState(null);
+    const [selectedSeller, setSelectedSeller] = useState(9);
+    const [sellerProducts, setSellerProducts] = useState(null);
+
+    useEffect(() => {
+        // Get sellers and seller products in parallel
+        // TODO Remove this after seller login ready
+        const getSellers = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers');
+        const getSellerProducts = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller);
+        axios.all([getSellers, getSellerProducts]).then(
+            axios.spread((resSellers, resSellerProducts) => {
+                setSellers(resSellers.data);
+                setSellerProducts(
+                    resSellerProducts.data.map((product) => {
+                        return {
+                            ...product,
+                            brandName: product.brand.name
+                        }
+                    })
+                );
+                setLoading(false);
+            })
+        );
+    }, [selectedSeller]);
+    
+    if (loading) {
+        return <h1>Loading Sellers...</h1>;
     }
-
+    
+    const handleSellerClick = (event) => {
+        setSelectedSeller(event.target.id);
+    }
+    
     const RenderSellerButtons = () => {
         return (
-            Sellers.sellers.map((seller, index) => {
-                return <Button key={index} name={seller} className="GreenButtonText" variant="text" onClick={(e) => handleSellerClick(e)}>{seller}</Button>;
+            sellers.map((seller, index) => {
+                return <Button key={index} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
         );
     }
-
-    const FilterSellerProducts = () => {
-        return (
-            Products.products.filter((product) => (
-                product.seller === selectedSeller
-            ))
-        );
+    
+    const removeProduct = (productId) => {
+        const productToRemove = sellerProducts.find(product => product.id === productId);
+        if(window.confirm(`Delete product: "${productToRemove.name}" with id: ${productToRemove.id}?`)) {
+            axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/items/delete?id=' + productId).then((res) => {
+                console.log(res.data);
+            });
+            window.location.reload();
+        }
     }
-
-    const rows = FilterSellerProducts();
 
     return (
         <Grid container className="sellerContainer">
@@ -99,26 +128,21 @@ export const SellerProductsPage = () => {
                     </Button>
                 </Link>
             </Grid>
-            <Grid item sm={12} className="sellerTable">
-                <div style={{ minHeight: '10.5rem', height: 400, width: '100%' }}>
-                    <div style={{ display: 'flex', height: '100%' }}>
-                        <div style={{ flexGrow: 1 }}>
-                            <DataGrid
-                                rows={rows}
-                                columns={columns}
-                                pageSize={5}
-                                rowsPerPageOptions={[5]}
-                            />
+                <Grid item sm={12} className="sellerTable">
+                    <div style={{ minHeight: '10.5rem', height: 400, width: '100%' }}>
+                        <div style={{ display: 'flex', height: '100%' }}>
+                            <div style={{ flexGrow: 1 }}>
+                                <DataGrid
+                                    rows={sellerProducts}
+                                    columns={columns}
+                                    pageSize={5}
+                                    rowsPerPageOptions={[5]}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Grid>
+                </Grid>
         </Grid>
     );
 }
 
-// needs to access database to modify values somehow
-function removeProduct(productId) {
-    // console.log(productId);
-    return true;
-}

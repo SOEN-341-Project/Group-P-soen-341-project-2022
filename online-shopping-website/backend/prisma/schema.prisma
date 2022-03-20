@@ -65,7 +65,7 @@ model Item {
 model Brand {
   id          Int    @id @default(autoincrement())
   picture     String?
-  name        String
-  description String
+  name        String @unique
+  description String?
   items       Item[]
 }

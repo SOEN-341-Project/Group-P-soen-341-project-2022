@@ -2,6 +2,11 @@
 
 runtime: nodejs16
 service: frontend
+
+env_variables:
+  # Backend api connection
+  REACT_APP_DB_CONNECTION: "https://api.bobbleshop.me"
+
 handlers:
 
 # Any url with a file extension will be served statically

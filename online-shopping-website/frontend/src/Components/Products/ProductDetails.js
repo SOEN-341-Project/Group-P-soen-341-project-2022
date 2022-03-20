@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import TestData from '../../TestValues.json';
-
+import axios from 'axios';
 
 const ProductButtons = (props) => {
     //TODO: Replace TestData.cart with cookies value
@@ -101,16 +101,29 @@ export const ProductDetails = () => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
-    //Getting product name from URL
-    const productId = useParams();
+    const [selectedProduct, setSelectedProduct] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
-    //Getting product by id from URL
-    const selectedProduct = TestData.products.find(product => parseInt(productId.productId.match("[^/]*")) === product.id)
+    //Getting product name from URL
+    const productParams = useParams();
+
+    // Get product by id
+    React.useEffect(() => {
+        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productParams.productId).then((res) => {
+            setSelectedProduct(res.data);
+            setLoading(false);
+        });
+    }, [productParams.productId]);
+
+    // Display load screen while getting data
+    if (loading) {
+        return <h1>Loading product: {productParams.productName}...</h1>;
+    }
 
     return (
         <Grid container className="ProductDetails-Container">
             <Link to="/" className="RoutingLink">
-                <Button className="GreenButtonContained" variant="contained">
+                <Button variant="contained">
                     Return to products
                 </Button>
             </Link>
@@ -119,18 +132,18 @@ export const ProductDetails = () => {
                 <Grid item xs={12} md={6}>
                     <h1>{selectedProduct.name}</h1>
                     <div className="ProductDetails-ImageConatiner">
-                        <img className="ProductDetails-Image" src={selectedProduct.image} alt={selectedProduct.name}/>
+                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name}/>
                     </div>
 
                     <Grid item container>
                         <Grid item xs={12} md={6}>
                             <h3>Brand</h3>
-                            <p>{selectedProduct.brand}</p>
+                            <p>{selectedProduct.brand.name}</p>
                         </Grid>
 
                         <Grid item xs={12} md={6}>
                             <h3>Seller</h3>
-                            <p>{selectedProduct.seller}</p>
+                            <p>{selectedProduct.seller.sellerName}</p>
                         </Grid>
                     </Grid>
                     <h3>Description</h3>
@@ -139,8 +152,8 @@ export const ProductDetails = () => {
                 <Grid item md={1}/>
                 <Grid item xs={12} sm={12} md={5}>
                     <Card className="ProductDetails-SelectionPanel">
-                        <h3 className='TextGreen'>Price</h3>
-                        <h4 className='TextPink'>{selectedProduct.price} Ɖ</h4>
+                        <h3>Price</h3>
+                        <h4>{selectedProduct.price} Ɖ</h4>
                         <ProductButtons product={selectedProduct}/>
                     </Card>
                 </Grid>
