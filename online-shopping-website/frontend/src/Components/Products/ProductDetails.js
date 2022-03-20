@@ -18,16 +18,19 @@ const ProductButtons = (props) => {
     const [quantity, setQuantity] = useState(1);
     let navigate = useNavigate();
 
+    //Forces re-render on call
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
     const IncrementItem = () => {
+        //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
         if (quantity !== 10) {
             setQuantity(quantity + 1);
         }
         forceUpdate();
     }
     const DecreaseItem = () => {
+        //Decrement quantity, ensuring that quantity has at least 1 item per product in the cart
         if (quantity !== 1) {
             setQuantity(quantity - 1);
         }
@@ -37,11 +40,17 @@ const ProductButtons = (props) => {
     const AddToCart = () => {
         let item = props.product;
 
+        //TODO: add case for when cart is empty
+
+        //Not duplicating item if it is already in cart
         if (cart.find(product => item.id === product.id)) {
             if (window.confirm("Item is already in shopping cart. Navigate to cart to modify order quantity.")) {
                 navigate('/my-shopping-cart')
             }
-        } else {
+        }
+        //Adding new item to cart
+        else {
+            //Initializing item to be added
             const newCartItem = {
                 id: item.id,
                 name: item.name,
@@ -49,16 +58,20 @@ const ProductButtons = (props) => {
                 description: item.description,
                 seller: item.seller,
                 brand: item.brand,
-                price: item.quantity,
+                price: item.price,
                 quantity: quantity
             }
+
+            //Adding item to cart array
             cart.push(newCartItem);
+
             window.alert("Item(s) successfully added to cart.");
         }
         console.log(cart);
     }
 
     return (
+        //Quantity Buttons
         <div className="ProductDetails-QuantityButtonsContainer">
             <h3 className='TextGreen'>Quantity</h3>
             <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>

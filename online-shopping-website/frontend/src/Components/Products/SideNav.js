@@ -8,8 +8,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-// import Products from '../TestValues.json';
-import { SearchBar } from './SearchBar';
+import { SearchBar } from '../SearchBar';
 import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
@@ -141,7 +140,7 @@ function BrandsCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers(props.brands)}
+            {iterateSellers()}
         </div>
     );
 }
@@ -173,7 +172,7 @@ function SellersCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers(props.sellers)}
+            {iterateSellers()}
         </div>
     );
 }
