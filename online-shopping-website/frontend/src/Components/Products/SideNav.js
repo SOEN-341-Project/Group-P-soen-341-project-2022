@@ -124,7 +124,7 @@ function BrandsCheckbox(props) {
         props.onCheckboxChange('Brand', event.target.name, event.target.checked);
     };
 
-    function iterateSellers(props) {
+    function iterateBrands(props) {
         return props.brands.map((brand,index) => {
             return (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
@@ -140,7 +140,7 @@ function BrandsCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers(props)}
+            {iterateBrands(props)}
         </div>
     );
 }
