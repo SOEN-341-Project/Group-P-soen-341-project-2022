@@ -38,7 +38,7 @@ export const Register = () => {
     const [cookies, setCookie] = useCookies(["cartCookie"]);
 
     function handleCookie() {
-        setCookie("Cart", [], {
+        setCookie("product","", {
           path: "/"
         });
       }

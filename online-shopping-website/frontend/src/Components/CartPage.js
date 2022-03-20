@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Button from '@mui/material/Button';
 import {Link, useNavigate} from "react-router-dom";
 import Alert from '@mui/material/Alert';
@@ -12,19 +12,41 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import TestData from '../TestValues.json';
+import { useCookies } from "react-cookie";
 
-export const CartPage = () => {
+export const CartPage = (props) => {
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
+    const [cartCookie, setCookie] = useCookies(["cart"]);
     //TODO: Replace TestData.cart with cookies value
-    let [cart] = useState(TestData.cart);
+    let cart = props.cartItems;
 
     let [subtotal] = useState(0.00);
     let [GST] = useState(0.00);
     let [QST] = useState(0.00);
     let [total] = useState(0.00);
     const [alertVisible, setAlertVisible] = useState(false);
+
+    const getCartFromCookies = () =>{
+        return cartCookie.cart.map(item =>{
+            let itemData = TestData.products.find(product => product.id === item.id);
+            return {
+                id: itemData.id,
+                name: itemData.name,
+                image: itemData.image,
+                description: itemData.description,
+                seller: itemData.seller,
+                brand: itemData.brand,
+                price: itemData.price,
+                quantity: item.quantity
+            }
+        });
+    }
+
+    useEffect(() => {
+        cart = getCartFromCookies();
+    })
 
     const calculateCartTally = () => {
         cart.forEach((item) => {
@@ -34,8 +56,15 @@ export const CartPage = () => {
         QST = subtotal * 0.0975;
         total = subtotal + GST + QST;
     }
-
-    calculateCartTally();
+   
+    
+    if(!cart){
+        return (
+            <h1>Cart empty</h1>
+        );
+    }
+    else{
+        calculateCartTally();
 
     return (
         <Grid container className="Cart-Container">
@@ -125,6 +154,7 @@ export const CartPage = () => {
             </Grid>
         </Grid>
     );
+}
 }
 
 const PriceBreakdown = (props) => {
