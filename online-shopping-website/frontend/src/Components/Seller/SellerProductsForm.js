@@ -62,6 +62,7 @@ export const ModifyProductForm = (props) => {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: modifiedProduct.brand.name
             });
+            selectedBrand = selectedBrand.data;
         }
 
         // Add form fields to form data
@@ -254,6 +255,7 @@ export const AddNewProductForm = () => {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: newProduct.brand.name
             });
+            selectedBrand = selectedBrand.data;
         }
 
         // Add form fields to form data

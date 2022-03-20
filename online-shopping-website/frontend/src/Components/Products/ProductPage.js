@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
-import { SideNav } from '../SideNav';
+import { SideNav } from './SideNav';
 import axios from 'axios';
 
 // Encapsulates both SideNav and ProductGrid
@@ -96,6 +96,7 @@ export const ProductPage = () => {
     return <h1>Loading products...</h1>;
   }
 
+  console.log("Brands: "+ brands + " , Sellers: " + sellers)
   return (
     <Grid container columnSpacing={4} rowSpacing={5}>
       <Grid item xs={12} md={3} lg={2}>

@@ -125,7 +125,7 @@ function BrandsCheckbox(props) {
     };
 
     function iterateSellers(props) {
-        return props.map((brand,index) => {
+        return props.brands.map((brand,index) => {
             return (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
@@ -140,7 +140,7 @@ function BrandsCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers()}
+            {iterateSellers(props)}
         </div>
     );
 }
@@ -151,7 +151,7 @@ function SellersCheckbox(props) {
     };
 
     function iterateSellers(props) {
-        return props.map((seller, index) => {
+        return props.sellers.map((seller, index) => {
             return (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                     <FormControlLabel
@@ -172,7 +172,7 @@ function SellersCheckbox(props) {
 
     return (
         <div>
-            {iterateSellers()}
+            {iterateSellers(props)}
         </div>
     );
 }
