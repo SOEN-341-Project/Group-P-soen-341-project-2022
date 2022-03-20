@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TestData from '../../TestValues.json';
 import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
-import { SideNav } from '../SideNav';
+import { SideNav } from './SideNav';
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {
