@@ -15,7 +15,7 @@ describe("Required Brand Creation Params Tests", () => {
         requestBody.name = data[0];
         requestBody.description = undefined;
 
-        expect(hasRequiredBrandCreationParams(requestBody)).toEqual(false);
+        expect(hasRequiredBrandCreationParams(requestBody)).toEqual(true);
     });
 
     test("Nothing at all", () => {
