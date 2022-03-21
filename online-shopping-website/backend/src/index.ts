@@ -31,6 +31,7 @@ app.use("/api/items", itemRouter);
 app.use("/api/orders", orderRouter);
 
 app.use((err, req, res, next) => {
+  console.log(err);
   res.status(500).json({
     message: err.message,
   });

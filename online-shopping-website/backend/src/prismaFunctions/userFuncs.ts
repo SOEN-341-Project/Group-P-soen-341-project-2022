@@ -69,6 +69,14 @@ export async function userByEmail(args: { email: string }) {
   });
 }
 
+export async function allSellers(){
+  return await prisma.user.findMany({
+    where: {
+      role: UserRole.SELLER
+    }
+  })
+}
+
 export async function allUsers() {
   return await prisma.user.findMany();
 }

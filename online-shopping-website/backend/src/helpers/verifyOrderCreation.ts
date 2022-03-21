@@ -8,10 +8,11 @@ export default function hasRequiredOrderCreationParams(args: {
 }
 
 function allNumsGood(numArray: number[]): boolean {
+  let validNumbers: boolean = true;
   numArray.forEach((num) => {
     if (num < 0) {
-      return false;
+      validNumbers = false;
     }
   });
-  return true;
+  return validNumbers;
 }

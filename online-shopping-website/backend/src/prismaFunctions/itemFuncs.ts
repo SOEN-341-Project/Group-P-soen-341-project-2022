@@ -65,6 +65,18 @@ export async function deleteItem(args: { id: number }) {
 export async function itemById(args: { id: number }) {
   return prisma.item.findUnique({
     where: { id: args.id },
+    include:{
+      seller: {
+        select:{
+          sellerName: true
+        }
+      },
+      brand: {
+        select:{
+          name: true
+        }
+      }
+    }
   });
 }
 
@@ -99,7 +111,7 @@ export async function itemByBrand(args: { id: number }) {
   });
 }
 
-export async function findItems(args: { name?: string; sellerId?: number; brandId?: number }) {
+export async function findItems(args: { name?: string; sellerId?: number; brandId?: number; itemId?: number}) {
   return prisma.item.findMany({
     where: {
       name: {
@@ -110,12 +122,31 @@ export async function findItems(args: { name?: string; sellerId?: number; brandI
         equals: args.brandId,
       },
       sellerId: {
-        equals: args.brandId,
+        equals: args.sellerId,
+      },
+    },
+    include: {
+      seller: {
+        select: {
+          sellerName: true
+        },
+      },
+      brand: {
+        select: {
+          name: true
+        },
       },
     },
   });
 }
 
 export async function allItems() {
-  return await prisma.item.findMany();
+  return await prisma.item.findMany({
+    include: {
+      seller: {
+        select: { sellerName: true}
+      },
+      brand: {select : {name: true}}
+    }
+  });
 }
