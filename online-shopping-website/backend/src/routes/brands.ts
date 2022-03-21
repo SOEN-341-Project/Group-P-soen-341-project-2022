@@ -12,7 +12,7 @@ import {
 
 const brandRouter = express.Router();
 
-brandRouter.post("/create", async (req: Request, res: Response) => {
+brandRouter.post("/create", async (req: Request, res: Response) => { // makes a brand with a name and possibly a description and picture
   // TODO: check if user that added this brand is a seller (or an admin?)
   try {
     if (!hasRequiredBrandCreationParams({ name: req.body.name }))
@@ -32,7 +32,7 @@ brandRouter.post("/create", async (req: Request, res: Response) => {
   }
 });
 
-brandRouter.delete("/delete", async (req: Request, res: Response, next) => {
+brandRouter.delete("/delete", async (req: Request, res: Response, next) => { // deletes the brand with the id thats passed in
   // TODO: make sure there are no items attached to the brand and that only admins can use this route
   let brandId = parseInt(req.query["id"] as string);
   try {
@@ -46,7 +46,7 @@ brandRouter.delete("/delete", async (req: Request, res: Response, next) => {
   }
 });
 
-brandRouter.post("/update", async (req: Request, res: Response, next) => {
+brandRouter.post("/update", async (req: Request, res: Response, next) => { // updates the brand with the id thats passed in
   // TODO: make sure only admins can use this route (or adjust the database that only the seller that created it can update)
   const brandId = parseInt(req.body.id);
   try {
@@ -73,7 +73,7 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => {
   }
 });
 
-brandRouter.get("/find", async (req: Request, res: Response) => {
+brandRouter.get("/find", async (req: Request, res: Response) => { // find brands by name
   let search = req.query["name"];
   try {
     if (search === undefined || search === "") {
@@ -86,7 +86,7 @@ brandRouter.get("/find", async (req: Request, res: Response) => {
   }
 });
 
-brandRouter.get("/all", async (req: Request, res: Response) => {
+brandRouter.get("/all", async (req: Request, res: Response) => { // get all brands
   await allBrands()
     .then((brands) => {
       res.status(200).json(brands);
