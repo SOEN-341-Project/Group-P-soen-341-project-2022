@@ -6,9 +6,8 @@ import { deleteUnusedBrands } from "../prismaFunctions/brandFuncs";
 
 const itemRouter = express.Router();
 
-itemRouter.post("/create", async (req: Request, res: Response) => {
+itemRouter.post("/create", async (req: Request, res: Response) => { // this function looks big but its mostly just checking the data before creating the item
   try {
-    console.log(`Hey this is the file: ${req.file} \n ${req.file?.stream}`)
     if (
       !hasRequiredItemCreationParams({
         name: req.body.name,
@@ -48,7 +47,7 @@ itemRouter.post("/create", async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.delete("/delete", async (req: Request, res: Response) => {
+itemRouter.delete("/delete", async (req: Request, res: Response) => { // deletes the item with the id thats passed in 
   // TODO: make sure an admin or only the seller that created this item is allowed to delete
   const itemId = parseInt(req.query["id"] as string);
   try {
@@ -67,7 +66,7 @@ itemRouter.delete("/delete", async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.post("/update", async (req: Request, res: Response) => {
+itemRouter.post("/update", async (req: Request, res: Response) => { // updates the item
   // TODO: make sure only the seller that created this item is allowed to update
   const isPromoted = req.body.promoted === "true";
   const itemId = parseInt(req.body.id);
@@ -103,7 +102,7 @@ itemRouter.post("/update", async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.get("/find", async (req: Request, res: Response) => {
+itemRouter.get("/find", async (req: Request, res: Response) => { // finds item by id
   const itemId = parseInt(req.query["id"] as string);
   try {
     const item = await itemById({id: itemId});
@@ -113,7 +112,7 @@ itemRouter.get("/find", async (req: Request, res: Response) => {
   }
 })
 
-itemRouter.get("/findAll", async (req: Request, res: Response) => {
+itemRouter.get("/findAll", async (req: Request, res: Response) => { // finds item by name, sellerId or brandId or any combination of these
   const searchName = req.query["name"] as string;
   const sellerId = parseInt(req.query["sellerId"] as string);
   const brandId = parseInt(req.query["brandId"] as string);
@@ -129,7 +128,7 @@ itemRouter.get("/findAll", async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.get("/all", async (req: Request, res: Response) => {
+itemRouter.get("/all", async (req: Request, res: Response) => { // finds all items
   const items = await allItems();
   res.status(200).json(items);
 });

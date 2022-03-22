@@ -7,7 +7,7 @@ import { createUser, allUsers, userByEmail, userById, updateUser, allSellers } f
 
 const userRouter = express.Router();
 
-userRouter.post("/register", async (req: Request, res: Response) => {
+userRouter.post("/register", async (req: Request, res: Response) => { // creates a new user
   try {
     // verify that necessary parameters are there
     const role = (req.body.role as string).toUpperCase();
@@ -40,7 +40,7 @@ userRouter.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post("/signin", async (req: Request, res: Response) => {
+userRouter.post("/signin", async (req: Request, res: Response) => { // check if email and password are existing values and are correct
   // check if email is attatched to a user
   const usr = await userByEmail({ email: req.body.email });
   if (usr === null) res.status(400).json({ error: "User not found" });
@@ -58,7 +58,7 @@ userRouter.post("/signin", async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post("/update", async (req: Request, res: Response) => {
+userRouter.post("/update", async (req: Request, res: Response) => { // updates an existing user
   const usr_id = parseInt(req.body.id);
   const usr = await userById({ id: usr_id });
   try {
@@ -92,7 +92,7 @@ userRouter.post("/update", async (req: Request, res: Response) => {
   }
 });
 
-userRouter.get('/sellers', async (req: Request, res: Response) => {
+userRouter.get('/sellers', async (req: Request, res: Response) => { // finds all sellers
   await allSellers()
     .then((sellers) => {
       res.status(200).json(sellers);
@@ -100,7 +100,7 @@ userRouter.get('/sellers', async (req: Request, res: Response) => {
     .catch((e) => {res.status(500).json({ error: e, message: e.message })})
 })
 
-userRouter.get("/all", async (req: Request, res: Response) => {
+userRouter.get("/all", async (req: Request, res: Response) => { // finds all users
   //TODO: authenticate only admins for this route
   await allUsers()
     .then((user) => {
