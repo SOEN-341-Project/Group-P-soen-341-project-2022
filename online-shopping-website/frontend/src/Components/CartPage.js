@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import axios from 'axios';
 
 import Grid from '@mui/material/Grid';
@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import TestData from '../TestValues.json';
+//import TestData from '../TestValues.json';
 import { useCookies } from "react-cookie";
 
 export const CartPage = (props) => {
@@ -23,8 +23,6 @@ export const CartPage = (props) => {
     const forceUpdate = () => setState(state + 1);
 
     const [cartCookie, setCookie] = useCookies(["cart"]);
-    //TODO: Replace TestData.cart with cookies value
-    let cart = props.cartItems;
 
     let [subtotal] = useState(0.00);
     let [GST] = useState(0.00);
@@ -32,31 +30,11 @@ export const CartPage = (props) => {
     let [total] = useState(0.00);
     const [alertVisible, setAlertVisible] = useState(false);
 
-    const getCartFromCookies = () =>{
-        if (cartCookie.cart) {
-            return cartCookie.cart.map(item =>{
-                let itemData = TestData.products.find(product => product.id === item.id);
-                return {
-                    id: itemData.id,
-                    name: itemData.name,
-                    image: itemData.image,
-                    description: itemData.description,
-                    seller: itemData.seller,
-                    brand: itemData.brand,
-                    price: itemData.price,
-                    quantity: item.quantity
-                }
-            });
-        }
-    }
-
-    useEffect(() => {
-        cart = getCartFromCookies();
-    })
+    
 
     const calculateCartTally = () => {
         //calculating subtotal of all items
-        cart.forEach((item) => {
+        cartCookie.cart.forEach((item) => {
             subtotal += ((item.quantity) * (item.price));
         });
 
@@ -69,7 +47,7 @@ export const CartPage = (props) => {
     }
    
     
-    if(!cart){
+    if(!cartCookie.cart){
         return (
             <h1>Cart empty</h1>
         );
@@ -97,14 +75,14 @@ export const CartPage = (props) => {
         });
 
         //Clearing cart
-        cart = [];    //TODO: replace with delete cart cookie (on alert open)
+        cartCookie.cart = [];    //TODO: replace with delete cart cookie (on alert open)
         forceUpdate();
     }
 
     //Displays cart items breakdown
     const PriceBreakdown = () => {
         return (
-            cart.map((item, index) => {
+            cartCookie.cart.map((item, index) => {
                 return (
                     <Grid item xs={12} sx={{display: 'flex'}} key={index}>
                         <Grid item xs={6} sx={{overflowX: 'hidden'}}>
@@ -123,49 +101,54 @@ export const CartPage = (props) => {
         //instantiating navigation call
         let navigate = useNavigate();
 
+        // Modify item's quantity in the cart cookie
+        const modifyItemQuantity = (itemId, quantity) => {
+            setCookie("cart", cartCookie.cart.map(product => {
+                if (itemId === product.id) {
+                    return {...product, quantity: quantity};
+                }
+                return product;
+            }));
+        }
+
         function IncrementItem(itemID) {
             //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
-            if (cart[itemID].quantity !== 10) {
-                cart[itemID].quantity++;
+            const quantity = cartCookie.cart.find(product => itemID === product.id).quantity;
+            if (quantity !== 10) {
+                modifyItemQuantity(itemID, quantity + 1);
             }
             forceUpdate();
         }
 
         function DecreaseItem(itemID) {
             //Decrement quantity, ensuring that quantity has at least 1 item per product in the cart
-            if (cart[itemID].quantity !== 1) {
-                cart[itemID].quantity--;
+            const quantity = cartCookie.cart.find(product => itemID === product.id).quantity;
+            if (quantity !== 1) {
+                modifyItemQuantity(itemID, quantity - 1);
             }
             forceUpdate();
         }
 
         function RemoveItem(itemID) {
             //Creates new array containing every product in the cart except the one being removed
-            let updatedCart = cart.filter((item) => item.id !== itemID);
+            setCookie("cart", cartCookie.cart.filter(product => product.id !== itemID));       
 
-            //Reassigns all values of cart array except last index with updatedCart values
-            for (let i = 0; i < updatedCart.length; i++) {
-                cart[i] = updatedCart[i];
-            }
-
-            //Removes element at last index of cart
-            cart.pop();
-            forceUpdate();
-
-            //Show alert and navigate back to home when cart is empty
-            if (cart.length === 0) {
-                window.alert("Cart emptied. Returning to home page.");
+            // TODO Fix alert when cart cookie is empty
+            // Show alert and navigate back to home when cart is empty
+            if (cartCookie.cart.length == 0) {
+                alert("Cart emptied. Returning to home page.");
                 navigate(`/`);
             }
+            forceUpdate();
         }
 
         return (
-            cart.map((item, index) => {
+            cartCookie.cart.map((item, index) => {
                     return (
                         <Grid container className="CartItem" key={index}>
                             {/*Item image*/}
                             <Grid item sm={1} md={2} sx={{position: 'relative'}}>
-                                <img className="CartItemImage" src={item.image} alt={item.name}/>
+                                <img className="CartItemImage" src={item.picture} alt={item.name}/>
                             </Grid>
                             <Grid item xs={12} sm={10}>
                                 <Grid item xs={12} lg={12} sx={{display: 'flex'}}>
@@ -177,7 +160,7 @@ export const CartPage = (props) => {
                                     {/*Remove item button*/}
                                     <Grid item xs={3} md={1} sx={{margin: 'auto', textAlign: 'center'}}>
                                         <Button className="Cart-CloseButton"
-                                                onClick={() => RemoveItem(index)}>
+                                                onClick={() => RemoveItem(item.id)}>
                                             <CloseIcon/>
                                         </Button>
                                     </Grid>
@@ -188,13 +171,13 @@ export const CartPage = (props) => {
                                     {/*Seller info*/}
                                     <Grid item xs={12} lg={3}>
                                         <h4 style={{margin: 0}}>Seller:</h4>
-                                        <p style={{margin: '0.5rem 0'}}>{item.seller}</p>
+                                        <p style={{margin: '0.5rem 0'}}>{item.sellerName}</p>
                                     </Grid>
 
                                     {/*Brand info*/}
                                     <Grid item xs={12} lg={3}>
                                         <h4 style={{margin: 0}}>Brand:</h4>
-                                        <p style={{margin: '0.5rem 0'}}>{item.brand}</p>
+                                        <p style={{margin: '0.5rem 0'}}>{item.brandName}</p>
                                     </Grid>
 
                                     {/*Price info*/}
@@ -211,7 +194,7 @@ export const CartPage = (props) => {
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
                                                         disabled={item.quantity === 1}
-                                                        onClick={() => DecreaseItem(index)}>
+                                                        onClick={() => DecreaseItem(item.id)}>
                                                     <RemoveIcon/>
                                                 </Button>
                                                 <input className="inputne" disabled={true}
@@ -219,7 +202,7 @@ export const CartPage = (props) => {
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
                                                         disabled={item.quantity === 10}
-                                                        onClick={() => IncrementItem(index)}>
+                                                        onClick={() => IncrementItem(item.id)}>
                                                     <AddIcon/>
                                                 </Button>
                                             </Stack>
@@ -237,7 +220,7 @@ export const CartPage = (props) => {
     calculateCartTally();
 
     //When cart is empty display message
-    if (cart == false) {
+    if (!cartCookie.cart) {
         return (
             <Grid container className="Cart-Container">
                 <Collapse in={alertVisible} className="Cart-Alert">
@@ -350,7 +333,7 @@ export const CartPage = (props) => {
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
                     <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
-                            disabled={cart.length === 0}>
+                            disabled={cartCookie.cart.length === 0}>
                         Place order
                     </Button>
                 </Grid>

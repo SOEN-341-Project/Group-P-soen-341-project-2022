@@ -27,25 +27,25 @@ const Layout = () => {
 export default function App() {
     const [cartCookie, setCookie] = useCookies(["cart"]);
 
-    const getCartFromCookies = () =>{
-        if (cartCookie.cart) {
-            return cartCookie.cart.map(item =>{
-                let itemData = TestData.products.find(product => product.id === item.id);
-                return {
-                    id: itemData.id,
-                    name: itemData.name,
-                    image: itemData.image,
-                    description: itemData.description,
-                    seller: itemData.seller,
-                    brand: itemData.brand,
-                    price: itemData.price,
-                    quantity: item.quantity
-                }
-            });
-        }
-    }
+    // const getCartFromCookies = () =>{
+    //     if (cartCookie.cart) {
+    //         return cartCookie.cart.map(item =>{
+    //             let itemData = TestData.products.find(product => product.id === item.id);
+    //             return {
+    //                 id: itemData.id,
+    //                 name: itemData.name,
+    //                 image: itemData.image,
+    //                 description: itemData.description,
+    //                 seller: itemData.seller,
+    //                 brand: itemData.brand,
+    //                 price: itemData.price,
+    //                 quantity: item.quantity
+    //             }
+    //         });
+    //     }
+    // }
 
-    let [cart] = useState(getCartFromCookies());
+    // let [cart] = useState(getCartFromCookies());
 
     return (
         <BrowserRouter>
@@ -53,11 +53,13 @@ export default function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<ProductPage />}/>
                     <Route path="/register" element={<Register/>}/>
-                    <Route path="/my-shopping-cart" element={<CartPage cartItems={cart}/>}/>
+                    {/* <Route path="/my-shopping-cart" element={<CartPage cartItems={cart}/>}/> */}
+                    <Route path="/my-shopping-cart" element={<CartPage />}/>
                     <Route path="/seller/add-product-form" element={<AddNewProductForm />}/>
                     <Route path="/seller/:productId" element={<ModifyProductForm />}/>
                     <Route path="/seller" element={<SellerProductsPage />}/>
-                    <Route path="/:productId/:productName" element={<ProductDetails cartItems={cart}/>}/>
+                    <Route path="/:productId/:productName" element={<ProductDetails />}/>
+                    {/* <Route path="/:productId/:productName" element={<ProductDetails cartItems={cart}/>}/> */}
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
             </Routes>
