@@ -22,6 +22,7 @@ export const CartPage = (props) => {
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
+    //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
     const [cartCookie, setCookie] = useCookies(["cart"]);
 
     let [subtotal] = useState(0.00);

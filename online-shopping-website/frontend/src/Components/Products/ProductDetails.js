@@ -12,16 +12,11 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
 const ProductButtons = (props) => {
+
+    //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
     const [cartCookie, setCookie] = useCookies(["cart"]);
-    //let [product] = useState("");
-
-    // let cart = props.cartItems;
-
-    //TODO: Replace TestData.cart with cookies value
-    //let [cart] = useState(cartCookie.cart);
 
     const [quantity, setQuantity] = useState(1);
-    //let navigate = useNavigate();
 
     //Forces re-render on call
     const [state, setState] = useState(0);
@@ -103,11 +98,10 @@ const ProductButtons = (props) => {
                 price: item.price,
                 quantity: quantity
             }
-            // cart.push(newCartItem);
             console.log(newCartItem);
             window.alert("Item(s) successfully added to cart.");
             
-            //adding item to the array
+            //adding item to the cookie array
             cartCookie.cart.push(
                 newCartItem
             );
