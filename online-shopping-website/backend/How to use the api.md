@@ -43,7 +43,7 @@ Post requests are the most complex requests as they are the ones that are used w
 
 ## Authorization:
 
-Authorization isn't that big of a deal. This API uses a token based authentication so whenever a request is made that requires authentication, you'll need to add a token to the authorization header of the request. The authorization header should look like this `Authentication: Bearer <token>`. It is very important that the `Bearer` keyword is there because it tells the server what type of authenticaion is being used. The token will most likely be stored in the cookies of the client and it'll have to be attatched maually to the request.
+Authorization isn't that big of a deal. This API uses a token based authentication so whenever a request is made that requires authentication, you'll need to add a token to the authorization header of the request. The authorization header should look like this `Authentication: Bearer <token>`. It is very important that the `Bearer` keyword is there because it tells the server what type of authentication is being used. The token will most likely be stored in the cookies of the client and it'll have to be attached manually to the request.
 
 ## Routes
 
