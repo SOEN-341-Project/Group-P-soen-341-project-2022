@@ -9,6 +9,9 @@ on:
     branches: [master]
     paths:
       - "online-shopping-website/backend/**"
+  pull_request:
+    paths: 
+      - ".github/workflows/BackendCD.yml"
 
 jobs:
   build:
@@ -56,6 +59,9 @@ jobs:
         with:
           name: BuildOutput
           path: ./
+      - name: Add JWT secrets to Google Cloud 🔐
+        run: |
+          echo "  JWT_SECRET: ${{ secrets.JWT_SECRET }}" >> api.yaml
       - name: Authorize Google Cloud 📜
         id: "auth"
         uses: "google-github-actions/auth@v0"
