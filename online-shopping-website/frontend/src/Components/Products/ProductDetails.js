@@ -1,22 +1,22 @@
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import * as React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import TestData from '../../TestValues.json';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 const ProductButtons = (props) => {
-    //TODO: Replace TestData.cart with cookies value
-    let [cart] = useState(TestData.cart);
+
+    //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
+    const [cartCookie, setCookie] = useCookies(["cart"]);
 
     const [quantity, setQuantity] = useState(1);
-    let navigate = useNavigate();
 
     //Forces re-render on call
     const [state, setState] = useState(0);
@@ -36,39 +36,85 @@ const ProductButtons = (props) => {
         }
         forceUpdate();
     }
+    
+    // Modify item's quantity in the cart cookie
+    const modifyItemQuantity = (itemId, quantity) => {
+        const foundProduct = cartCookie.cart.find(product => itemId === product.id);
+        const newQuantity = foundProduct.quantity + quantity;
+
+        setCookie("cart", cartCookie.cart.map(product => {
+            if (itemId === product.id) {
+                return {...product, quantity: newQuantity};
+            }
+            return product;
+        }));
+    }
 
     const AddToCart = () => {
         let item = props.product;
 
-        //TODO: add case for when cart is empty
-
-        //Not duplicating item if it is already in cart
-        if (cart.find(product => item.id === product.id)) {
-            if (window.confirm("Item is already in shopping cart. Navigate to cart to modify order quantity.")) {
-                navigate('/my-shopping-cart')
-            }
-        }
-        //Adding new item to cart
-        else {
-            //Initializing item to be added
+        // Cart is empty, set it to an array containing one product 
+        if (!cartCookie.cart) {
             const newCartItem = {
                 id: item.id,
                 name: item.name,
-                image: item.image,
+                picture: item.picture,
                 description: item.description,
-                seller: item.seller,
-                brand: item.brand,
+                sellerName: item.seller.sellerName,
+                sellerId: item.sellerId,
+                brandName: item.brand.name,
+                brandId: item.brandId,
                 price: item.price,
                 quantity: quantity
             }
-
-            //Adding item to cart array
-            cart.push(newCartItem);
-
-            window.alert("Item(s) successfully added to cart.");
+        
+ 
+            window.alert(newCartItem.name + " successfully added to cart.");
+            //setting cookie to the new created item
+            setCookie("cart", [newCartItem],
+            {
+                path: "/"
+            }
+            );
         }
-        console.log(cart);
+
+        // Item already in cart
+        else if (cartCookie.cart.find(product => item.id === product.id)) {
+            alert(`Item ${item.name} is already in the cart. Adding ${quantity} to your cart.`);
+            modifyItemQuantity(item.id, quantity);
+        }
+
+        // Cart already made, don't have the item
+        else { 
+            const newCartItem = {
+                id: item.id,
+                name: item.name,
+                picture: item.picture,
+                description: item.description,
+                sellerName: item.seller.sellerName,
+                sellerId: item.sellerId,
+                brandName: item.brand.name,
+                brandId: item.brandId,
+                price: item.price,
+                quantity: quantity
+            }
+            console.log(newCartItem);
+            window.alert("Item(s) successfully added to cart.");
+            
+            //adding item to the cookie array
+            cartCookie.cart.push(
+                newCartItem
+            );
+            
+            setCookie("cart", 
+            cartCookie.cart,
+            {
+                path: "/"
+            });
+        }
     }
+
+    
 
     return (
         //Quantity Buttons
@@ -94,10 +140,8 @@ const ProductButtons = (props) => {
             </Button>
         </div>
     );
-
 }
-
-export const ProductDetails = () => {
+export const ProductDetails = (props) => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
@@ -149,12 +193,12 @@ export const ProductDetails = () => {
                     <h3>Description</h3>
                     <p>{selectedProduct.description}</p>
                 </Grid>
-                <Grid item md={1}/>
+                <Grid item md={1} />
                 <Grid item xs={12} sm={12} md={5}>
                     <Card className="ProductDetails-SelectionPanel">
-                        <h3>Price</h3>
-                        <h4>{selectedProduct.price} Ɖ</h4>
-                        <ProductButtons product={selectedProduct}/>
+                        <h3 className='TextGreen'>Price</h3>
+                        <h4 className='TextPink'>{selectedProduct.price} Ɖ</h4>
+                        <ProductButtons product={selectedProduct} cartItems={props.cartItems} />
                     </Card>
                 </Grid>
             </Grid>

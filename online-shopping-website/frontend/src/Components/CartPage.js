@@ -14,15 +14,15 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import TestData from '../TestValues.json';
+import { useCookies } from "react-cookie";
 
-export const CartPage = () => {
+export const CartPage = (props) => {
     //Forces rerender of components on call
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
-    //TODO: Replace TestData.cart with cookies value
-    let [cart] = useState(TestData.cart);
+    //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
+    const [cartCookie, setCookie, deleteCookie] = useCookies(["cart"]);
 
     let [subtotal] = useState(0.00);
     let [GST] = useState(0.00);
@@ -32,7 +32,7 @@ export const CartPage = () => {
 
     const calculateCartTally = () => {
         //calculating subtotal of all items
-        cart.forEach((item) => {
+        cartCookie.cart.forEach((item) => {
             subtotal += ((item.quantity) * (item.price));
         });
 
@@ -43,6 +43,10 @@ export const CartPage = () => {
         //calculating total after tax
         total = subtotal + GST + QST;
     }
+    
+    const EmptyCart = () => {
+        deleteCookie('cart');
+    }
 
     const PlaceOrder = () => {
         //Opening order placement alert
@@ -51,10 +55,9 @@ export const CartPage = () => {
 
         //Posting order to backend once place order has been clicked
         axios.post(process.env.REACT_APP_DB_CONNECTION + '/api/orders/create', {
-            //TODO: replace with cookie values
-            userId: 3,
-            itemIds: [5, 8, 14],
-            itemQuantities: [2, 5, 3],
+            userId: 2, // TODO Replace with logged in user id from user cookie
+            itemIds: cartCookie.cart.map(product => { return product.id }),
+            itemQuantities: cartCookie.cart.map(product => { return product.quantity }),
             totalPrice: total
         }).then(function (response) {
             console.log("Order added to backend.")
@@ -63,14 +66,13 @@ export const CartPage = () => {
         });
 
         //Clearing cart
-        cart = [];    //TODO: replace with delete cart cookie (on alert open)
-        forceUpdate();
+        EmptyCart();
     }
 
     //Displays cart items breakdown
     const PriceBreakdown = () => {
         return (
-            cart.map((item, index) => {
+            cartCookie.cart.map((item, index) => {
                 return (
                     <Grid item xs={12} sx={{display: 'flex'}} key={index}>
                         <Grid item xs={6} sx={{overflowX: 'hidden'}}>
@@ -89,49 +91,54 @@ export const CartPage = () => {
         //instantiating navigation call
         let navigate = useNavigate();
 
+        // Modify item's quantity in the cart cookie
+        const modifyItemQuantity = (itemId, quantity) => {
+            setCookie("cart", cartCookie.cart.map(product => {
+                if (itemId === product.id) {
+                    return {...product, quantity: quantity};
+                }
+                return product;
+            }));
+        }
+
         function IncrementItem(itemID) {
             //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
-            if (cart[itemID].quantity !== 10) {
-                cart[itemID].quantity++;
+            const quantity = cartCookie.cart.find(product => itemID === product.id).quantity;
+            if (quantity !== 10) {
+                modifyItemQuantity(itemID, quantity + 1);
             }
             forceUpdate();
         }
 
         function DecreaseItem(itemID) {
             //Decrement quantity, ensuring that quantity has at least 1 item per product in the cart
-            if (cart[itemID].quantity !== 1) {
-                cart[itemID].quantity--;
+            const quantity = cartCookie.cart.find(product => itemID === product.id).quantity;
+            if (quantity !== 1) {
+                modifyItemQuantity(itemID, quantity - 1);
             }
             forceUpdate();
         }
 
         function RemoveItem(itemID) {
             //Creates new array containing every product in the cart except the one being removed
-            let updatedCart = cart.filter((item) => item.id !== itemID);
+            setCookie("cart", cartCookie.cart.filter(product => product.id !== itemID));       
 
-            //Reassigns all values of cart array except last index with updatedCart values
-            for (let i = 0; i < updatedCart.length; i++) {
-                cart[i] = updatedCart[i];
-            }
-
-            //Removes element at last index of cart
-            cart.pop();
-            forceUpdate();
-
-            //Show alert and navigate back to home when cart is empty
-            if (cart.length === 0) {
-                window.alert("Cart emptied. Returning to home page.");
+            // TODO Fix alert when cart cookie is empty
+            // Show alert and navigate back to home when cart is empty
+            if (cartCookie.cart.length === 0) {
+                alert("Cart emptied. Returning to home page.");
                 navigate(`/`);
             }
+            forceUpdate();
         }
 
         return (
-            cart.map((item, index) => {
+            cartCookie.cart.map((item, index) => {
                     return (
                         <Grid container className="CartItem" key={index}>
                             {/*Item image*/}
                             <Grid item sm={1} md={2} sx={{position: 'relative'}}>
-                                <img className="CartItemImage" src={item.image} alt={item.name}/>
+                                <img className="CartItemImage" src={item.picture} alt={item.name}/>
                             </Grid>
                             <Grid item xs={12} sm={10}>
                                 <Grid item xs={12} lg={12} sx={{display: 'flex'}}>
@@ -143,7 +150,7 @@ export const CartPage = () => {
                                     {/*Remove item button*/}
                                     <Grid item xs={3} md={1} sx={{margin: 'auto', textAlign: 'center'}}>
                                         <Button className="Cart-CloseButton"
-                                                onClick={() => RemoveItem(index)}>
+                                                onClick={() => RemoveItem(item.id)}>
                                             <CloseIcon/>
                                         </Button>
                                     </Grid>
@@ -154,13 +161,13 @@ export const CartPage = () => {
                                     {/*Seller info*/}
                                     <Grid item xs={12} lg={3}>
                                         <h4 style={{margin: 0}}>Seller:</h4>
-                                        <p style={{margin: '0.5rem 0'}}>{item.seller}</p>
+                                        <p style={{margin: '0.5rem 0'}}>{item.sellerName}</p>
                                     </Grid>
 
                                     {/*Brand info*/}
                                     <Grid item xs={12} lg={3}>
                                         <h4 style={{margin: 0}}>Brand:</h4>
-                                        <p style={{margin: '0.5rem 0'}}>{item.brand}</p>
+                                        <p style={{margin: '0.5rem 0'}}>{item.brandName}</p>
                                     </Grid>
 
                                     {/*Price info*/}
@@ -177,7 +184,7 @@ export const CartPage = () => {
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
                                                         disabled={item.quantity === 1}
-                                                        onClick={() => DecreaseItem(index)}>
+                                                        onClick={() => DecreaseItem(item.id)}>
                                                     <RemoveIcon/>
                                                 </Button>
                                                 <input className="inputne" disabled={true}
@@ -185,7 +192,7 @@ export const CartPage = () => {
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
                                                         disabled={item.quantity === 10}
-                                                        onClick={() => IncrementItem(index)}>
+                                                        onClick={() => IncrementItem(item.id)}>
                                                     <AddIcon/>
                                                 </Button>
                                             </Stack>
@@ -199,11 +206,9 @@ export const CartPage = () => {
             )
         )
     }
-
-    calculateCartTally();
-
+   
     //When cart is empty display message
-    if (cart == false) {
+    if (!cartCookie.cart) {
         return (
             <Grid container className="Cart-Container">
                 <Collapse in={alertVisible} className="Cart-Alert">
@@ -243,8 +248,12 @@ export const CartPage = () => {
             </Grid>
         )
     }
-
-    //When cart is full, display cart items
+    
+    // Cart is full
+    // Calculate cart total
+    calculateCartTally();
+    
+    // Display products in cart
     return (
         <Grid container className="Cart-Container">
             <Collapse in={alertVisible} className="Cart-Alert">
@@ -316,7 +325,7 @@ export const CartPage = () => {
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
                     <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
-                            disabled={cart.length === 0}>
+                            disabled={cartCookie.cart.length === 0}>
                         Place order
                     </Button>
                 </Grid>
@@ -331,4 +340,5 @@ export const CartPage = () => {
         </Grid>
     );
 }
+
 
