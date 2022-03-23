@@ -38,7 +38,7 @@ orderRouter.post('/create', async (req: Request, res: Response) => {
   }
 });
 
-orderRouter.delete('/delete', async (req: Request, res: Response) => {
+orderRouter.delete('/delete', async (req: Request, res: Response) => { // deletes an existing order by id
   const user = objectFromRequest(req);
   const orderId = parseInt(req.query['id'] as string);
   try {
@@ -63,7 +63,7 @@ orderRouter.delete('/delete', async (req: Request, res: Response) => {
   }
 });
 
-orderRouter.post('/update', async (req: Request, res: Response) => {
+orderRouter.post("/update", async (req: Request, res: Response) => { // updates an existing order
   // needs all items and quantities for it to work
   const user = objectFromRequest(req);
   const orderId = parseInt(req.query['id'] as string);
@@ -99,8 +99,8 @@ orderRouter.post('/update', async (req: Request, res: Response) => {
   }
 });
 
-orderRouter.get('/find', async (req: Request, res: Response) => {
-  const search = parseInt(req.query['id'] as string);
+orderRouter.get("/find", async (req: Request, res: Response) => { // finds order by itemId
+  const search = parseInt(req.query["id"] as string);
   try {
     if (search === undefined || isNaN(search)) {
       throw new Error('ID is invalid');
@@ -112,7 +112,7 @@ orderRouter.get('/find', async (req: Request, res: Response) => {
   }
 });
 
-orderRouter.get('/all', async (req: Request, res: Response) => {
+orderRouter.get("/all", async (req: Request, res: Response) => { // find all orders
   await allOrders()
     .then((orders) => {
       res.status(200).json(orders);

@@ -4,6 +4,7 @@ import hasRequiredItemCreationParams from '../helpers/verifyItemCreation';
 import { allItems, createItem, deleteItem, findItems, itemById, updateItem } from '../prismaFunctions/itemFuncs';
 import {objectFromRequest} from '../helpers/jwtFuncs';
 import { User, UserRole } from '@prisma/client';
+import { deleteUnusedBrands } from "../prismaFunctions/brandFuncs";
 
 const itemRouter = express.Router();
 
@@ -52,7 +53,7 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.delete('/delete', async (req: Request, res: Response) => {
+itemRouter.delete('/delete', async (req: Request, res: Response) => { // deletes the item with the id thats passed in 
   const user = objectFromRequest(req);
   const itemId = parseInt(req.query['id'] as string);
   try {
@@ -71,13 +72,17 @@ itemRouter.delete('/delete', async (req: Request, res: Response) => {
     }
     const deletedItem = await deleteItem({ id: itemId });
     // TODO: delete the picture from google cloud
+    if(deletedItem){
+      // if that was the last item in a brand, delete the brand entirely and all others that may not have items either
+      await deleteUnusedBrands();
+    }
     res.status(200).json(deletedItem);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
 });
 
-itemRouter.post('/update', async (req: Request, res: Response) => {
+itemRouter.post('/update', async (req: Request, res: Response) => { // updates the item
   const user = objectFromRequest(req);
   const isPromoted = req.body.promoted === 'true';
   const itemId = parseInt(req.body.id);
@@ -116,7 +121,7 @@ itemRouter.post('/update', async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.get('/find', async (req: Request, res: Response) => {
+itemRouter.get('/find', async (req: Request, res: Response) => { // finds item by id
   const itemId = parseInt(req.query['id'] as string);
   try {
     const item = await itemById({ id: itemId });
@@ -126,7 +131,7 @@ itemRouter.get('/find', async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.get('/findAll', async (req: Request, res: Response) => {
+itemRouter.get('/findAll', async (req: Request, res: Response) => { // finds item by name, sellerId or brandId or any combination of these
   const searchName = req.query['name'] as string;
   const sellerId = parseInt(req.query['sellerId'] as string);
   const brandId = parseInt(req.query['brandId'] as string);
@@ -142,7 +147,7 @@ itemRouter.get('/findAll', async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.get('/all', async (req: Request, res: Response) => {
+itemRouter.get("/all", async (req: Request, res: Response) => { // finds all items
   const items = await allItems();
   res.status(200).json(items);
 });

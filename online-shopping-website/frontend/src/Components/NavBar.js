@@ -26,7 +26,10 @@ export default function NavBar() {
     const [seller, setSeller] = React.useState(false);
     const [admin, setAdmin] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    //initializing user credentials
     const [user, setUser] = React.useState({
+        //TODO: add cookies
         email: '',
         password: ''
     });
@@ -34,9 +37,12 @@ export default function NavBar() {
     const [openLogin, setOpenLogin] = React.useState(false);
 
     const handleLogout = () => {
+        //Login out user
         setAuth(false);
         setSeller(false);
         setAdmin(false);
+
+        //Clearing user info on logout
         setUser({
             email: '',
             password: ''
@@ -45,36 +51,57 @@ export default function NavBar() {
     }
 
     const handleOpenLogin = () => {
+        //open login form
         setOpenLogin(true);
     };
 
     const handleCloseLogin = () => {
+        //close login form
         setOpenLogin(false);
     };
 
     const handleLoginSubmit = (event) => {
+        //Username and password are valid
         if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.password === user.password)[0]) {
+            //login as default (customer access)
             setAuth(true);
             console.log("valid user");
+
+            //User is a seller
             if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.role === "seller")[0]) {
+                //login as seller
                 setSeller(true);
                 console.log("user is a seller");
-            } else if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.role === "admin")[0]) {
+            }
+            //User is an admin
+            else if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.role === "admin")[0]) {
+                //login as admin
                 setAdmin(true);
                 console.log("user is an admin");
             } else {
                 console.log("user is a customer");
             }
+            //close login when correct info is entered
             handleCloseLogin();
-        } else if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.password !== user.password)[0]) {
+        }
+        //Email and password don't match
+        else if (TestData.users.filter(tempUser => tempUser.email === user.email && tempUser.password !== user.password)[0]) {
             console.log("email and password don't match");
             window.alert("Incorrect Password");
+
+            //clear form
             event.preventDefault();
-        } else if (!(TestData.users.filter(tempUser => tempUser.email === user.email)[0])) {
+        }
+        //email is not in database
+        else if (!(TestData.users.filter(tempUser => tempUser.email === user.email)[0])) {
             console.log("invalid email");
             window.alert("There is no account associated with this email.");
+
+            //clear form
             event.preventDefault();
-        } else {
+        }
+        // email and password are not in database (never reaching?)
+        else {
             console.log("incorrect email or password");
             window.alert("Incorrect login credentials. Verify that email and password have been entered correctly.");
             event.preventDefault();
@@ -101,8 +128,7 @@ export default function NavBar() {
     const unProfileId = 'navbar-unaccount-profile';
     const sellerId = 'navbar-seller-profile';
     const renderAccountProfileIcon = (
-        <MenuItem onClick={handleOpenUserMenu}>
-        </MenuItem>
+        <MenuItem onClick={handleOpenUserMenu}/>
     )
 
     return (
@@ -127,6 +153,7 @@ export default function NavBar() {
                         <Link to="/my-shopping-cart" className="Navbar-RoutingLink"><Button color='inherit'><h4
                             className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon/></Button></Link>
                     </Box>
+                    {/*Signed in as customer*/}
                     {auth && !seller && !admin && (
                         <div>
                             <IconButton
@@ -161,6 +188,7 @@ export default function NavBar() {
                             </Menu>
                         </div>
                     )}
+                    {/*Signed in as seller*/}
                     {auth && seller && !admin && (
                         <div>
                             <IconButton
@@ -198,6 +226,7 @@ export default function NavBar() {
                             </Menu>
                         </div>
                     )}
+                    {/*Signed in as admin*/}
                     {auth && admin && !seller && (
                         <div>
                             <IconButton
@@ -233,6 +262,7 @@ export default function NavBar() {
                             </Menu>
                         </div>
                     )}
+                    {/*Not signed in*/}
                     {!auth && (
                         <div>
                             <IconButton
@@ -275,6 +305,7 @@ export default function NavBar() {
                     )}
                 </Toolbar>
             </AppBar>
+            {/*Login form state set to open*/}
             {openLogin &&
             <div>
                 <Dialog open={openLogin} onClose={handleCloseLogin}>

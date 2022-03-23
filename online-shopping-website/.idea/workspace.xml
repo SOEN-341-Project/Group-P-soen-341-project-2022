@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b0893315-1b60-4de5-81ad-40b4d8d560c5" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/frontend/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.test.js" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/CartPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/CartPage.js" afterDir="false" />
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +128,11 @@
       <workItem from="1645208696656" duration="3878000" />
       <workItem from="1645387544995" duration="2013000" />
       <workItem from="1645471247799" duration="1005000" />
+<<<<<<< HEAD
       <workItem from="1646535129397" duration="8415000" />
+=======
+      <workItem from="1646109268906" duration="2000" />
+>>>>>>> 7d88f7f638b6340bfac5312a417b9beac248e46d
     </task>
     <task id="LOCAL-00001" summary="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <created>1644512793774</created>

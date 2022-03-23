@@ -17,18 +17,18 @@ const ProductPreview = (props) => {
                     <Stack sx={{height: '100%'}} direction="column" justifyContent="space-between">
                         {/* Image */}
                         <Stack direction="row" justifyContent="center" sx={{textAlign: 'center'}}>
-                            <img className="ProductImage" src={props.product.image} alt={props.product.name}/>
+                            <img className="ProductImage" src={props.product.picture} alt={props.product.name}/>
                         </Stack>
 
                         {/* Product information */}
                         <div>
                             <h3>{props.product.name}</h3>
-                            <p>Brand: {props.product.brand}</p>
-                            <p>Sold by: {props.product.seller}</p>
+                            <p>Brand: {props.product.brand.name}</p>
+                            <p>Sold by: {props.product.seller.sellerName}</p>
                         </div>
 
                         {/* Product price */}
-                        <h4 className="ProductPrice">{props.product.price} Ɖ</h4>
+                        <h4 className="ProductPrice TextGreen">{props.product.price} Ɖ</h4>
                     </Stack>
                 </Card>
             </ButtonBase>
