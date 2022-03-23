@@ -9,6 +9,9 @@ on:
     branches: [master]
     paths:
       - "online-shopping-website/backend/**"
+  pull_request:
+    paths: 
+      - ".github/workflows/BackendCD.yml"
 
 jobs:
   build:
