@@ -11,7 +11,7 @@ describe("Required Brand Creation Params Tests", () => {
         expect(hasRequiredBrandCreationParams(requestBody)).toEqual(false);
     });
 
-    test("No description", () => {
+    test("No description, still valid", () => {
         requestBody.name = data[0];
         requestBody.description = undefined;
 
@@ -25,7 +25,7 @@ describe("Required Brand Creation Params Tests", () => {
         expect(hasRequiredBrandCreationParams(requestBody)).toEqual(false);
     });
 
-    test("Good to create brand", () => {
+    test("Valid, good to create brand", () => {
         requestBody.name = data[0];
         requestBody.description = data[1];
 
