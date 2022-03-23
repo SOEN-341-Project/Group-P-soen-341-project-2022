@@ -1,6 +1,8 @@
 import express, { Response, Request } from "express";
 import hasRequiredBrandCreationParams from "../helpers/verifyBrandCreation";
 import uploadFile from "../helpers/uploadFile";
+import { objectFromRequest } from "../helpers/jwtFuncs";
+import { itemByBrand } from "../prismaFunctions/itemFuncs"
 import {
   allBrands,
   brandById,
@@ -9,13 +11,18 @@ import {
   deleteBrand,
   updateBrand,
 } from "../prismaFunctions/brandFuncs";
+import { User, UserRole } from "@prisma/client";
 
 const brandRouter = express.Router();
 
-brandRouter.post("/create", async (req: Request, res: Response) => {
+brandRouter.post("/create", async (req: Request, res: Response) => { // creates a brand
+  const user = objectFromRequest(req);
   // TODO: check if user that added this brand is a seller (or an admin?)
   try {
-    if (!hasRequiredBrandCreationParams({ name: req.body.name, description: req.body.description }))
+    if (user == undefined || user == null || (user as User).role === UserRole.CUSTOMER) {
+      throw new Error('Invalid Authorization');
+    }
+    if (!hasRequiredBrandCreationParams({ name: req.body.name }))
       throw new Error(`Data Missing`);
 
     const brandNoPic = await createBrand({ name: req.body.name, description: req.body.description });
@@ -32,24 +39,35 @@ brandRouter.post("/create", async (req: Request, res: Response) => {
   }
 });
 
-brandRouter.delete("/delete", async (req: Request, res: Response, next) => {
-  // TODO: make sure there are no items attached to the brand and that only admins can use this route
+brandRouter.delete("/delete", async (req: Request, res: Response, next) => { // deletes the brand with the id thats passed in
+  const user = objectFromRequest(req);
   let brandId = parseInt(req.query["id"] as string);
   try {
+    if (user == undefined || user == null || (user as User).role === UserRole.CUSTOMER) {
+      throw new Error('Invalid Authorization');
+    }
     if (brandId === undefined || isNaN(brandId)) {
       throw new Error("ID is invalid");
     }
+    const itemsAttatchedToBrand = await itemByBrand({id: brandId});
+    if (itemsAttatchedToBrand.length > 0) throw new Error('Items exist in brand. Delete the items first')
     const deletedBrand = await deleteBrand({ brandId: brandId });
+    // TODO: Delete picture from google
     res.json(deletedBrand).status(200);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta.cause || e.message });
   }
 });
 
-brandRouter.post("/update", async (req: Request, res: Response, next) => {
+brandRouter.post("/update", async (req: Request, res: Response, next) => { // updates the brand with the id thats passed in
   // TODO: make sure only admins can use this route (or adjust the database that only the seller that created it can update)
+  const user = objectFromRequest(req);
+
   const brandId = parseInt(req.body.id);
   try {
+    if (user == undefined || user == null || (user as User).role !== UserRole.ADMIN) {
+      throw new Error('Invalid Authorization');
+    }
     if (isNaN(brandId)) throw new Error("Invalid ID");
     const oldBrand = await brandById({ brandId: brandId });
     if (oldBrand === undefined || oldBrand === null) {
@@ -73,7 +91,7 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => {
   }
 });
 
-brandRouter.get("/find", async (req: Request, res: Response) => {
+brandRouter.get("/find", async (req: Request, res: Response) => { // find brands by name
   let search = req.query["name"];
   try {
     if (search === undefined || search === "") {
@@ -86,7 +104,7 @@ brandRouter.get("/find", async (req: Request, res: Response) => {
   }
 });
 
-brandRouter.get("/all", async (req: Request, res: Response) => {
+brandRouter.get("/all", async (req: Request, res: Response) => { // get all brands
   await allBrands()
     .then((brands) => {
       res.status(200).json(brands);

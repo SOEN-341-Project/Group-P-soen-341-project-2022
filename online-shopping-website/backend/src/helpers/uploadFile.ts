@@ -2,7 +2,7 @@ import util from "util";
 import { storage } from "./storage";
 const bucket = storage.bucket("bobble-pics");
 
-const uploadFile = (args: { file: Express.Multer.File; filename: string; path: string }) =>
+const uploadFile = (args: { file: Express.Multer.File; filename: string; path: string }): Promise<string> => // returns a link to the file
   // if you are a little confused, a promise is essentially a 'promise' that the function will eventually resolve but it can do this in the background so other things can run
   new Promise((resolve, reject) => {
     // check if file is a picture
@@ -29,12 +29,12 @@ const uploadFile = (args: { file: Express.Multer.File; filename: string; path: s
     blobStream
       .on("finish", () => {
         const publicUrl = util.format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
-        resolve(publicUrl); //check if the link exists
+        resolve(publicUrl); //return the link to the image
       })
       .on("error", (e) => {
         reject(`Unable to upload image, something went wrong: ${e.message}`);
       })
-      .end(buffer); //finish uploading
+      .end(buffer); //write the file to the cloud
   });
 
 export default uploadFile;
