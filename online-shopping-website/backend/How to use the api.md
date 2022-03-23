@@ -233,13 +233,13 @@ Test routes are only there for you to test if the api is working properly
       - | Key           | Value                        |
         | ------------- | ---------------------------- |
         | `name`        | The name of the brand        |
-        | `description` | The description of the brand |
   - Optional:
 
     - Body:
-      - | Key       | Value                          |
-        | --------- | ------------------------------ |
-        | `picture` | The picture of the item (file) |
+      - | Key           | Value                          |
+        | ------------- | ------------------------------ |
+        | `picture`     | The picture of the item (file) |
+        | `description` | The description of the brand   |
 
   - Returns: New Brand
 
