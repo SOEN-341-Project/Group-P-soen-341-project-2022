@@ -1,4 +1,4 @@
-import prisma from "./PrismaClient";
+import prisma from './PrismaClient';
 
 export async function createItem(args: {
   name: string;
@@ -85,7 +85,7 @@ export async function itemByName(args: { name: string }) {
     where: {
       name: {
         contains: args.name,
-        mode: "insensitive",
+        mode: 'insensitive',
       },
     },
   });
@@ -116,7 +116,7 @@ export async function findItems(args: { name?: string; sellerId?: number; brandI
     where: {
       name: {
         contains: args.name,
-        mode: "insensitive",
+        mode: 'insensitive',
       },
       brandId: {
         equals: args.brandId,
