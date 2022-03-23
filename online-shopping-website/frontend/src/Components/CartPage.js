@@ -14,7 +14,6 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-//import TestData from '../TestValues.json';
 import { useCookies } from "react-cookie";
 
 export const CartPage = (props) => {
@@ -23,15 +22,13 @@ export const CartPage = (props) => {
     const forceUpdate = () => setState(state + 1);
 
     //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
-    const [cartCookie, setCookie] = useCookies(["cart"]);
+    const [cartCookie, setCookie, deleteCookie] = useCookies(["cart"]);
 
     let [subtotal] = useState(0.00);
     let [GST] = useState(0.00);
     let [QST] = useState(0.00);
     let [total] = useState(0.00);
     const [alertVisible, setAlertVisible] = useState(false);
-
-    
 
     const calculateCartTally = () => {
         //calculating subtotal of all items
@@ -46,15 +43,9 @@ export const CartPage = (props) => {
         //calculating total after tax
         total = subtotal + GST + QST;
     }
-   
     
-    if(!cartCookie.cart){
-        return (
-            <h1>Cart empty</h1>
-        );
-    }
-    else{
-        calculateCartTally();
+    const EmptyCart = () => {
+        deleteCookie('cart');
     }
 
     const PlaceOrder = () => {
@@ -64,10 +55,9 @@ export const CartPage = (props) => {
 
         //Posting order to backend once place order has been clicked
         axios.post(process.env.REACT_APP_DB_CONNECTION + '/api/orders/create', {
-            //TODO: replace with cookie values
-            userId: 3,
-            itemIds: [5, 8, 14],
-            itemQuantities: [2, 5, 3],
+            userId: 2, // TODO Replace with logged in user id from user cookie
+            itemIds: cartCookie.cart.map(product => { return product.id }),
+            itemQuantities: cartCookie.cart.map(product => { return product.quantity }),
             totalPrice: total
         }).then(function (response) {
             console.log("Order added to backend.")
@@ -76,8 +66,7 @@ export const CartPage = (props) => {
         });
 
         //Clearing cart
-        cartCookie.cart = [];    //TODO: replace with delete cart cookie (on alert open)
-        forceUpdate();
+        EmptyCart();
     }
 
     //Displays cart items breakdown
@@ -136,7 +125,7 @@ export const CartPage = (props) => {
 
             // TODO Fix alert when cart cookie is empty
             // Show alert and navigate back to home when cart is empty
-            if (cartCookie.cart.length == 0) {
+            if (cartCookie.cart.length === 0) {
                 alert("Cart emptied. Returning to home page.");
                 navigate(`/`);
             }
@@ -217,9 +206,7 @@ export const CartPage = (props) => {
             )
         )
     }
-
-    calculateCartTally();
-
+   
     //When cart is empty display message
     if (!cartCookie.cart) {
         return (
@@ -261,8 +248,12 @@ export const CartPage = (props) => {
             </Grid>
         )
     }
-
-    //When cart is full, display cart items
+    
+    // Cart is full
+    // Calculate cart total
+    calculateCartTally();
+    
+    // Display products in cart
     return (
         <Grid container className="Cart-Container">
             <Collapse in={alertVisible} className="Cart-Alert">
