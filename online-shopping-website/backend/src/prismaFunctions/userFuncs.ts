@@ -1,5 +1,5 @@
-import prisma from "./PrismaClient";
-import { UserRole } from "@prisma/client";
+import prisma from './PrismaClient';
+import { UserRole } from '@prisma/client';
 
 export async function createUser(args: {
   pWord: string;

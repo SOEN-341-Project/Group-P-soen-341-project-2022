@@ -7,6 +7,7 @@ import userRouter from "./routes/users";
 import brandRouter from "./routes/brands";
 import itemRouter from "./routes/items";
 import orderRouter from "./routes/orders";
+import { objectFromRequest } from "./helpers/jwtFuncs";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -53,6 +54,11 @@ app.get("/get", (req: Request, res: Response) => {
 app.delete("/delete", (req: Request, res: Response) => {
   res.send({ queryParams: req.query, body: req.body, method: req.method }).status(200);
 });
+
+app.post('/token', (req: Request, res: Response) => {
+  const token = objectFromRequest(req)
+  res.status(200).json(token)
+})
 
 app.listen(port, () => {
   console.log("listening on port " + port);
