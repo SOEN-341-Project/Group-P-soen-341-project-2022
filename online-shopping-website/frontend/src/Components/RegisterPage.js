@@ -41,6 +41,14 @@ export const Register = () => {
     //state for profile components
     const [values, setValues] = useState(profileProperties);
 
+    const [cookies, setCookie] = useCookies(["cartCookie"]);
+
+    function handleCookie() {
+        setCookie("product","", {
+          path: "/"
+        });
+      }
+
     //function executes when user selects seller or customer through radio buttons
     const handleChange = (event) => {
         if (event.target.name === 'CUSTOMER') {
@@ -154,7 +162,8 @@ export const Register = () => {
                         {seller?<TextField required label="Seller name" variant="outlined" value={values.sellername} onChange={(e) => setValues({ ...values, sellername: e.target.value })}/> : null}
                     </RadioGroup>
                     <div style={{textAlign:'center'}}>
-                        <Button type="submit" value="Sign Up" variant="contained" className='GreenButtonContained' sx={{ maxWidth: '10rem'}}>Sign Up</Button>
+                    {cookies.user && <p>{cookies.user}</p>}
+                        <Button type="submit" value="Sign Up" variant="contained" className='GreenButtonContained' sx={{ maxWidth: '10rem'}} onClick={handleCookie}>Sign Up</Button>
                     </div>
                 </Stack>
             </form>
