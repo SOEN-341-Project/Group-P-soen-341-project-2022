@@ -22,7 +22,7 @@ export const CartPage = (props) => {
     const forceUpdate = () => setState(state + 1);
 
     //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
-    const [cartCookie, setCookie, deleteCookie] = useCookies(["cart"]);
+    const [cookies, setCookie, deleteCookie] = useCookies(["cart", "user"]);
 
     let [subtotal] = useState(0.00);
     let [GST] = useState(0.00);
@@ -32,7 +32,7 @@ export const CartPage = (props) => {
 
     const calculateCartTally = () => {
         //calculating subtotal of all items
-        cartCookie.cart.forEach((item) => {
+        cookies.cart.forEach((item) => {
             subtotal += ((item.quantity) * (item.price));
         });
 
@@ -55,9 +55,9 @@ export const CartPage = (props) => {
 
         //Posting order to backend once place order has been clicked
         axios.post(process.env.REACT_APP_DB_CONNECTION + '/api/orders/create', {
-            userId: 2, // TODO Replace with logged in user id from user cookie
-            itemIds: cartCookie.cart.map(product => { return product.id }),
-            itemQuantities: cartCookie.cart.map(product => { return product.quantity }),
+            userId: cookies.user.user.id,
+            itemIds: cookies.cart.map(product => { return product.id }),
+            itemQuantities: cookies.cart.map(product => { return product.quantity }),
             totalPrice: total
         }).then(function (response) {
             console.log("Order added to backend.")
@@ -72,7 +72,7 @@ export const CartPage = (props) => {
     //Displays cart items breakdown
     const PriceBreakdown = () => {
         return (
-            cartCookie.cart.map((item, index) => {
+            cookies.cart.map((item, index) => {
                 return (
                     <Grid item xs={12} sx={{display: 'flex'}} key={index}>
                         <Grid item xs={6} sx={{overflowX: 'hidden'}}>
@@ -93,7 +93,7 @@ export const CartPage = (props) => {
 
         // Modify item's quantity in the cart cookie
         const modifyItemQuantity = (itemId, quantity) => {
-            setCookie("cart", cartCookie.cart.map(product => {
+            setCookie("cart", cookies.cart.map(product => {
                 if (itemId === product.id) {
                     return {...product, quantity: quantity};
                 }
@@ -103,7 +103,7 @@ export const CartPage = (props) => {
 
         function IncrementItem(itemID) {
             //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
-            const quantity = cartCookie.cart.find(product => itemID === product.id).quantity;
+            const quantity = cookies.cart.find(product => itemID === product.id).quantity;
             if (quantity !== 10) {
                 modifyItemQuantity(itemID, quantity + 1);
             }
@@ -112,7 +112,7 @@ export const CartPage = (props) => {
 
         function DecreaseItem(itemID) {
             //Decrement quantity, ensuring that quantity has at least 1 item per product in the cart
-            const quantity = cartCookie.cart.find(product => itemID === product.id).quantity;
+            const quantity = cookies.cart.find(product => itemID === product.id).quantity;
             if (quantity !== 1) {
                 modifyItemQuantity(itemID, quantity - 1);
             }
@@ -121,11 +121,11 @@ export const CartPage = (props) => {
 
         function RemoveItem(itemID) {
             //Creates new array containing every product in the cart except the one being removed
-            setCookie("cart", cartCookie.cart.filter(product => product.id !== itemID));       
+            setCookie("cart", cookies.cart.filter(product => product.id !== itemID));       
 
             // TODO Fix alert when cart cookie is empty
             // Show alert and navigate back to home when cart is empty
-            if (cartCookie.cart.length === 0) {
+            if (cookies.cart.length === 0) {
                 alert("Cart emptied. Returning to home page.");
                 navigate(`/`);
             }
@@ -133,7 +133,7 @@ export const CartPage = (props) => {
         }
 
         return (
-            cartCookie.cart.map((item, index) => {
+            cookies.cart.map((item, index) => {
                     return (
                         <Grid container className="CartItem" key={index}>
                             {/*Item image*/}
@@ -208,7 +208,7 @@ export const CartPage = (props) => {
     }
    
     //When cart is empty display message
-    if (!cartCookie.cart) {
+    if (!cookies.cart) {
         return (
             <Grid container className="Cart-Container">
                 <Collapse in={alertVisible} className="Cart-Alert">
@@ -325,7 +325,7 @@ export const CartPage = (props) => {
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
                     <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
-                            disabled={cartCookie.cart.length === 0}>
+                            disabled={cookies.cart.length === 0}>
                         Place order
                     </Button>
                 </Grid>
