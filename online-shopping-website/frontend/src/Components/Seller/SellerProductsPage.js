@@ -120,7 +120,7 @@ export const SellerProductsPage = () => {
     }
 
     // Only sellers and admin can view the seller page
-    if (cookies.user.user.role !== 'SELLER' && cookies.user.user.role !== 'ADMIN') {
+    if (!cookies.user || (cookies.user.user.role !== 'SELLER' && cookies.user.user.role !== 'ADMIN')) {
         return (
             <div>
                 <h1>You do not have permission to access this page.</h1>
