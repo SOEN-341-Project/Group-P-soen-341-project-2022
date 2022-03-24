@@ -7,7 +7,9 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 export const SellerProductsPage = () => {
     // DataGrid columns
@@ -68,6 +70,7 @@ export const SellerProductsPage = () => {
     const [sellers, setSellers] = useState(null);
     const [selectedSeller, setSelectedSeller] = useState(9);
     const [sellerProducts, setSellerProducts] = useState(null);
+    const [cookies, setCookies] = useCookies(['user']);
 
     useEffect(() => {
         // Get sellers and seller products in parallel
@@ -114,6 +117,20 @@ export const SellerProductsPage = () => {
             });
             window.location.reload();
         }
+    }
+
+    // Only sellers and admin can view the seller page
+    if (cookies.user.user.role !== 'SELLER' && cookies.user.user.role !== 'ADMIN') {
+        return (
+            <div>
+                <h1>You do not have permission to access this page.</h1>
+                <Link to="/" className='RoutingLink'>
+                    <Button variant="text" className="Cart-ProductsBackButton">
+                        <ArrowBackIosNewIcon/><h4>Return to products</h4>
+                    </Button>
+                </Link>
+            </div>
+        );
     }
 
     return (

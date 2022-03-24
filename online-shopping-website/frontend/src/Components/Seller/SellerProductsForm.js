@@ -1,12 +1,16 @@
 import { useEffect, useState, createRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
+import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
     let navigate = useNavigate();
+
+    // Cookies
+    const [cookies, setCookies] = useCookies(['user']);
 
     // Get product ID from URL parameters
     const { productId } = useParams();
@@ -73,7 +77,7 @@ export const ModifyProductForm = (props) => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', 9);
+        formData.append('sellerId', cookies.user.user.sellerId);
 
         // Update product with new product data
         await axios({
@@ -187,6 +191,9 @@ export const AddNewProductForm = () => {
     // React router navigator (for redirecting)
     let navigate = useNavigate();
 
+    // Cookies
+    const [cookies, setCookies] = useCookies(['user']);
+
     // New product structure
     const [newProduct, setNewProduct] = useState({
         name: '',
@@ -218,9 +225,7 @@ export const AddNewProductForm = () => {
         return () => URL.revokeObjectURL(imageURL);
     }, [fileSelected]);
 
-    // TODO: Replace with logged in seller name when account management or adding with params ready
-    // TODO Get route for seller id -> name
-    const sellerName = '';
+    const sellerName = cookies.user.user.sellerName;
 
     const handleFieldChange = (event) => {
         // TODO Autocomplete brand names with available brands (may be >1 brand with name, have to choose correct id)
@@ -266,7 +271,7 @@ export const AddNewProductForm = () => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', 9);
+        formData.append('sellerId', cookies.user.user.sellerId);
 
         // Update product with new product data
         await axios({

@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import {Menu, MenuItem} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import navLogo from '../icons/BOBBLE-05.png';
 import smallNavLogo from '../icons/BOBBLE-03.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -23,11 +23,14 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
 export default function NavBar() {
-    const [auth, setAuth] = React.useState(false);
+    let navigator = useNavigate();
+
+    const [cookies, setCookie, deleteCookie] = useCookies(['user', 'cart']);
+
+    const [auth, setAuth] = React.useState(!!cookies.user);
     const [seller, setSeller] = React.useState(false);
     const [admin, setAdmin] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [cookies, setCookie, deleteCookie] = useCookies(['user', 'cart']);
 
     //initializing user credentials
     const [user, setUser] = React.useState({
@@ -55,6 +58,8 @@ export default function NavBar() {
         deleteCookie('cart');
 
         window.alert("Successfully logged out.");
+
+        navigator('/');
     }
 
     const handleOpenLogin = () => {
@@ -69,7 +74,7 @@ export default function NavBar() {
 
     const handleLoginSubmit = async(event) => {
         event.preventDefault();
-
+        
         try {
             const loginResponse = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/users/signin", user);
             console.log(loginResponse.data);
@@ -79,6 +84,13 @@ export default function NavBar() {
             // TODO Check if seller or admin when user object returned
             
             setCookie('user', loginResponse.data);
+            
+            // Close login popup
+            setOpenLogin(false);
+            setAnchorEl(false);
+
+            // Route to products page
+            navigator('/');
         }
         catch (err) {
             window.alert(
@@ -102,14 +114,14 @@ export default function NavBar() {
             setOpenLogin(true);
         }
     };
-
+    
     const profileId = 'navbar-account-profile';
     const unProfileId = 'navbar-unaccount-profile';
     const sellerId = 'navbar-seller-profile';
     const renderAccountProfileIcon = (
         <MenuItem onClick={handleOpenUserMenu}/>
-    )
-
+        )
+        
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar
@@ -132,117 +144,9 @@ export default function NavBar() {
                         <Link to="/my-shopping-cart" className="Navbar-RoutingLink"><Button color='inherit'><h4
                             className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon/></Button></Link>
                     </Box>
-                    {/*Signed in as customer*/}
-                    {auth && !seller && !admin && (
-                        <div>
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={profileId}
-                                aria-haspopup="true"
-                                onClick={handleOpenUserMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle/>
-                            </IconButton>
-                            <Menu
-                                id='navbar-account-profile'
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorEl)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
-                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                            </Menu>
-                        </div>
-                    )}
-                    {/*Signed in as seller*/}
-                    {auth && seller && !admin && (
-                        <div>
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={sellerId}
-                                aria-haspopup="true"
-                                onClick={handleOpenUserMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle/>
-                            </IconButton>
-                            <Menu
-                                id='navbar-seller-profile'
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorEl)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}><Link to="/seller">Manage
-                                    Products</Link></MenuItem>
-                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                            </Menu>
-                        </div>
-                    )}
-                    {/*Signed in as admin*/}
-                    {auth && admin && !seller && (
-                        <div>
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={sellerId}
-                                aria-haspopup="true"
-                                onClick={handleOpenUserMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle/>
-                            </IconButton>
-                            <Menu
-                                id='navbar-seller-profile'
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorEl)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
-                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                            </Menu>
-                        </div>
-                    )}
                     {/*Not signed in*/}
-                    {!auth && (
+                    {/* {!auth && ( */}
+                    {!cookies.user && (
                         <div>
                             <IconButton
                                 sx={{borderRadius: '10px !important'}}
@@ -280,6 +184,118 @@ export default function NavBar() {
                             >
                                 <AccountCircle/>
                             </IconButton>
+                        </div>
+                    )}
+                    {/*Signed in as customer*/}
+                    {/* {auth && !seller && !admin && ( */}
+                    {cookies.user && cookies.user.user.role === 'CUSTOMER' && (
+                        <div>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={profileId}
+                                aria-haspopup="true"
+                                onClick={handleOpenUserMenu}
+                                color="inherit"
+                            >
+                                <AccountCircle/>
+                            </IconButton>
+                            <Menu
+                                id='navbar-account-profile'
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </Menu>
+                        </div>
+                    )}
+                    {/*Signed in as seller*/}
+                    {/* {auth && seller && !admin && ( */}
+                    {cookies.user && cookies.user.user.role === 'SELLER' && (
+                        <div>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={sellerId}
+                                aria-haspopup="true"
+                                onClick={handleOpenUserMenu}
+                                color="inherit"
+                            >
+                                <AccountCircle/>
+                            </IconButton>
+                            <Menu
+                                id='navbar-seller-profile'
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}><Link to="/seller">Manage
+                                    Products</Link></MenuItem>
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </Menu>
+                        </div>
+                    )}
+                    {/*Signed in as admin*/}
+                    {/* {auth && admin && !seller && ( */}
+                    {cookies.user && cookies.user.user.role === 'ADMIN' && (
+                        <div>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={sellerId}
+                                aria-haspopup="true"
+                                onClick={handleOpenUserMenu}
+                                color="inherit"
+                            >
+                                <AccountCircle/>
+                            </IconButton>
+                            <Menu
+                                id='navbar-seller-profile'
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
+                                <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </Menu>
                         </div>
                     )}
                 </Toolbar>
