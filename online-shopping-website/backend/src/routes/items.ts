@@ -87,7 +87,7 @@ itemRouter.post('/update', async (req: Request, res: Response) => { // updates t
   const isPromoted = req.body.promoted === 'true';
   const itemId = parseInt(req.body.id);
   try {
-    if (user == undefined || user == null || (user as User).role !== UserRole.SELLER) {
+    if (user == undefined || user == null || (user as User).role === UserRole.CUSTOMER) {
       throw new Error('Invalid Authorization');
     }
     if (itemId === undefined || isNaN(itemId)) {
