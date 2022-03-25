@@ -34,7 +34,7 @@ orderRouter.post('/create', async (req: Request, res: Response) => {
     });
     res.json(newOrder).status(200);
   } catch (e) {
-    res.status(400).json({ error: e, message: e.meta.cause || e.message });
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
 });
 
