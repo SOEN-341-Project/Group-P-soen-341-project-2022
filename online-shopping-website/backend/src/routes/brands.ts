@@ -55,7 +55,7 @@ brandRouter.delete("/delete", async (req: Request, res: Response, next) => { // 
     // TODO: Delete picture from google
     res.json(deletedBrand).status(200);
   } catch (e) {
-    res.status(400).json({ error: e, message: e.meta.cause || e.message });
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
 });
 
