@@ -112,7 +112,11 @@ export const SellerProductsPage = () => {
     const removeProduct = (productId) => {
         const productToRemove = sellerProducts.find(product => product.id === productId);
         if(window.confirm(`Delete product: "${productToRemove.name}" with id: ${productToRemove.id}?`)) {
-            axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/items/delete?id=' + productId).then((res) => {
+            axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/items/delete?id=' + productId, {
+                headers: { 
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
+            }).then((res) => {
                 console.log(res.data);
             });
             window.location.reload();

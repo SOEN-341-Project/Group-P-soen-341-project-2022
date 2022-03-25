@@ -65,6 +65,10 @@ export const ModifyProductForm = (props) => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: modifiedProduct.brand.name
+            },{
+                headers: {
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
             });
             selectedBrand = selectedBrand.data;
         }
@@ -77,14 +81,17 @@ export const ModifyProductForm = (props) => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', cookies.user.user.sellerId);
+        formData.append('sellerId', cookies.user.user.id);
 
         // Update product with new product data
         await axios({
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: { 
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${cookies.user.token}`
+            }
         });
 
         navigate('/seller');
@@ -259,6 +266,10 @@ export const AddNewProductForm = () => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: newProduct.brand.name
+            },{
+                headers: {
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
             });
             selectedBrand = selectedBrand.data;
         }
@@ -271,14 +282,17 @@ export const AddNewProductForm = () => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', cookies.user.user.sellerId);
+        formData.append('sellerId', cookies.user.user.id);
 
         // Update product with new product data
         await axios({
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: { 
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${cookies.user.token}`
+            }
         });
 
         navigate('/seller');
