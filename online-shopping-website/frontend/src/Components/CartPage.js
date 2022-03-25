@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
 
 import Grid from '@mui/material/Grid';
@@ -29,6 +29,17 @@ export const CartPage = (props) => {
     let [QST] = useState(0.00);
     let [total] = useState(0.00);
     const [alertVisible, setAlertVisible] = useState(false);
+
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
+        .then((response) => {
+            setCookie("cart", cookies.cart.filter((cartProduct) => {
+                return response.data.some((product) => {
+                    return product.id === cartProduct.id;
+                })
+            }));
+        });
+    }, [cookies.cart, setCookie]);
 
     const calculateCartTally = () => {
         //calculating subtotal of all items
