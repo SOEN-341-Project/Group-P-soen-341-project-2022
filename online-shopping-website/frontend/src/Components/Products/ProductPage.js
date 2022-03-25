@@ -93,7 +93,7 @@ export const ProductPage = () => {
 
   // Waiting for products during GET
   if (loading) {
-    return <h1>Loading products...</h1>;
+    return <h1 className="TextGreen">Loading products...</h1>;
   }
 
   console.log("Brands: "+ brands + " , Sellers: " + sellers)

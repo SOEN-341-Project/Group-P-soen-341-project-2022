@@ -161,13 +161,13 @@ export const ProductDetails = (props) => {
 
     // Display load screen while getting data
     if (loading) {
-        return <h1>Loading product: {productParams.productName}...</h1>;
+        return <h1 className="TextGreen">Loading product: {productParams.productName}...</h1>;
     }
 
     return (
         <Grid container className="ProductDetails-Container">
             <Link to="/" className="RoutingLink">
-                <Button variant="contained">
+                <Button variant="contained" className="GreenButtonContained">
                     Return to products
                 </Button>
             </Link>

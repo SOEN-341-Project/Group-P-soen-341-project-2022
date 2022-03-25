@@ -20,7 +20,7 @@ export const SellerProductsPage = () => {
                     pathname: `/seller/${params.id}`,
                     params: { params }
                 }} className="RoutingLink">
-                    <Button className="sellerButton" variant="text">
+                    <Button className="sellerButton GreenButtonText" variant="text">
                         <EditIcon />
                     </Button>
                 </Link>
@@ -33,7 +33,7 @@ export const SellerProductsPage = () => {
             field: 'delete',
             headerName: 'Delete',
             renderCell: (params) => (
-                <Button className="sellerButton" variant="text" onClick={() => removeProduct(params.id)}>
+                <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeProduct(params.id)}>
                     <DeleteIcon />
                 </Button>
             ),
@@ -91,7 +91,7 @@ export const SellerProductsPage = () => {
     }, [selectedSeller]);
     
     if (loading) {
-        return <h1>Loading Sellers...</h1>;
+        return <h1 className="TextGreen">Loading Sellers...</h1>;
     }
     
     const handleSellerClick = (event) => {
@@ -101,7 +101,7 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button key={index} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
+                return <Button key={index} id={seller.id} variant="outlined" className="GreenButtonOutlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
         );
     }

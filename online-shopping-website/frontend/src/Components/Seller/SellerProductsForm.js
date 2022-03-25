@@ -1,6 +1,7 @@
 import { useEffect, useState, createRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
+import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
 
 
@@ -118,7 +119,7 @@ export const ModifyProductForm = (props) => {
     return (
         <form onSubmit={handleSubmit}>
             <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
-                <h1>Modify Product "{modifiedProduct.name}"</h1>
+                <h1 className="TextGreen">Modify Product "{modifiedProduct.name}"</h1>
                 <TextField 
                     label="Name"
                     name="name"
@@ -150,8 +151,8 @@ export const ModifyProductForm = (props) => {
                 {
                     imagePreview && <img src={imagePreview} alt="Product Preview" />
                 }
-                <Button type="button" component="label">
-                    Upload Image
+                <Button type="button" className="GreenButtonText" component="label" style={{width:"fit-content", margin:"1rem auto"}}>
+                    <UploadIcon/> Upload Image
                     <input name="picture" type="file" accept="image/*" ref={imageRef} hidden onChange={handleImageChange} />
                 </Button> 
                 <TextField 
@@ -177,7 +178,9 @@ export const ModifyProductForm = (props) => {
                     value={modifiedProduct.totalQuantity}
                     onChange={handleFieldChange} 
                     />
-                <Button type="submit">Save Changes</Button>
+                <Button type="submit" variant="contained" className="GreenButtonContained" style={{width:"fit-content", margin:"1rem auto"}}>
+                    Save Changes
+                </Button>
             </Stack>
         </form>
     );
@@ -290,7 +293,7 @@ export const AddNewProductForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
-                <h1>Add a product</h1>
+                <h1 className="TextGreen">Add a product</h1>
                 <TextField 
                     name="name"
                     label="Name" 
@@ -322,8 +325,8 @@ export const AddNewProductForm = () => {
                 {
                     fileSelected && <img src={imagePreview} alt="Product Preview" />
                 }
-                <Button component="label">
-                    Upload Image
+                <Button component="label" className="GreenButtonText" style={{width:"fit-content", margin:"1rem auto"}}>
+                    <UploadIcon/>  Upload Image
                     <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required onChange={handleImageChange} />
                 </Button> 
                 <TextField 
@@ -349,7 +352,7 @@ export const AddNewProductForm = () => {
                     onChange={handleFieldChange} 
                     inputProps={{ min: 1 }} 
                 />
-                <Button type="submit">Add Product</Button>
+                <Button style={{width:"fit-content", margin:"1rem auto"}} type="submit" variant="contained" className="GreenButtonContained">Add Product</Button>
             </Stack>
         </form>
     );
