@@ -59,6 +59,10 @@ export const CartPage = (props) => {
             itemIds: cookies.cart.map(product => { return product.id }),
             itemQuantities: cookies.cart.map(product => { return product.quantity }),
             totalPrice: total
+        }, {
+            headers: {
+                'Authorization': `Bearer ${cookies.user.token}`
+            }
         }).then(function (response) {
             console.log("Order added to backend.")
         }).catch(function (error) {
