@@ -23,8 +23,8 @@ const ProductPreview = (props) => {
                         {/* Product information */}
                         <div>
                             <h3>{props.product.name}</h3>
-                            <p>Brand: {props.product.brand.name}</p>
-                            <p>Sold by: {props.product.seller.sellerName}</p>
+                            <p><strong>Brand:</strong> {props.product.brand.name}</p>
+                            <p><strong>Sold by:</strong> {props.product.seller.sellerName}</p>
                         </div>
 
                         {/* Product price */}

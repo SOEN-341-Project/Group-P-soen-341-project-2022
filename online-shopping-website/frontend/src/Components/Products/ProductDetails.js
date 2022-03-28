@@ -134,8 +134,11 @@ const ProductButtons = (props) => {
                 </Button>
             </Stack>
             <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
-            <Button className="ProductDetails-CartButton GreenButtonContained" variant="contained"
-                    endIcon={<AddShoppingCartIcon/>} onClick={AddToCart}>
+            <Button className="ProductDetails-CartButton GreenButtonContained"
+                    variant="contained"
+                    endIcon={<AddShoppingCartIcon/>}
+                    disabled={false} //FIX ME: Disable button if user is a seller or admin
+                    onClick={AddToCart}>
                 Add to cart
             </Button>
         </div>
@@ -161,7 +164,12 @@ export const ProductDetails = (props) => {
 
     // Display load screen while getting data
     if (loading) {
-        return <h1 className="TextGreen">Loading product: {productParams.productName}...</h1>;
+        return (
+            <Grid xs={12}>
+                <h1 className="TextGreen" style={{padding:"5rem 0 2rem 0", textAlign:"center"}}>Loading product: {productParams.productName}...</h1>
+                <div id="LoadingSpinner"></div>
+            </Grid>
+        );
     }
 
     return (

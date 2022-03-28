@@ -1,8 +1,10 @@
-import { useEffect, useState, createRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Button, Stack, InputAdornment, TextField } from '@mui/material';
+import {useEffect, useState, createRef} from 'react';
+import {useParams, useNavigate, Link} from 'react-router-dom';
+import {Button, Stack, InputAdornment, TextField} from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
+import Grid from "@mui/material/Grid";
+import * as React from "react";
 
 
 export const ModifyProductForm = (props) => {
@@ -10,11 +12,11 @@ export const ModifyProductForm = (props) => {
     let navigate = useNavigate();
 
     // Get product ID from URL parameters
-    const { productId } = useParams();
+    const {productId} = useParams();
 
     // Waiting for HTTP requests
     const [loading, setLoading] = useState(true);
-    
+
     // Chosen product
     const [modifiedProduct, setModifiedProduct] = useState(null);
 
@@ -46,8 +48,8 @@ export const ModifyProductForm = (props) => {
 
         return () => URL.revokeObjectURL(imageURL);
     }, [fileSelected]);
-   
-    const handleSubmit = async(event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         // Create form data for file uploading
@@ -81,7 +83,7 @@ export const ModifyProductForm = (props) => {
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: {"Content-Type": "multipart/form-data"}
         });
 
         navigate('/seller');
@@ -103,7 +105,7 @@ export const ModifyProductForm = (props) => {
             });
         }
     }
-    
+
     const handleImageChange = (e) => {
         if (!e.target.files || e.target.files.length === 0) {
             setFileSelected(undefined);
@@ -111,74 +113,82 @@ export const ModifyProductForm = (props) => {
         }
         setFileSelected(e.target.files[0]); // One image only
     }
-    
+
     if (loading) {
-        return <h1>Loading form...</h1>;
+        return (
+            <Grid xs={12}>
+                <h1 className="TextGreen" style={{padding: "5rem 0 2rem 0", textAlign: "center"}}>Loading form</h1>
+                <div id="LoadingSpinner"></div>
+            </Grid>
+        );
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
+            <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
                 <h1 className="TextGreen">Modify Product "{modifiedProduct.name}"</h1>
-                <TextField 
+                <TextField
                     label="Name"
                     name="name"
-                    required 
+                    required
                     value={modifiedProduct.name}
                     onChange={handleFieldChange}
                 />
-                <TextField 
-                    label="Price" 
+                <TextField
+                    label="Price"
                     name="price"
-                    type="number" 
-                    required 
+                    type="number"
+                    required
                     value={modifiedProduct.price}
                     onChange={handleFieldChange}
                     InputProps={{
-                        inputProps: { min: 0, step: 0.01 },
+                        inputProps: {min: 0, step: 0.01},
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }}
                 />
-                <TextField 
-                    label="Description" 
+                <TextField
+                    label="Description"
                     name="description"
-                    required 
-                    multiline 
-                    rows={4} 
-                    value={modifiedProduct.description} 
+                    required
+                    multiline
+                    rows={4}
+                    value={modifiedProduct.description}
                     onChange={handleFieldChange}
-                    />
+                />
                 {
-                    imagePreview && <img src={imagePreview} alt="Product Preview" />
+                    imagePreview && <img src={imagePreview} alt="Product Preview"/>
                 }
-                <Button type="button" className="GreenButtonText" component="label" style={{width:"fit-content", margin:"1rem auto"}}>
+                <Button type="button" className="GreenButtonText" component="label"
+                        style={{width: "fit-content", margin: "1rem auto"}}>
                     <UploadIcon/> Upload Image
-                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden onChange={handleImageChange} />
-                </Button> 
-                <TextField 
-                    label="Brand" 
+                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden
+                           onChange={handleImageChange}/>
+                </Button>
+                <TextField
+                    label="Brand"
                     name="brandName"
-                    required 
+                    required
                     value={modifiedProduct.brand.name}
                     onChange={handleFieldChange}
-                    />
-                <TextField 
-                    label="Seller" 
+                />
+                <TextField
+                    label="Seller"
                     name="sellerName"
-                    disabled 
+                    disabled
                     defaultValue={modifiedProduct.seller.sellerName}
                     onChange={handleFieldChange}
-                    />
-                <TextField 
-                    label="Quantity" 
+                />
+                <TextField
+                    label="Quantity"
                     name="totalQuantity"
-                    type="number" 
-                    required 
-                    inputProps={{ min: 1 }} 
+                    type="number"
+                    required
+                    inputProps={{min: 1}}
                     value={modifiedProduct.totalQuantity}
-                    onChange={handleFieldChange} 
-                    />
-                <Button type="submit" variant="contained" className="GreenButtonContained" style={{width:"fit-content", margin:"1rem auto"}}>
+                    onChange={handleFieldChange}
+                />
+                <Button type="submit" variant="contained" className="GreenButtonContained"
+                        style={{width: "fit-content", margin: "1rem auto"}}>
                     Save Changes
                 </Button>
             </Stack>
@@ -242,7 +252,7 @@ export const AddNewProductForm = () => {
         }
     }
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         // Create form data for file uploading
@@ -276,7 +286,7 @@ export const AddNewProductForm = () => {
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: {"Content-Type": "multipart/form-data"}
         });
 
         navigate('/seller');
@@ -292,67 +302,70 @@ export const AddNewProductForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
+            <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
                 <h1 className="TextGreen">Add a product</h1>
-                <TextField 
+                <TextField
                     name="name"
-                    label="Name" 
+                    label="Name"
                     required
                     value={newProduct.name}
-                    onChange={handleFieldChange} 
-                    />
-                <TextField 
+                    onChange={handleFieldChange}
+                />
+                <TextField
                     name="price"
                     label="Price"
                     type="number"
-                    required 
+                    required
                     value={newProduct.price}
-                    onChange={handleFieldChange} 
+                    onChange={handleFieldChange}
                     InputProps={{
-                        inputProps: { min: 0, step: "0.5" },
+                        inputProps: {min: 0, step: "0.5"},
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }}
                 />
-                <TextField 
+                <TextField
                     name="description"
-                    label="Description" 
-                    required 
+                    label="Description"
+                    required
                     value={newProduct.description}
-                    onChange={handleFieldChange} 
-                    multiline 
+                    onChange={handleFieldChange}
+                    multiline
                     rows={4}
-                    />
+                />
                 {
-                    fileSelected && <img src={imagePreview} alt="Product Preview" />
+                    fileSelected && <img src={imagePreview} alt="Product Preview"/>
                 }
-                <Button component="label" className="GreenButtonText" style={{width:"fit-content", margin:"1rem auto"}}>
-                    <UploadIcon/>  Upload Image
-                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required onChange={handleImageChange} />
-                </Button> 
-                <TextField 
+                <Button component="label" className="GreenButtonText"
+                        style={{width: "fit-content", margin: "1rem auto"}}>
+                    <UploadIcon/> Upload Image
+                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
+                           onChange={handleImageChange}/>
+                </Button>
+                <TextField
                     name="brandName"
-                    label="Brand" 
+                    label="Brand"
                     required
                     value={newProduct.brand.name}
-                    onChange={handleFieldChange} 
+                    onChange={handleFieldChange}
                 />
-                <TextField 
+                <TextField
                     name="sellerName"
-                    label="Seller" 
-                    disabled 
-                    value={sellerName} 
-                    onChange={handleFieldChange} 
+                    label="Seller"
+                    disabled
+                    value={sellerName}
+                    onChange={handleFieldChange}
                 />
-                <TextField 
+                <TextField
                     name="totalQuantity"
-                    label="Quantity" 
-                    type="number" 
-                    required 
+                    label="Quantity"
+                    type="number"
+                    required
                     value={newProduct.totalQuantity}
-                    onChange={handleFieldChange} 
-                    inputProps={{ min: 1 }} 
+                    onChange={handleFieldChange}
+                    inputProps={{min: 1}}
                 />
-                <Button style={{width:"fit-content", margin:"1rem auto"}} type="submit" variant="contained" className="GreenButtonContained">Add Product</Button>
+                <Button style={{width: "fit-content", margin: "1rem auto"}} type="submit" variant="contained"
+                        className="GreenButtonContained">Add Product</Button>
             </Stack>
         </form>
     );
