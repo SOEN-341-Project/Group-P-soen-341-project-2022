@@ -121,14 +121,7 @@ export const CartPage = (props) => {
 
         function RemoveItem(itemID) {
             //Creates new array containing every product in the cart except the one being removed
-            setCookie("cart", cartCookie.cart.filter(product => product.id !== itemID));       
-
-            // TODO Fix alert when cart cookie is empty
-            // Show alert and navigate back to home when cart is empty
-            if (cartCookie.cart.length === 0) {
-                alert("Cart emptied. Returning to home page.");
-                navigate(`/`);
-            }
+            setCookie("cart", cartCookie.cart.filter(product => product.id !== itemID));
             forceUpdate();
         }
 
@@ -208,7 +201,7 @@ export const CartPage = (props) => {
     }
    
     //When cart is empty display message
-    if (!cartCookie.cart) {
+    if (!cartCookie.cart || cartCookie.cart.length === 0) {
         return (
             <Grid container className="Cart-Container">
                 <Collapse in={alertVisible} className="Cart-Alert">

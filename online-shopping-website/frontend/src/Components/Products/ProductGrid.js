@@ -28,7 +28,7 @@ const ProductPreview = (props) => {
                         </div>
 
                         {/* Product price */}
-                        <h4 className="ProductPrice TextGreen">{props.product.price} Ɖ</h4>
+                        <h4 className="ProductPrice">{props.product.price} Ɖ</h4>
                     </Stack>
                 </Card>
             </ButtonBase>
