@@ -5,7 +5,6 @@ export async function createOrder(args: {
   itemIds: number[];
   itemQuantities: number[];
   totalPrice: number;
-  createdAt: string;
 }) {
   return await prisma.order.create({
     data: {
@@ -17,7 +16,6 @@ export async function createOrder(args: {
         connect: args.itemIds.map((i) => ({ id: i })),
       },
       totalPrice: args.totalPrice,
-      createdAt: args.createdAt,
     },
     include: { items: true },
   });

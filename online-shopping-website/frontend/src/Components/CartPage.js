@@ -204,8 +204,8 @@ export const CartPage = (props) => {
         )
     }
    
-    //When cart is empty or has not yet been created, display message
-    if (!cookies.cart || cookies.cart.length === 0) {
+    //When cart is empty display message
+    if (!cookies.cart) {
         return (
             <Grid container className="Cart-Container">
                 <Collapse in={alertVisible} className="Cart-Alert">
@@ -245,11 +245,12 @@ export const CartPage = (props) => {
             </Grid>
         )
     }
-   
+    
+    // Cart is full
     // Calculate cart total
     calculateCartTally();
     
-    // Display products in cart when cart is full
+    // Display products in cart
     return (
         <Grid container className="Cart-Container">
             <Collapse in={alertVisible} className="Cart-Alert">
