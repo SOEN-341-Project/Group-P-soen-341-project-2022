@@ -68,7 +68,7 @@ export const SellerProductsPage = () => {
     const [cookies, setCookies] = useCookies(['user']);
 
     const [loading, setLoading] = useState(true);
-    const [sellers, setSellers] = useState(null);
+    const [sellers, setSellers] = useState([]);
     const [selectedSellerId, setSelectedSellerId] = useState(null);
     const [sellerProducts, setSellerProducts] = useState(null);
     const [sellerPageName, setSellerPageName] = useState(null);
@@ -139,7 +139,16 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button key={index} name={seller.sellerName} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
+                return (
+                    <Button 
+                        key={index} 
+                        name={seller.sellerName} 
+                        id={seller.id} 
+                        variant="outlined" 
+                        onClick={e => handleSellerClick(e)}>
+                        {seller.sellerName}
+                    </Button>
+                );
             })
         );
     }
@@ -175,7 +184,7 @@ export const SellerProductsPage = () => {
     return (
         <Grid container className="sellerContainer">
             <Grid item xs={12}>
-                <h1>Browsing {sellerPageName}'s Products</h1>
+                <h1 style={{color: "white"}}>Browsing {sellerPageName}'s Products</h1>
             </Grid>
             <Grid item xs={12}>
                 {cookies.user.user.role === 'ADMIN' && RenderSellerButtons()}
