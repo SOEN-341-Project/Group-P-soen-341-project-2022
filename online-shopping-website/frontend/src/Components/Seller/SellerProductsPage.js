@@ -69,18 +69,20 @@ export const SellerProductsPage = () => {
 
     const [loading, setLoading] = useState(true);
     const [sellers, setSellers] = useState(null);
-    const [selectedSeller, setSelectedSeller] = useState(null);
+    const [selectedSellerId, setSelectedSellerId] = useState(null);
     const [sellerProducts, setSellerProducts] = useState(null);
+    const [sellerPageName, setSellerPageName] = useState(null);
 
     useEffect(() => {
-        if (!cookies.user) {
+        // If logged out or customer, stop loading and lock page
+        if (!cookies.user || cookies.user.user.role === 'CUSTOMER') {
             setLoading(false);
         }
 
+        // Seller role can view only their own products
         else if (cookies.user.user.role === 'SELLER') {
             axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + cookies.user.user.id)
             .then((resSellerProducts => {
-                console.log(resSellerProducts.data);
                 setSellerProducts(
                     resSellerProducts.data.map(product => {
                         return {
@@ -89,36 +91,28 @@ export const SellerProductsPage = () => {
                         }
                     })
                 );
+                setSellerPageName(cookies.user.user.sellerName);
                 setLoading(false);
             }));
         }
 
-        // If user is admin, allow them to switch sellers
+        // Admin can view products sold by all sellers
+        // Load all sellers into state for buttons
         else if (cookies.user.user.role === 'ADMIN') {
-            const getSellers = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers');
-            const getSellerProducts = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller);
-            axios.all([getSellers, getSellerProducts]).then(
-                axios.spread((resSellers, resSellerProducts) => {
-                    setSellers(resSellers.data);
-                    setSelectedSeller(resSellers.data[0]);
-                    setSellerProducts(
-                        resSellerProducts.data.map((product) => {
-                            return {
-                                ...product,
-                                brandName: product.brand.name
-                            }
-                        })
-                    );
-                    setLoading(false);
-                })
-            );
+            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers')
+            .then(resSellers => {
+                setSellers(resSellers.data);
+                setSelectedSellerId(resSellers.data[0].id);
+                setSellerPageName(resSellers.data[0].sellerName);
+                setLoading(false);
+            });
         }
     }, []);
 
     useEffect(() => {
-        // If user is admin, allow them to switch sellers
+        // When selected seller changes, show new seller products
         if (cookies.user && cookies.user.user.role === 'ADMIN') {
-            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller)
+            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSellerId)
             .then((resSellerProducts => {
                 setSellerProducts(
                     resSellerProducts.data.map((product) => {
@@ -131,20 +125,21 @@ export const SellerProductsPage = () => {
                 setLoading(false);
             }));
         }
-    }, [selectedSeller, cookies.user]);
+    }, [selectedSellerId, cookies.user]);
     
     if (loading) {
         return <h1>Loading Sellers...</h1>;
     }
     
     const handleSellerClick = (event) => {
-        setSelectedSeller(event.target.id);
+        setSelectedSellerId(event.target.id);
+        setSellerPageName(event.target.name);
     }
     
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button key={index} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
+                return <Button key={index} name={seller.sellerName} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
         );
     }
@@ -179,7 +174,10 @@ export const SellerProductsPage = () => {
 
     return (
         <Grid container className="sellerContainer">
-            <Grid item>
+            <Grid item xs={12}>
+                <h1>Browsing {sellerPageName}'s Products</h1>
+            </Grid>
+            <Grid item xs={12}>
                 {cookies.user.user.role === 'ADMIN' && RenderSellerButtons()}
             </Grid>
             <Grid item xs={12} className="sellerButtonsContainer">
