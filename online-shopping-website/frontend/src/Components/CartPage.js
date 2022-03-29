@@ -1,11 +1,10 @@
-import * as React from 'react';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
-import {Link, useNavigate} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
@@ -14,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { useCookies } from "react-cookie";
+import {useCookies} from "react-cookie";
 
 export const CartPage = (props) => {
     //Forces rerender of components on call
@@ -33,13 +32,13 @@ export const CartPage = (props) => {
     // Refresh cart items in cookie on first CartPage render
     useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
-        .then((response) => {
-            setCookie("cart", cookies.cart.filter((cartProduct) => {
-                return response.data.some((product) => {
-                    return product.id === cartProduct.id;
-                })
-            }));
-        });
+            .then((response) => {
+                setCookie("cart", cookies.cart.filter((cartProduct) => {
+                    return response.data.some((product) => {
+                        return product.id === cartProduct.id;
+                    })
+                }));
+            });
     }, [cookies.cart, setCookie]);
 
     const calculateCartTally = () => {
@@ -55,7 +54,7 @@ export const CartPage = (props) => {
         //calculating total after tax
         total = subtotal + GST + QST;
     }
-    
+
     const EmptyCart = () => {
         deleteCookie('cart');
     }
@@ -68,8 +67,12 @@ export const CartPage = (props) => {
         //Posting order to backend once place order has been clicked
         axios.post(process.env.REACT_APP_DB_CONNECTION + '/api/orders/create', {
             userId: cookies.user.user.id,
-            itemIds: cookies.cart.map(product => { return product.id }),
-            itemQuantities: cookies.cart.map(product => { return product.quantity }),
+            itemIds: cookies.cart.map(product => {
+                return product.id
+            }),
+            itemQuantities: cookies.cart.map(product => {
+                return product.quantity
+            }),
             totalPrice: total
         }, {
             headers: {
@@ -104,9 +107,6 @@ export const CartPage = (props) => {
     }
 
     const CartItem = () => {
-        //instantiating navigation call
-        let navigate = useNavigate();
-
         // Modify item's quantity in the cart cookie
         const modifyItemQuantity = (itemId, quantity) => {
             setCookie("cart", cookies.cart.map(product => {
@@ -137,7 +137,7 @@ export const CartPage = (props) => {
 
         function RemoveItem(itemID) {
             //Creates new array containing every product in the cart except the one being removed
-            setCookie("cart", cookies.cart.filter(product => product.id !== itemID));       
+            setCookie("cart", cookies.cart.filter(product => product.id !== itemID));
             forceUpdate();
         }
 
@@ -215,7 +215,7 @@ export const CartPage = (props) => {
             )
         )
     }
-   
+
     //When cart is empty or has not yet been created, display message
     if (!cookies.cart || cookies.cart.length === 0) {
         return (
@@ -257,10 +257,10 @@ export const CartPage = (props) => {
             </Grid>
         )
     }
-   
+
     // Calculate cart total
     calculateCartTally();
-    
+
     // Display products in cart when cart is full
     return (
         <Grid container className="Cart-Container">
