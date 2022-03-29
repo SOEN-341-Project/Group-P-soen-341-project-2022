@@ -30,6 +30,7 @@ export const CartPage = (props) => {
     let [total] = useState(0.00);
     const [alertVisible, setAlertVisible] = useState(false);
 
+    // Refresh cart items in cookie on first CartPage render
     useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
         .then((response) => {
