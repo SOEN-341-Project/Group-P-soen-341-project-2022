@@ -59,6 +59,7 @@ jobs:
         with:
           name: BuildOutput
           path: ./
+      # For some reason uploads stopped working but this should fix it
       - name: Add Google Storage Bucket Keys to Google 📦
         run: |
           cd ./ts-built
