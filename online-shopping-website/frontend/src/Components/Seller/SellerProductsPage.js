@@ -65,21 +65,17 @@ export const SellerProductsPage = () => {
         },
         { field: 'totalQuantity', headerName: 'Quantity', type: 'number', width: 100 }
     ];
+    const [cookies, setCookies] = useCookies(['user']);
 
     const [loading, setLoading] = useState(true);
     const [sellers, setSellers] = useState(null);
-    const [selectedSeller, setSelectedSeller] = useState(9);
+    const [selectedSeller, setSelectedSeller] = useState(null);
     const [sellerProducts, setSellerProducts] = useState(null);
-    const [cookies, setCookies] = useCookies(['user']);
 
     useEffect(() => {
-        // Get sellers and seller products in parallel
-        // TODO Remove this after seller login ready
-        const getSellers = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers');
-        const getSellerProducts = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller);
-        axios.all([getSellers, getSellerProducts]).then(
-            axios.spread((resSellers, resSellerProducts) => {
-                setSellers(resSellers.data);
+        if (cookies.user.user.role === 'SELLER') {
+            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + cookies.user.user.id)
+            .then((resSellerProducts => {
                 setSellerProducts(
                     resSellerProducts.data.map((product) => {
                         return {
@@ -89,9 +85,46 @@ export const SellerProductsPage = () => {
                     })
                 );
                 setLoading(false);
-            })
-        );
-    }, [selectedSeller]);
+            }));
+        }
+
+        // If user is admin, allow them to switch sellers
+        if (cookies.user.user.role === 'ADMIN') {
+            const getSellers = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers');
+            const getSellerProducts = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller);
+            axios.all([getSellers, getSellerProducts]).then(
+                axios.spread((resSellers, resSellerProducts) => {
+                    setSellers(resSellers.data);
+                    setSelectedSeller(resSellers.data[0]);
+                    setSellerProducts(
+                        resSellerProducts.data.map((product) => {
+                            return {
+                                ...product,
+                                brandName: product.brand.name
+                            }
+                        })
+                    );
+                    setLoading(false);
+                })
+            );
+        }
+    }, []);
+
+    useEffect(() => {
+        // If user is admin, allow them to switch sellers
+        axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller)
+        .then((resSellerProducts => {
+            setSellerProducts(
+                resSellerProducts.data.map((product) => {
+                    return {
+                        ...product,
+                        brandName: product.brand.name
+                    }
+                })
+            );
+            setLoading(false);
+        }));
+}, [selectedSeller]);
     
     if (loading) {
         return <h1>Loading Sellers...</h1>;
@@ -140,7 +173,7 @@ export const SellerProductsPage = () => {
     return (
         <Grid container className="sellerContainer">
             <Grid item>
-                {RenderSellerButtons()}
+                {cookies.user.user.role === 'ADMIN' && RenderSellerButtons()}
             </Grid>
             <Grid item xs={12} className="sellerButtonsContainer">
                 <Link to="/seller/add-product-form" className="RoutingLink">
