@@ -3,7 +3,7 @@ import { format, promisify } from 'util';
 import bcrypt from 'bcrypt';
 import hasRequiredUserCreationParams from '../helpers/verifyUserCreation';
 import { User, UserRole } from '@prisma/client';
-import { createUser, allUsers, userByEmail, userById, updateUser, allSellers } from '../prismaFunctions/userFuncs';
+import { createUser, allUsers, userByEmail, userById, updateUser, allSellers, deactivateUser } from '../prismaFunctions/userFuncs';
 import { signToken, verifyToken, objectFromRequest } from '../helpers/jwtFuncs';
 
 const userRouter = express.Router();
@@ -11,7 +11,7 @@ const userRouter = express.Router();
 userRouter.post('/register', async (req: Request, res: Response) => {
   try {
     // verify that necessary parameters are there
-    const role = (req.body.role as string).toUpperCase();
+    const role = ((req.body.role as string).toUpperCase()) as UserRole;
     if (
       !hasRequiredUserCreationParams({
         email: req.body.email,
@@ -21,13 +21,14 @@ userRouter.post('/register', async (req: Request, res: Response) => {
       })
     ) {
       throw (new Error().message = format(`Data missing`));
+    }if(role === UserRole.SELLER && (req.body.sellerName === null || req.body.sellerName === undefined)){
+      throw (new Error().message = format(`Seller name is missing`));
     }
-    const usr_role: UserRole = role as UserRole;
     const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
       email: req.body.email,
       pWord: encrypted_password,
-      role: usr_role,
+      role: role,
       uName: req.body.username,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -45,6 +46,7 @@ userRouter.post("/signin", async (req: Request, res: Response) => { // check if 
   // check if email is attatched to a user
   const usr = await userByEmail({ email: req.body.email });
   if (usr === null) res.status(400).json({ error: 'User not found' });
+  if(!usr?.active) res.status(400).json({ error: 'User has been deleted' });
   // user does exist, check if password is correct
   else {
     const match = await bcrypt.compare(req.body.password, usr.password);
@@ -87,6 +89,24 @@ userRouter.post('/update', async (req: Request, res: Response) => { // updates a
     if (e.code === 'P2002') {
       e.message = 'Unique constraint on ' + e.meta.target + ' failed';
     }
+    res.status(400).json({ error: e, message: e.message });
+  }
+});
+
+userRouter.delete('/delete', async (req: Request, res: Response) => {
+  const auth = objectFromRequest(req) as User;
+  try {
+    if (auth == undefined || auth == null) {
+      throw new Error(`Invalid authentication`);
+    }
+    let userId = auth.id;
+    if(auth.role === UserRole.ADMIN) {
+      userId = parseInt(req.query['id'] as string);
+    }
+    //Admin can delete any account but others only their own
+    const deactivatedUser = await deactivateUser({id : isNaN(userId) ? auth.id : userId}); 
+    res.status(200).json(deactivatedUser); 
+  } catch (e) {
     res.status(400).json({ error: e, message: e.message });
   }
 });
