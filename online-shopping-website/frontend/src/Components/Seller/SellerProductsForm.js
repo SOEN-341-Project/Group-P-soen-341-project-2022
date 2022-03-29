@@ -1,13 +1,17 @@
-import {createRef, useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
-import {Button, InputAdornment, Stack, TextField} from '@mui/material';
+import { useEffect, useState, createRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Button, Stack, InputAdornment, TextField } from '@mui/material';
+import { useCookies } from 'react-cookie';
+import Grid from "@mui/material/Grid";
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
-import Grid from "@mui/material/Grid";
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
     let navigate = useNavigate();
+
+    // Cookies
+    const [cookies, setCookies] = useCookies(['user']);
 
     // Get product ID from URL parameters
     const {productId} = useParams();
@@ -62,6 +66,10 @@ export const ModifyProductForm = (props) => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: modifiedProduct.brand.name
+            },{
+                headers: {
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
             });
             selectedBrand = selectedBrand.data;
         }
@@ -74,14 +82,17 @@ export const ModifyProductForm = (props) => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', 9);
+        formData.append('sellerId', cookies.user.user.id);
 
         // Update product with new product data
         await axios({
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
             data: formData,
-            headers: {"Content-Type": "multipart/form-data"}
+            headers: { 
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${cookies.user.token}`
+            }
         });
 
         navigate('/seller');
@@ -198,6 +209,9 @@ export const AddNewProductForm = () => {
     // React router navigator (for redirecting)
     let navigate = useNavigate();
 
+    // Cookies
+    const [cookies, setCookies] = useCookies(['user']);
+
     // New product structure
     const [newProduct, setNewProduct] = useState({
         name: '',
@@ -225,9 +239,7 @@ export const AddNewProductForm = () => {
         return () => URL.revokeObjectURL(imageURL);
     }, [fileSelected]);
 
-    // TODO: Replace with logged in seller name when account management or adding with params ready
-    // TODO Get route for seller id -> name
-    const sellerName = '';
+    const sellerName = cookies.user.user.sellerName;
 
     const handleFieldChange = (event) => {
         // TODO Autocomplete brand names with available brands (may be >1 brand with name, have to choose correct id)
@@ -259,6 +271,10 @@ export const AddNewProductForm = () => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: newProduct.brand.name
+            },{
+                headers: {
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
             });
             selectedBrand = selectedBrand.data;
         }
@@ -271,14 +287,17 @@ export const AddNewProductForm = () => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', 9);
+        formData.append('sellerId', cookies.user.user.id);
 
         // Update product with new product data
         await axios({
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
             data: formData,
-            headers: {"Content-Type": "multipart/form-data"}
+            headers: { 
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${cookies.user.token}`
+            }
         });
 
         navigate('/seller');

@@ -87,14 +87,14 @@ itemRouter.post('/update', async (req: Request, res: Response) => { // updates t
   const isPromoted = req.body.promoted === 'true';
   const itemId = parseInt(req.body.id);
   try {
-    if (user == undefined || user == null || (user as User).role !== UserRole.SELLER) {
+    if (user == undefined || user == null || (user as User).role === UserRole.CUSTOMER) {
       throw new Error('Invalid Authorization');
     }
     if (itemId === undefined || isNaN(itemId)) {
       throw new Error('ID is invalid');
     }
     const oldItem = await itemById({ id: itemId });
-    if (oldItem === undefined || oldItem === null || oldItem.sellerId !== (user as User).id) {
+    if (oldItem === undefined || oldItem === null || (oldItem.sellerId !== (user as User).id && (user as User).role !== UserRole.ADMIN)) {
       throw new Error('Item Not Found');
     }
     let pictureURL;
