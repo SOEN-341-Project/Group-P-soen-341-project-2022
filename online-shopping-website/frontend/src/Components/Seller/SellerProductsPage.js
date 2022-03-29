@@ -73,11 +73,16 @@ export const SellerProductsPage = () => {
     const [sellerProducts, setSellerProducts] = useState(null);
 
     useEffect(() => {
-        if (cookies.user.user.role === 'SELLER') {
+        if (!cookies.user) {
+            setLoading(false);
+        }
+
+        else if (cookies.user.user.role === 'SELLER') {
             axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + cookies.user.user.id)
             .then((resSellerProducts => {
+                console.log(resSellerProducts.data);
                 setSellerProducts(
-                    resSellerProducts.data.map((product) => {
+                    resSellerProducts.data.map(product => {
                         return {
                             ...product,
                             brandName: product.brand.name
@@ -89,7 +94,7 @@ export const SellerProductsPage = () => {
         }
 
         // If user is admin, allow them to switch sellers
-        if (cookies.user.user.role === 'ADMIN') {
+        else if (cookies.user.user.role === 'ADMIN') {
             const getSellers = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers');
             const getSellerProducts = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller);
             axios.all([getSellers, getSellerProducts]).then(
@@ -112,19 +117,21 @@ export const SellerProductsPage = () => {
 
     useEffect(() => {
         // If user is admin, allow them to switch sellers
-        axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller)
-        .then((resSellerProducts => {
-            setSellerProducts(
-                resSellerProducts.data.map((product) => {
-                    return {
-                        ...product,
-                        brandName: product.brand.name
-                    }
-                })
-            );
-            setLoading(false);
-        }));
-}, [selectedSeller]);
+        if (cookies.user && cookies.user.user.role === 'ADMIN') {
+            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findall?sellerId=' + selectedSeller)
+            .then((resSellerProducts => {
+                setSellerProducts(
+                    resSellerProducts.data.map((product) => {
+                        return {
+                            ...product,
+                            brandName: product.brand.name
+                        }
+                    })
+                );
+                setLoading(false);
+            }));
+        }
+    }, [selectedSeller, cookies.user]);
     
     if (loading) {
         return <h1>Loading Sellers...</h1>;
