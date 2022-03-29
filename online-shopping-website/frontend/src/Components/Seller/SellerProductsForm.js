@@ -1,11 +1,9 @@
-import {useEffect, useState, createRef} from 'react';
-import {useParams, useNavigate, Link} from 'react-router-dom';
-import {Button, Stack, InputAdornment, TextField} from '@mui/material';
+import {createRef, useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Button, InputAdornment, Stack, TextField} from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
 import Grid from "@mui/material/Grid";
-import * as React from "react";
-
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
@@ -205,12 +203,8 @@ export const AddNewProductForm = () => {
         name: '',
         price: 0,
         description: '',
-        brand: {
-            name: ''
-        },
-        seller: {
-            sellerName: ''
-        },
+        brand: {name: ''},
+        seller: {sellerName: ''},
         totalQuantity: 0
     });
 
@@ -240,9 +234,7 @@ export const AddNewProductForm = () => {
         if (event.target.name === "brandName") {
             setNewProduct({
                 ...newProduct,
-                brand: {
-                    name: event.target.value
-                }
+                brand: {name: event.target.value}
             })
         } else {
             setNewProduct({
