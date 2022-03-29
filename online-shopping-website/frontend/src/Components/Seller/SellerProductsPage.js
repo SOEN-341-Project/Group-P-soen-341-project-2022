@@ -132,7 +132,7 @@ export const SellerProductsPage = () => {
     if (!cookies.user || (cookies.user.user.role !== 'SELLER' && cookies.user.user.role !== 'ADMIN')) {
         return (
             <div>
-                <h1>You do not have permission to access this page.</h1>
+                <h1 className="TextGreen">You do not have permission to access this page.</h1>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="Cart-ProductsBackButton">
                         <ArrowBackIosNewIcon/><h4>Return to products</h4>
