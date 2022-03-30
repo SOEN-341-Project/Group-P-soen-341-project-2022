@@ -29,9 +29,11 @@ const uploadFile = (args: { file: Express.Multer.File; filename: string; path: s
     blobStream
       .on("finish", () => {
         const publicUrl = util.format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
+        console.log("Upload finished successfully " + publicUrl);
         resolve(publicUrl); //return the link to the image
       })
       .on("error", (e) => {
+        console.log(`Unable to upload image, something went wrong: ${e.message}`)
         reject(`Unable to upload image, something went wrong: ${e.message}`);
       })
       .end(buffer); //write the file to the cloud
