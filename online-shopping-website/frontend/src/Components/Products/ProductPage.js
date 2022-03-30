@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
 import { SideNav } from './SideNav';
 import axios from 'axios';
-import * as React from "react";
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {
@@ -94,12 +93,7 @@ export const ProductPage = () => {
 
   // Waiting for products during GET
   if (loading) {
-    return (
-        <Grid xs={12}>
-          <h1 className="TextGreen" style={{padding:"5rem 0 2rem 0", textAlign:"center"}}>Loading products</h1>
-          <div id="LoadingSpinner"></div>
-        </Grid>
-    );;
+    return <h1>Loading products...</h1>;
   }
 
   console.log("Brands: "+ brands + " , Sellers: " + sellers)
