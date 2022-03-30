@@ -44,7 +44,6 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
     console.log("Picture original name:" + req.file?.originalname)
     const pictureURL = await uploadFile({
       file: req.file as Express.Multer.File,
-      filename: itemNoPic.id.toString(),
       path: 'products/',
     });
     console.log('Picture uploaded successfully at ' + pictureURL);
@@ -116,7 +115,6 @@ itemRouter.post('/update', async (req: Request, res: Response) => {
       console.log("Picture original name:" + req.file?.originalname)
       pictureURL = await uploadFile({
         file: req.file,
-        filename: oldItem.id.toString(),
         path: 'products/',
       });
       console.log('Picture was updated, link at ' + pictureURL);

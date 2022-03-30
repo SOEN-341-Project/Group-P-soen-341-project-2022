@@ -2,7 +2,7 @@ import util from "util";
 import { storage } from "./storage";
 const bucket = storage.bucket("bobble-pics");
 
-const uploadFile = (args: { file: Express.Multer.File; filename: string; path: string }): Promise<string> => // returns a link to the file
+const uploadFile = (args: { file: Express.Multer.File; path: string }): Promise<string> => // returns a link to the file
   // if you are a little confused, a promise is essentially a 'promise' that the function will eventually resolve but it can do this in the background so other things can run
   new Promise((resolve, reject) => {
     // check if file is a picture
@@ -15,12 +15,12 @@ const uploadFile = (args: { file: Express.Multer.File; filename: string; path: s
       throw (new Error().message = util.format(`Unsupported mime type ${args.file.mimetype}`));
     }
 
-    args.filename = args.filename.replace(/ /g, "_"); // replace spaces with underscores
+    const filename = uuid();
 
     const { originalname, buffer } = args.file;
 
     //create the place where the file is gonna go in the database
-    const blob = bucket.file(originalname.replace(/.*[.]/, args.path + args.filename + ".")); //replace everything before the filetype with the filename and put it in a folder
+    const blob = bucket.file(originalname.replace(/.*[.]/, args.path + filename + ".")); //replace everything before the filetype with the filename and put it in a folder
 
     const blobStream = blob.createWriteStream({
       //start uploading the file to google
@@ -38,5 +38,9 @@ const uploadFile = (args: { file: Express.Multer.File; filename: string; path: s
       })
       .end(buffer); //write the file to the cloud
   });
+
+function uuid() {
+  return(Math.floor(Math.random() * Math.random() * Date.now()))
+}
 
 export default uploadFile;
