@@ -237,7 +237,7 @@ export const CartPage = (props) => {
                 </Grid>
                 <Grid item xs={12}>
                     <Link to="/" className='RoutingLink'>
-                        <Button variant="text" className="Cart-ProductsBackButton">
+                        <Button variant="text" className="ProductsBackButton">
                             <ArrowBackIosNewIcon/><h4>Return to products</h4>
                         </Button>
                     </Link>
@@ -329,7 +329,7 @@ export const CartPage = (props) => {
             </Grid>
             <Grid item xs={12}>
                 <Link to="/" className='RoutingLink'>
-                    <Button variant="text" className="Cart-ProductsBackButton">
+                    <Button variant="text" className="ProductsBackButton">
                         <ArrowBackIosNewIcon/><h4>Return to products</h4>
                     </Button>
                 </Link>
