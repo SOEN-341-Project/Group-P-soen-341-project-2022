@@ -34,6 +34,10 @@
 }
 
 @media only screen and (max-width: 550px) {
+    .EditProfileButtonLarge{
+        display:none;
+    }
+
     .CartText {
         text-align: center;
         margin: auto;
@@ -110,6 +114,10 @@
 
     .Navbar-LogoSmall {
         display: none;
+    }
+
+    .EditProfileButtonSmall{
+        display:none;
     }
 }
 
@@ -347,6 +355,7 @@
 }
 
 .ProfileInfoText {
+    overflow-x: scroll;
     padding: 1rem;
     border-radius: 5px;
     background-color: whitesmoke;
