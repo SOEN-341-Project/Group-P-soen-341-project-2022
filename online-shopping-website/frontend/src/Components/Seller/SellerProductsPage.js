@@ -99,7 +99,7 @@ export const SellerProductsPage = () => {
                 <h1 className="TextGreen" style={{padding:"15rem 0 2rem 0", textAlign:"center"}}>Loading sellers</h1>
                 <div id="LoadingSpinner"/>
             </div>
-        );;
+        );
     }
     
     const handleSellerClick = (event) => {
