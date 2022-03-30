@@ -95,11 +95,13 @@ export const SellerProductsPage = () => {
     
     if (loading) {
         return (
-            <div>
-                <h1 className="TextGreen" style={{padding:"15rem 0 2rem 0", textAlign:"center"}}>Loading sellers</h1>
-                <div id="LoadingSpinner"/>
-            </div>
-        );;
+            <Grid container xs={12}>
+                <Grid item xs={12}>
+                    <h1 className="TextGreen LoadingSpinnerHeader">Loading sellers</h1>
+                </Grid>
+                <Grid item xs={12} id="LoadingSpinner"/>
+            </Grid>
+        );
     }
     
     const handleSellerClick = (event) => {

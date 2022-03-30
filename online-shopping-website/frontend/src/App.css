@@ -477,6 +477,11 @@
 
 
 /*Loading Spinner*/
+.LoadingSpinnerHeader {
+  padding:2rem;
+  text-align:center;
+}
+
 #LoadingSpinner {
   display: block;
   position: absolute;
