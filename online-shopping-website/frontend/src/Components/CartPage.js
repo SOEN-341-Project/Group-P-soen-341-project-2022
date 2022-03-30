@@ -257,12 +257,11 @@ export const CartPage = (props) => {
             </Grid>
         )
     }
-    
-    // Cart is full
+   
     // Calculate cart total
     calculateCartTally();
     
-    // Display products in cart
+    // Display products in cart when cart is full
     return (
         <Grid container className="Cart-Container">
             <Collapse in={alertVisible} className="Cart-Alert">
