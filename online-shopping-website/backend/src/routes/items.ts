@@ -9,6 +9,7 @@ import { deleteUnusedBrands } from "../prismaFunctions/brandFuncs";
 const itemRouter = express.Router();
 
 itemRouter.post('/create', async (req: Request, res: Response) => {
+  console.log(`Creating product ${req.body.name}`)
   const user = objectFromRequest(req);
   try {
     if (user == undefined || user == null || (user as User).role !== UserRole.SELLER) {
@@ -38,15 +39,18 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
       salePrice: isNaN(parseFloat(req.body.salePrice)) ? undefined : parseFloat(req.body.salePrice),
       totalQuantity: isNaN(parseFloat(req.body.totalQuantity)) ? undefined : parseFloat(req.body.totalQuantity),
     });
+    console.log("Item without picture created successfully")
     const pictureURL = await uploadFile({
       file: req.file as Express.Multer.File,
       filename: itemNoPic.id.toString(),
       path: 'products/',
     });
+    console.log("Picture uploaded successfully at " + pictureURL)
     const item = await updateItem({
       itemId: itemNoPic.id,
       picture: pictureURL as string,
     });
+    console.log("Picture added to product successfully")
     res.status(200).json(item);
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
@@ -83,6 +87,7 @@ itemRouter.delete('/delete', async (req: Request, res: Response) => { // deletes
 });
 
 itemRouter.post('/update', async (req: Request, res: Response) => { // updates the item
+  console.log(`Updating product ${req.body.name}, ID: ${req.body.id}`)
   const user = objectFromRequest(req);
   const isPromoted = req.body.promoted === 'true';
   const itemId = parseInt(req.body.id);
@@ -99,12 +104,14 @@ itemRouter.post('/update', async (req: Request, res: Response) => { // updates t
     }
     let pictureURL;
     if (req.file !== undefined && req.file !== null) {
+      console.log("Picture was added to request, updating item picture now")
       pictureURL = await uploadFile({
         file: req.file,
         filename: oldItem.id.toString(),
         path: 'products/',
       });
     }
+    else { console.log("Picture was not added to request, skipping upload") }
     const item = await updateItem({
       itemId: oldItem.id,
       name: req.body.name || oldItem.name,
