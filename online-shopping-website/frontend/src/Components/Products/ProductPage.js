@@ -95,10 +95,10 @@ export const ProductPage = () => {
   // Waiting for products during GET
   if (loading) {
     return (
-        <Grid xs={12}>
-          <h1 className="TextGreen" style={{padding:"5rem 0 2rem 0", textAlign:"center"}}>Loading products</h1>
-          <div id="LoadingSpinner"></div>
-        </Grid>
+        <div>
+          <h1 className="TextGreen" style={{padding:"15rem 0 1rem 0", textAlign:"center"}}>Loading products</h1>
+          <div id="LoadingSpinner"/>
+        </div>
     );;
   }
 
