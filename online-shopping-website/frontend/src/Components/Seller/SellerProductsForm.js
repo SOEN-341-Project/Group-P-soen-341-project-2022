@@ -125,10 +125,10 @@ export const ModifyProductForm = (props) => {
 
     if (loading) {
         return (
-            <Grid xs={12}>
-                <h1 className="TextGreen" style={{padding: "5rem 0 2rem 0", textAlign: "center"}}>Loading form</h1>
-                <div id="LoadingSpinner"></div>
-            </Grid>
+            <div>
+                <h1 className="TextGreen" style={{padding: "15rem 0 2rem 0", textAlign: "center"}}>Loading form</h1>
+                <div id="LoadingSpinner"/>
+            </div>
         );
     }
 
