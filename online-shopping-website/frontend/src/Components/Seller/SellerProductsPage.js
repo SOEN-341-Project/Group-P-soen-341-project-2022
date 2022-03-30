@@ -139,7 +139,7 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button key={index} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
+                return <Button key={index} name={seller.sellerName} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
         );
     }
