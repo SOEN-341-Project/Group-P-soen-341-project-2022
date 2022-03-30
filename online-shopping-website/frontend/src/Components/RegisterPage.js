@@ -20,8 +20,8 @@ const profileProperties = {
     role: 'CUSTOMER',
     password: null,
     confPassword: null,
-    firstname: null,
-    lastname: null,
+    firstName: null,
+    lastName: null,
     street: null,
     city: null,
     province: null,
@@ -98,8 +98,8 @@ export const Register = () => {
             <form onSubmit={processRegister} className='sign-up'>
                 <Stack spacing={2}>
                     <h1 className="TextGreen" style={{ marginTop: '0' }}>Sign Up</h1>
-                    <TextField className='textfield-register' label="First name" variant="outlined" value={values.firstname} onChange={(e) => setValues({ ...values, firstname: e.target.value })} />
-                    <TextField sx={{ paddingBottom: '1.5rem' }} label="Last name" variant="outlined" value={values.lastname} onChange={(e) => setValues({ ...values, lastname: e.target.value })} />
+                    <TextField className='textfield-register' label="First name" variant="outlined" value={values.firstname} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
+                    <TextField sx={{ paddingBottom: '1.5rem' }} label="Last name" variant="outlined" value={values.lastname} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
                     <TextField sx={{ paddingBottom: '1.5rem' }} label="Username" variant="outlined" value={values.username} onChange={(e) => setValues({ ...values, username: e.target.value })} />
                     <TextField sx={{ paddingBottom: '1.5rem' }} required inputProps={{ pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+$", title: "username@domain" }} label="Email" variant="outlined" value={values.email} onChange={(e) => setValues({ ...values, email: e.target.value })} />
                     <TextField required type="password" inputProps={{ pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+|:;<>,.?/~(){}\\[\\]\\\\-]).{8,}$', title: 'Password must follow this format: - At least one digit - At least one lowercase character - At least one uppercase character - At least one special character' }} label="Password" variant="outlined" value={values.password} onChange={(e) => setValues({ ...values, password: e.target.value })} />

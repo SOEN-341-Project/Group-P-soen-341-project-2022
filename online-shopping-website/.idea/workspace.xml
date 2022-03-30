@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a1d15284-baae-49aa-8ac6-83f204b6bf2d" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/RegisterPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/RegisterPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
