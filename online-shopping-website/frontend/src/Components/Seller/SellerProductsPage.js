@@ -22,8 +22,8 @@ export const SellerProductsPage = () => {
                     pathname: `/seller/${params.id}`,
                     params: {params}
                 }} className="RoutingLink">
-                    <Button className="sellerButton TextGreen" variant="text">
-                        <EditIcon/>
+                    <Button className="sellerButton GreenButtonText" variant="text">
+                        <EditIcon />
                     </Button>
                 </Link>
             ),
@@ -35,8 +35,8 @@ export const SellerProductsPage = () => {
             field: 'delete',
             headerName: 'Delete',
             renderCell: (params) => (
-                <Button className="sellerButton TextGreen" variant="text" onClick={() => removeProduct(params.id)}>
-                    <DeleteIcon/>
+                <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeProduct(params.id)}>
+                    <DeleteIcon />
                 </Button>
             ),
             sortable: false,
@@ -128,7 +128,12 @@ export const SellerProductsPage = () => {
     }, [selectedSellerId, cookies.user]);
 
     if (loading) {
-        return <h1>Loading Sellers...</h1>;
+        return (
+            <div>
+                <h1 className="TextGreen" style={{padding:"15rem 0 2rem 0", textAlign:"center"}}>Loading sellers</h1>
+                <div id="LoadingSpinner"/>
+            </div>
+        );;
     }
 
     const handleSellerClick = (event) => {
@@ -163,7 +168,7 @@ export const SellerProductsPage = () => {
     if (!cookies.user || (cookies.user.user.role !== 'SELLER' && cookies.user.user.role !== 'ADMIN')) {
         return (
             <div>
-                <h1>You do not have permission to access this page.</h1>
+                <h1 className="TextGreen">You do not have permission to access this page.</h1>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="ProductsBackButton">
                         <ArrowBackIosNewIcon/><h4>Return to products</h4>
