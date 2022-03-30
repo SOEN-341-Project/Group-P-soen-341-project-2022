@@ -11,6 +11,14 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+
 export const SellerProductsPage = () => {
     // DataGrid columns
     const columns = [
@@ -113,6 +121,52 @@ export const SellerProductsPage = () => {
             })
         );
     }
+
+    const DialogPopup = (productId) => {
+        const [open, setOpen] = React.useState(false);
+        const theme = useTheme();
+        const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+        const handleClickOpen = () => {
+            setOpen(true);
+        };
+
+        const handleClose = () => {
+            setOpen(false);
+        };
+
+        const productToRemove = sellerProducts.find(product => product.id === productId);
+        return (
+            <div>
+                <Button variant="outlined" onClick={handleClickOpen}>
+                    Open responsive dialog
+                </Button>
+                <Dialog
+                    fullScreen={fullScreen}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {"Delete item?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure you want to delete {productToRemove.name} from your cart?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleClose} autoFocus>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        );
+    }
     
     const removeProduct = (productId) => {
         const productToRemove = sellerProducts.find(product => product.id === productId);
@@ -126,6 +180,7 @@ export const SellerProductsPage = () => {
             });
             window.location.reload();
         }
+        return(<DialogPopup productId={productId}/>)
     }
 
     // Only sellers and admin can view the seller page
