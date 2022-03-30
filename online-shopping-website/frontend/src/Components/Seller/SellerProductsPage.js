@@ -22,7 +22,7 @@ export const SellerProductsPage = () => {
                     pathname: `/seller/${params.id}`,
                     params: { params }
                 }} className="RoutingLink">
-                    <Button className="sellerButton" variant="text">
+                    <Button className="sellerButton GreenButtonText" variant="text">
                         <EditIcon />
                     </Button>
                 </Link>
@@ -35,7 +35,7 @@ export const SellerProductsPage = () => {
             field: 'delete',
             headerName: 'Delete',
             renderCell: (params) => (
-                <Button className="sellerButton" variant="text" onClick={() => removeProduct(params.id)}>
+                <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeProduct(params.id)}>
                     <DeleteIcon />
                 </Button>
             ),
@@ -94,7 +94,12 @@ export const SellerProductsPage = () => {
     }, [selectedSeller]);
     
     if (loading) {
-        return <h1>Loading Sellers...</h1>;
+        return (
+            <div>
+                <h1 className="TextGreen" style={{padding:"15rem 0 2rem 0", textAlign:"center"}}>Loading sellers</h1>
+                <div id="LoadingSpinner"/>
+            </div>
+        );;
     }
     
     const handleSellerClick = (event) => {
@@ -104,7 +109,7 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button key={index} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
+                return <Button key={index} id={seller.id} variant="outlined" className="GreenButtonOutlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
         );
     }
@@ -127,7 +132,7 @@ export const SellerProductsPage = () => {
     if (!cookies.user || (cookies.user.user.role !== 'SELLER' && cookies.user.user.role !== 'ADMIN')) {
         return (
             <div>
-                <h1>You do not have permission to access this page.</h1>
+                <h1 className="TextGreen">You do not have permission to access this page.</h1>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="Cart-ProductsBackButton">
                         <ArrowBackIosNewIcon/><h4>Return to products</h4>
