@@ -39,7 +39,7 @@ export const CartPage = (props) => {
                     })
                 }));
             });
-    }, [cookies.cart, setCookie]);
+    }, []);
 
     const calculateCartTally = () => {
         //calculating subtotal of all items
