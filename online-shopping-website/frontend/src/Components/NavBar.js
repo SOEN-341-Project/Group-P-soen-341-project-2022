@@ -216,7 +216,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                                <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
@@ -252,7 +252,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                                <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}><Link to="/seller">Manage
@@ -291,7 +291,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
+                                <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
