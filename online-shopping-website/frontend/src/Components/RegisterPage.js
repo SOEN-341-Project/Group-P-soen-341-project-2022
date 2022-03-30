@@ -26,7 +26,7 @@ const profileProperties = {
     city: null,
     province: null,
     postCode: null,
-    sellername: null
+    sellerName: null
 }
 
 //signing up function
@@ -53,7 +53,7 @@ export const Register = () => {
     const handleChange = (event) => {
         if (event.target.name === 'CUSTOMER') {
             setSeller(false);
-            setValues({ ...values, sellername: null, role: 'CUSTOMER' });
+            setValues({ ...values, sellerName: null, role: 'CUSTOMER' });
         }
         else {
             setSeller(true);
@@ -98,8 +98,8 @@ export const Register = () => {
             <form onSubmit={processRegister} className='sign-up'>
                 <Stack spacing={2}>
                     <h1 className="TextGreen" style={{ marginTop: '0' }}>Sign Up</h1>
-                    <TextField className='textfield-register' label="First name" variant="outlined" value={values.firstname} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
-                    <TextField sx={{ paddingBottom: '1.5rem' }} label="Last name" variant="outlined" value={values.lastname} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
+                    <TextField className='textfield-register' label="First name" variant="outlined" value={values.firstName} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
+                    <TextField sx={{ paddingBottom: '1.5rem' }} label="Last name" variant="outlined" value={values.lastName} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
                     <TextField sx={{ paddingBottom: '1.5rem' }} label="Username" variant="outlined" value={values.username} onChange={(e) => setValues({ ...values, username: e.target.value })} />
                     <TextField sx={{ paddingBottom: '1.5rem' }} required inputProps={{ pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+$", title: "username@domain" }} label="Email" variant="outlined" value={values.email} onChange={(e) => setValues({ ...values, email: e.target.value })} />
                     <TextField required type="password" inputProps={{ pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+|:;<>,.?/~(){}\\[\\]\\\\-]).{8,}$', title: 'Password must follow this format: - At least one digit - At least one lowercase character - At least one uppercase character - At least one special character' }} label="Password" variant="outlined" value={values.password} onChange={(e) => setValues({ ...values, password: e.target.value })} />
@@ -159,7 +159,7 @@ export const Register = () => {
                             }
                             label="Seller"
                         />
-                        {seller?<TextField required label="Seller name" variant="outlined" value={values.sellername} onChange={(e) => setValues({ ...values, sellername: e.target.value })}/> : null}
+                        {seller?<TextField required label="Seller name" variant="outlined" value={values.sellerName} onChange={(e) => setValues({ ...values, sellerName: e.target.value })}/> : null}
                     </RadioGroup>
                     <div style={{textAlign:'center'}}>
                     {cookies.user && <p>{cookies.user}</p>}
