@@ -41,6 +41,7 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
       totalQuantity: isNaN(parseFloat(req.body.totalQuantity)) ? undefined : parseFloat(req.body.totalQuantity),
     });
     console.log('Item without picture created successfully');
+    console.log("Picture original name:" + req.file?.originalname)
     const pictureURL = await uploadFile({
       file: req.file as Express.Multer.File,
       filename: itemNoPic.id.toString(),
@@ -112,6 +113,7 @@ itemRouter.post('/update', async (req: Request, res: Response) => {
     let pictureURL;
     if (req.file !== undefined && req.file !== null) {
       console.log('Picture was added to request, updating item picture now');
+      console.log("Picture original name:" + req.file?.originalname)
       pictureURL = await uploadFile({
         file: req.file,
         filename: oldItem.id.toString(),
