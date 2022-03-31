@@ -15,7 +15,7 @@ const uploadFile = (args: { file: Express.Multer.File; path: string }): Promise<
       throw (new Error().message = util.format(`Unsupported mime type ${args.file.mimetype}`));
     }
 
-    const filename = uuid();
+    const filename = uuid().toString();
 
     const { originalname, buffer } = args.file;
 
@@ -40,7 +40,7 @@ const uploadFile = (args: { file: Express.Multer.File; path: string }): Promise<
   });
 
 function uuid() {
-  return(Math.floor(Math.random() * Math.random() * Date.now()))
+  return(Math.floor((Math.random() + 1) * (Math.random() + 1) * Date.now()))
 }
 
 export default uploadFile;
