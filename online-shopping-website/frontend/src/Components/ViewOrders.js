@@ -23,11 +23,11 @@ export default function ViewOrders() {
         const getOrders = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/all');
 
         axios.all([getOrders]).then(
-            axios.spread((res) => {
-                setOrders(res.data);
+            axios.spread((resOrders) => {
+                setOrders(resOrders.data);
                 setLoading(false);
             })
-        )
+        );
     }, []);
 
     // Waiting for orders during GET
@@ -63,6 +63,6 @@ export default function ViewOrders() {
                 </Grid>
             </Box>
         );
-    })
+    }
 )
 }
