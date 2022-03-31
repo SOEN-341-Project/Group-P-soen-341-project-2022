@@ -9,25 +9,31 @@ import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import provinces from 'provinces-ca';
-import { useCookies } from "react-cookie";
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+
 //key-value pairs for profile components
 const profileProperties = {
-    email: '',
-    username: '',
+    email: null,
+    username: null,
     role: 'CUSTOMER',
-    password: '',
-    confPassword: '',
-    firstName: '',
-    lastName: '',
-    street: '',
-    city: '',
-    province: '',
-    postCode: '',
-    sellerName: ''
+    password: null,
+    confPassword: null,
+    firstname: null,
+    lastname: null,
+    street: null,
+    city: null,
+    province: null,
+    postCode: null,
+    sellername: null
 }
 
 //signing up function
 export const Register = () => {
+    const [userCookie, setUserCookie, deleteUserCookie] = useCookies(['user']);
+
+    let navigator = useNavigate();
 
     //if seller, turn true. else, turn false
     const [seller, setSeller] = useState(false);
@@ -45,39 +51,55 @@ export const Register = () => {
 
     //function executes when user selects seller or customer through radio buttons
     const handleChange = (event) => {
-        setValues({ ...values, role: event.target.value })
-        if (event.target.value === 'CUSTOMER') {
+        if (event.target.name === 'CUSTOMER') {
             setSeller(false);
-            setValues({ ...values, sellerName: '' })
+            setValues({ ...values, sellername: null, role: 'CUSTOMER' });
         }
         else {
             setSeller(true);
+            setValues({ ...values, role: 'SELLER' });
         }
     }
 
     //when user clicks submits form
-    const processRegister = (event) => {
-        if (values.password !== values.confPassword) {
-            event.preventDefault();
-            outputProfile();
-        }
-    }
+    const processRegister = async(event) => {
+        event.preventDefault();
 
-    //to test the profile prop values
-    const outputProfile = () => {
-        console.log(values.email + '\n' + values.username
-            + '\n' + values.role + '\n' + values.password + '\n' + values.firstName + '\n'
-            + values.lastName + '\n' + values.street + '\n' + values.city + '\n' + values.province + '\n' + values.postCode + '\n' + values.sellerName);
+        try {
+            const registerResponse = await axios.post(
+                process.env.REACT_APP_DB_CONNECTION + '/api/users/register', 
+                {
+                    ...values,
+                    address1: `${values.street} ${values.city} ${values.province} ${values.postCode}`
+                });
+            console.log(JSON.stringify(registerResponse.data));
+            setUserCookie('user', registerResponse.data);
+
+            // Route to products page
+            navigator('/');
+        } catch (err) {
+            // P2002 Error = One input is not unique
+            if (err.response.data.error.code === 'P2002') {
+                window.alert("An account already exists with the same " + err.response.data.error.meta.target[0] + ".");
+            }
+            else {
+                window.alert(
+                    err.response.data.error + ".\n" + 
+                    (err.response.data.message ? err.response.data.message + "." : "")
+                );
+            }
+            console.log(err.response.data.message);
+        }
     }
 
     return (
         <div className='register-page'>
             {/* sign up form */}
-            <form onSubmit={processRegister} action="/" className='sign-up'>
+            <form onSubmit={processRegister} className='sign-up'>
                 <Stack spacing={2}>
                     <h1 className="TextGreen" style={{ marginTop: '0' }}>Sign Up</h1>
-                    <TextField className='textfield-register' label="First name" variant="outlined" value={values.firstName} onChange={(e) => setValues({ ...values, firstName: e.target.value })} />
-                    <TextField sx={{ paddingBottom: '1.5rem' }} label="Last name" variant="outlined" value={values.lastName} onChange={(e) => setValues({ ...values, lastName: e.target.value })} />
+                    <TextField className='textfield-register' label="First name" variant="outlined" value={values.firstname} onChange={(e) => setValues({ ...values, firstname: e.target.value })} />
+                    <TextField sx={{ paddingBottom: '1.5rem' }} label="Last name" variant="outlined" value={values.lastname} onChange={(e) => setValues({ ...values, lastname: e.target.value })} />
                     <TextField sx={{ paddingBottom: '1.5rem' }} label="Username" variant="outlined" value={values.username} onChange={(e) => setValues({ ...values, username: e.target.value })} />
                     <TextField sx={{ paddingBottom: '1.5rem' }} required inputProps={{ pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+$", title: "username@domain" }} label="Email" variant="outlined" value={values.email} onChange={(e) => setValues({ ...values, email: e.target.value })} />
                     <TextField required type="password" inputProps={{ pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+|:;<>,.?/~(){}\\[\\]\\\\-]).{8,}$', title: 'Password must follow this format: - At least one digit - At least one lowercase character - At least one uppercase character - At least one special character' }} label="Password" variant="outlined" value={values.password} onChange={(e) => setValues({ ...values, password: e.target.value })} />
@@ -105,9 +127,11 @@ export const Register = () => {
                         sx={{ paddingBottom: '2rem' }}
                         defaultValue="CUSTOMER"
                         name="controlled-radio-buttons-group"
+                        // value={role}
                         onChange={handleChange}
                     >
                         <FormControlLabel
+                            name="CUSTOMER"
                             value="CUSTOMER"
                             control={
                                 <Radio
@@ -122,6 +146,7 @@ export const Register = () => {
                         />
                         <FormControlLabel
                             sx={{ paddingBottom: '1rem' }}
+                            name="SELLER"
                             value="SELLER"
                             control={
                                 <Radio
@@ -134,7 +159,7 @@ export const Register = () => {
                             }
                             label="Seller"
                         />
-                        {seller?<TextField required label="Seller name" variant="outlined" value={values.sellerName} onChange={(e) => setValues({ ...values, sellerName: e.target.value })}/> : null}
+                        {seller?<TextField required label="Seller name" variant="outlined" value={values.sellername} onChange={(e) => setValues({ ...values, sellername: e.target.value })}/> : null}
                     </RadioGroup>
                     <div style={{textAlign:'center'}}>
                     {cookies.user && <p>{cookies.user}</p>}
@@ -142,6 +167,6 @@ export const Register = () => {
                     </div>
                 </Stack>
             </form>
-        </div >
+        </div>
     )
 }

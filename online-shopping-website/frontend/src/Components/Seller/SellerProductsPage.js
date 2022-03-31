@@ -7,7 +7,9 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 export const SellerProductsPage = () => {
     // DataGrid columns
@@ -20,7 +22,7 @@ export const SellerProductsPage = () => {
                     pathname: `/seller/${params.id}`,
                     params: { params }
                 }} className="RoutingLink">
-                    <Button className="sellerButton" variant="text">
+                    <Button className="sellerButton GreenButtonText" variant="text">
                         <EditIcon />
                     </Button>
                 </Link>
@@ -33,7 +35,7 @@ export const SellerProductsPage = () => {
             field: 'delete',
             headerName: 'Delete',
             renderCell: (params) => (
-                <Button className="sellerButton" variant="text" onClick={() => removeProduct(params.id)}>
+                <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeProduct(params.id)}>
                     <DeleteIcon />
                 </Button>
             ),
@@ -68,6 +70,7 @@ export const SellerProductsPage = () => {
     const [sellers, setSellers] = useState(null);
     const [selectedSeller, setSelectedSeller] = useState(9);
     const [sellerProducts, setSellerProducts] = useState(null);
+    const [cookies, setCookies] = useCookies(['user']);
 
     useEffect(() => {
         // Get sellers and seller products in parallel
@@ -91,7 +94,12 @@ export const SellerProductsPage = () => {
     }, [selectedSeller]);
     
     if (loading) {
-        return <h1>Loading Sellers...</h1>;
+        return (
+            <div>
+                <h1 className="TextGreen" style={{padding:"15rem 0 2rem 0", textAlign:"center"}}>Loading sellers</h1>
+                <div id="LoadingSpinner"/>
+            </div>
+        );;
     }
     
     const handleSellerClick = (event) => {
@@ -101,7 +109,7 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button key={index} id={seller.id} variant="outlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
+                return <Button key={index} id={seller.id} variant="outlined" className="GreenButtonOutlined" onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
         );
     }
@@ -109,11 +117,29 @@ export const SellerProductsPage = () => {
     const removeProduct = (productId) => {
         const productToRemove = sellerProducts.find(product => product.id === productId);
         if(window.confirm(`Delete product: "${productToRemove.name}" with id: ${productToRemove.id}?`)) {
-            axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/items/delete?id=' + productId).then((res) => {
+            axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/items/delete?id=' + productId, {
+                headers: { 
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
+            }).then((res) => {
                 console.log(res.data);
             });
             window.location.reload();
         }
+    }
+
+    // Only sellers and admin can view the seller page
+    if (!cookies.user || (cookies.user.user.role !== 'SELLER' && cookies.user.user.role !== 'ADMIN')) {
+        return (
+            <div>
+                <h1 className="TextGreen">You do not have permission to access this page.</h1>
+                <Link to="/" className='RoutingLink'>
+                    <Button variant="text" className="Cart-ProductsBackButton">
+                        <ArrowBackIosNewIcon/><h4>Return to products</h4>
+                    </Button>
+                </Link>
+            </div>
+        );
     }
 
     return (
