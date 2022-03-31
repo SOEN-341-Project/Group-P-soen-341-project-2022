@@ -127,10 +127,7 @@ userRouter.get('/all', async (req: Request, res: Response) => {
     if (auth == undefined || auth == null) {
       throw new Error(`Invalid authentication`);
     }
-  } catch (e) {
-    res.status(400).json({ error: e, message: e.message });
-  }
-  await allUsers()
+    await allUsers()
     .then((user) => {
       res.status(200).json(user);
     })
@@ -138,6 +135,9 @@ userRouter.get('/all', async (req: Request, res: Response) => {
       console.log(e);
       res.status(500).json({ error: e, message: e.message });
     });
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.message });
+  }
 });
 
 export default userRouter;
