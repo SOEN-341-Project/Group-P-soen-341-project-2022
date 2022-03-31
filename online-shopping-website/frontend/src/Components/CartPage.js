@@ -207,7 +207,7 @@ export const CartPage = (props) => {
     }
    
     //When cart is empty display message
-    if (!cookies.cart) {
+    if (!cookies.cart || cookies.cart.length === 0) {
         return (
             <Grid container className="Cart-Container">
                 <Collapse in={alertVisible} className="Cart-Alert">
