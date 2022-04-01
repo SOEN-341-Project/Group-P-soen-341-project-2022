@@ -17,15 +17,27 @@ export const ProfilePage = () => {
     const [password, setPassword] = useState('');
 
     const handleSubmit = async (event) => {
-        const updateProfileResponse = await axios.post(
-            process.env.REACT_APP_DB_CONNECTION + "/api/users/update",
-            userData,
-            {
-                headers: {
-                    'Authorization': `Bearer ${cookie.user.token}`
+        let updateProfileResponse;
+        try {
+            updateProfileResponse = await axios.post(
+                process.env.REACT_APP_DB_CONNECTION + "/api/users/update",
+                {
+                    ...userData,
+                    oldPassword: password
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${cookie.user.token}`
+                    }
                 }
-            }
-        );
+            );
+        }
+        catch (err) {
+            window.alert(
+                err.response.data.error + ".\n" + 
+                (err.response.data.message ? err.response.data.message + "." : ""));
+        }
+
         setCookie("user", updateProfileResponse.data);
         setEditable(false);
     }
