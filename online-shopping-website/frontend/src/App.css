@@ -208,12 +208,18 @@
 /* Seller Products Page */
 
 .sellerContainer {
-    padding: 1.5rem;
-    margin: auto;
-    display: flex;
-    max-width: 68.8rem;
-    background-color: #e99898;
-    border-radius: 10px;
+  padding-top:2rem;
+  margin: auto;
+  max-width: 68.8rem;
+}
+
+.sellerTableContainer {
+  padding: 1.5rem;
+  margin: auto;
+  display: flex;
+  max-width: 68.8rem;
+  background-color: #e99898;
+  border-radius: 10px;
 }
 
 .sellerImage {
@@ -222,13 +228,12 @@
 }
 
 .sellerTable {
-    background-color: white;
-    border-radius: 10px;
-    width: 70rem;
+  background-color: white;
+  width: 70rem;
 }
 
 .sellerButtonsContainer {
-    padding: 1rem 0;
+  padding-top: 1rem;
 }
 
 /* Cart Page */
@@ -293,14 +298,14 @@
     color: white;
 }
 
-.Cart-ProductsBackButton {
-    color: #c46b6b;
-    padding: 0 0.5rem 0 0;
-    max-height: 2rem;
+.ProductsBackButton {
+  color: #c46b6b;
+  padding: 0 0.5rem 0 0;
+  max-height: 2rem;
 }
 
-.Cart-ProductsBackButton:hover {
-    background-color: #e88c8c10;
+.ProductsBackButton:hover {
+  background-color: #e88c8c10;
 }
 
 /* Register Page */
@@ -520,6 +525,11 @@
 
 
 /*Loading Spinner*/
+.LoadingSpinnerHeader {
+  padding:2rem;
+  text-align:center;
+}
+
 #LoadingSpinner {
     display: block;
     position: absolute;

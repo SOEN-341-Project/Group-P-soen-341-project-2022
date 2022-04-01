@@ -36,7 +36,7 @@ const ProductButtons = (props) => {
         }
         forceUpdate();
     }
-    
+
     // Modify item's quantity in the cart cookie
     const modifyItemQuantity = (itemId, quantity) => {
         const foundProduct = cartCookie.cart.find(product => itemId === product.id);
@@ -67,8 +67,8 @@ const ProductButtons = (props) => {
                 price: item.price,
                 quantity: quantity
             }
-        
- 
+
+
             window.alert(newCartItem.name + " successfully added to cart.");
             //setting cookie to the new created item
             setCookie("cart", [newCartItem],
@@ -85,7 +85,7 @@ const ProductButtons = (props) => {
         }
 
         // Cart already made, don't have the item
-        else { 
+        else {
             const newCartItem = {
                 id: item.id,
                 name: item.name,
@@ -100,13 +100,13 @@ const ProductButtons = (props) => {
             }
             console.log(newCartItem);
             window.alert("Item(s) successfully added to cart.");
-            
+
             //adding item to the cookie array
             cartCookie.cart.push(
                 newCartItem
             );
-            
-            setCookie("cart", 
+
+            setCookie("cart",
             cartCookie.cart,
             {
                 path: "/"
@@ -114,7 +114,7 @@ const ProductButtons = (props) => {
         }
     }
 
-    
+
 
     return (
         //Quantity Buttons
@@ -165,10 +165,12 @@ export const ProductDetails = (props) => {
     // Display load screen while getting data
     if (loading) {
         return (
-            <div>
-                <h1 className="TextGreen" style={{padding:"15rem 0 2rem 0", textAlign:"center"}}>Loading product: {productParams.productName}</h1>
-                <div id="LoadingSpinner"/>
-            </div>
+            <Grid container xs={12}>
+                <Grid item xs={12}>
+                    <h1 className="TextGreen LoadingSpinnerHeader">Loading product: {productParams.productName}</h1>
+                </Grid>
+                <Grid item xs={12} id="LoadingSpinner"/>
+            </Grid>
         );
     }
 
