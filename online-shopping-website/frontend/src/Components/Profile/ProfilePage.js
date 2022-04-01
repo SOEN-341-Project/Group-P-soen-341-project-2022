@@ -14,6 +14,7 @@ export const ProfilePage = () => {
     const [editable, setEditable] = useState(false);
     const [cookie, setCookie] = useCookies(["user"]);
     const [userData, setUserData] = useState(cookie.user.user);
+    const [password, setPassword] = useState('');
 
     const handleSubmit = async (event) => {
         const updateProfileResponse = await axios.post(
@@ -29,6 +30,7 @@ export const ProfilePage = () => {
         setEditable(false);
     }
 
+    console.log(password);
     return (
         <div>
             <Link to="/" className='RoutingLink'>
@@ -105,6 +107,40 @@ export const ProfilePage = () => {
                             disabled={!editable}
                             value={userData.username ? userData.username : ''}
                             onChange={(e) => setUserData({ ...userData, username: e.target.value })} />
+
+                        {/* Change password */}
+                        <h2 className="ProfileInfoHeader">Change Password</h2>
+
+                        {/* Old Password */}
+                        <TextField variant='outlined' placeholder='Old Password'
+                            className="ProfileTextField"
+                            style={{ marginBottom: '2rem' }}
+                            // error={validPassword(password)}
+                            // helperText={!validPassword(password) ? "Password incorrect" : ''}
+                            onChange={(e) => setPassword(e.target.value)} />
+                        <hr />
+                        {/* New Password */}
+                        <TextField required
+                            className="ProfileTextField"
+                            style={{ margin: '1.5rem 0 1rem 0' }}
+                            type='password'
+                            placeholder='New Password'
+                            // disabled={!validPassword(password)}
+                            inputProps={{
+                                pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+|:;<>,.?/~(){}\\[\\]\\\\-]).{8,}$',
+                                title: 'Password must follow this format: - At least one digit - At least one lowercase character - At least one uppercase character - At least one special character'
+                            }}
+                            variant="outlined"
+                            onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
+
+                        <TextField required
+                            className="ProfileTextField"
+                            // disabled={!validPassword(password)}
+                            placeholder="Confirm New Password" variant="outlined"
+                            onChange={(e) => setUserData({ ...userData.password, confPassword: e.target.value })}
+                        // error={(userData.confPassword !== userData.password) && validPassword(password)}
+                        // helperText={(userData.confPassword !== userData.password) && validPassword(password) ? "Passwords do not match" : ''} 
+                        />
 
                         {/*Address*/}
                         <h2 className="ProfileInfoHeader">Shipping Address</h2>
