@@ -1,10 +1,10 @@
 import express, { Response, Request } from 'express';
-import { format, promisify } from 'util';
+import { format } from 'util';
 import bcrypt from 'bcrypt';
 import hasRequiredUserCreationParams from '../helpers/verifyUserCreation';
 import { User, UserRole } from '@prisma/client';
-import { createUser, allUsers, userByEmail, userById, updateUser, allSellers, deactivateUser } from '../prismaFunctions/userFuncs';
-import { signToken, verifyToken, objectFromRequest } from '../helpers/jwtFuncs';
+import { createUser, allUsers, userByEmail, updateUser, allSellers, deactivateUser } from '../prismaFunctions/userFuncs';
+import { signToken, objectFromRequest } from '../helpers/jwtFuncs';
 
 const userRouter = express.Router();
 
@@ -72,7 +72,7 @@ userRouter.post('/update', async (req: Request, res: Response) => { // updates a
       throw new Error(`Password is incorrect`);
     }
     let encrypted_password: string | undefined;
-    if (req.body.newPassword !== undefined) {
+    if (req.body.password !== undefined) {
       //new password
       encrypted_password = await bcrypt.hash(req.body.password, 5);
     }

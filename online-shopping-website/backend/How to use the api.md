@@ -126,7 +126,7 @@ Test routes are only there for you to test if the api is working properly
       - | Key             | Value                              |
         | --------------- | ---------------------------------- |
         | `email`         | The user's email                   |
-        | `newPassword`   | The new plain password of the user |
+        | `password`      | The new plain password of the user |
         | `address1`      | The user's address                 |
         | `username`      | The user's username                |
         | `firstname`     | The user's first name              |

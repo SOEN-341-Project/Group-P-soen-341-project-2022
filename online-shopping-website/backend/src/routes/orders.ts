@@ -136,7 +136,7 @@ orderRouter.get("/findByUser", async (req: Request, res: Response) => {
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
-})
+});
 
 orderRouter.get("/all", async (req: Request, res: Response) => { // find all orders
   await allOrders()

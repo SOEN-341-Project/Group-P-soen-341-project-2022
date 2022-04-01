@@ -2,7 +2,7 @@ import express, { Response, Request } from "express";
 import hasRequiredBrandCreationParams from "../helpers/verifyBrandCreation";
 import uploadFile from "../helpers/uploadFile";
 import { objectFromRequest } from "../helpers/jwtFuncs";
-import { itemByBrand } from "../prismaFunctions/itemFuncs"
+import { itemByBrand } from "../prismaFunctions/itemFuncs";
 import {
   allBrands,
   brandById,
@@ -29,7 +29,6 @@ brandRouter.post("/create", async (req: Request, res: Response) => { // creates 
     let pictureURL;
     if (req.file !== undefined) {
       const picture = req.file;
-      const name: string = req.body.name;
       pictureURL = await uploadFile({ file: picture, path: "brands/" });
     }
     const brand = await updateBrand({ brandId: brandNoPic.id, picture: pictureURL });
@@ -39,9 +38,9 @@ brandRouter.post("/create", async (req: Request, res: Response) => { // creates 
   }
 });
 
-brandRouter.delete("/delete", async (req: Request, res: Response, next) => { // deletes the brand with the id thats passed in
+brandRouter.delete("/delete", async (req: Request, res: Response) => { // deletes the brand with the id thats passed in
   const user = objectFromRequest(req);
-  let brandId = parseInt(req.query["id"] as string);
+  const brandId = parseInt(req.query["id"] as string);
   try {
     if (user == undefined || user == null || (user as User).role === UserRole.CUSTOMER) {
       throw new Error('Invalid Authorization');
@@ -50,7 +49,7 @@ brandRouter.delete("/delete", async (req: Request, res: Response, next) => { // 
       throw new Error("ID is invalid");
     }
     const itemsAttatchedToBrand = await itemByBrand({id: brandId});
-    if (itemsAttatchedToBrand.length > 0) throw new Error('Items exist in brand. Delete the items first')
+    if (itemsAttatchedToBrand.length > 0) throw new Error('Items exist in brand. Delete the items first');
     const deletedBrand = await deleteBrand({ brandId: brandId });
     // TODO: Delete picture from google
     res.json(deletedBrand).status(200);
@@ -59,7 +58,7 @@ brandRouter.delete("/delete", async (req: Request, res: Response, next) => { // 
   }
 });
 
-brandRouter.post("/update", async (req: Request, res: Response, next) => { // updates the brand with the id thats passed in
+brandRouter.post("/update", async (req: Request, res: Response) => { // updates the brand with the id thats passed in
   // TODO: make sure only admins can use this route (or adjust the database that only the seller that created it can update)
   const user = objectFromRequest(req);
 
@@ -76,7 +75,6 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => { // up
     let pictureURL;
     if (req.file !== undefined) {
       const picture = req.file;
-      const name: string = req.body.name;
       pictureURL = await uploadFile({ file: picture, path: "brands/" });
     }
     const brand = await updateBrand({
@@ -92,7 +90,7 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => { // up
 });
 
 brandRouter.get("/find", async (req: Request, res: Response) => { // find brands by name
-  let search = req.query["name"];
+  const search = req.query["name"];
   try {
     if (search === undefined || search === "") {
       throw new Error("No Input Found");
