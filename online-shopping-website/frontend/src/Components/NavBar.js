@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import {Menu, MenuItem} from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import navLogo from '../icons/BOBBLE-05.png';
 import smallNavLogo from '../icons/BOBBLE-03.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -72,9 +72,9 @@ export default function NavBar() {
         setOpenLogin(false);
     };
 
-    const handleLoginSubmit = async(event) => {
+    const handleLoginSubmit = async (event) => {
         event.preventDefault();
-        
+
         try {
             const loginResponse = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/users/signin", user);
             console.log(loginResponse.data);
@@ -82,9 +82,9 @@ export default function NavBar() {
             setAuth(true);
 
             // TODO Check if seller or admin when user object returned
-            
+
             setCookie('user', loginResponse.data);
-            
+
             // Close login popup
             setOpenLogin(false);
             setAnchorEl(false);
@@ -94,7 +94,7 @@ export default function NavBar() {
         }
         catch (err) {
             window.alert(
-                err.response.data.error + ".\n" + 
+                err.response.data.error + ".\n" +
                 (err.response.data.message ? err.response.data.message + "." : ""));
         }
     };
@@ -114,42 +114,42 @@ export default function NavBar() {
             setOpenLogin(true);
         }
     };
-    
+
     const profileId = 'navbar-account-profile';
     const unProfileId = 'navbar-unaccount-profile';
     const sellerId = 'navbar-seller-profile';
     const renderAccountProfileIcon = (
-        <MenuItem onClick={handleOpenUserMenu}/>
-        )
-        
+        <MenuItem onClick={handleOpenUserMenu} />
+    )
+
     return (
-        <Box sx={{flexGrow: 1}}>
+        <Box sx={{ flexGrow: 1 }}>
             <AppBar
                 className="NavBar"
                 position="static"
-                style={{borderRadius: "1px"}}
+                style={{ borderRadius: "1px" }}
             >
                 <Toolbar>
                     <Box display='flex' flexGrow={1}>
                         <Link to="/" className="Navbar-RoutingLink">
                             <div className="BobbleLogoPadding">
-                                <img className='Bobble Navbar-LogoLarge' src={navLogo} alt='Bobble'/>
-                                <img className='Bobble Navbar-LogoSmall' src={smallNavLogo} alt='Bobble'/>
+                                <img className='Bobble Navbar-LogoLarge' src={navLogo} alt='Bobble' />
+                                <img className='Bobble Navbar-LogoSmall' src={smallNavLogo} alt='Bobble' />
                             </div>
                         </Link>
                         <Link to="/" className="Navbar-RoutingLink"><Button color='inherit'><h4
-                            className="navbar-links">Products</h4> <ShoppingBagOutlinedIcon/></Button></Link>
+                            className="navbar-links">Products</h4> <ShoppingBagOutlinedIcon /></Button></Link>
                         <Link to="/seller" className="Navbar-RoutingLink"><Button color='inherit'><h4
-                            className="navbar-links">Seller</h4> <StorefrontOutlinedIcon/></Button></Link>
+                            className="navbar-links">Seller</h4> <StorefrontOutlinedIcon /></Button></Link>
                         <Link to="/my-shopping-cart" className="Navbar-RoutingLink"><Button color='inherit'><h4
-                            className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon/></Button></Link>
+                            className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon /></Button></Link>
                     </Box>
                     {/*Not signed in*/}
                     {/* {!auth && ( */}
                     {!cookies.user && (
                         <div>
                             <IconButton
-                                sx={{borderRadius: '10px !important'}}
+                                sx={{ borderRadius: '10px !important' }}
                                 size="small"
                                 edge="end"
                                 aria-label="account of non member"
@@ -158,10 +158,10 @@ export default function NavBar() {
                                 onClick={handleOpenLogin}
                                 color="inherit"
                             >
-                                <p style={{paddingRight: '0.5rem'}}>Login</p>
+                                <p style={{ paddingRight: '0.5rem' }}>Login</p>
                             </IconButton>
                             <IconButton
-                                sx={{borderRadius: '10px !important'}}
+                                sx={{ borderRadius: '10px !important' }}
                                 size="small"
                                 edge="end"
                                 aria-label="account of non member"
@@ -170,11 +170,11 @@ export default function NavBar() {
                                 color="inherit"
                             >
                                 <Link className="Navbar-RoutingLink" to='/register'><p
-                                    style={{paddingRight: '1rem'}}>Sign
+                                    style={{ paddingRight: '1rem' }}>Sign
                                     up</p></Link>
                             </IconButton>
                             <IconButton
-                                sx={{borderRadius: '10px !important', ':disabled':{ color: 'white'}}}
+                                sx={{ borderRadius: '10px !important', ':disabled': { color: 'white' } }}
                                 size="small"
                                 edge="end"
                                 aria-label="account of non member"
@@ -182,7 +182,7 @@ export default function NavBar() {
                                 aria-haspopup="true"
                                 disabled
                             >
-                                <AccountCircle/>
+                                <AccountCircle />
                             </IconButton>
                         </div>
                     )}
@@ -199,7 +199,7 @@ export default function NavBar() {
                                 onClick={handleOpenUserMenu}
                                 color="inherit"
                             >
-                                <AccountCircle/>
+                                <AccountCircle />
                             </IconButton>
                             <Menu
                                 id='navbar-account-profile'
@@ -217,6 +217,7 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
+                                <Link to='view-orders'><MenuItem onClick={handleCloseUserMenu}>View Orders</MenuItem></Link>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
@@ -234,7 +235,7 @@ export default function NavBar() {
                                 onClick={handleOpenUserMenu}
                                 color="inherit"
                             >
-                                <AccountCircle/>
+                                <AccountCircle />
                             </IconButton>
                             <Menu
                                 id='navbar-seller-profile'
@@ -252,7 +253,7 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem>
+                                <Link to='view-orders'><MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem></Link>
                                 <MenuItem onClick={handleCloseUserMenu}><Link to="/seller">Manage
                                     Products</Link></MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -272,7 +273,7 @@ export default function NavBar() {
                                 onClick={handleOpenUserMenu}
                                 color="inherit"
                             >
-                                <AccountCircle/>
+                                <AccountCircle />
                             </IconButton>
                             <Menu
                                 id='navbar-seller-profile'
@@ -299,48 +300,48 @@ export default function NavBar() {
             </AppBar>
             {/*Login form state set to open*/}
             {openLogin &&
-            <div>
-                <Dialog open={openLogin} onClose={handleCloseLogin}>
-                    <DialogTitle style={{paddingBottom: 0}}>Login</DialogTitle>
-                    <form onSubmit={handleLoginSubmit} >
-                        <DialogContent>
+                <div>
+                    <Dialog open={openLogin} onClose={handleCloseLogin}>
+                        <DialogTitle style={{ paddingBottom: 0 }}>Login</DialogTitle>
+                        <form onSubmit={handleLoginSubmit} >
+                            <DialogContent>
 
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                label="Email Address"
-                                value={user.email}
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                required
-                                onChange={(e) => setUser({...user, email: e.target.value})}
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                label="Password"
-                                value={user.password}
-                                type="password"
-                                fullWidth
-                                variant="standard"
-                                required
-                                onChange={(e) => setUser({...user, password: e.target.value})}
-                            />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    label="Email Address"
+                                    value={user.email}
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    required
+                                    onChange={(e) => setUser({ ...user, email: e.target.value })}
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    label="Password"
+                                    value={user.password}
+                                    type="password"
+                                    fullWidth
+                                    variant="standard"
+                                    required
+                                    onChange={(e) => setUser({ ...user, password: e.target.value })}
+                                />
 
-                            <DialogContentText style={{paddingTop: '1rem'}}>
-                                Don't already have an account? <Link className="GreenLink" to='/register'
-                                                                     onClick={handleCloseLogin}>Sign up</Link> here.
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button className='GreenButtonText' onClick={handleCloseLogin}>Cancel</Button>
-                            <Button className='GreenButtonOutlined' variant='outlined' type='submit'>Login</Button>
-                        </DialogActions>
-                    </form>
-                </Dialog>
-            </div>}
+                                <DialogContentText style={{ paddingTop: '1rem' }}>
+                                    Don't already have an account? <Link className="GreenLink" to='/register'
+                                        onClick={handleCloseLogin}>Sign up</Link> here.
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button className='GreenButtonText' onClick={handleCloseLogin}>Cancel</Button>
+                                <Button className='GreenButtonOutlined' variant='outlined' type='submit'>Login</Button>
+                            </DialogActions>
+                        </form>
+                    </Dialog>
+                </div>}
         </Box>
     );
 }

@@ -118,7 +118,9 @@ export const ProfilePage = () => {
                             // error={validPassword(password)}
                             // helperText={!validPassword(password) ? "Password incorrect" : ''}
                             onChange={(e) => setPassword(e.target.value)} />
+
                         <hr />
+
                         {/* New Password */}
                         <TextField required
                             className="ProfileTextField"

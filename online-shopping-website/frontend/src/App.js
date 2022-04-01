@@ -8,16 +8,16 @@ import { CartPage } from './Components/CartPage';
 import { Register } from './Components/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import {ProfilePage} from "./Components/Profile/ProfilePage";
+import { ProfilePage } from "./Components/Profile/ProfilePage";
 import ViewOrders from "./Components/ViewOrders";
 
 
 const Layout = () => {
     return (
         <>
-            <NavBar sx={<h1></h1>}/>
+            <NavBar sx={<h1></h1>} />
             <div className="AppContent">
-                <Outlet/>
+                <Outlet />
             </div>
         </>
     );
@@ -31,17 +31,17 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout/>}>
-                    <Route index element={<ProductPage/>}/>
-                    <Route path="/register" element={<Register/>}/>
-                    <Route path="/my-shopping-cart" element={<CartPage />}/>
-                    <Route path="/seller/add-product-form" element={<AddNewProductForm />}/>
-                    <Route path="/seller/:productId" element={<ModifyProductForm />}/>
-                    <Route path="/seller" element={<SellerProductsPage />}/>
-                    <Route path="/:productId/:productName" element={<ProductDetails />}/>
-                    <Route path="/profile" element={<ProfilePage/>}/>
-                    <Route path="/my-orders" element={<ViewOrders/>}/>
-                    <Route path="*" element={<NoPage/>}/>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<ProductPage />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/my-shopping-cart" element={<CartPage />} />
+                    <Route path="/seller/add-product-form" element={<AddNewProductForm />} />
+                    <Route path="/seller/:productId" element={<ModifyProductForm />} />
+                    <Route path="/seller" element={<SellerProductsPage />} />
+                    <Route path="/:productId/:productName" element={<ProductDetails />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/view-orders" element={<ViewOrders />} />
+                    <Route path="*" element={<NoPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
