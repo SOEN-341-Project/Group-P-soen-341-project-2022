@@ -35,33 +35,32 @@ export default function ViewOrders() {
     // }, []);
 
     useEffect(() => {
-        setOrders(axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/findByUser/?id=' + cookie.user.token));
-    });
-
-    useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
-            setModifiedProduct(res.data);
-            console.log(res.data);
-            setImagePreview(res.data.picture);
+        axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/findByUser',
+        {
+            headers: {
+                'Authorization': `Bearer ${cookie.user.token}`
+            }
+        }).then((res) => {
+            setOrders(res.data);
             setLoading(false);
         });
-    }, [productId]);
-
+    }, []);
 
     // Waiting for orders during GET
     if (loading) {
+        return (
         <Grid container>
             <Grid item xs={12}>
                 <h1 className="TextGreen LoadingSpinnerHeader">Loading orders</h1>
             </Grid>
             <Grid item xs={12} id="LoadingSpinner" />
-        </Grid>
+        </Grid>);
     }
     console.log(orders);
 
-    return orders.map(order => {
+    return orders.map((order, index) => {
         return (
-            <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+            <Box key={index} sx={{ flexGrow: 1, maxWidth: 752 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
@@ -80,7 +79,7 @@ export default function ViewOrders() {
                                         primary={"Order #" + order.id}
                                         secondary={order.createdAt}
                                     />
-                                </ListItem>,
+                                </ListItem>
                             </List>
                         </Demo>
                     </Grid>

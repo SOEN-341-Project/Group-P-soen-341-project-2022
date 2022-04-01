@@ -42,7 +42,6 @@ export const ProfilePage = () => {
         setEditable(false);
     }
 
-    console.log(password);
     return (
         <div>
             <Link to="/" className='RoutingLink'>
