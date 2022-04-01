@@ -7,6 +7,7 @@ import {
   createOrder,
   deleteOrder,
   orderByItem,
+  orderByUser,
   updateOrder,
   orderById,
 } from '../prismaFunctions/orderFuncs';
@@ -111,6 +112,31 @@ orderRouter.get("/find", async (req: Request, res: Response) => { // finds order
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
 });
+
+//find orders by user
+orderRouter.get("/findByUser", async (req: Request, res: Response) => {
+  const user = objectFromRequest(req); // authentication check
+  let userId: number = parseInt(req.query["id"] as string); // should only be used by admins looks up orders of other people
+  try{
+    if (user == undefined || user == null) {
+      throw new Error(`Invalid authentication`);
+    }
+    if(!isNaN(userId) && (user as User).role !== UserRole.ADMIN){ // non admins can't check other peoples orders
+      throw new Error(`You need to be an admin to view orders of other users.`);
+    }
+    if(isNaN(userId) && (user as User).role === UserRole.ADMIN){ // admins need to pass in a user id to check their order
+      throw new Error(`Missing parameter "id" in request`);
+    }
+    //if not an admin the order id passed is the user one
+    if ((user as User).role !== UserRole.ADMIN){
+      userId = (user as User).id;
+    }
+    const orders = await orderByUser({userId: userId});
+    res.status(200).json(orders);
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
+  }
+})
 
 orderRouter.get("/all", async (req: Request, res: Response) => { // find all orders
   await allOrders()

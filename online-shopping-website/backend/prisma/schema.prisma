@@ -40,6 +40,7 @@ enum UserRole {
 model Order {
   id             Int      @id @default(autoincrement())
   createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt @default(now())
   user           User     @relation(fields: [userId], references: [id]) // so this is a little difficult to explain but essentially we need to link a user to a list of orders. We do that by taking the Id of the user and placing it into the table of orders. Technically this isnt required but its a nice to have thing
   userId         Int
   items          Item[]
