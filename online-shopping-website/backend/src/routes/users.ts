@@ -44,21 +44,26 @@ userRouter.post('/register', async (req: Request, res: Response) => {
 
 userRouter.post("/signin", async (req: Request, res: Response) => { // check if email and password are existing values and are correct
   // check if email is attatched to a user
-  const usr = await userByEmail({ email: req.body.email });
-  if (usr === null) res.status(400).json({ error: 'User not found' });
-  if(!usr?.active) res.status(400).json({ error: 'User has been deleted' });
-  // user does exist, check if password is correct
-  else {
+  try{
+    const usr = await userByEmail({ email: req.body.email });
+    if (usr === null) {
+      throw new Error('User not found');
+    }
+    if (!usr?.active) {
+      throw new Error('User has been deleted');
+    }
     const match = await bcrypt.compare(req.body.password, usr.password);
     if (match) {
       // password is correct
       const userToken = signToken(usr);
       res.status(200).json({ token: userToken, user: usr });
     } else {
-      // password is incorrect
-      res.status(400).json({ error: 'Invalid Password', message: 'Password is incorrect' });
+      throw new Error('Password is incorrect');
     }
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
+  // user does exist, check if password is correct
 });
 
 userRouter.post('/update', async (req: Request, res: Response) => { // updates an existing user
