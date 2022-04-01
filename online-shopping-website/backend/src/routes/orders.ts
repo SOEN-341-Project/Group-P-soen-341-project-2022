@@ -100,7 +100,19 @@ orderRouter.post("/update", async (req: Request, res: Response) => { // updates 
   }
 });
 
-orderRouter.get("/find", async (req: Request, res: Response) => { // finds order by itemId
+orderRouter.get("/find", async (req: Request, res: Response) => { // finds order by the order's id
+  const search = parseInt(req.query["id"] as string);
+  try {
+    if (search === undefined || isNaN(search)) {
+      throw new Error('ID is invalid');
+    }
+    const orders = await orderById({ orderId: search });
+    res.json(orders).status(200);
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
+  }
+});
+orderRouter.get("/findByItem", async (req: Request, res: Response) => { // finds order by itemId
   const search = parseInt(req.query["id"] as string);
   try {
     if (search === undefined || isNaN(search)) {
