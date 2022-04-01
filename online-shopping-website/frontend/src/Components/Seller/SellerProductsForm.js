@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
 import * as React from "react";
+import Grid from "@mui/material/Grid";
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
