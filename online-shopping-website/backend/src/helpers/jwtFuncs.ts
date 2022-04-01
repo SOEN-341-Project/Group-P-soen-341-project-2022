@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request } from 'express';
-import { User } from '@prisma/client';
 
-export function signToken(object: any) {
+export function signToken(object) {
   return jwt.sign(object, process.env.JWT_SECRET as string, { expiresIn: '24h' });
 }
 
@@ -14,7 +13,7 @@ export function verifyToken(token: string) {
 }
 
 export function objectFromRequest(req: Request): unknown {
-  const token = req.headers.authorization
+  const token = req.headers.authorization;
   if (token) return verifyToken((token as string).split(' ')[1]); // Bearer <token>
   return undefined;
 }

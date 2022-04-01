@@ -44,7 +44,7 @@ orderRouter.delete('/delete', async (req: Request, res: Response) => { // delete
   const orderId = parseInt(req.query['id'] as string);
   try {
     if (user == undefined || user == null) {
-      throw new Error(`Invalid authentication`);
+      throw new Error('Invalid authentication');
     }
     if (orderId === undefined || isNaN(orderId)) {
       throw new Error('ID is invalid');
@@ -64,13 +64,13 @@ orderRouter.delete('/delete', async (req: Request, res: Response) => { // delete
   }
 });
 
-orderRouter.post("/update", async (req: Request, res: Response) => { // updates an existing order
+orderRouter.post('/update', async (req: Request, res: Response) => { // updates an existing order
   // needs all items and quantities for it to work
   const user = objectFromRequest(req);
   const orderId = parseInt(req.query['id'] as string);
   try {
     if (user == undefined || user == null) {
-      throw new Error(`Invalid authentication`);
+      throw new Error('Invalid authentication');
     }
     if (orderId === undefined || isNaN(orderId)) {
       throw new Error('ID is invalid');
@@ -100,8 +100,20 @@ orderRouter.post("/update", async (req: Request, res: Response) => { // updates 
   }
 });
 
-orderRouter.get("/find", async (req: Request, res: Response) => { // finds order by itemId
-  const search = parseInt(req.query["id"] as string);
+orderRouter.get('/find', async (req: Request, res: Response) => { // finds order by the order's id
+  const search = parseInt(req.query['id'] as string);
+  try {
+    if (search === undefined || isNaN(search)) {
+      throw new Error('ID is invalid');
+    }
+    const orders = await orderById({ orderId: search });
+    res.json(orders).status(200);
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
+  }
+});
+orderRouter.get('/findByItem', async (req: Request, res: Response) => { // finds order by itemId
+  const search = parseInt(req.query['id'] as string);
   try {
     if (search === undefined || isNaN(search)) {
       throw new Error('ID is invalid');
@@ -114,18 +126,18 @@ orderRouter.get("/find", async (req: Request, res: Response) => { // finds order
 });
 
 //find orders by user
-orderRouter.get("/findByUser", async (req: Request, res: Response) => {
+orderRouter.get('/findByUser', async (req: Request, res: Response) => {
   const user = objectFromRequest(req); // authentication check
-  let userId: number = parseInt(req.query["id"] as string); // should only be used by admins looks up orders of other people
+  let userId: number = parseInt(req.query['id'] as string); // should only be used by admins looks up orders of other people
   try{
     if (user == undefined || user == null) {
-      throw new Error(`Invalid authentication`);
+      throw new Error('Invalid authentication');
     }
     if(!isNaN(userId) && (user as User).role !== UserRole.ADMIN){ // non admins can't check other peoples orders
-      throw new Error(`You need to be an admin to view orders of other users.`);
+      throw new Error('You need to be an admin to view orders of other users.');
     }
     if(isNaN(userId) && (user as User).role === UserRole.ADMIN){ // admins need to pass in a user id to check their order
-      throw new Error(`Missing parameter "id" in request`);
+      throw new Error('Missing parameter "id" in request');
     }
     //if not an admin the order id passed is the user one
     if ((user as User).role !== UserRole.ADMIN){
@@ -136,9 +148,9 @@ orderRouter.get("/findByUser", async (req: Request, res: Response) => {
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
-})
+});
 
-orderRouter.get("/all", async (req: Request, res: Response) => { // find all orders
+orderRouter.get('/all', async (req: Request, res: Response) => { // find all orders
   await allOrders()
     .then((orders) => {
       res.status(200).json(orders);
