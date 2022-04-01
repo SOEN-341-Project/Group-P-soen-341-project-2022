@@ -347,6 +347,7 @@ Test routes are only there for you to test if the api is working properly
       - | Key  | Value                                    |
         | ---- | ---------------------------------------- |
         | `id` | The user's id that is being searched for |
+  - Returns: Array of all the orders that the specific user has made
 - #### Route: `/all`
   - Method: GET
   - Requires: None
