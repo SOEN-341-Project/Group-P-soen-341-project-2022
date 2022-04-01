@@ -217,7 +217,6 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
@@ -253,7 +252,6 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}><Link to="/seller">Manage
                                     Products</Link></MenuItem>
@@ -292,7 +290,6 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem onClick={handleCloseUserMenu}>My Account Info</MenuItem>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>

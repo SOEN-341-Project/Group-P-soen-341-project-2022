@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a1d15284-baae-49aa-8ac6-83f204b6bf2d" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.test.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +50,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/frontend/src/Components/NavBar.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsForm.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsPage.js" root0="SKIP_INSPECTION" />
   </component>
@@ -62,12 +64,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last.edited.regexp" value="01533/navkbrkja315fsbrg" />
+    <property name="last.edited.regexp" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.RegExp" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="typescript.add.unambiguous.imports.on.the.fly" value="true" />
   </component>
