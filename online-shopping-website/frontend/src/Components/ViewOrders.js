@@ -35,8 +35,17 @@ export default function ViewOrders() {
     // }, []);
 
     useEffect(() => {
-        setOrders(axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/findByUser/?=' + cookie.user.token));
+        setOrders(axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/findByUser/?id=' + cookie.user.token));
     });
+
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
+            setModifiedProduct(res.data);
+            console.log(res.data);
+            setImagePreview(res.data.picture);
+            setLoading(false);
+        });
+    }, [productId]);
 
 
     // Waiting for orders during GET
