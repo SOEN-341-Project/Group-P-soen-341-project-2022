@@ -1,11 +1,12 @@
-import { useEffect, useState, createRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Stack, InputAdornment, TextField } from '@mui/material';
-import { useCookies } from 'react-cookie';
+import * as React from 'react';
+import {createRef, useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Button, InputAdornment, Stack, TextField} from '@mui/material';
+import {useCookies} from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
-import * as React from "react";
 import Grid from "@mui/material/Grid";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
@@ -67,7 +68,7 @@ export const ModifyProductForm = (props) => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: modifiedProduct.brand.name
-            },{
+            }, {
                 headers: {
                     'Authorization': `Bearer ${cookies.user.token}`
                 }
@@ -90,7 +91,7 @@ export const ModifyProductForm = (props) => {
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
             data: formData,
-            headers: { 
+            headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${cookies.user.token}`
             }
@@ -137,8 +138,13 @@ export const ModifyProductForm = (props) => {
 
     return (
         <form onSubmit={handleSubmit}>
+            <Link to="/seller" className='RoutingLink'>
+                <Button variant="text" className="ProductsBackButton">
+                    <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                </Button>
+            </Link>
             <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-                <h1 className="TextGreen">Modify Product "{modifiedProduct.name}"</h1>
+                <h1 className="TextGreen" style={{textAlign: 'center'}}>Modify Product "{modifiedProduct.name}"</h1>
                 <TextField
                     label="Name"
                     name="name"
@@ -283,7 +289,7 @@ export const AddNewProductForm = () => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: newProduct.brand.name
-            },{
+            }, {
                 headers: {
                     'Authorization': `Bearer ${cookies.user.token}`
                 }
@@ -306,7 +312,7 @@ export const AddNewProductForm = () => {
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
             data: formData,
-            headers: { 
+            headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${cookies.user.token}`
             }
@@ -324,81 +330,92 @@ export const AddNewProductForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-                <h1 className="TextGreen">Add a product</h1>
-                <TextField
-                    name="name"
-                    label="Name"
-                    required
-                    value={newProduct.name}
-                    onChange={handleFieldChange}
-                />
-                <TextField
-                    name="price"
-                    label="Price"
-                    type="text"
-                    required
-                    value={newProduct.price}
-                    onChange={handleFieldChange}
-                    inputProps={{
-                        inputMode: 'numeric',
-                        pattern: '[0-9]*(.[0-9][0-9])?',
-                        title: 'Include 0 or 2 decimal places. ex.: 17.95'
-                    }}
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
-                    }}
-                />
-                <TextField
-                    name="description"
-                    label="Description"
-                    required
-                    value={newProduct.description}
-                    onChange={handleFieldChange}
-                    multiline
-                    rows={4}
-                />
-                {
-                    fileSelected && <img src={imagePreview} alt="Product Preview"/>
-                }
-                <Button component="label" className="GreenButtonText"
-                        style={{width: "fit-content", margin: "1rem auto"}}>
-                    <UploadIcon/> Upload Image
-                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
-                           onChange={handleImageChange}/>
-                </Button>
-                <TextField
-                    name="brandName"
-                    label="Brand"
-                    required
-                    value={newProduct.brand.name}
-                    onChange={handleFieldChange}
-                />
-                <TextField
-                    name="sellerName"
-                    label="Seller"
-                    disabled
-                    value={sellerName}
-                    onChange={handleFieldChange}
-                />
-                <TextField
-                    name="totalQuantity"
-                    label="Quantity"
-                    type="text"
-                    required
-                    value={newProduct.totalQuantity}
-                    onChange={handleFieldChange}
-                    inputProps={{
-                        min: 1,
-                        inputMode: 'numeric',
-                        pattern: '[1-9][0-9]*',
-                        title: 'Must be a positive whole number.'
-                    }}
-                />
-                <Button style={{width: "fit-content", margin: "1rem auto"}} type="submit" variant="contained"
-                        className="GreenButtonContained">Add Product</Button>
-            </Stack>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <Link to="/seller" className='RoutingLink'>
+                    <Button variant="text" className="ProductsBackButton">
+                        <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                    </Button>
+                </Link>
+                <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
+
+                    <h1 className="TextGreen" style={{textAlign: 'center'}}>Add a product</h1>
+                    <TextField
+                        name="name"
+                        label="Name"
+                        required
+                        value={newProduct.name}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="price"
+                        label="Price"
+                        type="text"
+                        required
+                        value={newProduct.price}
+                        onChange={handleFieldChange}
+                        inputProps={{
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*(.[0-9][0-9])?',
+                            title: 'Include 0 or 2 decimal places. ex.: 17.95'
+                        }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
+                        }}
+                    />
+                    <TextField
+                        name="description"
+                        label="Description"
+                        required
+                        value={newProduct.description}
+                        onChange={handleFieldChange}
+                        multiline
+                        rows={4}
+                    />
+                    {
+                        fileSelected && <img src={imagePreview} alt="Product Preview"/>
+                    }
+                    <Button component="label" className="GreenButtonText"
+                            style={{width: "fit-content", margin: "1rem auto"}}>
+                        <UploadIcon/> Upload Image
+                        <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
+                               onChange={handleImageChange}/>
+                    </Button>
+                    <TextField
+                        name="brandName"
+                        label="Brand"
+                        required
+                        value={newProduct.brand.name}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="sellerName"
+                        label="Seller"
+                        disabled
+                        value={sellerName}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="totalQuantity"
+                        label="Quantity"
+                        type="text"
+                        required
+                        value={newProduct.totalQuantity}
+                        onChange={handleFieldChange}
+                        inputProps={{
+                            min: 1,
+                            inputMode: 'numeric',
+                            pattern: '[1-9][0-9]*',
+                            title: 'Must be a positive whole number.'
+                        }}
+                    />
+                    <Button style={{width: "fit-content", margin: "1rem auto"}}
+                            type="submit" variant="contained"
+                            className="GreenButtonContained">
+                        Add Product
+                    </Button>
+                </Stack>
+            </form>
+        </div>
     );
 }
