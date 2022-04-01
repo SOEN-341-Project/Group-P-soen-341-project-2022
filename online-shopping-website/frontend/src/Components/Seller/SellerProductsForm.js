@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {createRef, useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {Button, InputAdornment, Stack, TextField} from '@mui/material';
-import {useCookies} from 'react-cookie';
+import { createRef, useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Button, InputAdornment, Stack, TextField } from '@mui/material';
+import { useCookies } from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
 import Grid from "@mui/material/Grid";
@@ -16,7 +16,7 @@ export const ModifyProductForm = (props) => {
     const [cookies, setCookies] = useCookies(['user']);
 
     // Get product ID from URL parameters
-    const {productId} = useParams();
+    const { productId } = useParams();
 
     // Waiting for HTTP requests
     const [loading, setLoading] = useState(true);
@@ -127,11 +127,11 @@ export const ModifyProductForm = (props) => {
 
     if (loading) {
         return (
-            <Grid container xs={12}>
+            <Grid container>
                 <Grid item xs={12}>
                     <h1 className="TextGreen LoadingSpinnerHeader">Loading form</h1>
                 </Grid>
-                <Grid item xs={12} id="LoadingSpinner"/>
+                <Grid item xs={12} id="LoadingSpinner" />
             </Grid>
         );
     }
@@ -140,11 +140,11 @@ export const ModifyProductForm = (props) => {
         <form onSubmit={handleSubmit}>
             <Link to="/seller" className='RoutingLink'>
                 <Button variant="text" className="ProductsBackButton">
-                    <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                    <ArrowBackIosNewIcon /><h4>Return to seller products</h4>
                 </Button>
             </Link>
-            <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-                <h1 className="TextGreen" style={{textAlign: 'center'}}>Modify Product "{modifiedProduct.name}"</h1>
+            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
+                <h1 className="TextGreen" style={{ textAlign: 'center' }}>Modify Product "{modifiedProduct.name}"</h1>
                 <TextField
                     label="Name"
                     name="name"
@@ -178,13 +178,13 @@ export const ModifyProductForm = (props) => {
                     onChange={handleFieldChange}
                 />
                 {
-                    imagePreview && <img src={imagePreview} alt="Product Preview"/>
+                    imagePreview && <img src={imagePreview} alt="Product Preview" />
                 }
                 <Button type="button" className="GreenButtonText" component="label"
-                        style={{width: "fit-content", margin: "1rem auto"}}>
-                    <UploadIcon/> Upload Image
+                    style={{ width: "fit-content", margin: "1rem auto" }}>
+                    <UploadIcon /> Upload Image
                     <input name="picture" type="file" accept="image/*" ref={imageRef} hidden
-                           onChange={handleImageChange}/>
+                        onChange={handleImageChange} />
                 </Button>
                 <TextField
                     label="Brand"
@@ -215,7 +215,7 @@ export const ModifyProductForm = (props) => {
                     onChange={handleFieldChange}
                 />
                 <Button type="submit" variant="contained" className="GreenButtonContained"
-                        style={{width: "fit-content", margin: "1rem auto"}}>
+                    style={{ width: "fit-content", margin: "1rem auto" }}>
                     Save Changes
                 </Button>
             </Stack>
@@ -235,8 +235,8 @@ export const AddNewProductForm = () => {
         name: '',
         price: '',
         description: '',
-        brand: {name: ''},
-        seller: {sellerName: ''},
+        brand: { name: '' },
+        seller: { sellerName: '' },
         totalQuantity: ''
     });
 
@@ -264,7 +264,7 @@ export const AddNewProductForm = () => {
         if (event.target.name === "brandName") {
             setNewProduct({
                 ...newProduct,
-                brand: {name: event.target.value}
+                brand: { name: event.target.value }
             })
         } else {
             setNewProduct({
@@ -334,12 +334,12 @@ export const AddNewProductForm = () => {
             <form onSubmit={handleSubmit}>
                 <Link to="/seller" className='RoutingLink'>
                     <Button variant="text" className="ProductsBackButton">
-                        <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                        <ArrowBackIosNewIcon /><h4>Return to seller products</h4>
                     </Button>
                 </Link>
-                <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
+                <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
 
-                    <h1 className="TextGreen" style={{textAlign: 'center'}}>Add a product</h1>
+                    <h1 className="TextGreen" style={{ textAlign: 'center' }}>Add a product</h1>
                     <TextField
                         name="name"
                         label="Name"
@@ -373,13 +373,13 @@ export const AddNewProductForm = () => {
                         rows={4}
                     />
                     {
-                        fileSelected && <img src={imagePreview} alt="Product Preview"/>
+                        fileSelected && <img src={imagePreview} alt="Product Preview" />
                     }
                     <Button component="label" className="GreenButtonText"
-                            style={{width: "fit-content", margin: "1rem auto"}}>
-                        <UploadIcon/> Upload Image
+                        style={{ width: "fit-content", margin: "1rem auto" }}>
+                        <UploadIcon /> Upload Image
                         <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
-                               onChange={handleImageChange}/>
+                            onChange={handleImageChange} />
                     </Button>
                     <TextField
                         name="brandName"
@@ -409,9 +409,9 @@ export const AddNewProductForm = () => {
                             title: 'Must be a positive whole number.'
                         }}
                     />
-                    <Button style={{width: "fit-content", margin: "1rem auto"}}
-                            type="submit" variant="contained"
-                            className="GreenButtonContained">
+                    <Button style={{ width: "fit-content", margin: "1rem auto" }}
+                        type="submit" variant="contained"
+                        className="GreenButtonContained">
                         Add Product
                     </Button>
                 </Stack>
