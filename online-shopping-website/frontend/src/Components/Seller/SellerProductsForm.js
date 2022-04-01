@@ -4,6 +4,7 @@ import { Button, Stack, InputAdornment, TextField } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
+import * as React from "react";
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
@@ -124,10 +125,12 @@ export const ModifyProductForm = (props) => {
 
     if (loading) {
         return (
-            <div>
-                <h1 className="TextGreen" style={{padding: "15rem 0 2rem 0", textAlign: "center"}}>Loading form</h1>
-                <div id="LoadingSpinner"/>
-            </div>
+            <Grid container xs={12}>
+                <Grid item xs={12}>
+                    <h1 className="TextGreen LoadingSpinnerHeader">Loading form</h1>
+                </Grid>
+                <Grid item xs={12} id="LoadingSpinner"/>
+            </Grid>
         );
     }
 
