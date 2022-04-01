@@ -123,15 +123,15 @@ Test routes are only there for you to test if the api is working properly
 
   - Optional:
     - Body:
-      - | Key          | Value                          |
-        | ------------ | ------------------------------ |
-        | `email`      | The user's email               |
+      - | Key             | Value                              |
+        | --------------- | ---------------------------------- |
+        | `email`         | The user's email                   |
         | `newPassword`   | The new plain password of the user |
-        | `address1`   | The user's address             |
-        | `username`   | The user's username            |
-        | `firstname`  | The user's first name          |
-        | `lastname`   | The user's last name           |
-        | `sellername` | The seller's display name      |
+        | `address1`      | The user's address                 |
+        | `username`      | The user's username                |
+        | `firstname`     | The user's first name              |
+        | `lastname`      | The user's last name               |
+        | `sellername`    | The seller's display name          |
   - Returns: Updated User object named `user` and new token named `token`
 - #### Route: `/all`
   - Method: GET
