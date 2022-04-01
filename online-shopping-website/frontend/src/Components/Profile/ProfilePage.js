@@ -9,8 +9,8 @@ import axios from 'axios';
 
 export const ProfilePage = () => {
     const [editable, setEditable] = useState(false);
-    const [userData, setUserData] = useState(null);
     const [userCookie, setUserCookie] = useCookies(["user"]);
+    const [userData, setUserData] = useState(userCookie);
 
     const handleSubmit = async (event) => {
         const updateProfileResponse = await axios.post(
@@ -26,7 +26,8 @@ export const ProfilePage = () => {
         setEditable(false);
     }
 
-    console.log(userCookie);
+    // console.log(userCookie);
+    console.log(userData);
     return (
         <Grid item container xs={12} className='ProfileContainer'>
             <Grid item xs={8}>
@@ -53,7 +54,7 @@ export const ProfilePage = () => {
                                placeholder="First name"
                                variant="outlined"
                                disabled={!editable}
-                               value={userCookie.user.user.firstName ? userCookie.user.user.firstName : ''}
+                               value={userData.firstName ? userData.firstName : ''}
                                onChange={(e) => setUserData({...userData, firstName: e.target.value})}/>
 
                     {/*Last name*/}
@@ -62,7 +63,7 @@ export const ProfilePage = () => {
                                placeholder="Last name"
                                variant="outlined"
                                disabled={!editable}
-                               value={userCookie.user.user.lastName ? userCookie.user.user.lastName : ''}
+                               value={userData.lastName ? userData.lastName : ''}
                                onChange={(e) => setUserData({...userData, lastName: e.target.value})}/>
 
                     {/*Email*/}
@@ -72,7 +73,7 @@ export const ProfilePage = () => {
                                disabled={!editable}
                                required
                                inputProps={{pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+$", title: "username@domain"}}
-                               placeholder="someone@domain.com" variant="outlined" value={userCookie.user.user.email}
+                               placeholder="someone@domain.com" variant="outlined" value={userData.email}
                                onChange={(e) => setUserData({...userData, email: e.target.value})}/>
 
                     {/*Username*/}
@@ -82,7 +83,7 @@ export const ProfilePage = () => {
                                variant="outlined"
                                placeholder="username"
                                disabled={!editable}
-                               value={userCookie.user.user.username ? userCookie.user.user.username : ''}
+                               value={userData.username ? userData.username : ''}
                                onChange={(e) => setUserData({...userData, username: e.target.value})}/>
 
                     {/*Address*/}
@@ -90,7 +91,7 @@ export const ProfilePage = () => {
                     <TextField className="ProfileTextField"
                                variant="outlined"
                                required multiline
-                               value={userCookie.user.user.address1}
+                               value={userData.address1}
                                disabled={!editable}
                                onChange={(e) => setUserData({...userData, address1: e.target.value})}/>
 
