@@ -67,8 +67,12 @@ userRouter.post('/update', async (req: Request, res: Response) => { // updates a
     if (usr === null || usr === undefined) {
       throw new Error(`Authentication is invalid`);
     }
+    const match = await bcrypt.compare(req.body.oldPassword, usr.password);
+    if (!match){
+      throw new Error(`Password is incorrect`);
+    }
     let encrypted_password: string | undefined;
-    if (req.body.password !== undefined) {
+    if (req.body.newPassword !== undefined) {
       //new password
       encrypted_password = await bcrypt.hash(req.body.password, 5);
     }

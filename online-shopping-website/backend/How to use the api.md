@@ -116,15 +116,17 @@ Test routes are only there for you to test if the api is working properly
   - Requires:
     - Authorization: Any User (they can only update their own account)
     - Body:
-      - | Key  | Value         |
-        | ---- | ------------- |
-        | `id` | The user's id |
+      - | Key             | Value                              |
+        | --------------- | ---------------------------------- |
+        | `id`            | The user's id                      |
+        | `oldPassword`   | The old plain password of the user |
+
   - Optional:
     - Body:
       - | Key          | Value                          |
         | ------------ | ------------------------------ |
         | `email`      | The user's email               |
-        | `password`   | The plain password of the user |
+        | `newPassword`   | The new plain password of the user |
         | `address1`   | The user's address             |
         | `username`   | The user's username            |
         | `firstname`  | The user's first name          |
@@ -337,6 +339,14 @@ Test routes are only there for you to test if the api is working properly
         | `id` | The item's id that is being searched for |
   - Optional: None
   - Returns: All orders with that item in it
+- #### Route: `/findByUser`
+  - Method: GET
+  - Requires:
+    - Authorization: Users can only check their own orders while admins can add a parameter to check another user's orders
+    - Parameters (For admin only):
+      - | Key  | Value                                    |
+        | ---- | ---------------------------------------- |
+        | `id` | The user's id that is being searched for |
 - #### Route: `/all`
   - Method: GET
   - Requires: None

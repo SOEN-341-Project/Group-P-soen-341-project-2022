@@ -1,4 +1,4 @@
-import prisma from "./PrismaClient";
+import prisma from './PrismaClient';
 
 export async function createOrder(args: {
   userId: number;
@@ -50,20 +50,21 @@ export async function updateOrder(args: {
   });
 }
 
-export async function orderByUser(args:{userId: number}){
-  return prisma.order.findMany({ 
-    where: { 
-      userId: args.userId
+export async function orderByUser(args: { userId: number }) {
+  return prisma.order.findMany({
+    where: {
+      userId: args.userId,
     },
-  })
+    include: { items: true },
+  });
 }
 
-export async function orderById(args:{orderId: number}){
+export async function orderById(args: { orderId: number }) {
   return prisma.order.findUnique({
     where: {
-      id: args.orderId
+      id: args.orderId,
     },
-  })
+  });
 }
 
 export async function orderByItem(args: { itemId: number }) {
