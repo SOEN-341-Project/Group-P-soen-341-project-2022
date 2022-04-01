@@ -9,8 +9,8 @@ import axios from 'axios';
 
 export const ProfilePage = () => {
     const [editable, setEditable] = useState(false);
-    const [userCookie, setUserCookie] = useCookies(["user"]);
-    const [userData, setUserData] = useState(userCookie);
+    const [cookie, setCookie] = useCookies(["user"]);
+    const [userData, setUserData] = useState(cookie.user.user);
 
     const handleSubmit = async (event) => {
         const updateProfileResponse = await axios.post(
@@ -18,11 +18,11 @@ export const ProfilePage = () => {
             userData,
             {
                 headers: {
-                    'Authorization': `Bearer ${userCookie.user.token}`
+                    'Authorization': `Bearer ${cookie.user.token}`
                 }
             }
         );
-        setUserCookie("user", updateProfileResponse.data);
+        setCookie("user", updateProfileResponse.data);
         setEditable(false);
     }
 
@@ -91,6 +91,7 @@ export const ProfilePage = () => {
                     <TextField className="ProfileTextField"
                                variant="outlined"
                                required multiline
+                               placeholder="address"
                                value={userData.address1}
                                disabled={!editable}
                                onChange={(e) => setUserData({...userData, address1: e.target.value})}/>
