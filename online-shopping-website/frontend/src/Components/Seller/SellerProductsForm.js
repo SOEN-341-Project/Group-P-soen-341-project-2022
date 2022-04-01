@@ -1,10 +1,12 @@
-import { useEffect, useState, createRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Stack, InputAdornment, TextField } from '@mui/material';
-import { useCookies } from 'react-cookie';
-import Grid from "@mui/material/Grid";
+import * as React from 'react';
+import {createRef, useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Button, InputAdornment, Stack, TextField} from '@mui/material';
+import {useCookies} from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
+import Grid from "@mui/material/Grid";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
@@ -66,7 +68,7 @@ export const ModifyProductForm = (props) => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: modifiedProduct.brand.name
-            },{
+            }, {
                 headers: {
                     'Authorization': `Bearer ${cookies.user.token}`
                 }
@@ -125,17 +127,24 @@ export const ModifyProductForm = (props) => {
 
     if (loading) {
         return (
-            <div>
-                <h1 className="TextGreen" style={{padding: "15rem 0 2rem 0", textAlign: "center"}}>Loading form</h1>
-                <div id="LoadingSpinner"/>
-            </div>
+            <Grid container xs={12}>
+                <Grid item xs={12}>
+                    <h1 className="TextGreen LoadingSpinnerHeader">Loading form</h1>
+                </Grid>
+                <Grid item xs={12} id="LoadingSpinner"/>
+            </Grid>
         );
     }
 
     return (
         <form onSubmit={handleSubmit}>
+            <Link to="/seller" className='RoutingLink'>
+                <Button variant="text" className="ProductsBackButton">
+                    <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                </Button>
+            </Link>
             <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-                <h1 className="TextGreen">Modify Product "{modifiedProduct.name}"</h1>
+                <h1 className="TextGreen" style={{textAlign: 'center'}}>Modify Product "{modifiedProduct.name}"</h1>
                 <TextField
                     label="Name"
                     name="name"
@@ -146,12 +155,16 @@ export const ModifyProductForm = (props) => {
                 <TextField
                     label="Price"
                     name="price"
-                    type="number"
+                    type="text"
                     required
                     value={modifiedProduct.price}
                     onChange={handleFieldChange}
+                    inputProps={{
+                        inputMode: 'numeric',
+                        pattern: '[0-9]*(.[0-9][0-9])?',
+                        title: 'Include 0 or 2 decimal places. ex.: 17.95'
+                    }}
                     InputProps={{
-                        inputProps: {min: 0, step: 0.01},
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }}
                 />
@@ -190,9 +203,14 @@ export const ModifyProductForm = (props) => {
                 <TextField
                     label="Quantity"
                     name="totalQuantity"
-                    type="number"
+                    type="text"
                     required
-                    inputProps={{min: 1}}
+                    inputProps={{
+                        min: 1,
+                        inputMode: 'numeric',
+                        pattern: '[1-9][0-9]*',
+                        title: 'Must be a positive whole number.'
+                    }}
                     value={modifiedProduct.totalQuantity}
                     onChange={handleFieldChange}
                 />
@@ -215,11 +233,11 @@ export const AddNewProductForm = () => {
     // New product structure
     const [newProduct, setNewProduct] = useState({
         name: '',
-        price: 0,
+        price: '',
         description: '',
         brand: {name: ''},
         seller: {sellerName: ''},
-        totalQuantity: 0
+        totalQuantity: ''
     });
 
     // States for image preview
@@ -271,7 +289,7 @@ export const AddNewProductForm = () => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: newProduct.brand.name
-            },{
+            }, {
                 headers: {
                     'Authorization': `Bearer ${cookies.user.token}`
                 }
@@ -312,72 +330,92 @@ export const AddNewProductForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-                <h1 className="TextGreen">Add a product</h1>
-                <TextField
-                    name="name"
-                    label="Name"
-                    required
-                    value={newProduct.name}
-                    onChange={handleFieldChange}
-                />
-                <TextField
-                    name="price"
-                    label="Price"
-                    type="number"
-                    required
-                    value={newProduct.price}
-                    onChange={handleFieldChange}
-                    InputProps={{
-                        inputProps: {min: 0, step: "0.5"},
-                        endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
-                    }}
-                />
-                <TextField
-                    name="description"
-                    label="Description"
-                    required
-                    value={newProduct.description}
-                    onChange={handleFieldChange}
-                    multiline
-                    rows={4}
-                />
-                {
-                    fileSelected && <img src={imagePreview} alt="Product Preview"/>
-                }
-                <Button component="label" className="GreenButtonText"
-                        style={{width: "fit-content", margin: "1rem auto"}}>
-                    <UploadIcon/> Upload Image
-                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
-                           onChange={handleImageChange}/>
-                </Button>
-                <TextField
-                    name="brandName"
-                    label="Brand"
-                    required
-                    value={newProduct.brand.name}
-                    onChange={handleFieldChange}
-                />
-                <TextField
-                    name="sellerName"
-                    label="Seller"
-                    disabled
-                    value={sellerName}
-                    onChange={handleFieldChange}
-                />
-                <TextField
-                    name="totalQuantity"
-                    label="Quantity"
-                    type="number"
-                    required
-                    value={newProduct.totalQuantity}
-                    onChange={handleFieldChange}
-                    inputProps={{min: 1}}
-                />
-                <Button style={{width: "fit-content", margin: "1rem auto"}} type="submit" variant="contained"
-                        className="GreenButtonContained">Add Product</Button>
-            </Stack>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <Link to="/seller" className='RoutingLink'>
+                    <Button variant="text" className="ProductsBackButton">
+                        <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                    </Button>
+                </Link>
+                <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
+
+                    <h1 className="TextGreen" style={{textAlign: 'center'}}>Add a product</h1>
+                    <TextField
+                        name="name"
+                        label="Name"
+                        required
+                        value={newProduct.name}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="price"
+                        label="Price"
+                        type="text"
+                        required
+                        value={newProduct.price}
+                        onChange={handleFieldChange}
+                        inputProps={{
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*(.[0-9][0-9])?',
+                            title: 'Include 0 or 2 decimal places. ex.: 17.95'
+                        }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
+                        }}
+                    />
+                    <TextField
+                        name="description"
+                        label="Description"
+                        required
+                        value={newProduct.description}
+                        onChange={handleFieldChange}
+                        multiline
+                        rows={4}
+                    />
+                    {
+                        fileSelected && <img src={imagePreview} alt="Product Preview"/>
+                    }
+                    <Button component="label" className="GreenButtonText"
+                            style={{width: "fit-content", margin: "1rem auto"}}>
+                        <UploadIcon/> Upload Image
+                        <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
+                               onChange={handleImageChange}/>
+                    </Button>
+                    <TextField
+                        name="brandName"
+                        label="Brand"
+                        required
+                        value={newProduct.brand.name}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="sellerName"
+                        label="Seller"
+                        disabled
+                        value={sellerName}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="totalQuantity"
+                        label="Quantity"
+                        type="text"
+                        required
+                        value={newProduct.totalQuantity}
+                        onChange={handleFieldChange}
+                        inputProps={{
+                            min: 1,
+                            inputMode: 'numeric',
+                            pattern: '[1-9][0-9]*',
+                            title: 'Must be a positive whole number.'
+                        }}
+                    />
+                    <Button style={{width: "fit-content", margin: "1rem auto"}}
+                            type="submit" variant="contained"
+                            className="GreenButtonContained">
+                        Add Product
+                    </Button>
+                </Stack>
+            </form>
+        </div>
     );
 }
