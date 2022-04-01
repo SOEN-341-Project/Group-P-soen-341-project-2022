@@ -57,6 +57,8 @@ export const CartPage = (props) => {
         axios.post(process.env.REACT_APP_DB_CONNECTION + '/api/orders/create', {
             userId: cookies.user.user.id,
             itemIds: cookies.cart.map(product => { return product.id }),
+            //UpdateAt: process.env.REACT_APP_DB_,
+            //CreatedAt: cookies,
             itemQuantities: cookies.cart.map(product => { return product.quantity }),
             totalPrice: total
         }, {
@@ -204,7 +206,7 @@ export const CartPage = (props) => {
         )
     }
    
-    //When cart is empty or has not yet been created, display message
+    //When cart is empty display message
     if (!cookies.cart || cookies.cart.length === 0) {
         return (
             <Grid container className="Cart-Container">
@@ -245,11 +247,12 @@ export const CartPage = (props) => {
             </Grid>
         )
     }
-   
+    
+    // Cart is full
     // Calculate cart total
     calculateCartTally();
     
-    // Display products in cart when cart is full
+    // Display products in cart
     return (
         <Grid container className="Cart-Container">
             <Collapse in={alertVisible} className="Cart-Alert">

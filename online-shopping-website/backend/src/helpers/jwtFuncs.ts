@@ -15,6 +15,6 @@ export function verifyToken(token: string) {
 
 export function objectFromRequest(req: Request): unknown {
   const token = req.headers.authorization
-  if (token) return verifyToken((token as string).split(' ')[1]);
+  if (token) return verifyToken((token as string).split(' ')[1]); // Bearer <token>
   return undefined;
 }

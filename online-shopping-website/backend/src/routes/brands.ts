@@ -30,7 +30,7 @@ brandRouter.post("/create", async (req: Request, res: Response) => { // creates 
     if (req.file !== undefined) {
       const picture = req.file;
       const name: string = req.body.name;
-      pictureURL = await uploadFile({ file: picture, filename: brandNoPic.id.toString(), path: "brands/" });
+      pictureURL = await uploadFile({ file: picture, path: "brands/" });
     }
     const brand = await updateBrand({ brandId: brandNoPic.id, picture: pictureURL });
     res.status(200).json(brand);
@@ -77,7 +77,7 @@ brandRouter.post("/update", async (req: Request, res: Response, next) => { // up
     if (req.file !== undefined) {
       const picture = req.file;
       const name: string = req.body.name;
-      pictureURL = await uploadFile({ file: picture, filename: oldBrand.id.toString(), path: "brands/" });
+      pictureURL = await uploadFile({ file: picture, path: "brands/" });
     }
     const brand = await updateBrand({
       brandId: oldBrand.id,
