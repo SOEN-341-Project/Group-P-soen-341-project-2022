@@ -2,7 +2,6 @@ import { useEffect, useState, createRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Stack, InputAdornment, TextField } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import Grid from "@mui/material/Grid";
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
 import * as React from "react";
@@ -149,12 +148,16 @@ export const ModifyProductForm = (props) => {
                 <TextField
                     label="Price"
                     name="price"
-                    type="number"
+                    type="text"
                     required
                     value={modifiedProduct.price}
                     onChange={handleFieldChange}
+                    inputProps={{
+                        inputMode: 'numeric',
+                        pattern: '[0-9]*(.[0-9][0-9])?',
+                        title: 'Include 0 or 2 decimal places. ex.: 17.95'
+                    }}
                     InputProps={{
-                        inputProps: {min: 0, step: 0.01},
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }}
                 />
@@ -193,9 +196,14 @@ export const ModifyProductForm = (props) => {
                 <TextField
                     label="Quantity"
                     name="totalQuantity"
-                    type="number"
+                    type="text"
                     required
-                    inputProps={{min: 1}}
+                    inputProps={{
+                        min: 1,
+                        inputMode: 'numeric',
+                        pattern: '[1-9][0-9]*',
+                        title: 'Must be a positive whole number.'
+                    }}
                     value={modifiedProduct.totalQuantity}
                     onChange={handleFieldChange}
                 />
@@ -218,11 +226,11 @@ export const AddNewProductForm = () => {
     // New product structure
     const [newProduct, setNewProduct] = useState({
         name: '',
-        price: 0,
+        price: '',
         description: '',
         brand: {name: ''},
         seller: {sellerName: ''},
-        totalQuantity: 0
+        totalQuantity: ''
     });
 
     // States for image preview
@@ -328,12 +336,16 @@ export const AddNewProductForm = () => {
                 <TextField
                     name="price"
                     label="Price"
-                    type="number"
+                    type="text"
                     required
                     value={newProduct.price}
                     onChange={handleFieldChange}
+                    inputProps={{
+                        inputMode: 'numeric',
+                        pattern: '[0-9]*(.[0-9][0-9])?',
+                        title: 'Include 0 or 2 decimal places. ex.: 17.95'
+                    }}
                     InputProps={{
-                        inputProps: {min: 0, step: "0.5"},
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }}
                 />
@@ -372,11 +384,16 @@ export const AddNewProductForm = () => {
                 <TextField
                     name="totalQuantity"
                     label="Quantity"
-                    type="number"
+                    type="text"
                     required
                     value={newProduct.totalQuantity}
                     onChange={handleFieldChange}
-                    inputProps={{min: 1}}
+                    inputProps={{
+                        min: 1,
+                        inputMode: 'numeric',
+                        pattern: '[1-9][0-9]*',
+                        title: 'Must be a positive whole number.'
+                    }}
                 />
                 <Button style={{width: "fit-content", margin: "1rem auto"}} type="submit" variant="contained"
                         className="GreenButtonContained">Add Product</Button>

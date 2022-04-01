@@ -50,11 +50,19 @@ export async function updateOrder(args: {
   });
 }
 
+export async function orderByUser(args:{userId: number}){
+  return prisma.order.findMany({ 
+    where: { 
+      userId: args.userId
+    },
+  })
+}
+
 export async function orderById(args:{orderId: number}){
   return prisma.order.findUnique({
     where: {
       id: args.orderId
-    }
+    },
   })
 }
 
