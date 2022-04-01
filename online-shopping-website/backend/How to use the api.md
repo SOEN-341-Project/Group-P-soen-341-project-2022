@@ -338,7 +338,7 @@ Test routes are only there for you to test if the api is working properly
         | ---- | ---------------------------------------- |
         | `id` | The order id that is being searched for  |
   - Optional: None
-  - Returns: All orders with that item in it
+  - Returns: The order with that id
 - #### Route: `/findByItem`
   - Method: GET
   - Requires:
