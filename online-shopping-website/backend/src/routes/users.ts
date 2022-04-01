@@ -20,9 +20,9 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         role: role,
       })
     ) {
-      throw (new Error().message = format(`Data missing`));
+      throw (new Error().message = format('Data missing'));
     }if(role === UserRole.SELLER && (req.body.sellerName === null || req.body.sellerName === undefined)){
-      throw (new Error().message = format(`Seller name is missing`));
+      throw (new Error().message = format('Seller name is missing'));
     }
     const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
@@ -42,7 +42,7 @@ userRouter.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post("/signin", async (req: Request, res: Response) => { // check if email and password are existing values and are correct
+userRouter.post('/signin', async (req: Request, res: Response) => { // check if email and password are existing values and are correct
   // check if email is attatched to a user
   try{
     const usr = await userByEmail({ email: req.body.email });
@@ -70,11 +70,11 @@ userRouter.post('/update', async (req: Request, res: Response) => { // updates a
   const usr = objectFromRequest(req) as User;
   try {
     if (usr === null || usr === undefined) {
-      throw new Error(`Authentication is invalid`);
+      throw new Error('Authentication is invalid');
     }
     const match = await bcrypt.compare(req.body.oldPassword, usr.password);
     if (!match){
-      throw new Error(`Password is incorrect`);
+      throw new Error('Password is incorrect');
     }
     let encrypted_password: string | undefined;
     if (req.body.password !== undefined) {
@@ -106,7 +106,7 @@ userRouter.delete('/delete', async (req: Request, res: Response) => {
   const auth = objectFromRequest(req) as User;
   try {
     if (auth == undefined || auth == null) {
-      throw new Error(`Invalid authentication`);
+      throw new Error('Invalid authentication');
     }
     let userId = auth.id;
     if(auth.role === UserRole.ADMIN) {
@@ -134,7 +134,7 @@ userRouter.get('/all', async (req: Request, res: Response) => {
   const auth = objectFromRequest(req);
   try {
     if (auth == undefined || auth == null) {
-      throw new Error(`Invalid authentication`);
+      throw new Error('Invalid authentication');
     }
     await allUsers()
     .then((user) => {
