@@ -15,7 +15,7 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
     if (user == undefined || user == null || (user as User).role !== UserRole.SELLER) {
       throw new Error('Invalid Authorization');
     }
-    console.log("Email:" + (user as User).email + "role:" + (user as User).role + " made request")
+    console.log('Email:' + (user as User).email + 'role:' + (user as User).role + ' made request');
     if (
       !hasRequiredItemCreationParams({
         name: req.body.name,
@@ -41,7 +41,7 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
       totalQuantity: isNaN(parseFloat(req.body.totalQuantity)) ? undefined : parseFloat(req.body.totalQuantity),
     });
     console.log('Item without picture created successfully');
-    console.log("Picture original name:" + req.file?.originalname)
+    console.log('Picture original name:' + req.file?.originalname);
     const pictureURL = await uploadFile({
       file: req.file as Express.Multer.File,
       path: 'products/',
@@ -112,7 +112,7 @@ itemRouter.post('/update', async (req: Request, res: Response) => {
     let pictureURL;
     if (req.file !== undefined && req.file !== null) {
       console.log('Picture was added to request, updating item picture now');
-      console.log("Picture original name:" + req.file?.originalname)
+      console.log('Picture original name:' + req.file?.originalname);
       pictureURL = await uploadFile({
         file: req.file,
         path: 'products/',

@@ -181,8 +181,7 @@ export const CartPage = (props) => {
 
                                     {/*Price info*/}
                                     <Grid item xs={12} lg={3}>
-                                        <h4 style={{margin: 0}}>Price: {item.price} Ɖ</h4>
-                                        <h4>Promotion: 20% off</h4>
+                                        <h4 style={{margin: 0, fontSize: '24px'}}>Price: {item.price} Ɖ</h4>
                                     </Grid>
 
                                     {/*Quantity buttons*/}
