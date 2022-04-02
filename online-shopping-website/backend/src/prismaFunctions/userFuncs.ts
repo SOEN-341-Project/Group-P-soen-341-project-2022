@@ -74,7 +74,7 @@ export async function allSellers(){
     where: {
       role: UserRole.SELLER
     }
-  })
+  });
 }
 
 export async function allUsers() {
@@ -89,5 +89,5 @@ export async function deactivateUser(args: { id: number }) {
     data: {
       active : false
     }
-  })
+  });
 }

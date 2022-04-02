@@ -1,10 +1,10 @@
 import express, { Response, Request } from 'express';
-import { format, promisify } from 'util';
+import { format } from 'util';
 import bcrypt from 'bcrypt';
 import hasRequiredUserCreationParams from '../helpers/verifyUserCreation';
 import { User, UserRole } from '@prisma/client';
-import { createUser, allUsers, userByEmail, userById, updateUser, allSellers, deactivateUser } from '../prismaFunctions/userFuncs';
-import { signToken, verifyToken, objectFromRequest } from '../helpers/jwtFuncs';
+import { createUser, allUsers, userByEmail, updateUser, allSellers, deactivateUser } from '../prismaFunctions/userFuncs';
+import { signToken, objectFromRequest } from '../helpers/jwtFuncs';
 
 const userRouter = express.Router();
 
@@ -20,9 +20,9 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         role: role,
       })
     ) {
-      throw (new Error().message = format(`Data missing`));
+      throw (new Error().message = format('Data missing'));
     }if(role === UserRole.SELLER && (req.body.sellerName === null || req.body.sellerName === undefined)){
-      throw (new Error().message = format(`Seller name is missing`));
+      throw (new Error().message = format('Seller name is missing'));
     }
     const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
@@ -42,30 +42,39 @@ userRouter.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-userRouter.post("/signin", async (req: Request, res: Response) => { // check if email and password are existing values and are correct
+userRouter.post('/signin', async (req: Request, res: Response) => { // check if email and password are existing values and are correct
   // check if email is attatched to a user
-  const usr = await userByEmail({ email: req.body.email });
-  if (usr === null) res.status(400).json({ error: 'User not found' });
-  if(!usr?.active) res.status(400).json({ error: 'User has been deleted' });
-  // user does exist, check if password is correct
-  else {
+  try{
+    const usr = await userByEmail({ email: req.body.email });
+    if (usr === null) {
+      throw new Error('User not found');
+    }
+    if (!usr?.active) {
+      throw new Error('User has been deleted');
+    }
     const match = await bcrypt.compare(req.body.password, usr.password);
     if (match) {
       // password is correct
       const userToken = signToken(usr);
       res.status(200).json({ token: userToken, user: usr });
     } else {
-      // password is incorrect
-      res.status(400).json({ error: 'Invalid Password', message: 'Password is incorrect' });
+      throw new Error('Password is incorrect');
     }
+  } catch (e) {
+    res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
+  // user does exist, check if password is correct
 });
 
 userRouter.post('/update', async (req: Request, res: Response) => { // updates an existing user
   const usr = objectFromRequest(req) as User;
   try {
     if (usr === null || usr === undefined) {
-      throw new Error(`Authentication is invalid`);
+      throw new Error('Authentication is invalid');
+    }
+    const match = await bcrypt.compare(req.body.oldPassword, usr.password);
+    if (!match){
+      throw new Error('Password is incorrect');
     }
     let encrypted_password: string | undefined;
     if (req.body.password !== undefined) {
@@ -97,7 +106,7 @@ userRouter.delete('/delete', async (req: Request, res: Response) => {
   const auth = objectFromRequest(req) as User;
   try {
     if (auth == undefined || auth == null) {
-      throw new Error(`Invalid authentication`);
+      throw new Error('Invalid authentication');
     }
     let userId = auth.id;
     if(auth.role === UserRole.ADMIN) {
@@ -125,7 +134,7 @@ userRouter.get('/all', async (req: Request, res: Response) => {
   const auth = objectFromRequest(req);
   try {
     if (auth == undefined || auth == null) {
-      throw new Error(`Invalid authentication`);
+      throw new Error('Invalid authentication');
     }
     await allUsers()
     .then((user) => {
