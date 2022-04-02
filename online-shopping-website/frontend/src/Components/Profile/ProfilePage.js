@@ -34,7 +34,7 @@ export const ProfilePage = () => {
         }
         catch (err) {
             window.alert(
-                err.response.data.error + ".\n" + 
+                err.response.data.error + ".\n" +
                 (err.response.data.message ? err.response.data.message + "." : ""));
         }
 
@@ -133,7 +133,8 @@ export const ProfilePage = () => {
                         <hr />
 
                         {/* New Password */}
-                        <TextField required
+                        <TextField
+                            required={password}
                             className="ProfileTextField"
                             style={{ margin: '1.5rem 0 1rem 0' }}
                             type='password'
@@ -146,7 +147,8 @@ export const ProfilePage = () => {
                             variant="outlined"
                             onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
 
-                        <TextField required
+                        <TextField
+                            required={password}
                             className="ProfileTextField"
                             // disabled={!validPassword(password)}
                             placeholder="Confirm New Password" variant="outlined"

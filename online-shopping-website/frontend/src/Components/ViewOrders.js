@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent'; import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
+import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import axios from "axios";
 import { useCookies } from 'react-cookie';
@@ -64,23 +62,38 @@ export default function ViewOrders() {
         const handleExpandClick = () => {
             setExpanded(!expanded);
         };
+
+        const calculateTotalItems = (order) => {
+            let totalQty = 0;
+            order.itemQuantities.forEach(itemQty => totalQty += itemQty)
+            return totalQty;
+        }
+
         return orders.map((order, index) => {
             return (
-                <Grid item sx={{ margin: "0.5rem auto" }} xs={12}>
-                    <Card sx={{ maxWidth: 345 }}>
+                <Grid item key={index} margin="1rem">
+                    <Card maxWidth='345'>
                         <CardHeader
                             title={'Order #' + order.id}
-                            // subheader={"Total: " + order.totalPrice.toFixed(2) + ' Ɖ'}
-                            subheader={'Created at:' + order.createdAt}
+                            subheader={"Order date: " + order.createdAt.substring(0, 10)}
                         />
                         <CardContent>
                             <Typography variant="body2" color="text.secondary">
-                                Order placed at: {order.createdAt}
-                                {/* Last modified: {order.updatedAt} */}
+                                Order created at: [{order.createdAt.substring(11, 22)}]
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Last modified: {order.updatedAt.substring(0, 10)} [{order.updatedAt.substring(11, 22)}]
+                            </Typography>
+                            <br />
+                            <Typography variant="body2" color="text.primary">
+                                Total paid: {order.totalPrice.toFixed(2)}Ɖ
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Quantity: {calculateTotalItems(order)} items
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Typography>Details</Typography>
+                            <Typography style={{paddingLeft:'0.5rem'}}>View more</Typography>
                             <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
@@ -92,7 +105,6 @@ export default function ViewOrders() {
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography paragraph>Details:</Typography>
                                 <Typography paragraph>
                                     {/* {order.products[0].name} */}
                                 </Typography>
@@ -102,28 +114,31 @@ export default function ViewOrders() {
                             </CardContent>
                         </Collapse>
                     </Card>
-                </Grid>
+                </Grid >
 
             )
         })
     }
 
-    console.log(orders);
     return (
-        <Grid container>
-            <Grid item xs={12} className="TextGreen" sx={{ textAlign: 'center' }}>
-                <h1>My Orders</h1>
+        <div>
+            <Link to="/" className='RoutingLink'>
+                <Button variant="text" className="ProductsBackButton">
+                    <ArrowBackIosNewIcon /><h4>Return to products</h4>
+                </Button>
+            </Link>
+            <Grid container
+            >
+                <Grid item xs={12} className="TextGreen" textAlign='center'>
+                    <h1>My Orders</h1>
+                </Grid>
+                <Grid item container xs={12} sm={8} md={6} lg={8} margin='auto'
+                    justifyContent='center'>
+                    <OrderItem />
+                </Grid>
             </Grid>
-            <OrderItem />
-            <Grid xs={12}>
-                <Link to="/" className='RoutingLink'>
-                    <Button variant="text" className="ProductsBackButton">
-                        <ArrowBackIosNewIcon /><h4>Return to products</h4>
-                    </Button>
-                </Link>
-            </Grid>
+        </div>
 
-        </Grid>
 
     )
 }
