@@ -45,34 +45,50 @@ export default function ViewOrders() {
             </Grid>);
     }
 
-    const ExpandMore = styled((props) => {
-        const { expand, ...other } = props;
-        return <IconButton {...other} />;
-    })(({ theme, expand }) => ({
-        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    }));
-
     const OrderItem = () => {
         const [expanded, setExpanded] = React.useState(false);
+
+        const ExpandMore = styled((props) => {
+            const { expand, ...other } = props;
+            return <IconButton {...other} />;
+        })(({ theme, expand }) => ({
+            transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+            marginLeft: 'auto',
+            transition: theme.transitions.create('transform', {
+                duration: theme.transitions.duration.shortest,
+            }),
+        }));
 
         const handleExpandClick = () => {
             setExpanded(!expanded);
         };
 
-        const calculateTotalItems = (order) => {
+        //Returns total item quantity
+        const calculateTotalItems = (props) => {
             let totalQty = 0;
-            order.itemQuantities.forEach(itemQty => totalQty += itemQty)
+            props.itemQuantities.forEach(itemQty => totalQty += itemQty)
             return totalQty;
+        }
+
+        const ProductBreakdown = (props) => {
+            return props.order.items.map((item, index) => {
+                return (
+                    <Grid key={index} sx={{ margin: '0 0 0.7rem 1rem' }}>
+                        <Typography variant="body1" color="text.primary">
+                            {item.name[0].toUpperCase()}{item.name.substring(1)} (x{props.order.itemQuantities[index]})
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Unit price: {item.price}Ɖ
+                        </Typography>
+                    </Grid>
+                );
+            })
         }
 
         return orders.map((order, index) => {
             return (
                 <Grid item key={index} margin="1rem">
-                    <Card maxWidth='345'>
+                    <Card style={{ maxWidth: '345' }}>
                         <CardHeader
                             title={'Order #' + order.id}
                             subheader={"Order date: " + order.createdAt.substring(0, 10)}
@@ -93,8 +109,8 @@ export default function ViewOrders() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Typography style={{paddingLeft:'0.5rem'}}>View more</Typography>
-                            <ExpandMore
+                            <Typography style={{ paddingLeft: '0.5rem' }}>View more</Typography>
+                            <ExpandMore key={index}
                                 expand={expanded}
                                 onClick={handleExpandClick}
                                 aria-expanded={expanded}
@@ -105,17 +121,14 @@ export default function ViewOrders() {
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography paragraph>
-                                    {/* {order.products[0].name} */}
+                                <Typography paragraph style={{ textDecoration: 'underline' }}>
+                                    Order summary
                                 </Typography>
-                                <Typography paragraph>
-                                    (quantity) ProductName Price
-                                </Typography>
+                                <ProductBreakdown order={order} />
                             </CardContent>
                         </Collapse>
                     </Card>
-                </Grid >
-
+                </Grid>
             )
         })
     }
@@ -138,9 +151,5 @@ export default function ViewOrders() {
                 </Grid>
             </Grid>
         </div>
-
-
     )
 }
-
-
