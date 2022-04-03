@@ -2,14 +2,14 @@ import './App.css';
 import NavBar from './Components/NavBar';
 import { SellerProductsPage } from './Components/Seller/SellerProductsPage';
 import { ModifyProductForm, AddNewProductForm } from './Components/Seller/SellerProductsForm';
-import { ProductPage } from './Components/Products/ProductPage';
-import { ProductDetails } from './Components/Products/ProductDetails';
-import { CartPage } from './Components/CartPage';
-import { Register } from './Components/RegisterPage';
+import { ProductPage } from './Components/Browse/Products/ProductPage';
+import { ProductDetails } from './Components/Browse/Products/ProductDetails';
+import { CartPage } from './Components/Browse/CartPage';
+import { Register } from './Components/Profile/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ProfilePage } from "./Components/Profile/ProfilePage";
-import ViewOrders from "./Components/ViewOrders";
+import ViewOrders from "./Components/Profile/ViewOrders";
 
 
 const Layout = () => {

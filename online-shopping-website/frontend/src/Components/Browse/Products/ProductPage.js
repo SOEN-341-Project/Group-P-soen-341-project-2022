@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import { ProductGrid } from './ProductGrid';
 import { SideNav } from './SideNav';
 import axios from 'axios';
-import * as React from "react";
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {

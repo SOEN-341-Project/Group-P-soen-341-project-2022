@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { SearchBar } from '../SearchBar';
+import { SearchBar } from './SearchBar';
 import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
@@ -51,15 +51,14 @@ const PriceFilter = (props) => {
             label: valuetext(highestPrice),
         },
     ];
-    
-    // const minDistance = 0;
+
     const [value, setValue] = React.useState([lowestPrice, highestPrice]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
         props.onSliderChange(newValue);
-        // console.log(`lowestPrice: ${getLowestPrice(props.unfilteredProducts)}, highestPrice: ${getHighestPrice(props.unfilteredProducts)}, value: ${newValue}, lowestPriceConst: ${lowestPrice}, highestPriceConst: ${highestPrice}`);
     };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3, width: 140, paddingTop: '1rem', }}>
             <Typography>Filter by price:</Typography>

@@ -257,7 +257,8 @@ export const CartPage = (props) => {
         )
     }
     
-    // Cart is full
+    /* Cart is full */
+
     // Calculate cart total
     calculateCartTally();
     

@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1d15284-baae-49aa-8ac6-83f204b6bf2d" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Browse/CartPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/CartPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/SideNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/SideNav.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,9 +49,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/frontend/src/Components/NavBar.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsForm.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/frontend/src/Components/Profile/ProfilePage.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsPage.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/frontend/src/App.test.js" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="24NfSofFdf3sDRxT69F7kkAztXv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -66,11 +65,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last.edited.regexp" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/frontend/src/Components/Browse" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.RegExp" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2021.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="typescript.add.unambiguous.imports.on.the.fly" value="true" />
   </component>
@@ -79,6 +78,9 @@
       <recent name="D:\Alex Docs\Concordia\Year 2\Winter 2022\SOEN 341\Online-Shopping-Website\online-shopping-website\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Alex Docs\Concordia\Year 2\Winter 2022\SOEN 341\Online-Shopping-Website\online-shopping-website\frontend\src\Components\Browse" />
+      <recent name="D:\Alex Docs\Concordia\Year 2\Winter 2022\SOEN 341\Online-Shopping-Website\online-shopping-website\frontend\src\Components\Profile" />
+      <recent name="D:\Alex Docs\Concordia\Year 2\Winter 2022\SOEN 341\Online-Shopping-Website\online-shopping-website\frontend\src\Components\Products" />
       <recent name="C:\Users\aspyr\OneDrive\Documents\Concordia\Year 2\SOEN 341\Group-P-soen341project2022\online-shopping-website\src\Components\Seller" />
     </key>
   </component>
@@ -132,6 +134,8 @@
       <workItem from="1646535129397" duration="8415000" />
       <workItem from="1646109268906" duration="2000" />
       <workItem from="1648768653625" duration="2483000" />
+      <workItem from="1649000641787" duration="2365000" />
+      <workItem from="1649003188163" duration="403000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
       <created>1644512793774</created>
