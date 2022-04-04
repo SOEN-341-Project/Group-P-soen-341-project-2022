@@ -22,12 +22,12 @@ const ProductButtons = (props) => {
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
-    const selectedProduct = cookies.cart ? cookies.cart.find(product => props.product.id === product.id) : null;
+    const productInCart = cookies.cart ? cookies.cart.find(product => props.product.id === product.id) : null;
     
     const IncrementItem = () => {
         //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
 
-        if (((selectedProduct ? selectedProduct.totalQuantity : 0) + quantity) <= props.product.totalQuantity) {
+        if (((productInCart ? productInCart.quantity : 0) + quantity) <= props.product.totalQuantity) {
             setQuantity(quantity + 1);
         }
         forceUpdate();
@@ -73,17 +73,13 @@ const ProductButtons = (props) => {
             }
 
 
-            window.alert(newCartItem.name + " successfully added to cart.");
+            window.alert(`${quantity} ${newCartItem.name} added to cart.`);
             //setting cookie to the new created item
-            setCookie("cart", [newCartItem],
-            {
-                path: "/"
-            }
-            );
+            setCookie("cart", [newCartItem]);
         }
 
         // Item already in cart
-        else if (cookies.cart.find(product => item.id === product.id)) {
+        else if (productInCart) {
             alert(`Item ${item.name} is already in the cart. Adding ${quantity} to your cart.`);
             modifyItemQuantity(item.id, quantity);
         }
@@ -100,25 +96,20 @@ const ProductButtons = (props) => {
                 brandName: item.brand.name,
                 brandId: item.brandId,
                 price: item.price,
+                totalQuantity: item.totalQuantity,
                 quantity: quantity
             }
             console.log(newCartItem);
-            window.alert("Item(s) successfully added to cart.");
+            window.alert(`${quantity} ${item.name} added to cart.`);
 
             //adding item to the cookie array
             cookies.cart.push(
                 newCartItem
             );
 
-            setCookie("cart",
-            cookies.cart,
-            {
-                path: "/"
-            });
+            setCookie("cart", cookies.cart);
         }
     }
-
-
 
     return (
         //Quantity Buttons
@@ -132,16 +123,22 @@ const ProductButtons = (props) => {
                 </Button>
                 <input className="inputne" disabled={true} value={quantity}/>
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                        disabled={((selectedProduct ? selectedProduct.totalQuantity : 0) + quantity) >= props.product.totalQuantity}
+                        disabled={((productInCart ? productInCart.quantity : 0) + quantity) >= props.product.totalQuantity}
                         onClick={IncrementItem}>
                     <AddIcon/>
                 </Button>
             </Stack>
-            <h5 className="ProductDetails-ProductLimitText">Limit of {props.product.totalQuantity} items per product in cart.</h5>
+            <h5 className="ProductDetails-ProductLimitText">There {props.product.totalQuantity > 1 ? 'are' : 'is'} {props.product.totalQuantity} in stock.</h5>
+            {
+                // If product is in the user's cart, show quantity of item in cart
+                productInCart && 
+                <h5 className="ProductDetails-ProductLimitText">You currently have {productInCart.quantity} in your cart.</h5>
+            }
             <Button className="ProductDetails-CartButton GreenButtonContained"
                     variant="contained"
                     endIcon={<AddShoppingCartIcon/>}
-                    disabled={cookies.user && (cookies.user.role === 'CUSTOMER')}
+                    // Can't add to cart if logged out, or non-customer, or adding to cart would surpass total quantity
+                    disabled={!cookies.user || cookies.user.user.role !== 'CUSTOMER' || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
                     onClick={AddToCart}>
                 Add to cart
             </Button>
