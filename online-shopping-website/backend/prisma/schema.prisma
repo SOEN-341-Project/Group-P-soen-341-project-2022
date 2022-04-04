@@ -61,7 +61,7 @@ model Item {
   brandId       Int
   seller        User    @relation(fields: [sellerId], references: [id])
   sellerId      Int
-  totalQuantity Int?
+  totalQuantity Int
 }
 
 model Brand {

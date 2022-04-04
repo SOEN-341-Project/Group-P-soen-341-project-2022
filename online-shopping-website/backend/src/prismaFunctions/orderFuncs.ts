@@ -6,6 +6,17 @@ export async function createOrder(args: {
   itemQuantities: number[];
   totalPrice: number;
 }) {
+  args.itemIds.forEach(async (itemId, index) => {
+    await prisma.item.update({
+      where: { id: itemId },
+      data: {
+        totalQuantity: {
+          decrement: args.itemQuantities[index],
+        },
+      },
+    });
+  });
+
   return await prisma.order.create({
     data: {
       itemQuantities: args.itemQuantities,

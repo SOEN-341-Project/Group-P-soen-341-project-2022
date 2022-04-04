@@ -2,6 +2,8 @@ import express, { Response, Request } from 'express';
 import convertStringToArray from '../helpers/convertStringToArray';
 import isObjectOnlyInts from '../helpers/isObjectOnlyInts';
 import hasRequiredOrderCreationParams from '../helpers/verifyOrderCreation';
+import thereIsEnoughItemQuantities from '../helpers/verifyItemQuantitiesForOrder';
+import { manyItemsById } from '../prismaFunctions/itemFuncs';
 import {
   allOrders,
   createOrder,
@@ -22,7 +24,7 @@ orderRouter.post('/create', async (req: Request, res: Response) => {
     if (user == undefined || user == null || (user as User).role !== UserRole.CUSTOMER) {
       throw new Error('Invalid Authorization');
     }
-    const { itemIds, itemQuantities, err } = validateOrder(req, false);
+    const { itemIds, itemQuantities, err } = await validateOrder(req, false);
     if (err !== '') {
       throw err;
     }
@@ -82,7 +84,7 @@ orderRouter.post('/update', async (req: Request, res: Response) => { // updates 
     if (oldOrder.userId !== (user as User).id) {
       throw new Error('Invalid authentication');
     }
-    const { itemIds, itemQuantities, err } = validateOrder(req, true);
+    const { itemIds, itemQuantities, err } = await validateOrder(req, true);
     console.log(err);
     if (err) {
       throw err;
@@ -163,11 +165,11 @@ orderRouter.get('/all', async (req: Request, res: Response) => { // find all ord
 
 export default orderRouter;
 
-function validateOrder(req: Request, update: boolean) {
+async function validateOrder(req: Request, update: boolean) {
   let itemIds: number[] = [];
   let itemQuantities: number[] = [];
   let err = '';
-  if (typeof req.body.itemIds === 'string') itemIds = convertStringToArray(req.body.itemIds);
+  if (typeof req.body.itemIds === 'string') itemIds = convertStringToArray(req.body.itemIds); // make sure itemIds is in right format
   else if (typeof req.body.itemIds === 'object' && isObjectOnlyInts(req.body.itemIds))
     itemIds = req.body.itemIds as number[];
   else {
@@ -175,20 +177,23 @@ function validateOrder(req: Request, update: boolean) {
     err = err.concat('Invalid Item Ids ');
   }
 
-  if (typeof req.body.itemQuantities === 'string') itemQuantities = convertStringToArray(req.body.itemQuantities);
+  if (typeof req.body.itemQuantities === 'string') itemQuantities = convertStringToArray(req.body.itemQuantities); // make sure itemQuantities is in right format
   else if (typeof req.body.itemQuantities === 'object' && isObjectOnlyInts(req.body.itemQuantities))
     itemQuantities = req.body.itemQuantities as number[];
   else {
     itemQuantities = [];
     err = err.concat('Invalid Item Quantities ');
-  }
+  } // unfortunately, due to how typescript works, these checks cannot be refactored into a new function because typescript does not check if types are valid unless they are done in the same file
 
   if (itemIds.length !== itemQuantities.length) {
     itemIds = [];
     itemQuantities = [];
     err = err.concat('Invalid arrays ');
   }
-
+  const itemsInOrder = await manyItemsById({ids: itemIds});
+  if (!thereIsEnoughItemQuantities({items: itemsInOrder, itemQuantities: itemQuantities})) {
+    err = err.concat('At least one item is out of stock ');
+  }
   if (
     !hasRequiredOrderCreationParams({
       userId: parseInt(req.body.userId as string),

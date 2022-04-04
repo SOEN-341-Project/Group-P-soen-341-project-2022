@@ -1,5 +1,6 @@
 {
     "env": {
+        "node": true,
         "browser": true,
         "es2021": true
     },
@@ -18,5 +19,9 @@
         "react"
     ],
     "rules": {
+        "no-unused-vars": "warn",
+        "react/react-in-jsx-scope": "warn",
+        "react/no-unescaped-entities": "warn",
+        "react/prop-types": "warn"
     }
 }
