@@ -1,7 +1,7 @@
 import './App.css';
 import NavBar from './Components/NavBar';
 import { SellerProductsPage } from './Components/Seller/SellerProductsPage';
-import { ModifyProductForm, AddNewProductForm, SellerForm } from './Components/Seller/SellerProductsForm';
+import { SellerForm } from './Components/Seller/SellerProductsForm';
 import { ProductPage } from './Components/Products/ProductPage';
 import { ProductDetails } from './Components/Products/ProductDetails';
 import { CartPage } from './Components/CartPage';
