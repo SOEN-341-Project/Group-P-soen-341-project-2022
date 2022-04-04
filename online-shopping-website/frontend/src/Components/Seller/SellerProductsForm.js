@@ -8,21 +8,24 @@ import axios from 'axios';
 import Grid from "@mui/material/Grid";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
-export const ModifyProductForm = (props) => {
+export const SellerForm = () => {
     // React router navigation (for redirecting)
     let navigate = useNavigate();
 
     // Cookies
-    const [cookies, setCookies] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
 
     // Get product ID from URL parameters
-    const {productId} = useParams();
+    const { productId } = useParams();
+
+    // Dictates whether form will modify a product or add a new product
+    const formType = productId ? 'MODIFY' : 'ADD';
 
     // Waiting for HTTP requests
     const [loading, setLoading] = useState(true);
 
     // Chosen product
-    const [modifiedProduct, setModifiedProduct] = useState(null);
+    const [productData, setProductData] = useState(null);
 
     // States for image preview
     const [fileSelected, setFileSelected] = useState(null);
@@ -30,13 +33,25 @@ export const ModifyProductForm = (props) => {
     let imageRef = createRef();
 
     // Get product by ID, use it to autofill form fields
+    // If no id is provided, use product skeleton, since we are adding a new product
     useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productId).then((res) => {
-            setModifiedProduct(res.data);
-            console.log(res.data);
-            setImagePreview(res.data.picture);
+        if (formType === 'MODIFY') {
+            axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find?id=" + productId).then((res) => {
+                setProductData(res.data);
+                setImagePreview(res.data.picture);
+                setLoading(false);
+            });
+        } else {
+            setProductData({
+                name: '',
+                price: '',
+                description: '',
+                brand: {name: ''},
+                seller: {sellerName: cookies.user.user.sellerName},
+                totalQuantity: ''
+            })
             setLoading(false);
-        });
+        }
     }, [productId]);
 
     // Load image preview when file changes
@@ -53,21 +68,54 @@ export const ModifyProductForm = (props) => {
         return () => URL.revokeObjectURL(imageURL);
     }, [fileSelected]);
 
+
+    // Update product data state with inputted field data
+    const handleFieldChange = (event) => {   
+        // Brand name is in a different format than other fields (nested)
+        if (event.target.name === "brandName") {
+            setProductData({
+                ...productData,
+                brand: {
+                    name: event.target.value
+                }
+            })
+        } else {
+            setProductData({
+                ...productData,
+                [event.target.name]: event.target.value
+            });
+        }
+    }
+
+    // Triggers when new image is uploaded
+    const handleImageChange = (e) => {
+        // No files selected, make it undefined
+        if (!e.target.files || e.target.files.length === 0) {
+            setFileSelected(undefined);
+            return;
+        }
+
+        // Ensure only one image is being selected
+        setFileSelected(e.target.files[0]);
+    }
+
+    // Update/create product on submit
     const handleSubmit = async (event) => {
+        // Avoid default form action
         event.preventDefault();
 
         // Create form data for file uploading
         let formData = new FormData();
 
         // Check if brand already exists
-        const brands = await axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + modifiedProduct.brand.name);
+        const brands = await axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + productData.brand.name);
 
         let selectedBrand = brands.data[0];
 
         // No brand found, create the brand
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
-                name: modifiedProduct.brand.name
+                name: productData.brand.name
             }, {
                 headers: {
                     'Authorization': `Bearer ${cookies.user.token}`
@@ -77,57 +125,47 @@ export const ModifyProductForm = (props) => {
         }
 
         // Add form fields to form data
-        for (const field in modifiedProduct) {
-            formData.append(field, modifiedProduct[field]);
+        for (const field in productData) {
+            formData.append(field, productData[field]);
         }
         formData.append('picture', fileSelected);
         formData.append('brandId', selectedBrand.id);
-
-        // TODO Get seller ID from cookie
         formData.append('sellerId', cookies.user.user.id);
 
-        // Update product with new product data
-        await axios({
-            method: "post",
-            url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
-            data: formData,
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": `Bearer ${cookies.user.token}`
+        try {
+            if (formType === 'MODIFY') {
+                // Update product with modified product data
+                await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/update", formData, 
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": `Bearer ${cookies.user.token}`
+                    }
+                });
+            } else {
+                // Create product with new product data
+                await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/create", formData, 
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": `Bearer ${cookies.user.token}`
+                    }
+                });
             }
-        });
+        }
+        catch(err) {
+            window.alert(
+                err.response.data.error + ".\n" + 
+                (err.response.data.message ? err.response.data.message + "." : ""));
+        }
 
         navigate('/seller');
     }
 
-    const handleFieldChange = (event) => {
-        // TODO Autocomplete brand names with available brands (may be >1 brand with name, have to choose correct id)
-        if (event.target.name === "brandName") {
-            setModifiedProduct({
-                ...modifiedProduct,
-                brand: {
-                    name: event.target.value
-                }
-            })
-        } else {
-            setModifiedProduct({
-                ...modifiedProduct,
-                [event.target.name]: event.target.value
-            });
-        }
-    }
-
-    const handleImageChange = (e) => {
-        if (!e.target.files || e.target.files.length === 0) {
-            setFileSelected(undefined);
-            return;
-        }
-        setFileSelected(e.target.files[0]); // One image only
-    }
-
+    // White loading, show loading screen with spinner
     if (loading) {
         return (
-            <Grid container xs={12}>
+            <Grid container>
                 <Grid item xs={12}>
                     <h1 className="TextGreen LoadingSpinnerHeader">Loading form</h1>
                 </Grid>
@@ -144,12 +182,15 @@ export const ModifyProductForm = (props) => {
                 </Button>
             </Link>
             <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-                <h1 className="TextGreen" style={{textAlign: 'center'}}>Modify Product "{modifiedProduct.name}"</h1>
+                <h1 className="TextGreen" style={{textAlign: 'center'}}>
+                    {/* Change heading depending on if product is existing or new. */}
+                    {formType === 'MODIFY' ? `Modify Product "${productData.name}"` : 'Add A Product'}
+                </h1>
                 <TextField
                     label="Name"
                     name="name"
                     required
-                    value={modifiedProduct.name}
+                    value={productData.name}
                     onChange={handleFieldChange}
                 />
                 <TextField
@@ -157,7 +198,7 @@ export const ModifyProductForm = (props) => {
                     name="price"
                     type="text"
                     required
-                    value={modifiedProduct.price}
+                    value={productData.price}
                     onChange={handleFieldChange}
                     inputProps={{
                         inputMode: 'numeric',
@@ -174,7 +215,7 @@ export const ModifyProductForm = (props) => {
                     required
                     multiline
                     rows={4}
-                    value={modifiedProduct.description}
+                    value={productData.description}
                     onChange={handleFieldChange}
                 />
                 {
@@ -184,20 +225,20 @@ export const ModifyProductForm = (props) => {
                         style={{width: "fit-content", margin: "1rem auto"}}>
                     <UploadIcon/> Upload Image
                     <input name="picture" type="file" accept="image/*" ref={imageRef} hidden
-                           onChange={handleImageChange}/>
+                            onChange={handleImageChange}/>
                 </Button>
                 <TextField
                     label="Brand"
                     name="brandName"
                     required
-                    value={modifiedProduct.brand.name}
+                    value={productData.brand.name}
                     onChange={handleFieldChange}
                 />
                 <TextField
                     label="Seller"
                     name="sellerName"
                     disabled
-                    defaultValue={modifiedProduct.seller.sellerName}
+                    defaultValue={productData.seller.sellerName}
                     onChange={handleFieldChange}
                 />
                 <TextField
@@ -211,7 +252,7 @@ export const ModifyProductForm = (props) => {
                         pattern: '[1-9][0-9]*',
                         title: 'Must be a positive whole number.'
                     }}
-                    value={modifiedProduct.totalQuantity}
+                    value={productData.totalQuantity}
                     onChange={handleFieldChange}
                 />
                 <Button type="submit" variant="contained" className="GreenButtonContained"
@@ -220,202 +261,5 @@ export const ModifyProductForm = (props) => {
                 </Button>
             </Stack>
         </form>
-    );
-}
-
-export const AddNewProductForm = () => {
-    // React router navigator (for redirecting)
-    let navigate = useNavigate();
-
-    // Cookies
-    const [cookies, setCookies] = useCookies(['user']);
-
-    // New product structure
-    const [newProduct, setNewProduct] = useState({
-        name: '',
-        price: '',
-        description: '',
-        brand: {name: ''},
-        seller: {sellerName: ''},
-        totalQuantity: ''
-    });
-
-    // States for image preview
-    const [fileSelected, setFileSelected] = useState(null);
-    const [imagePreview, setImagePreview] = useState(null);
-    let imageRef = createRef();
-
-    useEffect(() => {
-        if (!fileSelected) {
-            setImagePreview(undefined);
-            return;
-        }
-
-        const imageURL = URL.createObjectURL(fileSelected);
-        setImagePreview(imageURL);
-
-        return () => URL.revokeObjectURL(imageURL);
-    }, [fileSelected]);
-
-    const sellerName = cookies.user.user.sellerName;
-
-    const handleFieldChange = (event) => {
-        // TODO Autocomplete brand names with available brands (may be >1 brand with name, have to choose correct id)
-        if (event.target.name === "brandName") {
-            setNewProduct({
-                ...newProduct,
-                brand: {name: event.target.value}
-            })
-        } else {
-            setNewProduct({
-                ...newProduct,
-                [event.target.name]: event.target.value
-            });
-        }
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        // Create form data for file uploading
-        let formData = new FormData();
-
-        // Check if brand already exists
-        const brands = await axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/brands/find?name=" + newProduct.brand.name);
-
-        let selectedBrand = brands.data[0];
-
-        // No brand found, create the brand
-        if (!selectedBrand) {
-            selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
-                name: newProduct.brand.name
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${cookies.user.token}`
-                }
-            });
-            selectedBrand = selectedBrand.data;
-        }
-
-        // Add form fields to form data
-        for (const field in newProduct) {
-            formData.append(field, newProduct[field]);
-        }
-        formData.append('picture', fileSelected);
-        formData.append('brandId', selectedBrand.id);
-
-        // TODO Get seller ID from cookie
-        formData.append('sellerId', cookies.user.user.id);
-
-        // Update product with new product data
-        await axios({
-            method: "post",
-            url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
-            data: formData,
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": `Bearer ${cookies.user.token}`
-            }
-        });
-
-        navigate('/seller');
-    }
-
-    const handleImageChange = (e) => {
-        if (!e.target.files || e.target.files.length === 0) {
-            setFileSelected(undefined);
-            return;
-        }
-        setFileSelected(e.target.files[0]); // One image only
-    }
-
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <Link to="/seller" className='RoutingLink'>
-                    <Button variant="text" className="ProductsBackButton">
-                        <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
-                    </Button>
-                </Link>
-                <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-
-                    <h1 className="TextGreen" style={{textAlign: 'center'}}>Add a product</h1>
-                    <TextField
-                        name="name"
-                        label="Name"
-                        required
-                        value={newProduct.name}
-                        onChange={handleFieldChange}
-                    />
-                    <TextField
-                        name="price"
-                        label="Price"
-                        type="text"
-                        required
-                        value={newProduct.price}
-                        onChange={handleFieldChange}
-                        inputProps={{
-                            inputMode: 'numeric',
-                            pattern: '[0-9]*(.[0-9][0-9])?',
-                            title: 'Include 0 or 2 decimal places. ex.: 17.95'
-                        }}
-                        InputProps={{
-                            endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
-                        }}
-                    />
-                    <TextField
-                        name="description"
-                        label="Description"
-                        required
-                        value={newProduct.description}
-                        onChange={handleFieldChange}
-                        multiline
-                        rows={4}
-                    />
-                    {
-                        fileSelected && <img src={imagePreview} alt="Product Preview"/>
-                    }
-                    <Button component="label" className="GreenButtonText"
-                            style={{width: "fit-content", margin: "1rem auto"}}>
-                        <UploadIcon/> Upload Image
-                        <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
-                               onChange={handleImageChange}/>
-                    </Button>
-                    <TextField
-                        name="brandName"
-                        label="Brand"
-                        required
-                        value={newProduct.brand.name}
-                        onChange={handleFieldChange}
-                    />
-                    <TextField
-                        name="sellerName"
-                        label="Seller"
-                        disabled
-                        value={sellerName}
-                        onChange={handleFieldChange}
-                    />
-                    <TextField
-                        name="totalQuantity"
-                        label="Quantity"
-                        type="text"
-                        required
-                        value={newProduct.totalQuantity}
-                        onChange={handleFieldChange}
-                        inputProps={{
-                            min: 1,
-                            inputMode: 'numeric',
-                            pattern: '[1-9][0-9]*',
-                            title: 'Must be a positive whole number.'
-                        }}
-                    />
-                    <Button style={{width: "fit-content", margin: "1rem auto"}}
-                            type="submit" variant="contained"
-                            className="GreenButtonContained">
-                        Add Product
-                    </Button>
-                </Stack>
-            </form>
-        </div>
     );
 }
