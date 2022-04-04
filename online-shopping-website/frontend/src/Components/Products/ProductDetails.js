@@ -14,7 +14,7 @@ import { useCookies } from 'react-cookie';
 const ProductButtons = (props) => {
 
     //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
-    const [cartCookie, setCookie] = useCookies(["cart"]);
+    const [cookies, setCookie] = useCookies(["cart", "user"]);
 
     const [quantity, setQuantity] = useState(1);
 
@@ -22,9 +22,12 @@ const ProductButtons = (props) => {
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
+    const selectedProduct = cookies.cart ? cookies.cart.find(product => props.product.id === product.id) : null;
+    
     const IncrementItem = () => {
         //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
-        if (quantity !== 10) {
+
+        if (((selectedProduct ? selectedProduct.totalQuantity : 0) + quantity) <= props.product.totalQuantity) {
             setQuantity(quantity + 1);
         }
         forceUpdate();
@@ -39,10 +42,10 @@ const ProductButtons = (props) => {
 
     // Modify item's quantity in the cart cookie
     const modifyItemQuantity = (itemId, quantity) => {
-        const foundProduct = cartCookie.cart.find(product => itemId === product.id);
+        const foundProduct = cookies.cart.find(product => itemId === product.id);
         const newQuantity = foundProduct.quantity + quantity;
 
-        setCookie("cart", cartCookie.cart.map(product => {
+        setCookie("cart", cookies.cart.map(product => {
             if (itemId === product.id) {
                 return {...product, quantity: newQuantity};
             }
@@ -54,7 +57,7 @@ const ProductButtons = (props) => {
         let item = props.product;
 
         // Cart is empty, set it to an array containing one product 
-        if (!cartCookie.cart) {
+        if (!cookies.cart) {
             const newCartItem = {
                 id: item.id,
                 name: item.name,
@@ -65,6 +68,7 @@ const ProductButtons = (props) => {
                 brandName: item.brand.name,
                 brandId: item.brandId,
                 price: item.price,
+                totalQuantity: item.totalQuantity,
                 quantity: quantity
             }
 
@@ -79,7 +83,7 @@ const ProductButtons = (props) => {
         }
 
         // Item already in cart
-        else if (cartCookie.cart.find(product => item.id === product.id)) {
+        else if (cookies.cart.find(product => item.id === product.id)) {
             alert(`Item ${item.name} is already in the cart. Adding ${quantity} to your cart.`);
             modifyItemQuantity(item.id, quantity);
         }
@@ -102,12 +106,12 @@ const ProductButtons = (props) => {
             window.alert("Item(s) successfully added to cart.");
 
             //adding item to the cookie array
-            cartCookie.cart.push(
+            cookies.cart.push(
                 newCartItem
             );
 
             setCookie("cart",
-            cartCookie.cart,
+            cookies.cart,
             {
                 path: "/"
             });
@@ -128,16 +132,16 @@ const ProductButtons = (props) => {
                 </Button>
                 <input className="inputne" disabled={true} value={quantity}/>
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                        disabled={quantity === 10}
+                        disabled={((selectedProduct ? selectedProduct.totalQuantity : 0) + quantity) >= props.product.totalQuantity}
                         onClick={IncrementItem}>
                     <AddIcon/>
                 </Button>
             </Stack>
-            <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
+            <h5 className="ProductDetails-ProductLimitText">Limit of {props.product.totalQuantity} items per product in cart.</h5>
             <Button className="ProductDetails-CartButton GreenButtonContained"
                     variant="contained"
                     endIcon={<AddShoppingCartIcon/>}
-                    disabled={false} //FIX ME: Disable button if user is a seller or admin
+                    disabled={cookies.user && (cookies.user.role === 'CUSTOMER')}
                     onClick={AddToCart}>
                 Add to cart
             </Button>

@@ -118,9 +118,9 @@ export const CartPage = (props) => {
         }
 
         function IncrementItem(itemID) {
-            //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
-            const quantity = cookies.cart.find(product => itemID === product.id).quantity;
-            if (quantity !== 10) {
+            //Increment quantity, ensuring that quantity does not exceed number of items of product in backend (totalQuantity)
+            const selectedProduct = cookies.cart.find(product => itemID === product.id);
+            if (selectedProduct.quantity !== selectedProduct.totalQuantity) {
                 modifyItemQuantity(itemID, quantity + 1);
             }
             forceUpdate();
@@ -199,7 +199,7 @@ export const CartPage = (props) => {
                                                        value={item.quantity}/>
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
-                                                        disabled={item.quantity === 10}
+                                                        disabled={item.quantity === item.totalQuantity}
                                                         onClick={() => IncrementItem(item.id)}>
                                                     <AddIcon/>
                                                 </Button>
