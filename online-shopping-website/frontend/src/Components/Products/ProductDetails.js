@@ -111,6 +111,10 @@ const ProductButtons = (props) => {
         }
     }
 
+    if (props.product.totalQuantity === 0) {
+        return <h3 className='TextPink'>Out of stock</h3>;
+    }
+    
     return (
         //Quantity Buttons
         <div className="ProductDetails-QuantityButtonsContainer">
@@ -138,7 +142,10 @@ const ProductButtons = (props) => {
                     variant="contained"
                     endIcon={<AddShoppingCartIcon/>}
                     // Can't add to cart if logged out, or non-customer, or adding to cart would surpass total quantity
-                    disabled={!cookies.user || cookies.user.user.role !== 'CUSTOMER' || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
+                    disabled={
+                        !cookies.user 
+                        || cookies.user.user.role !== 'CUSTOMER' 
+                        || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
                     onClick={AddToCart}>
                 Add to cart
             </Button>
