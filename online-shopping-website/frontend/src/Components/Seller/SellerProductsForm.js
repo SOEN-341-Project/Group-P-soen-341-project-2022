@@ -47,7 +47,7 @@ export const SellerForm = () => {
                 price: '',
                 description: '',
                 brand: {name: ''},
-                seller: {sellerName: ''},
+                seller: {sellerName: cookies.user.user.sellerName},
                 totalQuantity: ''
             })
             setLoading(false);
