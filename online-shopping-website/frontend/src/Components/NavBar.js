@@ -139,8 +139,6 @@ export default function NavBar() {
                         </Link>
                         <Link to="/" className="Navbar-RoutingLink"><Button color='inherit'><h4
                             className="navbar-links">Products</h4> <ShoppingBagOutlinedIcon/></Button></Link>
-                        <Link to="/seller" className="Navbar-RoutingLink"><Button color='inherit'><h4
-                            className="navbar-links">Seller</h4> <StorefrontOutlinedIcon/></Button></Link>
                         <Link to="/my-shopping-cart" className="Navbar-RoutingLink"><Button color='inherit'><h4
                             className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon/></Button></Link>
                     </Box>
@@ -216,7 +214,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
+                                <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
@@ -251,9 +249,9 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
+                                <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem>
-                                <MenuItem onClick={handleCloseUserMenu}><Link to="/seller">Manage
+                                <MenuItem onClick={handleCloseUserMenu}><Link className='RoutingLink' to="/seller">Manage
                                     Products</Link></MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
@@ -289,7 +287,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
+                                <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
