@@ -81,6 +81,24 @@ const PriceFilter = (props) => {
 }
 
 const BrandDropdown = (props) => {
+    const handleChange = (event) => {
+        props.onCheckboxChange('Brand', event.target.name, event.target.checked);
+    };
+
+    const iterateBrands = (props) => {
+        return props.brands.map((brand,index) => {
+            return (
+                <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
+                    <FormControlLabel
+                        label={brand.name}
+                        control={<Checkbox sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
+                                           defaultChecked onChange={handleChange} name={brand.name} />}
+                    />
+                </Box>
+            );
+        });
+    }
+
     return (
         <div className="accordion-width">
             <Accordion>
@@ -92,7 +110,9 @@ const BrandDropdown = (props) => {
                     <Typography>Brands</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {BrandsCheckbox(props)}
+                    <div>
+                        {iterateBrands(props)}
+                    </div>
                 </AccordionDetails>
             </Accordion>
         </div>
@@ -100,6 +120,29 @@ const BrandDropdown = (props) => {
 }
 
 const SellerDropdown = (props) => {
+    const handleChange = (event) => {
+        props.onCheckboxChange('Seller', event.target.name, event.target.checked);
+    };
+
+    const iterateSellers = (props) => {
+        return props.sellers.map((seller, index) => {
+            return (
+                <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
+                    <FormControlLabel
+                        label={seller.sellerName}
+                        control={
+                            <Checkbox
+                                sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
+                                defaultChecked
+                                onChange={handleChange}
+                                name={seller.sellerName}
+                            />
+                        }
+                    />
+                </Box>
+            );
+        });
+    }
     return (
         <div className="accordion-width">
             <Accordion>
@@ -111,67 +154,9 @@ const SellerDropdown = (props) => {
                     <Typography>Sellers</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {SellersCheckbox(props)}
+                    {iterateSellers(props)}
                 </AccordionDetails>
             </Accordion>
-        </div>
-    );
-}
-
-function BrandsCheckbox(props) {
-    const handleChange = (event) => {
-        props.onCheckboxChange('Brand', event.target.name, event.target.checked);
-    };
-
-    function iterateBrands(props) {
-        return props.brands.map((brand,index) => {
-            return (
-                <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
-                    <FormControlLabel
-                        label={brand.name}
-                        control={<Checkbox sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
-                            defaultChecked onChange={handleChange} name={brand.name} />}
-                    />
-                </Box>
-            );
-        });
-    }
-
-    return (
-        <div>
-            {iterateBrands(props)}
-        </div>
-    );
-}
-
-function SellersCheckbox(props) {
-    const handleChange = (event) => {
-        props.onCheckboxChange('Seller', event.target.name, event.target.checked);
-    };
-
-    function iterateSellers(props) {
-        return props.sellers.map((seller, index) => {
-            return (
-                <Box key={index} sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
-                    <FormControlLabel
-                        label={seller.sellerName}
-                        control={
-                            <Checkbox
-                                sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
-                                defaultChecked
-                                onChange={handleChange}
-                                name={seller.sellerName} 
-                            />
-                        }
-                    />
-                </Box>
-            );
-        });
-    }
-
-    return (
-        <div>
-            {iterateSellers(props)}
         </div>
     );
 }
