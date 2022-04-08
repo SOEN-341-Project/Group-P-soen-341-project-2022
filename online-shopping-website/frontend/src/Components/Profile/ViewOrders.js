@@ -46,7 +46,7 @@ export default function ViewOrders() {
     }
 
     const OrderItem = () => {
-        const [expanded, setExpanded] = React.useState(false);
+        const [expandedId, setExpandedId] = React.useState(-1);
 
         const ExpandMore = styled((props) => {
             const { expand, ...other } = props;
@@ -59,8 +59,8 @@ export default function ViewOrders() {
             }),
         }));
 
-        const handleExpandClick = () => {
-            setExpanded(!expanded);
+        const handleExpandClick = (i) => {
+            setExpandedId(expandedId === i ? -1 : i);
         };
 
         //Returns total item quantity
@@ -111,15 +111,15 @@ export default function ViewOrders() {
                         <CardActions disableSpacing>
                             <Typography style={{ paddingLeft: '0.5rem' }}>View more</Typography>
                             <ExpandMore key={index}
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
+                               // expand={expanded}
+                                onClick={event => handleExpandClick(index)}
+                                aria-expanded={expandedId === index}
                                 aria-label="show more"
                             >
                                 <ExpandMoreIcon />
                             </ExpandMore>
                         </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <Collapse in={expandedId === index} timeout="auto" unmountOnExit>
                             <CardContent>
                                 <Typography paragraph style={{ textDecoration: 'underline' }}>
                                     Order summary
