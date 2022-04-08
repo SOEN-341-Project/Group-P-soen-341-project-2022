@@ -152,7 +152,7 @@ const ProductButtons = (props) => {
         </div>
     );
 }
-export const ProductDetails = (props) => {
+export const ProductDetails = () => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
