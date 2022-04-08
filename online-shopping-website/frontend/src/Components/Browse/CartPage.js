@@ -15,7 +15,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useCookies} from "react-cookie";
 
-export const CartPage = (props) => {
+export const CartPage = () => {
     //Forces rerender of components on call
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
