@@ -9,7 +9,7 @@ import { Register } from './Components/Profile/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ProfilePage } from "./Components/Profile/ProfilePage";
-import ViewOrders from "./Components/Profile/ViewOrders";
+import { ViewOrders } from "./Components/Profile/ViewOrders";
 
 
 const Layout = () => {
