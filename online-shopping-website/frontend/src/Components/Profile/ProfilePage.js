@@ -18,7 +18,6 @@ export const ProfilePage = () => {
 
     const handleSubmit = async (event) => {
         let updateProfileResponse;
-        console.log(userData)
         try {
             updateProfileResponse = await axios.post(
                 process.env.REACT_APP_DB_CONNECTION + "/api/users/update",
