@@ -17,7 +17,7 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-export default function ViewOrders() {
+export const ViewOrders = () => {
     const [cookie, setCookie] = useCookies(['user']);
     const [orders, setOrders] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -59,8 +59,8 @@ export default function ViewOrders() {
             }),
         }));
 
-        const handleExpandClick = (i) => {
-            setExpandedId(expandedId === i ? -1 : i);
+        const handleExpandClick = (index) => {
+            setExpandedId(expandedId === index ? -1 : index);
         };
 
         //Returns total item quantity
