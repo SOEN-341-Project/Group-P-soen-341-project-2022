@@ -18,6 +18,7 @@ export const ProfilePage = () => {
 
     const handleSubmit = async (event) => {
         let updateProfileResponse;
+        console.log(userData)
         try {
             updateProfileResponse = await axios.post(
                 process.env.REACT_APP_DB_CONNECTION + "/api/users/update",
@@ -134,7 +135,8 @@ export const ProfilePage = () => {
 
                         {/* New Password */}
                         <TextField
-                            required={password}
+                            value={userData.password}
+                            required
                             className="ProfileTextField"
                             style={{ margin: '1.5rem 0 1rem 0' }}
                             type='password'
@@ -148,11 +150,13 @@ export const ProfilePage = () => {
                             onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
 
                         <TextField
-                            required={password}
+                            value = {userData.confPassword}
+                            required
                             className="ProfileTextField"
+                            type = 'password'
                             // disabled={!validPassword(password)}
                             placeholder="Confirm New Password" variant="outlined"
-                            onChange={(e) => setUserData({ ...userData.password, confPassword: e.target.value })}
+                            onChange={(e) => setUserData({ ...userData, confPassword: e.target.value })}
                         // error={(userData.confPassword !== userData.password) && validPassword(password)}
                         // helperText={(userData.confPassword !== userData.password) && validPassword(password) ? "Passwords do not match" : ''} 
                         />
