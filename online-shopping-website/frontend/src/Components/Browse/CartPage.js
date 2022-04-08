@@ -31,7 +31,9 @@ export const CartPage = () => {
 
     // Refresh cart items in cookie on first CartPage render
     useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
+        
+       
+            axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
             .then((response) => {
                 setCookie("cart", cookies.cart.filter((cartProduct) => {
                     return response.data.some((product) => {
@@ -39,6 +41,8 @@ export const CartPage = () => {
                     })
                 }));
             });
+        
+       
     }, []);
 
     const calculateCartTally = () => {
@@ -250,6 +254,26 @@ export const CartPage = () => {
                             <ArrowBackIosNewIcon/><h4>Return to products</h4>
                         </Button>
                     </Link>
+                </Grid>
+            </Grid>
+        )
+    }else if (!cookies.user) {
+        return (
+            <Grid container className="Cart-Container">
+                <Grid item container sx={{paddingBottom: '2rem'}}>
+                    <Typography>
+                        Not logged in. Please log in before purchase.
+                    </Typography>
+                </Grid>
+            </Grid>
+        )
+    }else if(cookies.user.user.role !== "CUSTOMER"){
+        return (
+            <Grid container className="Cart-Container">
+                <Grid item container sx={{paddingBottom: '2rem'}}>
+                    <Typography>
+                        Sellers and Admins cannot check out only customers can.
+                    </Typography>
                 </Grid>
             </Grid>
         )
