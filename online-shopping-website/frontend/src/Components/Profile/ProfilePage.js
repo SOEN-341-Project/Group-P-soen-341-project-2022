@@ -18,7 +18,6 @@ export const ProfilePage = () => {
 
     const handleSubmit = async (event) => {
         let updateProfileResponse;
-        console.log(userData)
         try {
             updateProfileResponse = await axios.post(
                 process.env.REACT_APP_DB_CONNECTION + "/api/users/update",
@@ -122,13 +121,13 @@ export const ProfilePage = () => {
 
                         {/* Change password */}
                         <h2 className="ProfileInfoHeader">Change Password</h2>
+                        disabled={!editable}
+
 
                         {/* Old Password */}
                         <TextField variant='outlined' placeholder='Old Password'
                             className="ProfileTextField"
                             style={{ marginBottom: '2rem' }}
-                            // error={validPassword(password)}
-                            // helperText={!validPassword(password) ? "Password incorrect" : ''}
                             onChange={(e) => setPassword(e.target.value)} />
 
                         <hr />
@@ -141,7 +140,6 @@ export const ProfilePage = () => {
                             style={{ margin: '1.5rem 0 1rem 0' }}
                             type='password'
                             placeholder='New Password'
-                            // disabled={!validPassword(password)}
                             inputProps={{
                                 pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+|:;<>,.?/~(){}\\[\\]\\\\-]).{8,}$',
                                 title: 'Password must follow this format: - At least one digit - At least one lowercase character - At least one uppercase character - At least one special character'
@@ -154,11 +152,8 @@ export const ProfilePage = () => {
                             required
                             className="ProfileTextField"
                             type = 'password'
-                            // disabled={!validPassword(password)}
                             placeholder="Confirm New Password" variant="outlined"
-                            onChange={(e) => setUserData({ ...userData, confPassword: e.target.value })}
-                        // error={(userData.confPassword !== userData.password) && validPassword(password)}
-                        // helperText={(userData.confPassword !== userData.password) && validPassword(password) ? "Passwords do not match" : ''} 
+                            onChange={(e) => setUserData({ ...userData, confPassword: e.target.value })} 
                         />
 
                         {/*Address*/}
