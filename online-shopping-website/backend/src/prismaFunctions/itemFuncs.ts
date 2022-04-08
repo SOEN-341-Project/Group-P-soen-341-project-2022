@@ -39,6 +39,7 @@ export async function updateItem(args: {
   promoted?: boolean;
   salePrice?: number;
   totalQuantity?: number;
+  active?: false;
 }) {
   return await prisma.item.update({
     where: {
@@ -52,6 +53,7 @@ export async function updateItem(args: {
       promoted: args.promoted,
       salePrice: args.salePrice,
       totalQuantity: args.totalQuantity,
+      active: args.active,
     },
   });
 }
@@ -87,6 +89,9 @@ export async function itemByName(args: { name: string }) {
         contains: args.name,
         mode: 'insensitive',
       },
+      NOT: {
+        active: false
+      }
     },
   });
 }
@@ -97,6 +102,9 @@ export async function itemBySeller(args: { id: number }) {
       sellerId: {
         equals: args.id,
       },
+      NOT: {
+        active: false
+      }
     },
   });
 }
@@ -107,6 +115,9 @@ export async function itemByBrand(args: { id: number }) {
       brandId: {
         equals: args.id,
       },
+      NOT: {
+        active: false
+      }
     },
   });
 }
@@ -124,6 +135,9 @@ export async function findItems(args: { name?: string; sellerId?: number; brandI
       sellerId: {
         equals: args.sellerId,
       },
+      NOT: {
+        active: false
+      }
     },
     include: {
       seller: {
@@ -142,6 +156,7 @@ export async function findItems(args: { name?: string; sellerId?: number; brandI
 
 export async function allItems() {
   return await prisma.item.findMany({
+    where: { active: true },
     include: {
       seller: {
         select: { sellerName: true}
