@@ -216,7 +216,7 @@ export const ProductDetails = (props) => {
                     <Card className="ProductDetails-SelectionPanel">
                         <h3 className='TextGreen'>Price</h3>
                         <h4 className='TextPink'>{selectedProduct.price} Ɖ</h4>
-                        <ProductButtons product={selectedProduct} cartItems={props.cartItems} />
+                        <ProductButtons product={selectedProduct} />
                     </Card>
                 </Grid>
             </Grid>
