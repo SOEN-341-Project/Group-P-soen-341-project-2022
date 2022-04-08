@@ -59,8 +59,8 @@ export const ViewOrders = () => {
             }),
         }));
 
-        const handleExpandClick = (i) => {
-            setExpandedId(expandedId === i ? -1 : i);
+        const handleExpandClick = (index) => {
+            setExpandedId(expandedId === index ? -1 : index);
         };
 
         //Returns total item quantity
