@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {createRef, useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {Button, InputAdornment, Stack, TextField} from '@mui/material';
-import {useCookies} from 'react-cookie';
+import { createRef, useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Button, InputAdornment, Stack, TextField } from '@mui/material';
+import { useCookies } from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
 import Grid from "@mui/material/Grid";
@@ -46,8 +46,8 @@ export const SellerForm = () => {
                 name: '',
                 price: '',
                 description: '',
-                brand: {name: ''},
-                seller: {sellerName: cookies.user.user.sellerName},
+                brand: { name: '' },
+                seller: { sellerName: cookies.user.user.sellerName },
                 totalQuantity: ''
             })
             setLoading(false);
@@ -70,7 +70,7 @@ export const SellerForm = () => {
 
 
     // Update product data state with inputted field data
-    const handleFieldChange = (event) => {   
+    const handleFieldChange = (event) => {
         // Brand name is in a different format than other fields (nested)
         if (event.target.name === "brandName") {
             setProductData({
@@ -135,27 +135,27 @@ export const SellerForm = () => {
         try {
             if (formType === 'MODIFY') {
                 // Update product with modified product data
-                await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/update", formData, 
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        "Authorization": `Bearer ${cookies.user.token}`
-                    }
-                });
+                await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/update", formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            "Authorization": `Bearer ${cookies.user.token}`
+                        }
+                    });
             } else {
                 // Create product with new product data
-                await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/create", formData, 
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        "Authorization": `Bearer ${cookies.user.token}`
-                    }
-                });
+                await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/items/create", formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            "Authorization": `Bearer ${cookies.user.token}`
+                        }
+                    });
             }
         }
-        catch(err) {
+        catch (err) {
             window.alert(
-                err.response.data.error + ".\n" + 
+                err.response.data.error + ".\n" +
                 (err.response.data.message ? err.response.data.message + "." : ""));
         }
 
@@ -169,7 +169,7 @@ export const SellerForm = () => {
                 <Grid item xs={12}>
                     <h1 className="TextGreen LoadingSpinnerHeader">Loading form</h1>
                 </Grid>
-                <Grid item xs={12} id="LoadingSpinner"/>
+                <Grid item xs={12} id="LoadingSpinner" />
             </Grid>
         );
     }
@@ -178,11 +178,11 @@ export const SellerForm = () => {
         <form onSubmit={handleSubmit}>
             <Link to="/seller" className='RoutingLink'>
                 <Button variant="text" className="ProductsBackButton">
-                    <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                    <ArrowBackIosNewIcon /><h4>Return to seller products</h4>
                 </Button>
             </Link>
-            <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
-                <h1 className="TextGreen" style={{textAlign: 'center'}}>
+            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
+                <h1 className="TextGreen" style={{ textAlign: 'center' }}>
                     {/* Change heading depending on if product is existing or new. */}
                     {formType === 'MODIFY' ? `Modify Product "${productData.name}"` : 'Add A Product'}
                 </h1>
@@ -219,13 +219,13 @@ export const SellerForm = () => {
                     onChange={handleFieldChange}
                 />
                 {
-                    imagePreview && <img src={imagePreview} alt="Product Preview"/>
+                    imagePreview && <img src={imagePreview} alt="Product Preview" />
                 }
                 <Button type="button" className="GreenButtonText" component="label"
-                        style={{width: "fit-content", margin: "1rem auto"}}>
-                    <UploadIcon/> Upload Image
+                    style={{ width: "fit-content", margin: "1rem auto" }}>
+                    <UploadIcon /> Upload Image
                     <input name="picture" type="file" accept="image/*" ref={imageRef} hidden
-                            onChange={handleImageChange}/>
+                        onChange={handleImageChange} />
                 </Button>
                 <TextField
                     label="Brand"
@@ -256,7 +256,7 @@ export const SellerForm = () => {
                     onChange={handleFieldChange}
                 />
                 <Button type="submit" variant="contained" className="GreenButtonContained"
-                        style={{width: "fit-content", margin: "1rem auto"}}>
+                    style={{ width: "fit-content", margin: "1rem auto" }}>
                     Save Changes
                 </Button>
             </Stack>

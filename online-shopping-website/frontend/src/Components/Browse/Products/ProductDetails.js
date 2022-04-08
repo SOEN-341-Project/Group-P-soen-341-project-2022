@@ -23,7 +23,7 @@ const ProductButtons = (props) => {
     const forceUpdate = () => setState(state + 1);
 
     const productInCart = cookies.cart ? cookies.cart.find(product => props.product.id === product.id) : null;
-    
+
     const IncrementItem = () => {
         //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
 
@@ -47,7 +47,7 @@ const ProductButtons = (props) => {
 
         setCookie("cart", cookies.cart.map(product => {
             if (itemId === product.id) {
-                return {...product, quantity: newQuantity};
+                return { ...product, quantity: newQuantity };
             }
             return product;
         }));
@@ -114,45 +114,45 @@ const ProductButtons = (props) => {
     if (props.product.totalQuantity === 0) {
         return <h3 className='TextPink'>Out of stock</h3>;
     }
-    
+
     return (
         //Quantity Buttons
         <div className="ProductDetails-QuantityButtonsContainer">
             <h3 className='TextGreen'>Quantity</h3>
             <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                        disabled={quantity === 1}
-                        onClick={DecreaseItem}>
-                    <RemoveIcon/>
+                    disabled={quantity === 1}
+                    onClick={DecreaseItem}>
+                    <RemoveIcon />
                 </Button>
-                <input className="inputne" disabled={true} value={quantity}/>
+                <input className="inputne" disabled={true} value={quantity} />
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                        disabled={((productInCart ? productInCart.quantity : 0) + quantity) >= props.product.totalQuantity}
-                        onClick={IncrementItem}>
-                    <AddIcon/>
+                    disabled={((productInCart ? productInCart.quantity : 0) + quantity) >= props.product.totalQuantity}
+                    onClick={IncrementItem}>
+                    <AddIcon />
                 </Button>
             </Stack>
             <h5 className="ProductDetails-ProductLimitText">There {props.product.totalQuantity > 1 ? 'are' : 'is'} {props.product.totalQuantity} in stock.</h5>
             {
                 // If product is in the user's cart, show quantity of item in cart
-                productInCart && 
+                productInCart &&
                 <h5 className="ProductDetails-ProductLimitText">You currently have {productInCart.quantity} in your cart.</h5>
             }
             <Button className="ProductDetails-CartButton GreenButtonContained"
-                    variant="contained"
-                    endIcon={<AddShoppingCartIcon/>}
-                    // Can't add to cart if logged out, or non-customer, or adding to cart would surpass total quantity
-                    disabled={
-                        !cookies.user 
-                        || cookies.user.user.role !== 'CUSTOMER' 
-                        || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
-                    onClick={AddToCart}>
+                variant="contained"
+                endIcon={<AddShoppingCartIcon />}
+                // Can't add to cart if logged out, or non-customer, or adding to cart would surpass total quantity
+                disabled={
+                    !cookies.user
+                    || cookies.user.user.role !== 'CUSTOMER'
+                    || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
+                onClick={AddToCart}>
                 Add to cart
             </Button>
         </div>
     );
 }
-export const ProductDetails = (props) => {
+export const ProductDetails = () => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
@@ -173,11 +173,11 @@ export const ProductDetails = (props) => {
     // Display load screen while getting data
     if (loading) {
         return (
-            <Grid container xs={12}>
+            <Grid container>
                 <Grid item xs={12}>
                     <h1 className="TextGreen LoadingSpinnerHeader">Loading product: {productParams.productName}</h1>
                 </Grid>
-                <Grid item xs={12} id="LoadingSpinner"/>
+                <Grid item xs={12} id="LoadingSpinner" />
             </Grid>
         );
     }
@@ -194,7 +194,7 @@ export const ProductDetails = (props) => {
                 <Grid item xs={12} md={6}>
                     <h1>{selectedProduct.name}</h1>
                     <div className="ProductDetails-ImageConatiner">
-                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name}/>
+                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name} />
                     </div>
 
                     <Grid item container>
@@ -216,7 +216,7 @@ export const ProductDetails = (props) => {
                     <Card className="ProductDetails-SelectionPanel">
                         <h3 className='TextGreen'>Price</h3>
                         <h4 className='TextPink'>{selectedProduct.price} Ɖ</h4>
-                        <ProductButtons product={selectedProduct} cartItems={props.cartItems} />
+                        <ProductButtons product={selectedProduct} />
                     </Card>
                 </Grid>
             </Grid>

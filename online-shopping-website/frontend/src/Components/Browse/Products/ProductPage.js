@@ -1,9 +1,8 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import {ProductGrid} from './ProductGrid';
-import {SideNav} from './SideNav';
+import { ProductGrid } from './ProductGrid';
+import { SideNav } from './SideNav';
 import axios from 'axios';
-import * as React from "react";
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {
@@ -95,11 +94,11 @@ export const ProductPage = () => {
     // Waiting for products during GET
     if (loading) {
         return (
-            <Grid container xs={12}>
+            <Grid container>
                 <Grid item xs={12}>
                     <h1 className="TextGreen LoadingSpinnerHeader">Loading products</h1>
                 </Grid>
-                <Grid item xs={12} id="LoadingSpinner"/>
+                <Grid item xs={12} id="LoadingSpinner" />
             </Grid>
         );
     }
@@ -119,7 +118,7 @@ export const ProductPage = () => {
                 />
             </Grid>
             <Grid item xs={12} md={9} lg={10}>
-                <ProductGrid products={products}/>
+                <ProductGrid products={products} />
             </Grid>
         </Grid>
     );
