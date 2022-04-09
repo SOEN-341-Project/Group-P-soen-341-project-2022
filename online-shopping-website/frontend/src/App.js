@@ -10,6 +10,7 @@ import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ProfilePage } from "./Components/Profile/ProfilePage";
 import { ViewOrders } from "./Components/Profile/ViewOrders";
+import { AdminPage } from "./Components/Profile/AdminPage";
 
 
 const Layout = () => {
@@ -41,6 +42,7 @@ export default function App() {
                     <Route path="/:productId/:productName" element={<ProductDetails />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/view-orders" element={<ViewOrders />} />
+                    <Route path="/admin" element={<AdminPage />} />
                     <Route path="*" element={<NoPage />} />
                 </Route>
             </Routes>

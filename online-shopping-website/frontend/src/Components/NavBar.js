@@ -291,7 +291,7 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <Link to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
+                                <Link to='admin' className='RoutingLink'><MenuItem onClick={handleCloseUserMenu}>Manage Orders</MenuItem></Link>{/*Admin page*/}
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
