@@ -159,8 +159,10 @@ export const SellerProductsPage = () => {
                 headers: {
                     'Authorization': `Bearer ${cookies.user.token}`
                 }
-            }).then((res) => {
-                console.log(res.data);
+            }).catch((err) => {
+                window.alert(
+                    err.response.data.error + ".\n" +
+                    (err.response.data.message ? err.response.data.message + "." : ""));
             });
             window.location.reload();
         }
