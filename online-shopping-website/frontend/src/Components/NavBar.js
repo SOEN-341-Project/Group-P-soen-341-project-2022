@@ -251,7 +251,8 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <Link to='view-orders'><MenuItem className='RoutingLink' onClick={handleCloseUserMenu}>Manage Orders</MenuItem></Link>
+                                <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}><Link className='RoutingLink' to="/view-orders">Manage
+                                    Orders</Link></MenuItem>
                                 <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}><Link className='RoutingLink' to="/seller">Manage
                                     Products</Link></MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
