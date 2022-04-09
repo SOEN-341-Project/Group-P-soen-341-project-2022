@@ -38,6 +38,7 @@ export default function App() {
                     <Route path="/seller/add-product-form" element={<SellerForm />} />
                     <Route path="/seller/:productId" element={<SellerForm />} />
                     <Route path="/seller" element={<SellerProductsPage />} />
+                    <Route path="/admin/seller" element={<SellerProductsPage />} />
                     <Route path="/:productId/:productName" element={<ProductDetails />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/view-orders" element={<ViewOrders />} />

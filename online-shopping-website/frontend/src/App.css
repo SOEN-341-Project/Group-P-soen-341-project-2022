@@ -75,9 +75,10 @@
 
 .RoutingLink {
     text-decoration: none;
+    color: inherit;
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 670px) {
     .EditProfileButtonLarge{
         display:none;
     }
@@ -129,7 +130,7 @@
     }
 }
 
-@media only screen and (min-width: 550px) {
+@media only screen and (min-width: 670px) {
     .CartText {
         display: flex;
         padding-bottom: 1rem;

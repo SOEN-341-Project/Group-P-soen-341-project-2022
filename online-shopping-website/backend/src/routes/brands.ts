@@ -17,7 +17,6 @@ const brandRouter = express.Router();
 
 brandRouter.post('/create', async (req: Request, res: Response) => { // creates a brand
   const user = objectFromRequest(req);
-  // TODO: check if user that added this brand is a seller (or an admin?)
   try {
     if (user == undefined || user == null || (user as User).role === UserRole.CUSTOMER) {
       throw new Error('Invalid Authorization');
