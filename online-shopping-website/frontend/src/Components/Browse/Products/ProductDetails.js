@@ -150,11 +150,12 @@ const ProductButtons = (props) => {
                 Add to cart
             </Button>
             {
-                // Explain to non-customers that they do not have access to add to cart
+                // Logged out users may not add to cart
                 !cookies.user &&
                 <h5 className="ProductDetails-ProductLimitText">You must be logged in to add to cart.</h5>
             }
             {
+                // Non-customers may not add to cart
                 cookies.user && cookies.user.user.role !== 'CUSTOMER' &&
                 <h5 className="ProductDetails-ProductLimitText">Only customers may add to cart.</h5>
             }
