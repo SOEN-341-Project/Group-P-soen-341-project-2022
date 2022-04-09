@@ -12,6 +12,7 @@ import smallNavLogo from '../icons/BOBBLE-03.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import Typography from "@mui/material/Typography";
 
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -214,6 +215,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
+                                {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
                                 <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <Link className='RoutingLink' to='view-orders'><MenuItem onClick={handleCloseUserMenu}>My Orders</MenuItem></Link>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -250,6 +252,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
+                                {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
                                 <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}><Link className='RoutingLink' to="/view-orders">Manage
                                     Orders</Link></MenuItem>
@@ -289,6 +292,7 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseUserMenu}
                             >
+                                {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
                                 <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
                                 <MenuItem onClick={handleCloseUserMenu}>Manage Store</MenuItem> {/*Admin page*/}
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
