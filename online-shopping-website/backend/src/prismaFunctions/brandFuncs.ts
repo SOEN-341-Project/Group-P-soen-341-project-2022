@@ -1,5 +1,5 @@
-import prisma from "./PrismaClient";
-import { Brand } from "@prisma/client";
+import prisma from './PrismaClient';
+import { Brand } from '@prisma/client';
 export async function createBrand(args: { name: string; description: string; picture?: string }) {
   return await prisma.brand.create({
     data: {
@@ -44,7 +44,7 @@ export async function brandByName(args: { name: string }) {
     where: {
       name: {
         contains: args.name,
-        mode: "insensitive",
+        mode: 'insensitive',
       },
     },
   });
@@ -55,17 +55,17 @@ export async function allBrands() {
 }
 
 export async function deleteUnusedBrands() {
-  let deletedBrands: Brand[] = []
+  const deletedBrands: Brand[] = [];
   const unusedBrands = await prisma.brand.findMany({
     include: {
       _count: {
         select:{items: true}
       },
     },
-  })
+  });
   unusedBrands.forEach(async (brand) => {
     if(brand._count.items == 0){
-      deletedBrands.push(await deleteBrand({brandId: brand.id}))
+      deletedBrands.push(await deleteBrand({brandId: brand.id}));
     }
   });
 }

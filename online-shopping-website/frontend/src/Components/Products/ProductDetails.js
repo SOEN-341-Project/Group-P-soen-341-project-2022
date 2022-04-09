@@ -36,7 +36,7 @@ const ProductButtons = (props) => {
         }
         forceUpdate();
     }
-    
+
     // Modify item's quantity in the cart cookie
     const modifyItemQuantity = (itemId, quantity) => {
         const foundProduct = cartCookie.cart.find(product => itemId === product.id);
@@ -67,8 +67,8 @@ const ProductButtons = (props) => {
                 price: item.price,
                 quantity: quantity
             }
-        
- 
+
+
             window.alert(newCartItem.name + " successfully added to cart.");
             //setting cookie to the new created item
             setCookie("cart", [newCartItem],
@@ -85,7 +85,7 @@ const ProductButtons = (props) => {
         }
 
         // Cart already made, don't have the item
-        else { 
+        else {
             const newCartItem = {
                 id: item.id,
                 name: item.name,
@@ -100,13 +100,13 @@ const ProductButtons = (props) => {
             }
             console.log(newCartItem);
             window.alert("Item(s) successfully added to cart.");
-            
+
             //adding item to the cookie array
             cartCookie.cart.push(
                 newCartItem
             );
-            
-            setCookie("cart", 
+
+            setCookie("cart",
             cartCookie.cart,
             {
                 path: "/"
@@ -114,7 +114,7 @@ const ProductButtons = (props) => {
         }
     }
 
-    
+
 
     return (
         //Quantity Buttons
@@ -134,8 +134,11 @@ const ProductButtons = (props) => {
                 </Button>
             </Stack>
             <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
-            <Button className="ProductDetails-CartButton GreenButtonContained" variant="contained"
-                    endIcon={<AddShoppingCartIcon/>} onClick={AddToCart}>
+            <Button className="ProductDetails-CartButton GreenButtonContained"
+                    variant="contained"
+                    endIcon={<AddShoppingCartIcon/>}
+                    disabled={false} //FIX ME: Disable button if user is a seller or admin
+                    onClick={AddToCart}>
                 Add to cart
             </Button>
         </div>
@@ -161,13 +164,20 @@ export const ProductDetails = (props) => {
 
     // Display load screen while getting data
     if (loading) {
-        return <h1>Loading product: {productParams.productName}...</h1>;
+        return (
+            <Grid container xs={12}>
+                <Grid item xs={12}>
+                    <h1 className="TextGreen LoadingSpinnerHeader">Loading product: {productParams.productName}</h1>
+                </Grid>
+                <Grid item xs={12} id="LoadingSpinner"/>
+            </Grid>
+        );
     }
 
     return (
         <Grid container className="ProductDetails-Container">
             <Link to="/" className="RoutingLink">
-                <Button variant="contained">
+                <Button variant="contained" className="GreenButtonContained">
                     Return to products
                 </Button>
             </Link>

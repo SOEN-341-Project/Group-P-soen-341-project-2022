@@ -59,6 +59,14 @@ jobs:
         with:
           name: BuildOutput
           path: ./
+      # For some reason uploads stopped working but this should fix things
+      - name: Add Google Storage Bucket Keys to Google 📦
+        run: |
+          cd ./ts-built
+          mkdir keys
+          cd ./keys
+          touch gckey.json
+          echo ${{secrets.GOOGLE_UPLOAD_STORAGE_AUTH}} >> gckey.json
       - name: Add JWT secrets to Google Cloud 🔐
         run: |
           echo "  JWT_SECRET: ${{ secrets.JWT_SECRET }}" >> api.yaml

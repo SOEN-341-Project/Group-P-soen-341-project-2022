@@ -74,9 +74,20 @@ export async function allSellers(){
     where: {
       role: UserRole.SELLER
     }
-  })
+  });
 }
 
 export async function allUsers() {
   return await prisma.user.findMany();
+}
+
+export async function deactivateUser(args: { id: number }) {
+  return await prisma.user.update({
+    where: {
+      id: args.id
+    },
+    data: {
+      active : false
+    }
+  });
 }

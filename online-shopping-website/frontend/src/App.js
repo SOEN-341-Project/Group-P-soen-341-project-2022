@@ -8,6 +8,7 @@ import { CartPage } from './Components/CartPage';
 import { Register } from './Components/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import {ProfilePage} from "./Components/Profile/ProfilePage";
 
 
 const Layout = () => {
@@ -38,6 +39,7 @@ export default function App() {
                     <Route path="/seller/:productId" element={<ModifyProductForm />}/>
                     <Route path="/seller" element={<SellerProductsPage />}/>
                     <Route path="/:productId/:productName" element={<ProductDetails />}/>
+                    <Route path="/profile" element={<ProfilePage/>}/>
                     <Route path="*" element={<NoPage/>}/>
                 </Route>
             </Routes>

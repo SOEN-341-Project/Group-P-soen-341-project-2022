@@ -1,19 +1,26 @@
-import { useEffect, useState, createRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Button, Stack, InputAdornment, TextField } from '@mui/material';
+import * as React from 'react';
+import {createRef, useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Button, InputAdornment, Stack, TextField} from '@mui/material';
+import {useCookies} from 'react-cookie';
+import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
-
+import Grid from "@mui/material/Grid";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 export const ModifyProductForm = (props) => {
     // React router navigation (for redirecting)
     let navigate = useNavigate();
 
+    // Cookies
+    const [cookies, setCookies] = useCookies(['user']);
+
     // Get product ID from URL parameters
-    const { productId } = useParams();
+    const {productId} = useParams();
 
     // Waiting for HTTP requests
     const [loading, setLoading] = useState(true);
-    
+
     // Chosen product
     const [modifiedProduct, setModifiedProduct] = useState(null);
 
@@ -45,8 +52,8 @@ export const ModifyProductForm = (props) => {
 
         return () => URL.revokeObjectURL(imageURL);
     }, [fileSelected]);
-   
-    const handleSubmit = async(event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         // Create form data for file uploading
@@ -61,6 +68,10 @@ export const ModifyProductForm = (props) => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: modifiedProduct.brand.name
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
             });
             selectedBrand = selectedBrand.data;
         }
@@ -73,14 +84,17 @@ export const ModifyProductForm = (props) => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', 9);
+        formData.append('sellerId', cookies.user.user.id);
 
         // Update product with new product data
         await axios({
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/update",
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${cookies.user.token}`
+            }
         });
 
         navigate('/seller');
@@ -102,7 +116,7 @@ export const ModifyProductForm = (props) => {
             });
         }
     }
-    
+
     const handleImageChange = (e) => {
         if (!e.target.files || e.target.files.length === 0) {
             setFileSelected(undefined);
@@ -110,74 +124,100 @@ export const ModifyProductForm = (props) => {
         }
         setFileSelected(e.target.files[0]); // One image only
     }
-    
+
     if (loading) {
-        return <h1>Loading form...</h1>;
+        return (
+            <Grid container xs={12}>
+                <Grid item xs={12}>
+                    <h1 className="TextGreen LoadingSpinnerHeader">Loading form</h1>
+                </Grid>
+                <Grid item xs={12} id="LoadingSpinner"/>
+            </Grid>
+        );
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
-                <h1>Modify Product "{modifiedProduct.name}"</h1>
-                <TextField 
+            <Link to="/seller" className='RoutingLink'>
+                <Button variant="text" className="ProductsBackButton">
+                    <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                </Button>
+            </Link>
+            <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
+                <h1 className="TextGreen" style={{textAlign: 'center'}}>Modify Product "{modifiedProduct.name}"</h1>
+                <TextField
                     label="Name"
                     name="name"
-                    required 
+                    required
                     value={modifiedProduct.name}
                     onChange={handleFieldChange}
                 />
-                <TextField 
-                    label="Price" 
+                <TextField
+                    label="Price"
                     name="price"
-                    type="number" 
-                    required 
+                    type="text"
+                    required
                     value={modifiedProduct.price}
                     onChange={handleFieldChange}
+                    inputProps={{
+                        inputMode: 'numeric',
+                        pattern: '[0-9]*(.[0-9][0-9])?',
+                        title: 'Include 0 or 2 decimal places. ex.: 17.95'
+                    }}
                     InputProps={{
-                        inputProps: { min: 0, step: 0.01 },
                         endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
                     }}
                 />
-                <TextField 
-                    label="Description" 
+                <TextField
+                    label="Description"
                     name="description"
-                    required 
-                    multiline 
-                    rows={4} 
-                    value={modifiedProduct.description} 
+                    required
+                    multiline
+                    rows={4}
+                    value={modifiedProduct.description}
                     onChange={handleFieldChange}
-                    />
+                />
                 {
-                    imagePreview && <img src={imagePreview} alt="Product Preview" />
+                    imagePreview && <img src={imagePreview} alt="Product Preview"/>
                 }
-                <Button type="button" component="label">
-                    Upload Image
-                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden onChange={handleImageChange} />
-                </Button> 
-                <TextField 
-                    label="Brand" 
+                <Button type="button" className="GreenButtonText" component="label"
+                        style={{width: "fit-content", margin: "1rem auto"}}>
+                    <UploadIcon/> Upload Image
+                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden
+                           onChange={handleImageChange}/>
+                </Button>
+                <TextField
+                    label="Brand"
                     name="brandName"
-                    required 
+                    required
                     value={modifiedProduct.brand.name}
                     onChange={handleFieldChange}
-                    />
-                <TextField 
-                    label="Seller" 
+                />
+                <TextField
+                    label="Seller"
                     name="sellerName"
-                    disabled 
+                    disabled
                     defaultValue={modifiedProduct.seller.sellerName}
                     onChange={handleFieldChange}
-                    />
-                <TextField 
-                    label="Quantity" 
+                />
+                <TextField
+                    label="Quantity"
                     name="totalQuantity"
-                    type="number" 
-                    required 
-                    inputProps={{ min: 1 }} 
+                    type="text"
+                    required
+                    inputProps={{
+                        min: 1,
+                        inputMode: 'numeric',
+                        pattern: '[1-9][0-9]*',
+                        title: 'Must be a positive whole number.'
+                    }}
                     value={modifiedProduct.totalQuantity}
-                    onChange={handleFieldChange} 
-                    />
-                <Button type="submit">Save Changes</Button>
+                    onChange={handleFieldChange}
+                />
+                <Button type="submit" variant="contained" className="GreenButtonContained"
+                        style={{width: "fit-content", margin: "1rem auto"}}>
+                    Save Changes
+                </Button>
             </Stack>
         </form>
     );
@@ -187,18 +227,17 @@ export const AddNewProductForm = () => {
     // React router navigator (for redirecting)
     let navigate = useNavigate();
 
+    // Cookies
+    const [cookies, setCookies] = useCookies(['user']);
+
     // New product structure
     const [newProduct, setNewProduct] = useState({
         name: '',
-        price: 0,
+        price: '',
         description: '',
-        brand: {
-            name: ''
-        },
-        seller: {
-            sellerName: ''
-        },
-        totalQuantity: 0
+        brand: {name: ''},
+        seller: {sellerName: ''},
+        totalQuantity: ''
     });
 
     // States for image preview
@@ -218,18 +257,14 @@ export const AddNewProductForm = () => {
         return () => URL.revokeObjectURL(imageURL);
     }, [fileSelected]);
 
-    // TODO: Replace with logged in seller name when account management or adding with params ready
-    // TODO Get route for seller id -> name
-    const sellerName = '';
+    const sellerName = cookies.user.user.sellerName;
 
     const handleFieldChange = (event) => {
         // TODO Autocomplete brand names with available brands (may be >1 brand with name, have to choose correct id)
         if (event.target.name === "brandName") {
             setNewProduct({
                 ...newProduct,
-                brand: {
-                    name: event.target.value
-                }
+                brand: {name: event.target.value}
             })
         } else {
             setNewProduct({
@@ -239,7 +274,7 @@ export const AddNewProductForm = () => {
         }
     }
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         // Create form data for file uploading
@@ -254,6 +289,10 @@ export const AddNewProductForm = () => {
         if (!selectedBrand) {
             selectedBrand = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/brands/create", {
                 name: newProduct.brand.name
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
             });
             selectedBrand = selectedBrand.data;
         }
@@ -266,14 +305,17 @@ export const AddNewProductForm = () => {
         formData.append('brandId', selectedBrand.id);
 
         // TODO Get seller ID from cookie
-        formData.append('sellerId', 9);
+        formData.append('sellerId', cookies.user.user.id);
 
         // Update product with new product data
         await axios({
             method: "post",
             url: process.env.REACT_APP_DB_CONNECTION + "/api/items/create",
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${cookies.user.token}`
+            }
         });
 
         navigate('/seller');
@@ -288,69 +330,92 @@ export const AddNewProductForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Stack spacing={2} sx={{ maxWidth: '550px', margin: 'auto' }}>
-                <h1>Add a product</h1>
-                <TextField 
-                    name="name"
-                    label="Name" 
-                    required
-                    value={newProduct.name}
-                    onChange={handleFieldChange} 
+        <div>
+            <form onSubmit={handleSubmit}>
+                <Link to="/seller" className='RoutingLink'>
+                    <Button variant="text" className="ProductsBackButton">
+                        <ArrowBackIosNewIcon/><h4>Return to seller products</h4>
+                    </Button>
+                </Link>
+                <Stack spacing={2} sx={{maxWidth: '550px', margin: 'auto'}}>
+
+                    <h1 className="TextGreen" style={{textAlign: 'center'}}>Add a product</h1>
+                    <TextField
+                        name="name"
+                        label="Name"
+                        required
+                        value={newProduct.name}
+                        onChange={handleFieldChange}
                     />
-                <TextField 
-                    name="price"
-                    label="Price"
-                    type="number"
-                    required 
-                    value={newProduct.price}
-                    onChange={handleFieldChange} 
-                    InputProps={{
-                        inputProps: { min: 0, step: "0.5" },
-                        endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
-                    }}
-                />
-                <TextField 
-                    name="description"
-                    label="Description" 
-                    required 
-                    value={newProduct.description}
-                    onChange={handleFieldChange} 
-                    multiline 
-                    rows={4}
+                    <TextField
+                        name="price"
+                        label="Price"
+                        type="text"
+                        required
+                        value={newProduct.price}
+                        onChange={handleFieldChange}
+                        inputProps={{
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*(.[0-9][0-9])?',
+                            title: 'Include 0 or 2 decimal places. ex.: 17.95'
+                        }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">Ɖ</InputAdornment>
+                        }}
                     />
-                {
-                    fileSelected && <img src={imagePreview} alt="Product Preview" />
-                }
-                <Button component="label">
-                    Upload Image
-                    <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required onChange={handleImageChange} />
-                </Button> 
-                <TextField 
-                    name="brandName"
-                    label="Brand" 
-                    required
-                    value={newProduct.brand.name}
-                    onChange={handleFieldChange} 
-                />
-                <TextField 
-                    name="sellerName"
-                    label="Seller" 
-                    disabled 
-                    value={sellerName} 
-                    onChange={handleFieldChange} 
-                />
-                <TextField 
-                    name="totalQuantity"
-                    label="Quantity" 
-                    type="number" 
-                    required 
-                    value={newProduct.totalQuantity}
-                    onChange={handleFieldChange} 
-                    inputProps={{ min: 1 }} 
-                />
-                <Button type="submit">Add Product</Button>
-            </Stack>
-        </form>
+                    <TextField
+                        name="description"
+                        label="Description"
+                        required
+                        value={newProduct.description}
+                        onChange={handleFieldChange}
+                        multiline
+                        rows={4}
+                    />
+                    {
+                        fileSelected && <img src={imagePreview} alt="Product Preview"/>
+                    }
+                    <Button component="label" className="GreenButtonText"
+                            style={{width: "fit-content", margin: "1rem auto"}}>
+                        <UploadIcon/> Upload Image
+                        <input name="picture" type="file" accept="image/*" ref={imageRef} hidden required
+                               onChange={handleImageChange}/>
+                    </Button>
+                    <TextField
+                        name="brandName"
+                        label="Brand"
+                        required
+                        value={newProduct.brand.name}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="sellerName"
+                        label="Seller"
+                        disabled
+                        value={sellerName}
+                        onChange={handleFieldChange}
+                    />
+                    <TextField
+                        name="totalQuantity"
+                        label="Quantity"
+                        type="text"
+                        required
+                        value={newProduct.totalQuantity}
+                        onChange={handleFieldChange}
+                        inputProps={{
+                            min: 1,
+                            inputMode: 'numeric',
+                            pattern: '[1-9][0-9]*',
+                            title: 'Must be a positive whole number.'
+                        }}
+                    />
+                    <Button style={{width: "fit-content", margin: "1rem auto"}}
+                            type="submit" variant="contained"
+                            className="GreenButtonContained">
+                        Add Product
+                    </Button>
+                </Stack>
+            </form>
+        </div>
     );
 }
