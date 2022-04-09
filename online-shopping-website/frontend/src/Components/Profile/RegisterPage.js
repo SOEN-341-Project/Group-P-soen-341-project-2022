@@ -72,7 +72,6 @@ export const Register = () => {
                     ...values,
                     address1: `${values.street} ${values.city} ${values.province} ${values.postCode}`
                 });
-            console.log(JSON.stringify(registerResponse.data));
             setUserCookie('user', registerResponse.data);
 
             // Route to products page
@@ -88,7 +87,6 @@ export const Register = () => {
                     (err.response.data.message ? err.response.data.message + "." : "")
                 );
             }
-            console.log(err.response.data.message);
         }
     }
 

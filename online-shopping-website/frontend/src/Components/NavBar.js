@@ -53,9 +53,8 @@ export default function NavBar() {
         deleteCookie('user');
         deleteCookie('cart');
 
-        window.alert("Successfully logged out.");
-
         navigator('/');
+        window.location.reload();
     }
 
     const handleOpenLogin = () => {
@@ -73,7 +72,6 @@ export default function NavBar() {
 
         try {
             const loginResponse = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/users/signin", user);
-            console.log(loginResponse.data);
 
             setAuth(true);
 
