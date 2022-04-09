@@ -207,6 +207,11 @@ Test routes are only there for you to test if the api is working properly
         | `id` | The item's id |
   - Optional: None
   - Returns: All Items
+- #### Route `/findPromoted`
+  - Method: GET
+  - Requires: None
+  - Optional: None
+  - Returns all the items that have the promoted property as `true`
 - #### Route: `/findAll`
   - Method: GET
   - Requires: None
