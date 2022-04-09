@@ -13,6 +13,7 @@ export const ProductPage = () => {
     const [brands, setBrands] = useState(null);
     const [sellers, setSellers] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [promotedProducts, setPromotedProducts] = useState(null);
 
     const [unfilteredProducts, setUnfilteredProducts] = useState(null);
 
@@ -20,13 +21,15 @@ export const ProductPage = () => {
         const getProducts = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/all');
         const getBrands = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/brands/all');
         const getSellers = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers');
+        const getPromotedProducts = axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/items/findPromoted');
 
-        axios.all([getProducts, getBrands, getSellers]).then(
-            axios.spread((resProducts, resBrands, resSellers) => {
+        axios.all([getProducts, getBrands, getSellers, getPromotedProducts]).then(
+            axios.spread((resProducts, resBrands, resSellers, resPromotedProducts) => {
                 setProducts(resProducts.data);
                 setUnfilteredProducts(resProducts.data);
                 setBrands(resBrands.data);
                 setSellers(resSellers.data);
+                setPromotedProducts(resPromotedProducts.data);
                 setLoading(false);
             })
         );
@@ -107,7 +110,7 @@ export const ProductPage = () => {
 
   return (
     <div>
-      <Slideshow products={products}/>
+      <Slideshow products={promotedProducts}/>
       <Grid container columnSpacing={4} rowSpacing={5}>
         <Grid item xs={12} md={3} lg={2}>
           <SideNav
