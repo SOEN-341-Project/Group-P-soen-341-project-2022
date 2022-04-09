@@ -82,10 +82,10 @@ export const CartPage = () => {
             headers: {
                 'Authorization': `Bearer ${cookies.user.token}`
             }
-        }).then(function (response) {
-            console.log("Order added to backend.")
-        }).catch(function (error) {
-            console.log("Order addition to backend failed.");
+        }).catch(err => {
+            window.alert(
+                err.response.data.error + ".\n" +
+                (err.response.data.message ? err.response.data.message + "." : ""));
         });
 
         //Clearing cart

@@ -103,7 +103,6 @@ export const ProductPage = () => {
         );
     }
 
-    console.log("Brands: " + brands + " , Sellers: " + sellers)
     return (
         <Grid container columnSpacing={4} rowSpacing={5}>
             <Grid item xs={12} md={3} lg={2}>
