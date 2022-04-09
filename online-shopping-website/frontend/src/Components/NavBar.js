@@ -29,13 +29,10 @@ export default function NavBar() {
     const [cookies, setCookie, deleteCookie] = useCookies(['user', 'cart']);
 
     const [auth, setAuth] = React.useState(!!cookies.user);
-    const [seller, setSeller] = React.useState(false);
-    const [admin, setAdmin] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     //initializing user credentials
     const [user, setUser] = React.useState({
-        //TODO: add cookies
         email: '',
         password: ''
     });
@@ -45,8 +42,6 @@ export default function NavBar() {
     const handleLogout = () => {
         //Login out user
         setAuth(false);
-        setSeller(false);
-        setAdmin(false);
 
         //Clearing user info on logout
         setUser({
@@ -100,11 +95,6 @@ export default function NavBar() {
         }
     };
 
-    const handleChange = (event) => {
-        setAuth(event.target.checked);
-        setSeller(event.target.checked);
-    };
-
     const handleOpenUserMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -119,10 +109,6 @@ export default function NavBar() {
     const profileId = 'navbar-account-profile';
     const unProfileId = 'navbar-unaccount-profile';
     const sellerId = 'navbar-seller-profile';
-    const renderAccountProfileIcon = (
-        <MenuItem onClick={handleOpenUserMenu} />
-    )
-
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
@@ -254,8 +240,7 @@ export default function NavBar() {
                             >
                                 {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
                                 <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}><Link className='RoutingLink' to="/view-orders">Manage
-                                    Orders</Link></MenuItem>
+                                <Link to='view-orders'><MenuItem className='RoutingLink' onClick={handleCloseUserMenu}>Manage Orders</MenuItem></Link>
                                 <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}><Link className='RoutingLink' to="/seller">Manage
                                     Products</Link></MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
