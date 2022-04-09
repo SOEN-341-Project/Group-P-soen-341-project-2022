@@ -144,6 +144,16 @@ const ProductButtons = (props) => {
                 onClick={AddToCart}>
                 Add to cart
             </Button>
+            {
+                // Logged out users may not add to cart
+                !cookies.user &&
+                <h5 className="ProductDetails-ProductLimitText">You must be logged in to add to cart.</h5>
+            }
+            {
+                // Non-customers may not add to cart
+                cookies.user && cookies.user.user.role !== 'CUSTOMER' &&
+                <h5 className="ProductDetails-ProductLimitText">Only customers may add to cart.</h5>
+            }
         </div>
     );
 }
