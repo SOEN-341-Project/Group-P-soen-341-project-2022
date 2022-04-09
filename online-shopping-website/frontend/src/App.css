@@ -23,6 +23,50 @@
   max-width: 100%;
 }
 
+.PromotedItems {
+  text-align: center;
+  margin: 0rem;
+  color: white;
+}
+
+.ProductImageShow {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 200px;
+  max-width: 100%;
+}
+
+.each-slide {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.CenteringProductDetails {
+  margin: auto;
+  padding: 1rem 1rem 1rem 1rem;
+}
+
+.ProductInfoSlide {
+  text-align: center;
+  color: rgb(62, 134, 62);
+  margin: 0.4rem 0.4rem 0rem 0.4rem;
+}
+
+.ProductDetailsShow {
+  margin: auto;
+  padding: 1rem 2rem 1rem 2rem;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.SlideshowPadding {
+  padding: 1rem 1rem 1rem 1rem;
+  background-color: rgb(62, 134, 62);
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
 .ProductPrice {
   font-size: 1.5em;
   margin: 0;
