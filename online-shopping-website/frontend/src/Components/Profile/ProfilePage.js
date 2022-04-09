@@ -121,12 +121,11 @@ export const ProfilePage = () => {
 
                         {/* Change password */}
                         <h2 className="ProfileInfoHeader">Change Password</h2>
-                        disabled={!editable}
-
 
                         {/* Old Password */}
                         <TextField variant='outlined' placeholder='Old Password'
                             className="ProfileTextField"
+                            disabled={!editable}
                             style={{ marginBottom: '2rem' }}
                             onChange={(e) => setPassword(e.target.value)} />
 
@@ -134,11 +133,11 @@ export const ProfilePage = () => {
 
                         {/* New Password */}
                         <TextField
-                            value={userData.password}
                             required
                             className="ProfileTextField"
                             style={{ margin: '1.5rem 0 1rem 0' }}
-                            type='password'
+                            // type='password'
+                            disabled={!editable}
                             placeholder='New Password'
                             inputProps={{
                                 pattern: '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+|:;<>,.?/~(){}\\[\\]\\\\-]).{8,}$',
@@ -149,9 +148,10 @@ export const ProfilePage = () => {
 
                         <TextField
                             value = {userData.confPassword}
+                            disabled={!editable}
                             required
                             className="ProfileTextField"
-                            type = 'password'
+                            // type = 'password'
                             placeholder="Confirm New Password" variant="outlined"
                             onChange={(e) => setUserData({ ...userData, confPassword: e.target.value })} 
                         />
