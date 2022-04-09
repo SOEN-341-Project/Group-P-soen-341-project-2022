@@ -5,6 +5,7 @@ export default function hasRequiredItemCreationParams(args: {
   picture: Express.Multer.File | undefined;
   brandId: number;
   sellerId: number;
+  totalQuantity: number;
 }) {
   return (
     args.name !== undefined &&
@@ -15,6 +16,8 @@ export default function hasRequiredItemCreationParams(args: {
       args.picture?.mimetype == 'image/tiff' ||
       args.picture?.mimetype == 'image/webp') &&
     args.brandId >= 0 &&
-    args.sellerId >= 0
+    args.sellerId >= 0 &&
+    args.totalQuantity !== undefined &&
+    args.totalQuantity > 0
   );
 }

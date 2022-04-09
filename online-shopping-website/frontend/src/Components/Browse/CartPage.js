@@ -15,7 +15,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useCookies} from "react-cookie";
 
-export const CartPage = (props) => {
+export const CartPage = () => {
     //Forces rerender of components on call
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
@@ -31,7 +31,9 @@ export const CartPage = (props) => {
 
     // Refresh cart items in cookie on first CartPage render
     useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
+        
+       
+            axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
             .then((response) => {
                 setCookie("cart", cookies.cart.filter((cartProduct) => {
                     return response.data.some((product) => {
@@ -39,6 +41,8 @@ export const CartPage = (props) => {
                     })
                 }));
             });
+        
+       
     }, []);
 
     const calculateCartTally = () => {
@@ -108,29 +112,27 @@ export const CartPage = (props) => {
 
     const CartItem = () => {
         // Modify item's quantity in the cart cookie
-        const modifyItemQuantity = (itemId, quantity) => {
+        const modifyItemQuantity = (itemID, quantity) => {
             setCookie("cart", cookies.cart.map(product => {
-                if (itemId === product.id) {
+                if (itemID === product.id) {
                     return {...product, quantity: quantity};
                 }
                 return product;
             }));
         }
 
-        function IncrementItem(itemID) {
-            //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
-            const quantity = cookies.cart.find(product => itemID === product.id).quantity;
-            if (quantity !== 10) {
-                modifyItemQuantity(itemID, quantity + 1);
+        function IncrementItem(item) {
+            //Increment quantity, ensuring that quantity does not exceed number of items of product in backend (totalQuantity)
+            if (item.quantity < item.totalQuantity) {
+                modifyItemQuantity(item.id, item.quantity + 1);
             }
             forceUpdate();
         }
 
-        function DecreaseItem(itemID) {
+        function DecreaseItem(item) {
             //Decrement quantity, ensuring that quantity has at least 1 item per product in the cart
-            const quantity = cookies.cart.find(product => itemID === product.id).quantity;
-            if (quantity !== 1) {
-                modifyItemQuantity(itemID, quantity - 1);
+            if (item.quantity > 1) {
+                modifyItemQuantity(item.id, item.quantity - 1);
             }
             forceUpdate();
         }
@@ -191,16 +193,16 @@ export const CartPage = (props) => {
                                             <Stack className="Cart-Quantity" direction="row" spacing={1}>
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
-                                                        disabled={item.quantity === 1}
-                                                        onClick={() => DecreaseItem(item.id)}>
+                                                        disabled={item.quantity <= 1}
+                                                        onClick={() => DecreaseItem(item)}>
                                                     <RemoveIcon/>
                                                 </Button>
                                                 <input className="inputne" disabled={true}
                                                        value={item.quantity}/>
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
-                                                        disabled={item.quantity === 10}
-                                                        onClick={() => IncrementItem(item.id)}>
+                                                        disabled={item.quantity >= item.totalQuantity}
+                                                        onClick={() => IncrementItem(item)}>
                                                     <AddIcon/>
                                                 </Button>
                                             </Stack>
@@ -255,9 +257,30 @@ export const CartPage = (props) => {
                 </Grid>
             </Grid>
         )
+    }else if (!cookies.user) {
+        return (
+            <Grid container className="Cart-Container">
+                <Grid item container sx={{paddingBottom: '2rem'}}>
+                    <Typography>
+                        Not logged in. Please log in before purchase.
+                    </Typography>
+                </Grid>
+            </Grid>
+        )
+    }else if(cookies.user.user.role !== "CUSTOMER"){
+        return (
+            <Grid container className="Cart-Container">
+                <Grid item container sx={{paddingBottom: '2rem'}}>
+                    <Typography>
+                        Sellers and Admins cannot check out only customers can.
+                    </Typography>
+                </Grid>
+            </Grid>
+        )
     }
     
-    // Cart is full
+    /* Cart is full */
+
     // Calculate cart total
     calculateCartTally();
     
