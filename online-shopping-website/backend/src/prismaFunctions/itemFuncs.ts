@@ -7,9 +7,9 @@ export async function createItem(args: {
   picture: string;
   brandId: number;
   sellerId: number;
+  totalQuantity: number;
   promoted?: boolean;
   salePrice?: number;
-  totalQuantity?: number;
 }) {
   return await prisma.item.create({
     data: {
@@ -82,6 +82,16 @@ export async function itemById(args: { id: number }) {
   });
 }
 
+export async function manyItemsById(args: { ids: number[]}){
+  return await prisma.item.findMany({
+    where: {
+      id: {
+        in: args.ids
+      },
+    },
+  });
+}
+
 export async function itemByName(args: { name: string }) {
   return prisma.item.findMany({
     where: {
@@ -150,6 +160,9 @@ export async function findItems(args: { name?: string; sellerId?: number; brandI
           name: true
         },
       },
+    },
+    orderBy: {
+      id: 'asc'
     },
   });
 }

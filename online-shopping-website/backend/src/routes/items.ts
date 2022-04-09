@@ -24,6 +24,7 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
         picture: req.file,
         brandId: parseInt(req.body.brandId),
         sellerId: parseInt(req.body.sellerId),
+        totalQuantity: req.body.totalQuantity
       })
     ) {
       throw new Error('Data missing or invalid');
@@ -38,7 +39,7 @@ itemRouter.post('/create', async (req: Request, res: Response) => {
       sellerId: parseInt(req.body.sellerId),
       promoted: isPromoted,
       salePrice: isNaN(parseFloat(req.body.salePrice)) ? undefined : parseFloat(req.body.salePrice),
-      totalQuantity: isNaN(parseFloat(req.body.totalQuantity)) ? undefined : parseFloat(req.body.totalQuantity),
+      totalQuantity: parseInt(req.body.totalQuantity),
     });
     console.log('Item without picture created successfully');
     console.log('Picture original name:' + req.file?.originalname);
