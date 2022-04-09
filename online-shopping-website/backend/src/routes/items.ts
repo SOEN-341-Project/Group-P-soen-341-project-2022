@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express';
 import uploadFile from '../helpers/uploadFile';
 import hasRequiredItemCreationParams from '../helpers/verifyItemCreation';
-import { allItems, createItem, findItems, itemById, updateItem } from '../prismaFunctions/itemFuncs';
+import { allItems, createItem, findItems, itemById, updateItem, promotedItems } from '../prismaFunctions/itemFuncs';
 import { objectFromRequest } from '../helpers/jwtFuncs';
 import { User, UserRole } from '@prisma/client';
 import { deleteUnusedBrands } from '../prismaFunctions/brandFuncs';
@@ -147,6 +147,11 @@ itemRouter.get('/find', async (req: Request, res: Response) => {
   } catch (e) {
     res.status(400).json({ error: e, message: e.meta?.cause || e.message });
   }
+});
+
+itemRouter.get('/findPromoted', async (res: Response) => {
+  const items = await promotedItems();
+  res.status(200).json(items);
 });
 
 itemRouter.get('/findAll', async (req: Request, res: Response) => {
