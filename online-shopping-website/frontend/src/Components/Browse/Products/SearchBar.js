@@ -2,17 +2,17 @@ import { TextField } from "@mui/material";
 
 export const SearchBar = (props) => {
     let filters = props.filters;
-    const filterProducts = props.filterProducts;
+    const filterData = props.filterData;
 
     const handleSearchChange = (event) => {
         filters.searchQuery = event.target.value;
-        filterProducts();
+        filterData();
     }
 
     return (
         <div className="SearchBar">
             <TextField
-                label="Search Products"
+                label={props.label}
                 variant="outlined"
                 type="search"
                 onChange={(e) => handleSearchChange(e)}

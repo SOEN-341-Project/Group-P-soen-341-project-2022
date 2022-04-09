@@ -12,9 +12,11 @@ import { SearchBar } from './SearchBar';
 import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
+    const searchBarLabel = "Search Products";
+
     return (
         <Stack xs={12}>
-            <SearchBar className="SearchBar" filterProducts={props.filterProducts} filters={props.filters} />
+            <SearchBar className="SearchBar" filterData={props.filterProducts} filters={props.filters} label={searchBarLabel} />
             <PriceFilter unfilteredProducts={props.unfilteredProducts} onSliderChange={props.onSliderChange} />
             <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
             <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />

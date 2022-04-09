@@ -111,7 +111,7 @@ export const ProductPage = () => {
                     unfilteredProducts={unfilteredProducts}
                     brands={brands}
                     sellers={sellers}
-                    filterProducts={filterProducts}
+                    filterData={filterProducts}
                     filters={filters}
                     onCheckboxChange={onCheckboxChange}
                     onSliderChange={onSliderChange}
