@@ -14,7 +14,7 @@ import { useCookies } from 'react-cookie';
 const ProductButtons = (props) => {
 
     //Use cookie takes the cookie name as argument and returns the cartCookie object and the setCookie method
-    const [cartCookie, setCookie] = useCookies(["cart"]);
+    const [cookies, setCookie] = useCookies(["cart", "user"]);
 
     const [quantity, setQuantity] = useState(1);
 
@@ -22,9 +22,12 @@ const ProductButtons = (props) => {
     const [state, setState] = useState(0);
     const forceUpdate = () => setState(state + 1);
 
+    const productInCart = cookies.cart ? cookies.cart.find(product => props.product.id === product.id) : null;
+
     const IncrementItem = () => {
         //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
-        if (quantity !== 10) {
+
+        if (((productInCart ? productInCart.quantity : 0) + quantity) <= props.product.totalQuantity) {
             setQuantity(quantity + 1);
         }
         forceUpdate();
@@ -39,12 +42,12 @@ const ProductButtons = (props) => {
 
     // Modify item's quantity in the cart cookie
     const modifyItemQuantity = (itemId, quantity) => {
-        const foundProduct = cartCookie.cart.find(product => itemId === product.id);
+        const foundProduct = cookies.cart.find(product => itemId === product.id);
         const newQuantity = foundProduct.quantity + quantity;
 
-        setCookie("cart", cartCookie.cart.map(product => {
+        setCookie("cart", cookies.cart.map(product => {
             if (itemId === product.id) {
-                return {...product, quantity: newQuantity};
+                return { ...product, quantity: newQuantity };
             }
             return product;
         }));
@@ -54,7 +57,7 @@ const ProductButtons = (props) => {
         let item = props.product;
 
         // Cart is empty, set it to an array containing one product 
-        if (!cartCookie.cart) {
+        if (!cookies.cart) {
             const newCartItem = {
                 id: item.id,
                 name: item.name,
@@ -65,21 +68,18 @@ const ProductButtons = (props) => {
                 brandName: item.brand.name,
                 brandId: item.brandId,
                 price: item.price,
+                totalQuantity: item.totalQuantity,
                 quantity: quantity
             }
 
 
-            window.alert(newCartItem.name + " successfully added to cart.");
+            window.alert(`${quantity} ${newCartItem.name} added to cart.`);
             //setting cookie to the new created item
-            setCookie("cart", [newCartItem],
-            {
-                path: "/"
-            }
-            );
+            setCookie("cart", [newCartItem]);
         }
 
         // Item already in cart
-        else if (cartCookie.cart.find(product => item.id === product.id)) {
+        else if (productInCart) {
             alert(`Item ${item.name} is already in the cart. Adding ${quantity} to your cart.`);
             modifyItemQuantity(item.id, quantity);
         }
@@ -96,25 +96,24 @@ const ProductButtons = (props) => {
                 brandName: item.brand.name,
                 brandId: item.brandId,
                 price: item.price,
+                totalQuantity: item.totalQuantity,
                 quantity: quantity
             }
             console.log(newCartItem);
-            window.alert("Item(s) successfully added to cart.");
+            window.alert(`${quantity} ${item.name} added to cart.`);
 
             //adding item to the cookie array
-            cartCookie.cart.push(
+            cookies.cart.push(
                 newCartItem
             );
 
-            setCookie("cart",
-            cartCookie.cart,
-            {
-                path: "/"
-            });
+            setCookie("cart", cookies.cart);
         }
     }
 
-
+    if (props.product.totalQuantity === 0) {
+        return <h3 className='TextPink'>Out of stock</h3>;
+    }
 
     return (
         //Quantity Buttons
@@ -122,29 +121,38 @@ const ProductButtons = (props) => {
             <h3 className='TextGreen'>Quantity</h3>
             <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                        disabled={quantity === 1}
-                        onClick={DecreaseItem}>
-                    <RemoveIcon/>
+                    disabled={quantity === 1}
+                    onClick={DecreaseItem}>
+                    <RemoveIcon />
                 </Button>
-                <input className="inputne" disabled={true} value={quantity}/>
+                <input className="inputne" disabled={true} value={quantity} />
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                        disabled={quantity === 10}
-                        onClick={IncrementItem}>
-                    <AddIcon/>
+                    disabled={((productInCart ? productInCart.quantity : 0) + quantity) >= props.product.totalQuantity}
+                    onClick={IncrementItem}>
+                    <AddIcon />
                 </Button>
             </Stack>
-            <h5 className="ProductDetails-ProductLimitText">Limit of 10 items per product in cart.</h5>
+            <h5 className="ProductDetails-ProductLimitText">There {props.product.totalQuantity > 1 ? 'are' : 'is'} {props.product.totalQuantity} in stock.</h5>
+            {
+                // If product is in the user's cart, show quantity of item in cart
+                productInCart &&
+                <h5 className="ProductDetails-ProductLimitText">You currently have {productInCart.quantity} in your cart.</h5>
+            }
             <Button className="ProductDetails-CartButton GreenButtonContained"
-                    variant="contained"
-                    endIcon={<AddShoppingCartIcon/>}
-                    disabled={false} //FIX ME: Disable button if user is a seller or admin
-                    onClick={AddToCart}>
+                variant="contained"
+                endIcon={<AddShoppingCartIcon />}
+                // Can't add to cart if logged out, or non-customer, or adding to cart would surpass total quantity
+                disabled={
+                    !cookies.user
+                    || cookies.user.user.role !== 'CUSTOMER'
+                    || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
+                onClick={AddToCart}>
                 Add to cart
             </Button>
         </div>
     );
 }
-export const ProductDetails = (props) => {
+export const ProductDetails = () => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
@@ -165,11 +173,11 @@ export const ProductDetails = (props) => {
     // Display load screen while getting data
     if (loading) {
         return (
-            <Grid container xs={12}>
+            <Grid container>
                 <Grid item xs={12}>
                     <h1 className="TextGreen LoadingSpinnerHeader">Loading product: {productParams.productName}</h1>
                 </Grid>
-                <Grid item xs={12} id="LoadingSpinner"/>
+                <Grid item xs={12} id="LoadingSpinner" />
             </Grid>
         );
     }
@@ -186,7 +194,7 @@ export const ProductDetails = (props) => {
                 <Grid item xs={12} md={6}>
                     <h1>{selectedProduct.name}</h1>
                     <div className="ProductDetails-ImageConatiner">
-                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name}/>
+                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name} />
                     </div>
 
                     <Grid item container>
@@ -208,7 +216,7 @@ export const ProductDetails = (props) => {
                     <Card className="ProductDetails-SelectionPanel">
                         <h3 className='TextGreen'>Price</h3>
                         <h4 className='TextPink'>{selectedProduct.price} Ɖ</h4>
-                        <ProductButtons product={selectedProduct} cartItems={props.cartItems} />
+                        <ProductButtons product={selectedProduct} />
                     </Card>
                 </Grid>
             </Grid>
