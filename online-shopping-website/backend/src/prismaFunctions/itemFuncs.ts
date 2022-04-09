@@ -39,7 +39,7 @@ export async function updateItem(args: {
   promoted?: boolean;
   salePrice?: number;
   totalQuantity?: number;
-  active?: false;
+  active?: boolean;
 }) {
   return await prisma.item.update({
     where: {
