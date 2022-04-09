@@ -51,7 +51,13 @@ export async function brandByName(args: { name: string }) {
 }
 
 export async function allBrands() {
-  return await prisma.brand.findMany();
+  return await prisma.brand.findMany({
+    where: { 
+      items: {
+        none: { active: false }
+      }
+    }
+  });
 }
 
 export async function deleteUnusedBrands() {

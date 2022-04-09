@@ -72,15 +72,12 @@ const ProductButtons = (props) => {
                 quantity: quantity
             }
 
-
-            window.alert(`${quantity} ${newCartItem.name} added to cart.`);
             //setting cookie to the new created item
             setCookie("cart", [newCartItem]);
         }
 
         // Item already in cart
         else if (productInCart) {
-            alert(`Item ${item.name} is already in the cart. Adding ${quantity} to your cart.`);
             modifyItemQuantity(item.id, quantity);
         }
 
@@ -99,8 +96,6 @@ const ProductButtons = (props) => {
                 totalQuantity: item.totalQuantity,
                 quantity: quantity
             }
-            console.log(newCartItem);
-            window.alert(`${quantity} ${item.name} added to cart.`);
 
             //adding item to the cookie array
             cookies.cart.push(
