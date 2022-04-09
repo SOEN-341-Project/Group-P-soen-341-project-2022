@@ -143,7 +143,7 @@ export default function NavBar() {
                                 onClick={handleOpenLogin}
                                 color="inherit"
                             >
-                                <p style={{ paddingRight: '0.5rem' }}>Login</p>
+                                <p style={{ paddingInline: '0.5rem' }}>Login</p>
                             </IconButton>
                             <IconButton
                                 sx={{ borderRadius: '10px !important' }}
@@ -155,7 +155,7 @@ export default function NavBar() {
                                 color="inherit"
                             >
                                 <Link className="Navbar-RoutingLink" to='/register'><p
-                                    style={{ paddingRight: '1rem' }}>Sign
+                                    style={{ paddingInline: '0.5rem' }}>Sign
                                     up</p></Link>
                             </IconButton>
                             <IconButton

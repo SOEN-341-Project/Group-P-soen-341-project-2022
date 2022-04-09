@@ -5,5 +5,4 @@ describe('Cart Page Tests', () => {
   it('true all the time', () => {
     expect(true).toBe(true);
   });
-
 });

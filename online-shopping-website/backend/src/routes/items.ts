@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express';
 import uploadFile from '../helpers/uploadFile';
 import hasRequiredItemCreationParams from '../helpers/verifyItemCreation';
-import { allItems, createItem, deleteItem, findItems, itemById, updateItem, promotedItems } from '../prismaFunctions/itemFuncs';
+import { allItems, createItem, findItems, itemById, updateItem, promotedItems } from '../prismaFunctions/itemFuncs';
 import { objectFromRequest } from '../helpers/jwtFuncs';
 import { User, UserRole } from '@prisma/client';
 import { deleteUnusedBrands } from '../prismaFunctions/brandFuncs';
@@ -77,7 +77,7 @@ itemRouter.delete('/delete', async (req: Request, res: Response) => {
     if ((user as User).role === UserRole.SELLER && item?.sellerId !== (user as User).id) {
       throw new Error('Invalid Authorization');
     }
-    const deletedItem = await deleteItem({ id: itemId });
+    const deletedItem = await updateItem({ itemId: itemId, active: false });
     // TODO: delete the picture from google cloud
     if (deletedItem) {
       // if that was the last item in a brand, delete the brand entirely and all others that may not have items either
