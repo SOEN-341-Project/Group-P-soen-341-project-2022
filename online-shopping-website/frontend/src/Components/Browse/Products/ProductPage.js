@@ -105,7 +105,7 @@ export const ProductPage = () => {
 
     return (
         <Grid container columnSpacing={4} rowSpacing={5}>
-            <Grid item xs={12} md={3} lg={2}>
+            <Grid item xs={12} md={4} xl={3}>
                 <SideNav
                     unfilteredProducts={unfilteredProducts}
                     brands={brands}
@@ -116,7 +116,7 @@ export const ProductPage = () => {
                     onSliderChange={onSliderChange}
                 />
             </Grid>
-            <Grid item xs={12} md={9} lg={10}>
+            <Grid item xs={12} md={8} xl={9}>
                 <ProductGrid products={products} />
             </Grid>
         </Grid>

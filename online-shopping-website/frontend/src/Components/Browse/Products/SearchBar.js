@@ -12,10 +12,12 @@ export const SearchBar = (props) => {
     return (
         <div className="SearchBar">
             <TextField
+                sx={props.style}
                 label="Search Products"
                 variant="outlined"
                 type="search"
                 onChange={(e) => handleSearchChange(e)}
+                fullWidth
             />
         </div>
     );

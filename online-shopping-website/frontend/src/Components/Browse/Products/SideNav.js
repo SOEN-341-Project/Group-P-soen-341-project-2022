@@ -7,19 +7,49 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Checkbox from '@mui/material/Checkbox';
+import { Card } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { SearchBar } from './SearchBar';
 import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
     return (
-        <Stack xs={12}>
-            <SearchBar className="SearchBar" filterProducts={props.filterProducts} filters={props.filters} />
-            <PriceFilter unfilteredProducts={props.unfilteredProducts} onSliderChange={props.onSliderChange} />
-            <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
-            <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
-        </Stack>
+        <Card sx={{ backgroundColor: 'rgb(62, 134, 62)', borderRadius: '10px', display: 'flex', justifyContent: 'center', padding: '1.5em', color: 'white'}}>
+            <Stack xs={12} sx={{ width: '100%' }} spacing={1}>
+                <SearchBar className="SearchBar" style={searchBarStyle} filterProducts={props.filterProducts} filters={props.filters} />
+                <PriceFilter unfilteredProducts={props.unfilteredProducts} onSliderChange={props.onSliderChange} />
+                <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
+                <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
+            </Stack>
+        </Card>
     );
+}
+
+// Styling search bar white for NavBar
+const searchBarStyle = {
+    '& label': { 
+        color: 'white',
+    },
+    '& label.Mui-focused': {
+        color: 'white',
+    },
+    '& .MuiInput-underline:after': {
+        borderBottomColor: 'white',
+    },
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: 'white',
+        },
+        '&:hover fieldset': {
+            borderColor: 'white',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'white',
+        },
+    },
+    '& .MuiOutlinedInput-input': {
+        color: 'white',
+    },
 }
 
 const PriceFilter = (props) => {
@@ -60,22 +90,24 @@ const PriceFilter = (props) => {
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3, width: 140, paddingTop: '1rem', }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3, padding: '1rem', margin: 0 }}>
             <Typography>Filter by price:</Typography>
             <Typography>{value[0]}Ɖ - {value[1]}Ɖ</Typography>
-            <Slider
-                className='TextPink'
-                getAriaLabel={() => 'Price range'}
-                min={lowestPrice}
-                max={highestPrice}
-                value={value}
-                onChange={handleChange}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
-                step={1}
-                marks={marks}
-                disableSwap
-            />
+            <div style={{ paddingInline: '0.75rem' }}>
+                <Slider
+                    className='TextPink'
+                    getAriaLabel={() => 'Price range'}
+                    min={lowestPrice}
+                    max={highestPrice}
+                    value={value}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={valuetext}
+                    step={1}
+                    marks={marks}
+                    disableSwap
+                />
+            </div>
         </Box>
     );
 }
