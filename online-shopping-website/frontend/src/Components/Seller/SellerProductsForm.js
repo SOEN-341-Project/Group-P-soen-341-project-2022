@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createRef, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, InputAdornment, Stack, TextField } from '@mui/material';
+import { Button, InputAdornment, Stack, TextField, Checkbox, FormControlLabel } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
@@ -48,7 +48,8 @@ export const SellerForm = () => {
                 description: '',
                 brand: { name: '' },
                 seller: { sellerName: cookies.user.user.sellerName },
-                totalQuantity: ''
+                totalQuantity: '',
+                promoted: false
             })
             setLoading(false);
         }
@@ -86,6 +87,18 @@ export const SellerForm = () => {
             });
         }
     }
+
+    const handleCheckBoxChange = (event) => {
+        console.log(`Before: ${productData.promoted}`)
+        if (event.target.name === "promoted") {
+            setProductData({
+                ...productData,
+                [event.target.name]: event.target.checked
+            });
+        }
+        console.log(`After: ${productData.promoted}`)
+        //console.log(productData);
+    };
 
     // Triggers when new image is uploaded
     const handleImageChange = (e) => {
@@ -255,6 +268,20 @@ export const SellerForm = () => {
                     value={productData.totalQuantity}
                     onChange={handleFieldChange}
                 />
+                <FormControlLabel 
+                    value="promoted"
+                    control={
+                        <Checkbox 
+                        checked={productData.promoted}
+                        name="promoted"
+                        onChange={handleCheckBoxChange}
+                        />
+                    }
+                    label="Promote Item"
+                    labelPlacement='start'
+                    style={{ flexDirection: "row"}}
+                />
+                
                 <Button type="submit" variant="contained" className="GreenButtonContained"
                     style={{ width: "fit-content", margin: "1rem auto" }}>
                     Save Changes
