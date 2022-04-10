@@ -89,15 +89,12 @@ export const SellerForm = () => {
     }
 
     const handleCheckBoxChange = (event) => {
-        console.log(`Before: ${productData.promoted}`)
         if (event.target.name === "promoted") {
             setProductData({
                 ...productData,
                 [event.target.name]: event.target.checked
             });
         }
-        console.log(`After: ${productData.promoted}`)
-        //console.log(productData);
     };
 
     // Triggers when new image is uploaded
