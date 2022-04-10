@@ -18,8 +18,8 @@ const ProductShow = (props) => {
               <img className="ProductImageShow" src={props.product.picture} alt={props.product.name} />
               <div>
                 <h3 className="ProductInfoSlide">{props.product.name}</h3>
-                {/* <p className="ProductInfoSlide">Brand: {props.product.brand.name}</p> */}
-                {/* <p className="ProductInfoSlide">Sold by: {props.product.seller.sellerName}</p> */}
+                <p className="ProductInfoSlide">Brand: {props.product.brand.name}</p>
+                <p className="ProductInfoSlide">Sold by: {props.product.seller.sellerName}</p>
               </div>
             </div>
           </div>
