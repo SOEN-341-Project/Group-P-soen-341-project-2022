@@ -19,7 +19,7 @@
 
 .ProductImage {
     vertical-align: middle;
-    height: 200px;
+    max-height: 200px;
     border-radius: 10px;
     max-width: 100%;
 }
@@ -34,7 +34,7 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height: 200px;
+  max-height: 200px;
   max-width: 100%;
 }
 
