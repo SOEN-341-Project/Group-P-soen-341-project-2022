@@ -108,25 +108,27 @@ export const ProductPage = () => {
         );
     }
 
-  return (
-    <div>
-      <Slideshow products={promotedProducts}/>
-      <Grid container columnSpacing={4} rowSpacing={5}>
-        <Grid item xs={12} md={3} lg={2}>
-          <SideNav
-            unfilteredProducts={unfilteredProducts}
-            brands={brands}
-            sellers={sellers}
-            filterProducts={filterProducts}
-            filters={filters}
-            onCheckboxChange={onCheckboxChange}
-            onSliderChange={onSliderChange}
-          />
-        </Grid>
-        <Grid item xs={12} md={9} lg={10}>
-          <ProductGrid products={products} />
-        </Grid>
-      </Grid>
-    </div>
-  );
+    return (
+        <div>
+            {promotedProducts.length > 0 &&
+                <Slideshow products={promotedProducts} />
+            }
+            <Grid container columnSpacing={4} rowSpacing={5}>
+                <Grid item xs={12} md={3} lg={2}>
+                    <SideNav
+                        unfilteredProducts={unfilteredProducts}
+                        brands={brands}
+                        sellers={sellers}
+                        filterProducts={filterProducts}
+                        filters={filters}
+                        onCheckboxChange={onCheckboxChange}
+                        onSliderChange={onSliderChange}
+                    />
+                </Grid>
+                <Grid item xs={12} md={9} lg={10}>
+                    <ProductGrid products={products} />
+                </Grid>
+            </Grid>
+        </div>
+    );
 };

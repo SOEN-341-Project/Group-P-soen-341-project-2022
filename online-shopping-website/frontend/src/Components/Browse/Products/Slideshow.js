@@ -1,10 +1,12 @@
 import * as React from 'react';
 import 'react-slideshow-image/dist/styles.css';
 import { Slide } from "react-slideshow-image";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
+//for every promoted product, add it in the slideshow
 const ProductShow = (props) => {
-  return (
+  console.log(props);
+  return(
     <Link to={{
       pathname: `/${props.product.id}/${props.product.name}`,
       params: { props }
@@ -13,11 +15,11 @@ const ProductShow = (props) => {
         <div>
           <div className="CenteringProductDetails">
             <div className="ProductDetailsShow">
-              <img className="ProductImageShow" src={props.product.picture} alt={props.product.name}/>
+              <img className="ProductImageShow" src={props.product.picture} alt={props.product.name} />
               <div>
                 <h3 className="ProductInfoSlide">{props.product.name}</h3>
-                <p className="ProductInfoSlide">Brand: {props.product.brand.name}</p>
-                <p className="ProductInfoSlide">Sold by: {props.product.seller.sellerName}</p>
+                {/* <p className="ProductInfoSlide">Brand: {props.product.brand.name}</p> */}
+                {/* <p className="ProductInfoSlide">Sold by: {props.product.seller.sellerName}</p> */}
               </div>
             </div>
           </div>
@@ -27,20 +29,17 @@ const ProductShow = (props) => {
   )
 }
 
-const iterateProducts = (data) => {
-  return data.products.map(product => {
-    return (
-      <ProductShow key={product.id} product={product} />
-    );
-  });
-}
-
+//boilerplate for slideshow
 export const Slideshow = (props) => {
   return (
     <div className="SlideshowPadding">
       <h1 className="PromotedItems">SPECIAL!</h1>
       <Slide easing="ease">
-        {iterateProducts(props)}
+        {props.products.map(product => {
+          return (
+            <ProductShow key={product.id} product={product} />
+          );
+        })}
       </Slide>
     </div>
   )
