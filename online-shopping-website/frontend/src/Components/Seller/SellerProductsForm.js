@@ -272,6 +272,7 @@ export const SellerForm = () => {
                         checked={productData.promoted}
                         name="promoted"
                         onChange={handleCheckBoxChange}
+                        sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
                         />
                     }
                     label="Promote Item"
