@@ -149,7 +149,7 @@ itemRouter.get('/find', async (req: Request, res: Response) => {
   }
 });
 
-itemRouter.get('/findPromoted', async (res: Response) => {
+itemRouter.get('/findPromoted', async (req: Request, res: Response) => {
   const items = await promotedItems();
   res.status(200).json(items);
 });
