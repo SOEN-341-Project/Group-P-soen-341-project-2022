@@ -84,7 +84,22 @@ export async function itemById(args: { id: number }) {
 
 export async function promotedItems(){
   return prisma.item.findMany({
-    where: { promoted: true },
+    where: { 
+      promoted: true,
+      active: true
+    },
+    include:{
+      seller: {
+        select:{
+          sellerName: true
+        }
+      },
+      brand: {
+        select:{
+          name: true
+        }
+      }
+    }
   });
 }
 
