@@ -546,6 +546,11 @@ body {
     color: #ca6c6c;
 }
 
+/* TextField clear button override */
+input::-webkit-search-cancel-button {
+    display: none;
+}
+
 /*Loading Spinner*/
 .LoadingSpinnerHeader {
     padding: 2rem;
