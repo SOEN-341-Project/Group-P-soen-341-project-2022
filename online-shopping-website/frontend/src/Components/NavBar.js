@@ -277,7 +277,7 @@ export default function NavBar() {
                             >
                                 {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
                                 <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem onClick={handleCloseUserMenu}>Admin Page</MenuItem> {/*Admin page*/}
+                                <MenuItem onClick={handleCloseUserMenu}><Link className='RoutingLink' to='/admin'>Admin Page</Link></MenuItem> {/*Admin page*/}
                                 <MenuItem onClick={handleCloseUserMenu}><Link className='RoutingLink' to='admin/seller'>View All Products</Link></MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>

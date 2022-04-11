@@ -217,11 +217,22 @@
 .sellerTableContainer {
   padding: 1.5rem;
   margin: auto;
+  margin-bottom: 1.5rem;
   display: flex;
   max-width: 68.8rem;
   background-color: #e99898;
   border-radius: 10px;
 }
+
+.adminTableContainer {
+    padding: 1.5rem;
+    margin: auto;
+    margin-bottom: 1.5rem;
+    display: flex;
+    max-width: 68.8rem;
+    background-color: rgb(62, 134, 62);
+    border-radius: 10px;
+  }
 
 .sellerImage {
     max-width: 3rem;

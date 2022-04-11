@@ -1,161 +1,171 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import axios from "axios";
-import { Cookies, useCookies } from 'react-cookie';
+import { Link } from "react-router-dom";
+import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { Link } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
-
-import { styled } from '@mui/material/styles';
-import CardHeader from '@mui/material/CardHeader';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { SearchBar } from '.././Browse/Products/SearchBar';
+import axios from 'axios';
+import { ViewOrders } from './ViewOrders';
+import { useCookies } from 'react-cookie';
+import { borderRight } from '@mui/system';
 
 export const AdminPage = () => {
-    const [cookie, setCookie] = useCookies(['user']);
-    const [orders, setOrders] = useState(null);
+    //making datagrid colums to see all users
+    const columns = [
+        {
+            field: 'modify',
+            headerName: 'Modify',
+            width: '70',
+
+            renderCell: (params) => (
+                <Link to={{
+                    pathname: `/profile`,
+                    params: { params }
+                }} className="RoutingLink">
+                    <Button className="sellerButton GreenButtonText" variant="text">
+                        <EditIcon />
+                    </Button>
+                </Link>
+            ),
+            sortable: false,
+            filterable: false,
+            hideable: false
+        },
+        {
+            field: 'delete',
+            headerName: 'Delete',
+            width: '70',
+            renderCell: (params) => (
+                <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeUser(params.id)}>
+                    <DeleteIcon />
+                </Button>
+            ),
+            sortable: false,
+            filterable: false,
+            hideable: false
+        },
+        {
+            field: 'user',
+            headerName: 'Users',
+            width: '1000',
+            sortable: true,
+        },
+        // {
+        //     field: 'username',
+        //     headerName: 'Username',
+        //     width: 200
+        // },
+        // {
+        //     field: 'email',
+        //     headerName: 'Email',
+        //     width: 200
+        // },
+        // {
+        //     field: 'role',
+        //     headerName: 'Role',
+        //     width: 200
+        // }
+    ]
+
+    const [cookies, setCookies] = useCookies(['user']);
+    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/all',
-            {
-                headers: {
-                    'Authorization': `Bearer ${cookie.user.token}`
-                }
-            }).then((res) => {
-                setOrders(res.data);
-                setLoading(false);
-            });
-    }, []);
-
-    // Waiting for orders during GET
-    if (loading) {
-        return (
-            <Grid container>
-                <Grid item xs={12}>
-                    <h1 className="TextGreen LoadingSpinnerHeader">Loading orders</h1>
-                </Grid>
-                <Grid item xs={12} id="LoadingSpinner" />
-            </Grid>);
-    }
-
-    const OrderItem = () => {
-        const [expandedId, setExpandedId] = React.useState(-1);
-
-        const ExpandMore = styled((props) => {
-            const { expand, ...other } = props;
-            return <IconButton {...other} />;
-        })(({ theme, expand }) => ({
-            transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-            marginLeft: 'auto',
-            transition: theme.transitions.create('transform', {
-                duration: theme.transitions.duration.shortest,
-            }),
-        }));
-
-        const handleExpandClick = (index) => {
-            setExpandedId(expandedId === index ? -1 : index);
-        };
-
-        //Returns total item quantity
-        const calculateTotalItems = (props) => {
-            let totalQty = 0;
-            props.itemQuantities.forEach(itemQty => totalQty += itemQty)
-            return totalQty;
-        }
-
-        const ProductBreakdown = (props) => {
-            return props.order.items.map((item, index) => {
-                return (
-                    <Grid key={index} sx={{ margin: '0 0 0.7rem 1rem' }}>
-                        <Typography variant="body1" color="text.primary">
-                            {item.name[0].toUpperCase()}{item.name.substring(1)} (x{props.order.itemQuantities[index]})
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Unit price: {item.price}Ɖ
-                        </Typography>
-                    </Grid>
-                );
-            })
-        }
-
-        return orders.map((order, index) => {
+        if (loading) {
             return (
-                <Grid item key={index} margin="1rem">
-                    <Card style={{ maxWidth: '345' }}>
-                        <CardHeader
-                            title={'Order #' + order.id}
-                            subheader={"Order date: " + order.createdAt.substring(0, 10)}
-                        />
-                        <CardContent>
-                            <Typography variant="body2" color="text.secondary">
-                                Order created at: [{order.createdAt.substring(11, 22)}]
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Last modified: {order.updatedAt.substring(0, 10)} [{order.updatedAt.substring(11, 22)}]
-                            </Typography>
-                            <br />
-                            <Typography variant="body2" color="text.primary">
-                                Total paid: {order.totalPrice.toFixed(2)}Ɖ
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Quantity: {calculateTotalItems(order)} items
-                            </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <Typography style={{ paddingLeft: '0.5rem' }}>View more</Typography>
-                            <ExpandMore key={index}
-                               // expand={expanded}
-                                onClick={event => handleExpandClick(index)}
-                                aria-expanded={expandedId === index}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-                        <Collapse in={expandedId === index} timeout="auto" unmountOnExit>
-                            <CardContent>
-                                <Typography paragraph style={{ textDecoration: 'underline' }}>
-                                    Order summary
-                                </Typography>
-                                <ProductBreakdown order={order} />
-                            </CardContent>
-                        </Collapse>
-                    </Card>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <h1 className="TextGreen LoadingSpinnerHeader">Loading Users</h1>
+                    </Grid>
+                    <Grid item xs={12} id="LoadingSpinner" />
                 </Grid>
-            )
-        })
-    }
-   
-        return (
-            <div>
-                <Link to="/" className='RoutingLink'>
-                    <Button variant="text" className="ProductsBackButton">
-                        <ArrowBackIosNewIcon /><h4>Return to products</h4>
-                    </Button>
-                </Link>
-                <Grid container
-                >
-                    <Grid item xs={12} className="TextGreen" textAlign='center'>
-                        <h1>Manage Orders</h1>
-                    </Grid>
-                    <Grid item container xs={12} justifyContent='center'>
-                        <SearchBar />
-                    </Grid>
-                    <Grid item container xs={12} sm={8} md={6} lg={8} margin='auto'
-                        justifyContent='center'>
-                        <OrderItem />
-                    </Grid>
-                </Grid>
-            </div>
-        )
-             
+            );
+        } else if (cookies.user.user.role === 'ADMIN') {
+            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/all')
+                .then((resUser) => {
+                    console.log(resUser.data);
+                    setUsers(resUser.data);
+                    setLoading(false);  
+                });
+        }
+        }, []);
 
+    const removeUser = (userId) => {
+        const userToRemove = cookies.user.find(user => user.id === userId);
+        if (window.confirm(`Delete user: "${userToRemove.name}" with id: ${userToRemove.id}?`)) {
+            axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/users/delete?id=' + userId, {
+                headers: {
+                    'Authorization': `Bearer ${cookies.user.token}`
+                }
+            }).catch((err) => {
+                window.alert(
+                    err.response.data.error + ".\n" +
+                    (err.response.data.message ? err.response.data.message + "." : ""));
+            });
+            window.location.reload();
+        }
+    }
+    
+
+    if(cookies.user.user.role === 'ADMIN'){
+        return (
+            <Grid className="sellerContainer">
+                <Grid container className="adminTableContainer">
+                    <Grid item xs={12}>
+                        <h1 style={{ color: "white", marginTop: 0 }}>Browsing Users</h1>
+                    </Grid>
+                    <Grid item xs={12}>
+                </Grid>
+
+                <Grid item sm={12} className="sellerTable">
+                    <div style={{ minHeight: '10.5rem', height: 400, width: '100%' }}>
+                        <div style={{ display: 'flex', height: '100%' }}>
+                            <div style={{ flexGrow: 1 }}>
+                                <DataGrid
+                                    rows={users}
+                                    columns={columns}
+                                    pageSize={5}
+                                    rowsPerPageOptions={[5]}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Grid>
+            </Grid>
+        
+            <Grid container className="adminTableContainer" >
+                    <Grid item xs={12}>
+                    </Grid>
+                    <Grid item xs={12}>
+                </Grid>
+                <Grid item sm={12} className="sellerTable">
+                        <div style={{ minHeight: '10.5rem', height: 'auto', width: '100%' }}>
+                            <div style={{ display: 'flex', height: '100%' }}>
+                                <div style={{ flexGrow: 1 }}>
+                                   <ViewOrders />
+                                </div>
+                            </div>
+                        </div>
+                    </Grid>
+            </Grid>
+        </Grid>
+        
+    )}
+    else{
+        return (
+            <Grid container className="Cart-Container">
+                <Grid item container sx={{paddingBottom: '2rem'}}>
+                    <Typography>
+                        You do not have permission to access this page.
+                    </Typography>
+                </Grid>
+            </Grid>
+        );
+    }
 }
