@@ -49,27 +49,27 @@ export const AdminPage = () => {
             filterable: false,
             hideable: false
         },
-        {
-            field: 'user',
-            headerName: 'Users',
-            width: '1000',
-            sortable: true,
-        },
+        // {
+        //     field: 'user',
+        //     headerName: 'Users',
+        //     width: '1000',
+        //     sortable: true,
+        // },
         // {
         //     field: 'username',
         //     headerName: 'Username',
         //     width: 200
         // },
-        // {
-        //     field: 'email',
-        //     headerName: 'Email',
-        //     width: 200
-        // },
-        // {
-        //     field: 'role',
-        //     headerName: 'Role',
-        //     width: 200
-        // }
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 200
+        },
+        {
+            field: 'role',
+            headerName: 'Role',
+            width: 200
+        }
     ]
 
     const [cookies, setCookies] = useCookies(['user']);
@@ -77,24 +77,19 @@ export const AdminPage = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (loading) {
-            return (
-                <Grid container>
-                    <Grid item xs={12}>
-                        <h1 className="TextGreen LoadingSpinnerHeader">Loading Users</h1>
-                    </Grid>
-                    <Grid item xs={12} id="LoadingSpinner" />
-                </Grid>
-            );
-        } else if (cookies.user.user.role === 'ADMIN') {
-            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/all')
-                .then((resUser) => {
-                    console.log(resUser.data);
-                    setUsers(resUser.data);
-                    setLoading(false);  
-                });
+        if (cookies.user.user.role === 'ADMIN') {
+            axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/all', {
+                "headers": {
+                    "Authorization": `Bearer ${cookies.user.token}`
+                }
+            })
+            .then((resUser) => {
+                console.log(resUser.data);
+                setUsers(resUser.data);
+                setLoading(false);  
+            });
         }
-        }, []);
+    }, []);
 
     const removeUser = (userId) => {
         const userToRemove = cookies.user.find(user => user.id === userId);
@@ -112,6 +107,16 @@ export const AdminPage = () => {
         }
     }
     
+    if (loading) {
+        return (
+            <Grid container>
+                <Grid item xs={12}>
+                    <h1 className="TextGreen LoadingSpinnerHeader">Loading Users</h1>
+                </Grid>
+                <Grid item xs={12} id="LoadingSpinner" />
+            </Grid>
+        );
+    }
 
     if(cookies.user.user.role === 'ADMIN'){
         return (
