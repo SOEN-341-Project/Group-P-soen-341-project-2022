@@ -12,7 +12,7 @@ const ProductPreview = (props) => {
             pathname: `/${props.product.id}/${props.product.name}`,
             params: {props}
         }} className="RoutingLink">
-            <ButtonBase sx={{width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
+            <ButtonBase sx={{width: '100%', height: '90%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
                 <Card className="ProductContainer">
                     <Stack sx={{height: '100%'}} direction="column" justifyContent="space-between">
                         {/* Image */}
