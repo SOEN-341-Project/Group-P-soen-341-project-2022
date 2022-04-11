@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 //for every promoted product, add it in the slideshow
 const ProductShow = (props) => {
-  console.log(props);
   return(
     <Link to={{
       pathname: `/${props.product.id}/${props.product.name}`,
