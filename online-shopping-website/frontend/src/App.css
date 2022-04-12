@@ -1,9 +1,12 @@
+body {
+    background-color: rgb(245, 233, 233);
+}
+
 .AppContent {
     padding: 1.25em;
 }
 
 .SearchBar {
-    max-width: 12.5rem;
     margin-bottom: 1rem;
 }
 
@@ -494,12 +497,12 @@
     border-color: rgb(74, 143, 74);
 }
 
+.MuiSlider-markLabel {
+    color: white;
+}
 
 .accordion-width {
     width: 100%;
-    min-width: 200px;
-    max-width: 200px;
-    /*add breakpoint to make everything full width below medium screens*/
 }
 
 .Bobble {
@@ -512,16 +515,19 @@
 
 /* TextField Override (Green Border) */
 .MuiFormLabel-root.Mui-focused {
-    color: rgb(60, 121, 60) !important;
+    color: rgb(60, 121, 60);
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: rgb(60, 121, 60);
 }
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: rgb(60, 121, 60) !important;
+    border-color: rgb(60, 121, 60);
 }
 
-
 .MuiInput-underline:after {
-    border-color: rgb(60, 121, 60) !important;
+    border-color: rgb(60, 121, 60);
 }
 
 .GreenLink:link {
@@ -540,15 +546,10 @@
     color: #ca6c6c;
 }
 
-/* TextField Override (Green Border) */
-.MuiFormLabel-root.Mui-focused {
-    color: rgb(60, 121, 60) !important;
+/* TextField clear button override */
+input::-webkit-search-cancel-button {
+    display: none;
 }
-
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: rgb(60, 121, 60) !important;
-}
-
 
 /*Loading Spinner*/
 .LoadingSpinnerHeader {
