@@ -5,10 +5,7 @@ import { Link } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import { Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import axios from 'axios';
 import { ViewOrders } from './ViewOrders';
 import { useCookies } from 'react-cookie';
@@ -18,28 +15,8 @@ export const AdminPage = () => {
     //making datagrid colums to see all users
     const columns = [
         {
-            field: 'modify',
-            headerName: 'Modify',
-            width: '70',
-
-            renderCell: (params) => (
-                <Link to={{
-                    pathname: `/profile`,
-                    params: { params }
-                }} className="RoutingLink">
-                    <Button className="sellerButton GreenButtonText" variant="text">
-                        <EditIcon />
-                    </Button>
-                </Link>
-            ),
-            sortable: false,
-            filterable: false,
-            hideable: false
-        },
-        {
             field: 'delete',
             headerName: 'Delete',
-            width: '70',
             renderCell: (params) => (
                 <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeUser(params.id)}>
                     <DeleteIcon />
@@ -49,27 +26,28 @@ export const AdminPage = () => {
             filterable: false,
             hideable: false
         },
-        // {
-        //     field: 'user',
-        //     headerName: 'Users',
-        //     width: '1000',
-        //     sortable: true,
-        // },
-        // {
-        //     field: 'username',
-        //     headerName: 'Username',
-        //     width: 200
-        // },
+        {
+            field: 'id',
+            headerName: 'User ID',
+        },
+        {
+            field: 'active',
+            headerName: 'Activity',
+        },
         {
             field: 'email',
             headerName: 'Email',
-            width: 200
+            width: 300,
+        },
+        {
+            field: 'username',
+            headerName: 'Username',
         },
         {
             field: 'role',
             headerName: 'Role',
-            width: 200
         }
+
     ]
 
     const [cookies, setCookies] = useCookies(['user']);
@@ -91,18 +69,15 @@ export const AdminPage = () => {
         }
     }, []);
 
-    const removeUser = (userId) => {
-        const userToRemove = cookies.user.find(user => user.id === userId);
-        if (window.confirm(`Delete user: "${userToRemove.name}" with id: ${userToRemove.id}?`)) {
-            axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/users/delete?id=' + userId, {
-                headers: {
-                    'Authorization': `Bearer ${cookies.user.token}`
+    const removeUser = async (id) => {
+        if (window.confirm(`Delete user with id: ${id}?`)) {
+            const deleteRes = await axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/users/delete?id=' + id, {
+                "headers" : {
+                    "Authorization": `Bearer ${cookies.user.token}`
                 }
-            }).catch((err) => {
-                window.alert(
-                    err.response.data.error + ".\n" +
-                    (err.response.data.message ? err.response.data.message + "." : ""));
-            });
+            })
+            console.log(deleteRes);
+            console.log(deleteRes.data);
             window.location.reload();
         }
     }
@@ -129,7 +104,7 @@ export const AdminPage = () => {
                 </Grid>
 
                 <Grid item sm={12} className="sellerTable">
-                    <div style={{ minHeight: '10.5rem', height: 400, width: '100%' }}>
+                    <div style={{ minHeight: '10.5rem', height: 370, width: '100%' }}>
                         <div style={{ display: 'flex', height: '100%' }}>
                             <div style={{ flexGrow: 1 }}>
                                 <DataGrid
