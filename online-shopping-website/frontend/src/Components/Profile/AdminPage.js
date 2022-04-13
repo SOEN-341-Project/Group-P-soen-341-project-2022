@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Link } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,7 +8,6 @@ import { Typography } from '@mui/material';
 import axios from 'axios';
 import { ViewOrders } from './ViewOrders';
 import { useCookies } from 'react-cookie';
-import { borderRight } from '@mui/system';
 
 export const AdminPage = () => {
     //making datagrid colums to see all users
@@ -70,11 +68,17 @@ export const AdminPage = () => {
 
     const removeUser = async (id) => {
         if (window.confirm(`Delete user with id: ${id}?`)) {
-            const deleteRes = await axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/users/delete?id=' + id, {
-                "headers" : {
-                    "Authorization": `Bearer ${cookies.user.token}`
-                }
-            })
+            try {
+                await axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/users/delete?id=' + id, {
+                    "headers" : {
+                        "Authorization": `Bearer ${cookies.user.token}`
+                    }
+                });
+            } catch (err) {
+                window.alert(
+                    err.response.data.error + ".\n" +
+                    (err.response.data.message ? err.response.data.message + "." : ""));
+            }
             window.location.reload();
         }
     }
@@ -82,54 +86,35 @@ export const AdminPage = () => {
     if (loading) {
         return (
             <Grid container>
-                <Grid item xs={12}>
+                <Grid item>
                     <h1 className="TextGreen LoadingSpinnerHeader">Loading Users</h1>
                 </Grid>
-                <Grid item xs={12} id="LoadingSpinner" />
+                <Grid item id="LoadingSpinner" />
             </Grid>
         );
     }
 
     if(cookies.user.user.role === 'ADMIN'){
         return (
-            <Grid className="sellerContainer">
-                <Grid container className="adminTableContainer">
-                    <Grid item xs={12}>
-                        <h1 style={{ color: "white", marginTop: 0 }}>Browsing Users</h1>
-                    </Grid>
-                    <Grid item xs={12}>
+        <Grid className="sellerContainer">
+            <Grid container className="adminTableContainer">
+                <Grid item>
+                    <h1 style={{ color: "white", marginTop: 0 }}>Browsing Users</h1>
                 </Grid>
-
-                <Grid item sm={12} className="sellerTable">
-                    <div style={{ minHeight: '10.5rem', height: 370, width: '100%' }}>
-                        <div style={{ display: 'flex', height: '100%' }}>
-                            <div style={{ flexGrow: 1 }}>
-                                <DataGrid
-                                    rows={users}
-                                    columns={columns}
-                                    pageSize={5}
-                                    rowsPerPageOptions={[5]}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                <Grid item sx={{ minHeight: '10.5rem', height: 370, width: '100%' }} className="sellerTable">
+                    <DataGrid
+                        rows={users}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                    />
                 </Grid>
             </Grid>
-        
+    
             <Grid container className="adminTableContainer" >
-                    <Grid item xs={12}>
-                    </Grid>
-                    <Grid item xs={12}>
+                <Grid item sx={{ padding: '2rem' }} className="sellerTable">
+                    <ViewOrders />
                 </Grid>
-                <Grid item sm={12} className="sellerTable">
-                        <div style={{ minHeight: '10.5rem', height: 'auto', width: '100%' }}>
-                            <div style={{ display: 'flex', height: '100%' }}>
-                                <div style={{ flexGrow: 1 }}>
-                                   <ViewOrders />
-                                </div>
-                            </div>
-                        </div>
-                    </Grid>
             </Grid>
         </Grid>
         

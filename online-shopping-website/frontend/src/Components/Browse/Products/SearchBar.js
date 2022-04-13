@@ -12,7 +12,7 @@ export const SearchBar = (props) => {
     const handleSearchChange = (newValue) => {
         setSearchValue(newValue);
         filters.searchQuery = newValue;
-        filterProducts();
+        filterData();
     }
 
     return (
