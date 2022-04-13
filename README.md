@@ -12,22 +12,22 @@ Admins will have access to all user profiles, users' order histories, and detail
 
 ## Team Members
 - Emma Amar
-  - GitHub: emma-amar
+  - GitHub: [@emma-amar](https://github.com/emma-amar)
   - Role: Front-end
 - Oumar Barry
-  - GitHub: oumbarry
-  - Role: Back-end
+  - GitHub: [@oumbarry](https://github.com/oumbarry)
+  - Role: Full-stack
 - Koosha Gholipour
-  - GitHub: KooshaG
+  - GitHub: [@KooshaG](https://github.com/KooshaG)
   - Role: Back-end
 - Jungsoo Lee
-  - GitHub: jungsoolee1
-  - Role: Back-end
+  - GitHub: [@jungsoolee1](https://github.com/jungsoolee1)
+  - Role: Full-stack
 - Adamo Orsini
-  - GitHub: Adamo-O
+  - GitHub: [@Adamo-O](https://github.com/Adamo-O)
   - Role: Front-end
 - Alexandra Spyridakos
-  - GitHub: aspyridakos
+  - GitHub: [@aspyridakos](https://github.com/aspyridakos)
   - Role: Front-end
 - Ricky Guan
   - GitHub: ricks021
@@ -38,7 +38,5 @@ Admins will have access to all user profiles, users' order histories, and detail
 - CSS
 - React.js
 - MySQL
-- Examples for acceptance suites:
-  - TestCafe
-  - Jest
-- TBD
+## Acceptance suites:
+- Jest
