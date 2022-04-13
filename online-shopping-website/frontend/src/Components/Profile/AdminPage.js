@@ -29,10 +29,6 @@ export const AdminPage = () => {
             headerName: 'User ID',
         },
         {
-            field: 'active',
-            headerName: 'Activity',
-        },
-        {
             field: 'email',
             headerName: 'Email',
             width: 300,
@@ -44,8 +40,11 @@ export const AdminPage = () => {
         {
             field: 'role',
             headerName: 'Role',
-        }
-
+        },
+        {
+            field: 'active',
+            headerName: 'Active',
+        },
     ]
 
     const [cookies, setCookies] = useCookies(['user']);
