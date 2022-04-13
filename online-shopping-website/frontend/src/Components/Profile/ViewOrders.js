@@ -16,23 +16,44 @@ import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { SearchBar } from '../Browse/Products/SearchBar';
 
 export const ViewOrders = () => {
     const [cookie, setCookie] = useCookies(['user']);
+
+    let [searchFilter] = useState({searchQuery: ''});
+    const [unfilteredOrders, setUnfilteredOrders] = useState(null);
     const [orders, setOrders] = useState(null);
     const [loading, setLoading] = useState(true);
+    
+    const searchBarLabel = "Search Orders";
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/findByUser',
-            {
-                headers: {
-                    'Authorization': `Bearer ${cookie.user.token}`
-                }
-            }).then((res) => {
-                setOrders(res.data);
-                setLoading(false);
-            });
+        axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/' + (cookie.user.user.role === 'CUSTOMER' ? 'findByUser' : 'all'),
+        {
+            headers: {
+                'Authorization': `Bearer ${cookie.user.token}`
+            }
+        }).then((res) => {
+            setUnfilteredOrders(res.data);
+            setOrders(res.data);
+            setLoading(false);
+        });
     }, []);
+
+    // Filter orders when search query changes
+    const filterOrders = () => {
+        const orderNameQuery = new RegExp(`^(order #)?${searchFilter.searchQuery}`, 'i');
+        const orderProductQuery = new RegExp(`^${searchFilter.searchQuery}`, 'i');
+
+        setOrders(
+            unfilteredOrders.filter(order =>
+                // Filter by order name
+                (`order #${order.id}`.search(orderNameQuery) > -1) ||
+                (order.items.some(item => item.name.search(orderProductQuery) > -1))
+            )
+        );
+    }
 
     // Waiting for orders during GET
     if (loading) {
@@ -85,10 +106,36 @@ export const ViewOrders = () => {
             })
         }
 
+        // User has no orders
+        if (!unfilteredOrders || !unfilteredOrders[0]) {
+            return (
+                <Grid container className="Cart-Container">
+                    <Grid item container sx={{paddingBottom: '2rem'}}>
+                        <Typography>
+                            You currently have no orders.
+                        </Typography>
+                    </Grid>
+                </Grid>
+            );
+        }
+
+        // No orders found with search query
+        if (!orders || !orders[0]) {
+            return (
+                <Grid container className="Cart-Container">
+                    <Grid item container sx={{paddingBottom: '2rem'}}>
+                        <Typography>
+                            No orders found with current search query.
+                        </Typography>
+                    </Grid>
+                </Grid>
+            );
+        }
+
         return orders.map((order, index) => {
             return (
-                <Grid item key={index} margin="1rem">
-                    <Card style={{ maxWidth: '345' }}>
+                <Grid item key={index} xs={12} md={6} lg={4}>
+                    <Card>
                         <CardHeader
                             title={'Order #' + order.id}
                             subheader={"Order date: " + order.createdAt.substring(0, 10)}
@@ -140,14 +187,15 @@ export const ViewOrders = () => {
                     <ArrowBackIosNewIcon /><h4>Return to products</h4>
                 </Button>
             </Link>
-            <Grid container
-            >
+            <Grid container justifyContent="center">
                 <Grid item xs={12} className="TextGreen" textAlign='center'>
                     <h1>My Orders</h1>
                 </Grid>
-                <Grid item container xs={12} sm={8} md={6} lg={8} margin='auto'
-                    justifyContent='center'>
-                    <OrderItem />
+                <Grid item container xs={12} justifyContent='center'>
+                        <SearchBar filters={searchFilter} filterData={filterOrders} label={searchBarLabel} />
+                    </Grid>
+                <Grid item container xs={12} sm={10} spacing={4}>
+                    <OrderItem  />
                 </Grid>
             </Grid>
         </div>

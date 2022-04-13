@@ -5,14 +5,14 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 export const SearchBar = (props) => {
     let filters = props.filters;
-    const filterProducts = props.filterProducts;
+    const filterData = props.filterData;
 
     const [searchValue, setSearchValue] = React.useState('');
 
     const handleSearchChange = (newValue) => {
         setSearchValue(newValue);
         filters.searchQuery = newValue;
-        filterProducts();
+        filterData();
     }
 
     return (
