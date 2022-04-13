@@ -76,8 +76,6 @@ export const AdminPage = () => {
                     "Authorization": `Bearer ${cookies.user.token}`
                 }
             })
-            console.log(deleteRes);
-            console.log(deleteRes.data);
             window.location.reload();
         }
     }
