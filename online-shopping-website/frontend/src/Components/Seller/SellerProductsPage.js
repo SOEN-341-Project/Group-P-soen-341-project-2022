@@ -146,7 +146,13 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button key={index} name={seller.sellerName} id={seller.id} variant="outlined"
+                return <Button 
+                    sx={{ marginRight: '5px' }}
+                    key={index} 
+                    className="GreenButtonContained"
+                    name={seller.sellerName} 
+                    id={seller.id} 
+                    variant="contained"
                     onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
         );
@@ -188,7 +194,7 @@ export const SellerProductsPage = () => {
                 <Grid item xs={12}>
                     <h1 style={{ color: "white", marginTop: 0 }}>Browsing {sellerPageName}'s Products</h1>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item sx={{ marginBottom: '1rem' }} xs={12} spacing={2}>
                     {cookies.user.user.role === 'ADMIN' && RenderSellerButtons()}
                 </Grid>
 
