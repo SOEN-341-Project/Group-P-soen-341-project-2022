@@ -62,7 +62,6 @@ export const AdminPage = () => {
                 }
             })
             .then((resUser) => {
-                console.log(resUser.data);
                 setUsers(resUser.data);
                 setLoading(false);  
             });
