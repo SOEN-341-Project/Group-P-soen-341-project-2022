@@ -12,7 +12,7 @@ const ProductPreview = (props) => {
             pathname: `/${props.product.id}/${props.product.name}`,
             params: {props}
         }} className="RoutingLink">
-            <ButtonBase sx={{width: '100%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
+            <ButtonBase sx={{width: '100%', height: '90%', textAlign: 'left', margin: 0, padding: 0, borderRadius: '15px'}}>
                 <Card className="ProductContainer">
                     <Stack sx={{height: '100%'}} direction="column" justifyContent="space-between">
                         {/* Image */}
@@ -40,7 +40,7 @@ const ProductPreview = (props) => {
 const iterateProducts = (data) => {
     return data.products.map(product => {
         return (
-            <Grid item key={product.id} xs={12} md={6} lg={4}>
+            <Grid item key={product.id} xs={12} md={6} xl={4}>
                 <ProductPreview key={product.id} product={product}/>
             </Grid>
         );

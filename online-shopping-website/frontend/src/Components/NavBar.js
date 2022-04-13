@@ -27,8 +27,6 @@ export default function NavBar() {
     let navigator = useNavigate();
 
     const [cookies, setCookie, deleteCookie] = useCookies(['user', 'cart']);
-
-    const [auth, setAuth] = React.useState(!!cookies.user);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     //initializing user credentials
@@ -40,9 +38,6 @@ export default function NavBar() {
     const [openLogin, setOpenLogin] = React.useState(false);
 
     const handleLogout = () => {
-        //Login out user
-        setAuth(false);
-
         //Clearing user info on logout
         setUser({
             email: '',
@@ -73,10 +68,6 @@ export default function NavBar() {
         try {
             const loginResponse = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/users/signin", user);
 
-            setAuth(true);
-
-            // TODO Check if seller or admin when user object returned
-
             setCookie('user', loginResponse.data);
 
             // Close login popup
@@ -99,7 +90,7 @@ export default function NavBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorEl(null);
-        if (!auth) {
+        if (!cookies.user) {
             setOpenLogin(true);
         }
     };
@@ -128,7 +119,6 @@ export default function NavBar() {
                             className="navbar-links">My Cart</h4><ShoppingCartOutlinedIcon /></Button></Link>
                     </Box>
                     {/*Not signed in*/}
-                    {/* {!auth && ( */}
                     {!cookies.user && (
                         <div>
                             <IconButton
@@ -170,7 +160,6 @@ export default function NavBar() {
                         </div>
                     )}
                     {/*Signed in as customer*/}
-                    {/* {auth && !seller && !admin && ( */}
                     {cookies.user && cookies.user.user.role === 'CUSTOMER' && (
                         <div>
                             <IconButton
@@ -207,7 +196,6 @@ export default function NavBar() {
                         </div>
                     )}
                     {/*Signed in as seller*/}
-                    {/* {auth && seller && !admin && ( */}
                     {cookies.user && cookies.user.user.role === 'SELLER' && (
                         <div>
                             <IconButton
@@ -246,7 +234,6 @@ export default function NavBar() {
                         </div>
                     )}
                     {/*Signed in as admin*/}
-                    {/* {auth && admin && !seller && ( */}
                     {cookies.user && cookies.user.user.role === 'ADMIN' && (
                         <div>
                             <IconButton
