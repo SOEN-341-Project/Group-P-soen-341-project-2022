@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import NavBar from './Components/NavBar';
 import { SellerProductsPage } from './Components/Seller/SellerProductsPage';
 import { SellerForm } from './Components/Seller/SellerProductsForm';
@@ -7,11 +8,9 @@ import { ProductDetails } from './Components/Browse/Products/ProductDetails';
 import { CartPage } from './Components/Browse/CartPage';
 import { Register } from './Components/Profile/RegisterPage';
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import { ProfilePage } from "./Components/Profile/ProfilePage";
 import { ViewOrders } from "./Components/Profile/ViewOrders";
 import { AdminPage } from "./Components/Profile/AdminPage";
-
 
 const Layout = () => {
     return (
@@ -24,11 +23,7 @@ const Layout = () => {
     );
 };
 
-
 export default function App() {
-    const [cartCookie, setCookie] = useCookies(["cart"]);
-
-
     return (
         <BrowserRouter>
             <Routes>
