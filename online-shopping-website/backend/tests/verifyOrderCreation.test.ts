@@ -1,7 +1,7 @@
 import hasRequiredOrderCreationParams from "../src/helpers/verifyOrderCreation";
 
 const data = [405, [543, 234, 4567, 3456, 9845], [555, 555, 420, 420, 4567], 5420.1287];
-let requestBody: any = { userId: 405, itemIds: [543, 234, 4567, 3456, 9845], itemQuantities: [555, 555, 420, 420], totalPrice: 5420.1287};
+const requestBody: any = { userId: 405, itemIds: [543, 234, 4567, 3456, 9845], itemQuantities: [555, 555, 420, 420], totalPrice: 5420.1287};
 
 describe("Required User Creation Params Tests", () => {
     //all inputs are valid

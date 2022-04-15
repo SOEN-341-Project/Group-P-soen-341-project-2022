@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import { cookieAge } from '../CookieAge';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -228,4 +229,20 @@ export const ProductDetails = () => {
             </Grid>
         </Grid>
     );
+}
+
+// Check prop types
+ProductButtons.propTypes = {
+    product: propTypes.shape({
+        id: propTypes.number,
+        name: propTypes.string,
+        picture: propTypes.string,
+        description: propTypes.string,
+        seller: propTypes.object,
+        sellerId: propTypes.number,
+        brand: propTypes.object,
+        brandId: propTypes.number,
+        price: propTypes.number,
+        totalQuantity: propTypes.number,
+    })
 }
