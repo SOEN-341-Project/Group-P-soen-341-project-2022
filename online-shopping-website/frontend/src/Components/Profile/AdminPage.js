@@ -47,7 +47,7 @@ export const AdminPage = () => {
         },
     ]
 
-    const [cookies, setCookies] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 

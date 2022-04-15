@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import { cookieAge } from './CookieAge';
 import axios from 'axios';
 
 import Grid from '@mui/material/Grid';
@@ -38,14 +39,14 @@ export const CartPage = () => {
                 return response.data.some((product) => {
                     return product.id === cartProduct.id;
                 })
-            }));
+            }), { maxAge: cookieAge });
 
             // Update cart items with new product data
             setCookie("cart", cookies.cart.map((cartProduct) => {
                 return Object.assign(cartProduct, response.data.find(product => (
                     product.id === cartProduct.id
                 )));
-            }));
+            }), { maxAge: cookieAge });
         });
     }, []);
 
@@ -122,7 +123,7 @@ export const CartPage = () => {
                     return {...product, quantity: quantity};
                 }
                 return product;
-            }));
+            }), { maxAge: cookieAge });
         }
 
         function IncrementItem(item) {
@@ -143,7 +144,7 @@ export const CartPage = () => {
 
         function RemoveItem(itemID) {
             //Creates new array containing every product in the cart except the one being removed
-            setCookie("cart", cookies.cart.filter(product => product.id !== itemID));
+            setCookie("cart", cookies.cart.filter(product => product.id !== itemID), { maxAge: cookieAge });
             forceUpdate();
         }
 

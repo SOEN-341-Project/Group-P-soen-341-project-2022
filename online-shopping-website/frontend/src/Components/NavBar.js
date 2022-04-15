@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { cookieAge } from './Browse/CookieAge';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -68,7 +69,9 @@ export default function NavBar() {
         try {
             const loginResponse = await axios.post(process.env.REACT_APP_DB_CONNECTION + "/api/users/signin", user);
 
-            setCookie('user', loginResponse.data);
+            setCookie('user', loginResponse.data, {
+                maxAge: cookieAge
+            });
 
             // Close login popup
             setOpenLogin(false);
