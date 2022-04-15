@@ -192,8 +192,16 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
-                                <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <Link className='RoutingLink' to='view-orders'><MenuItem onClick={handleCloseUserMenu}>My Orders</MenuItem></Link>
+                                <Link className='RoutingLink' to='profile'>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        Profile
+                                    </MenuItem>
+                                </Link>
+                                <Link className='RoutingLink' to='view-orders'>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        My Orders
+                                    </MenuItem>
+                                </Link>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
@@ -228,10 +236,21 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
-                                <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <Link className='RoutingLink' to='view-orders'><MenuItem className='RoutingLink' onClick={handleCloseUserMenu}>Manage Orders</MenuItem></Link>
-                                <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}><Link className='RoutingLink' to="/seller">Manage
-                                    Products</Link></MenuItem>
+                                <Link className='RoutingLink' to='profile'>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        Profile
+                                    </MenuItem>
+                                </Link>
+                                <Link className='RoutingLink' to='view-orders'>
+                                    <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}>
+                                        Manage Orders
+                                    </MenuItem>
+                                </Link>
+                                <Link className='RoutingLink' to="/seller">
+                                    <MenuItem className='RoutingLink' onClick={handleCloseUserMenu}>
+                                        Manage Products
+                                    </MenuItem>
+                                </Link>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
@@ -266,9 +285,21 @@ export default function NavBar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 {cookies.user.user.username && (<Typography style={{padding:"0.3rem 1rem"}}>Hi, {cookies.user.user.username}</Typography>)}
-                                <Link className='RoutingLink' to='profile'><MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem></Link>
-                                <MenuItem onClick={handleCloseUserMenu}><Link className='RoutingLink' to='/admin'>Admin Page</Link></MenuItem> {/*Admin page*/}
-                                <MenuItem onClick={handleCloseUserMenu}><Link className='RoutingLink' to='admin/seller'>View All Products</Link></MenuItem>
+                                <Link className='RoutingLink' to='profile'>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        Profile
+                                    </MenuItem>
+                                </Link>
+                                <Link className='RoutingLink' to='/admin'>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        Admin Page
+                                    </MenuItem>
+                                </Link>
+                                <Link className='RoutingLink' to='admin/seller'>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                       Manage Products
+                                    </MenuItem>
+                                </Link>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
