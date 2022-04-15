@@ -1,7 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { test, expect } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import App from './App';
-import React from 'react';
 // import { shallow } from 'enzyme';
 
 test('returns true all the time!', () => {

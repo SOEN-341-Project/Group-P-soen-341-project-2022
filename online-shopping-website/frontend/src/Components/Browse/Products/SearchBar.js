@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import React from 'react';
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
@@ -43,4 +44,12 @@ export const SearchBar = (props) => {
             />
         </div>
     );
+}
+
+// Checking filter and filterData types
+SearchBar.propTypes = {
+    filters: propTypes.shape({
+        searchQuery: propTypes.string
+    }),
+    filterData: propTypes.func
 }
