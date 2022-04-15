@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -13,8 +14,6 @@ import { SearchBar } from './SearchBar';
 import { Stack } from '@mui/material';
 
 export const SideNav = (props) => {
-    const searchBarLabel = "Search Products";
-
     return (
         <Card sx={{ backgroundColor: 'rgb(62, 134, 62)', borderRadius: '10px', display: 'flex', justifyContent: 'center', padding: '1.5em', color: 'white'}}>
             <Stack xs={12} sx={{ width: '100%' }} spacing={1}>
@@ -193,4 +192,32 @@ const SellerDropdown = (props) => {
             </Accordion>
         </div>
     );
+}
+
+// Checking prop types
+SideNav.propTypes = {
+    unfilteredProducts: propTypes.arrayOf(propTypes.object),
+    filterProducts: propTypes.func,
+    filters: propTypes.shape({
+        searchQuery: propTypes.string
+    }),
+    onSliderChange: propTypes.func,
+    onCheckboxChange: propTypes.func,
+    brands: propTypes.arrayOf(propTypes.object),
+    sellers: propTypes.arrayOf(propTypes.object),
+}
+
+PriceFilter.propTypes = {
+    unfilteredProducts: propTypes.arrayOf(propTypes.object),
+    onSliderChange: propTypes.func
+}
+
+BrandDropdown.propTypes = {
+    onCheckboxChange: propTypes.func,
+    brands: propTypes.arrayOf(propTypes.object),
+}
+
+SellerDropdown.propTypes = {
+    onCheckboxChange: propTypes.func,
+    sellers: propTypes.arrayOf(propTypes.object),
 }

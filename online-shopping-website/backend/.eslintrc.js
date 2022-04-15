@@ -16,7 +16,7 @@ module.exports = {
         '@typescript-eslint'
     ],
     'rules': {
-        'semi': ['error', 'always'],
-        'quotes': ['error', 'single']
+        'semi': ['warn', 'always'],
+        'quotes': ['warn', 'single']
     }
 };

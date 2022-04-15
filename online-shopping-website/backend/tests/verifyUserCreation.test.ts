@@ -2,7 +2,7 @@ import hasRequiredUserCreationParams from "../src/helpers/verifyUserCreation";
 import { Request } from "express";
 
 const data = ["email", "password", "address1", "admin"];
-let requestBody: any = { email: "email", password: "password", address1: "address1", role: "admin" };
+const requestBody: any = { email: "email", password: "password", address1: "address1", role: "admin" };
 
 describe("Required User Creation Params Tests", () => {
   test("No email", () => {

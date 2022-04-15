@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import ButtonBase from '@mui/material/ButtonBase';
 import Grid from '@mui/material/Grid';
@@ -53,4 +54,16 @@ export const ProductGrid = (props) => {
             {iterateProducts(props)}
         </Grid>
     );
+}
+
+// Check types of props
+ProductPreview.propTypes = {
+    product: propTypes.shape({
+        id: propTypes.number,
+        name: propTypes.string,
+        picture: propTypes.string,
+        brand: propTypes.object,
+        seller: propTypes.object,
+        price: propTypes.number,
+    })
 }
