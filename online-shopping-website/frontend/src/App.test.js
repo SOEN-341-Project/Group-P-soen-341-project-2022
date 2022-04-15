@@ -1,6 +1,5 @@
-import { test, expect } from '@testing-library/react';
+/* eslint-disable no-undef */
 import '@testing-library/jest-dom';
-// import { shallow } from 'enzyme';
 
 test('returns true all the time!', () => {
   expect(true).toBe(true);
