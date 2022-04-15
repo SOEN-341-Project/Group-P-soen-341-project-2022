@@ -1,22 +1,23 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import axios from "axios";
-import { useCookies } from 'react-cookie';
+import {useCookies} from 'react-cookie';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
-
-import { styled } from '@mui/material/styles';
+import {Link} from 'react-router-dom';
+import {Button} from '@mui/material';
+import {styled} from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { SearchBar } from '../Browse/Products/SearchBar';
+
+import {SearchBar} from '../Browse/Products/SearchBar';
+import {LoadingSpinner} from './../LoadingSpinner';
 
 export const ViewOrders = () => {
     const [cookie, setCookie] = useCookies(['user']);
@@ -25,16 +26,16 @@ export const ViewOrders = () => {
     const [unfilteredOrders, setUnfilteredOrders] = useState(null);
     const [orders, setOrders] = useState(null);
     const [loading, setLoading] = useState(true);
-    
+
     const searchBarLabel = "Search Orders";
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/orders/' + (cookie.user.user.role === 'CUSTOMER' ? 'findByUser' : 'all'),
-        {
-            headers: {
-                'Authorization': `Bearer ${cookie.user.token}`
-            }
-        }).then((res) => {
+            {
+                headers: {
+                    'Authorization': `Bearer ${cookie.user.token}`
+                }
+            }).then((res) => {
             setUnfilteredOrders(res.data);
             setOrders(res.data);
             setLoading(false);
@@ -58,21 +59,17 @@ export const ViewOrders = () => {
     // Waiting for orders during GET
     if (loading) {
         return (
-            <Grid container>
-                <Grid item xs={12}>
-                    <h1 className="TextGreen LoadingSpinnerHeader">Loading orders</h1>
-                </Grid>
-                <Grid item xs={12} id="LoadingSpinner" />
-            </Grid>);
+            <LoadingSpinner loadText={"Loading orders"}/>
+        )
     }
 
     const OrderItem = () => {
         const [expandedId, setExpandedId] = React.useState(-1);
 
         const ExpandMore = styled((props) => {
-            const { expand, ...other } = props;
+            const {expand, ...other} = props;
             return <IconButton {...other} />;
-        })(({ theme, expand }) => ({
+        })(({theme, expand}) => ({
             transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
             marginLeft: 'auto',
             transition: theme.transitions.create('transform', {
@@ -94,7 +91,7 @@ export const ViewOrders = () => {
         const ProductBreakdown = (props) => {
             return props.order.items.map((item, index) => {
                 return (
-                    <Grid key={index} sx={{ margin: '0 0 0.7rem 1rem' }}>
+                    <Grid key={index} sx={{margin: '0 0 0.7rem 1rem'}}>
                         <Typography variant="body1" color="text.primary">
                             {item.name[0].toUpperCase()}{item.name.substring(1)} (x{props.order.itemQuantities[index]})
                         </Typography>
@@ -147,7 +144,7 @@ export const ViewOrders = () => {
                             <Typography variant="body2" color="text.secondary">
                                 Last modified: {order.updatedAt.substring(0, 10)} [{order.updatedAt.substring(11, 22)}]
                             </Typography>
-                            <br />
+                            <br/>
                             <Typography variant="body2" color="text.primary">
                                 Total paid: {order.totalPrice.toFixed(2)}Ɖ
                             </Typography>
@@ -156,22 +153,22 @@ export const ViewOrders = () => {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <Typography style={{ paddingLeft: '0.5rem' }}>View more</Typography>
+                            <Typography style={{paddingLeft: '0.5rem'}}>View more</Typography>
                             <ExpandMore key={index}
-                               // expand={expanded}
-                                onClick={event => handleExpandClick(index)}
-                                aria-expanded={expandedId === index}
-                                aria-label="show more"
+                                // expand={expanded}
+                                        onClick={event => handleExpandClick(index)}
+                                        aria-expanded={expandedId === index}
+                                        aria-label="show more"
                             >
-                                <ExpandMoreIcon />
+                                <ExpandMoreIcon/>
                             </ExpandMore>
                         </CardActions>
                         <Collapse in={expandedId === index} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography paragraph style={{ textDecoration: 'underline' }}>
+                                <Typography paragraph style={{textDecoration: 'underline'}}>
                                     Order summary
                                 </Typography>
-                                <ProductBreakdown order={order} />
+                                <ProductBreakdown order={order}/>
                             </CardContent>
                         </Collapse>
                     </Card>
@@ -184,7 +181,7 @@ export const ViewOrders = () => {
         <div>
             <Link to="/" className='RoutingLink'>
                 <Button variant="text" className="ProductsBackButton">
-                    <ArrowBackIosNewIcon /><h4>Return to products</h4>
+                    <ArrowBackIosNewIcon/><h4>Return to products</h4>
                 </Button>
             </Link>
             <Grid container justifyContent="center">
@@ -192,10 +189,10 @@ export const ViewOrders = () => {
                     <h1>My Orders</h1>
                 </Grid>
                 <Grid item container xs={12} justifyContent='center'>
-                        <SearchBar filters={searchFilter} filterData={filterOrders} label={searchBarLabel} />
-                    </Grid>
+                    <SearchBar filters={searchFilter} filterData={filterOrders} label={searchBarLabel}/>
+                </Grid>
                 <Grid item container xs={12} sm={10} spacing={4}>
-                    <OrderItem  />
+                    <OrderItem/>
                 </Grid>
             </Grid>
         </div>

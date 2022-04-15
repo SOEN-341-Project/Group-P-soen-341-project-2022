@@ -1,0 +1,29 @@
+.sellerContainer {
+    padding-top: 2rem;
+    margin: auto;
+    max-width: 68.8rem;
+}
+
+.sellerTableContainer {
+    padding: 1.5rem;
+    margin: auto;
+    margin-bottom: 1.5rem;
+    display: flex;
+    max-width: 68.8rem;
+    background-color: #e99898;
+    border-radius: 10px;
+}
+
+.sellerImage {
+    max-width: 3rem;
+    max-height: 2rem;
+}
+
+.sellerTable {
+    background-color: white;
+    width: 70rem;
+}
+
+.sellerButtonsContainer {
+    padding-top: 1rem;
+}

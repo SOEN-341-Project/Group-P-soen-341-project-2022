@@ -233,48 +233,6 @@ body {
     display: flex;
 }
 
-/* Seller Products Page */
-
-.sellerContainer {
-    padding-top: 2rem;
-    margin: auto;
-    max-width: 68.8rem;
-}
-
-.sellerTableContainer {
-  padding: 1.5rem;
-  margin: auto;
-  margin-bottom: 1.5rem;
-  display: flex;
-  max-width: 68.8rem;
-  background-color: #e99898;
-  border-radius: 10px;
-}
-
-.adminTableContainer {
-    padding: 1.5rem;
-    margin: auto;
-    margin-bottom: 1.5rem;
-    display: flex;
-    max-width: 68.8rem;
-    background-color: rgb(62, 134, 62);
-    border-radius: 10px;
-  }
-
-.sellerImage {
-    max-width: 3rem;
-    max-height: 2rem;
-}
-
-.sellerTable {
-    background-color: white;
-    width: 70rem;
-}
-
-.sellerButtonsContainer {
-    padding-top: 1rem;
-}
-
 /* Cart Page */
 .Cart-Container {
     max-width: 90rem;
@@ -560,51 +518,4 @@ body {
 /* TextField clear button override */
 input::-webkit-search-cancel-button {
     display: none;
-}
-
-/*Loading Spinner*/
-.LoadingSpinnerHeader {
-    padding: 2rem;
-    text-align: center;
-}
-
-#LoadingSpinner {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 50px;
-    width: 50px;
-    margin: -25px 0 0 -25px;
-    border: 4px rgba(60, 121, 60, 0.25) solid;
-    border-top: 4px rgb(60, 121, 60) solid;
-    border-radius: 50%;
-    -webkit-animation: spin2 1s infinite linear;
-    animation: spin2 1s infinite linear;
-}
-
-@-webkit-keyframes spin2 {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-    }
-}
-
-@keyframes spin2 {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-    }
 }

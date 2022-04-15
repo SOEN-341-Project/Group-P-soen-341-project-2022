@@ -5,8 +5,8 @@ import { Button, InputAdornment, Stack, TextField, Checkbox, FormControlLabel } 
 import { useCookies } from 'react-cookie';
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from 'axios';
-import Grid from "@mui/material/Grid";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import {LoadingSpinner} from './../LoadingSpinner';
 
 export const SellerForm = () => {
     // React router navigation (for redirecting)
@@ -175,12 +175,7 @@ export const SellerForm = () => {
     // White loading, show loading screen with spinner
     if (loading) {
         return (
-            <Grid container>
-                <Grid item xs={12}>
-                    <h1 className="TextGreen LoadingSpinnerHeader">Loading form</h1>
-                </Grid>
-                <Grid item xs={12} id="LoadingSpinner" />
-            </Grid>
+            <LoadingSpinner loadText={"Loading form"}/>
         );
     }
 
@@ -272,7 +267,7 @@ export const SellerForm = () => {
                         checked={productData.promoted}
                         name="promoted"
                         onChange={handleCheckBoxChange}
-                        sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' } }}
+                        sx={{ '&.Mui-checked': { color: 'rgb(60, 121, 60)' }}}
                         />
                     }
                     label="Promote Item"

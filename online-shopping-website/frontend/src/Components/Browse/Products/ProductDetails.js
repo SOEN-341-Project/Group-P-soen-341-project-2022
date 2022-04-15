@@ -1,15 +1,16 @@
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import * as React from 'react';
-import { useState } from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { Link, useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
+import {useCookies} from 'react-cookie';
+import {LoadingSpinner} from './../../LoadingSpinner';
 
 const ProductButtons = (props) => {
 
@@ -47,7 +48,7 @@ const ProductButtons = (props) => {
 
         setCookie("cart", cookies.cart.map(product => {
             if (itemId === product.id) {
-                return { ...product, quantity: newQuantity };
+                return {...product, quantity: newQuantity};
             }
             return product;
         }));
@@ -116,32 +117,34 @@ const ProductButtons = (props) => {
             <h3 className='TextGreen'>Quantity</h3>
             <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                    disabled={quantity === 1}
-                    onClick={DecreaseItem}>
-                    <RemoveIcon />
+                        disabled={quantity === 1}
+                        onClick={DecreaseItem}>
+                    <RemoveIcon/>
                 </Button>
-                <input className="inputne" disabled={true} value={quantity} />
+                <input className="inputne" disabled={true} value={quantity}/>
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
-                    disabled={((productInCart ? productInCart.quantity : 0) + quantity) >= props.product.totalQuantity}
-                    onClick={IncrementItem}>
-                    <AddIcon />
+                        disabled={((productInCart ? productInCart.quantity : 0) + quantity) >= props.product.totalQuantity}
+                        onClick={IncrementItem}>
+                    <AddIcon/>
                 </Button>
             </Stack>
-            <h5 className="ProductDetails-ProductLimitText">There {props.product.totalQuantity > 1 ? 'are' : 'is'} {props.product.totalQuantity} in stock.</h5>
+            <h5 className="ProductDetails-ProductLimitText">There {props.product.totalQuantity > 1 ? 'are' : 'is'} {props.product.totalQuantity} in
+                stock.</h5>
             {
                 // If product is in the user's cart, show quantity of item in cart
                 productInCart &&
-                <h5 className="ProductDetails-ProductLimitText">You currently have {productInCart.quantity} in your cart.</h5>
+                <h5 className="ProductDetails-ProductLimitText">You currently have {productInCart.quantity} in your
+                    cart.</h5>
             }
             <Button className="ProductDetails-CartButton GreenButtonContained"
-                variant="contained"
-                endIcon={<AddShoppingCartIcon />}
+                    variant="contained"
+                    endIcon={<AddShoppingCartIcon/>}
                 // Can't add to cart if logged out, or non-customer, or adding to cart would surpass total quantity
-                disabled={
-                    !cookies.user
-                    || cookies.user.user.role !== 'CUSTOMER'
-                    || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
-                onClick={AddToCart}>
+                    disabled={
+                        !cookies.user
+                        || cookies.user.user.role !== 'CUSTOMER'
+                        || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
+                    onClick={AddToCart}>
                 Add to cart
             </Button>
             {
@@ -178,12 +181,7 @@ export const ProductDetails = () => {
     // Display load screen while getting data
     if (loading) {
         return (
-            <Grid container>
-                <Grid item xs={12}>
-                    <h1 className="TextGreen LoadingSpinnerHeader">Loading product: {productParams.productName}</h1>
-                </Grid>
-                <Grid item xs={12} id="LoadingSpinner" />
-            </Grid>
+            <LoadingSpinner loadText={"Loading " + productParams.productName}/>
         );
     }
 
@@ -199,7 +197,7 @@ export const ProductDetails = () => {
                 <Grid item xs={12} md={6}>
                     <h1>{selectedProduct.name}</h1>
                     <div className="ProductDetails-ImageConatiner">
-                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name} />
+                        <img className="ProductDetails-Image" src={selectedProduct.picture} alt={selectedProduct.name}/>
                     </div>
 
                     <Grid item container>
@@ -216,12 +214,12 @@ export const ProductDetails = () => {
                     <h3>Description</h3>
                     <p>{selectedProduct.description}</p>
                 </Grid>
-                <Grid item md={1} />
+                <Grid item md={1}/>
                 <Grid item xs={12} sm={12} md={5}>
                     <Card className="ProductDetails-SelectionPanel">
                         <h3 className='TextGreen'>Price</h3>
                         <h4 className='TextPink'>{selectedProduct.price} Ɖ</h4>
-                        <ProductButtons product={selectedProduct} />
+                        <ProductButtons product={selectedProduct}/>
                     </Card>
                 </Grid>
             </Grid>

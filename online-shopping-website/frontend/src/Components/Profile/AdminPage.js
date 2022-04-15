@@ -1,13 +1,17 @@
+import './../Seller/SellerProductsPage.css';
+import './AdminPage.css';
+
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
-import { DataGrid } from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Typography } from '@mui/material';
+import {Typography} from '@mui/material';
 import axios from 'axios';
-import { ViewOrders } from './ViewOrders';
-import { useCookies } from 'react-cookie';
+import {ViewOrders} from './ViewOrders';
+import {LoadingSpinner} from './../LoadingSpinner'
+import {useCookies} from 'react-cookie';
 
 export const AdminPage = () => {
     //making datagrid colums to see all users
@@ -17,7 +21,7 @@ export const AdminPage = () => {
             headerName: 'Delete',
             renderCell: (params) => (
                 <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeUser(params.id)}>
-                    <DeleteIcon />
+                    <DeleteIcon/>
                 </Button>
             ),
             sortable: false,
@@ -58,10 +62,10 @@ export const AdminPage = () => {
                     "Authorization": `Bearer ${cookies.user.token}`
                 }
             })
-            .then((resUser) => {
-                setUsers(resUser.data);
-                setLoading(false);  
-            });
+                .then((resUser) => {
+                    setUsers(resUser.data);
+                    setLoading(false);
+                });
         }
     }, []);
 
@@ -69,7 +73,7 @@ export const AdminPage = () => {
         if (window.confirm(`Delete user with id: ${id}?`)) {
             try {
                 await axios.delete(process.env.REACT_APP_DB_CONNECTION + '/api/users/delete?id=' + id, {
-                    "headers" : {
+                    "headers": {
                         "Authorization": `Bearer ${cookies.user.token}`
                     }
                 });
@@ -81,44 +85,39 @@ export const AdminPage = () => {
             window.location.reload();
         }
     }
-    
+
     if (loading) {
         return (
-            <Grid container>
-                <Grid item>
-                    <h1 className="TextGreen LoadingSpinnerHeader">Loading Users</h1>
-                </Grid>
-                <Grid item id="LoadingSpinner" />
-            </Grid>
+            <LoadingSpinner loadText={"Loading Users"}/>
         );
     }
 
-    if(cookies.user.user.role === 'ADMIN'){
+    if (cookies.user.user.role === 'ADMIN') {
         return (
-        <Grid className="sellerContainer">
-            <Grid container className="adminTableContainer">
-                <Grid item>
-                    <h1 style={{ color: "white", marginTop: 0 }}>Browsing Users</h1>
+            <Grid className="sellerContainer">
+                <Grid container className="adminTableContainer">
+                    <Grid item>
+                        <h1 style={{color: "white", marginTop: 0}}>Browsing Users</h1>
+                    </Grid>
+                    <Grid item sx={{minHeight: '10.5rem', height: 370, width: '100%'}} className="sellerTable">
+                        <DataGrid
+                            rows={users}
+                            columns={columns}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item sx={{ minHeight: '10.5rem', height: 370, width: '100%' }} className="sellerTable">
-                    <DataGrid
-                        rows={users}
-                        columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                    />
+
+                <Grid container className="adminTableContainer">
+                    <Grid item sx={{padding: '2rem'}} className="sellerTable">
+                        <ViewOrders/>
+                    </Grid>
                 </Grid>
             </Grid>
-    
-            <Grid container className="adminTableContainer" >
-                <Grid item sx={{ padding: '2rem' }} className="sellerTable">
-                    <ViewOrders />
-                </Grid>
-            </Grid>
-        </Grid>
-        
-    )}
-    else{
+
+        )
+    } else {
         return (
             <Grid container className="Cart-Container">
                 <Grid item container sx={{paddingBottom: '2rem'}}>

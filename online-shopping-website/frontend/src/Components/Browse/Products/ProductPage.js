@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
-import { ProductGrid } from './ProductGrid';
-import { SideNav } from './SideNav';
+import {ProductGrid} from './ProductGrid';
+import {SideNav} from './SideNav';
 import axios from 'axios';
-import { Slideshow } from './Slideshow';
-import * as React from "react";
+import {Slideshow} from './Slideshow';
+import {LoadingSpinner} from './../../LoadingSpinner';
 
 // Encapsulates both SideNav and ProductGrid
 export const ProductPage = () => {
@@ -99,19 +100,14 @@ export const ProductPage = () => {
     // Waiting for products during GET
     if (loading) {
         return (
-            <Grid container>
-                <Grid item xs={12}>
-                    <h1 className="TextGreen LoadingSpinnerHeader">Loading products</h1>
-                </Grid>
-                <Grid item xs={12} id="LoadingSpinner" />
-            </Grid>
+            <LoadingSpinner loadText={"Loading products"}/>
         );
     }
 
     return (
         <div>
             {promotedProducts.length > 0 &&
-                <Slideshow products={promotedProducts} />
+            <Slideshow products={promotedProducts}/>
             }
             <Grid container columnSpacing={4} rowSpacing={5}>
                 <Grid item xs={12} md={3} lg={2}>
@@ -126,7 +122,7 @@ export const ProductPage = () => {
                     />
                 </Grid>
                 <Grid item xs={12} md={9} lg={10}>
-                    <ProductGrid products={products} />
+                    <ProductGrid products={products}/>
                 </Grid>
             </Grid>
         </div>

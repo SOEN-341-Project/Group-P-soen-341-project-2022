@@ -1,15 +1,18 @@
+import './SellerProductsPage.css';
+
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
-import { Link } from "react-router-dom";
-import { DataGrid } from '@mui/x-data-grid';
+import {Link} from "react-router-dom";
+import {DataGrid} from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
+import {useCookies} from 'react-cookie';
+import {LoadingSpinner} from './../LoadingSpinner';
 
 export const SellerProductsPage = () => {
     // DataGrid columns
@@ -20,10 +23,10 @@ export const SellerProductsPage = () => {
             renderCell: (params) => (
                 <Link to={{
                     pathname: `/seller/${params.id}`,
-                    params: { params }
+                    params: {params}
                 }} className="RoutingLink">
                     <Button className="sellerButton GreenButtonText" variant="text">
-                        <EditIcon />
+                        <EditIcon/>
                     </Button>
                 </Link>
             ),
@@ -35,35 +38,36 @@ export const SellerProductsPage = () => {
             field: 'delete',
             headerName: 'Delete',
             renderCell: (params) => (
-                <Button className="sellerButton GreenButtonText" variant="text" onClick={() => removeProduct(params.id)}>
-                    <DeleteIcon />
+                <Button className="sellerButton GreenButtonText" variant="text"
+                        onClick={() => removeProduct(params.id)}>
+                    <DeleteIcon/>
                 </Button>
             ),
             sortable: false,
             filterable: false,
             hideable: false
         },
-        { field: 'id', headerName: 'ID', type: 'number', width: 20, align: 'center', },
+        {field: 'id', headerName: 'ID', type: 'number', width: 20, align: 'center',},
         {
             field: 'picture',
             headerName: 'Image',
             align: 'center',
             width: 70,
             renderCell: (params) => (
-                <img className="sellerImage" src={params.value} alt="n/a" />
+                <img className="sellerImage" src={params.value} alt="n/a"/>
             ),
             sortable: false,
             filterable: false
         },
-        { field: 'name', headerName: 'Product name', width: 130 },
-        { field: 'description', headerName: 'Description', width: 200 },
-        { field: 'brandName', headerName: 'Brand', width: 200 },
+        {field: 'name', headerName: 'Product name', width: 130},
+        {field: 'description', headerName: 'Description', width: 200},
+        {field: 'brandName', headerName: 'Brand', width: 200},
         {
             field: 'price', headerName: 'Price', type: 'number', width: 100,
             valueGetter: (params) =>
                 `${params.value.toFixed(2) || ''} Ɖ`,
         },
-        { field: 'totalQuantity', headerName: 'Quantity', type: 'number', width: 100 }
+        {field: 'totalQuantity', headerName: 'Quantity', type: 'number', width: 100}
     ];
     const [cookies, setCookies] = useCookies(['user']);
 
@@ -96,7 +100,7 @@ export const SellerProductsPage = () => {
                 }));
         }
 
-        // Admin can view products sold by all sellers
+            // Admin can view products sold by all sellers
         // Load all sellers into state for buttons
         else if (cookies.user.user.role === 'ADMIN') {
             axios.get(process.env.REACT_APP_DB_CONNECTION + '/api/users/sellers')
@@ -129,12 +133,7 @@ export const SellerProductsPage = () => {
 
     if (loading) {
         return (
-            <Grid container>
-                <Grid item xs={12}>
-                    <h1 className="TextGreen LoadingSpinnerHeader">Loading sellers</h1>
-                </Grid>
-                <Grid item xs={12} id="LoadingSpinner" />
-            </Grid>
+            <LoadingSpinner loadText={"Loading sellers"}/>
         );
     }
 
@@ -146,12 +145,12 @@ export const SellerProductsPage = () => {
     const RenderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
-                return <Button 
-                    sx={{ marginRight: '5px' }}
-                    key={index} 
+                return <Button
+                    sx={{marginRight: '5px'}}
+                    key={index}
                     className="GreenButtonContained"
-                    name={seller.sellerName} 
-                    id={seller.id} 
+                    name={seller.sellerName}
+                    id={seller.id}
                     variant="contained"
                     onClick={(e) => handleSellerClick(e)}>{seller.sellerName}</Button>;
             })
@@ -181,7 +180,7 @@ export const SellerProductsPage = () => {
                 <h1 className="TextGreen">You do not have permission to access this page.</h1>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="ProductsBackButton">
-                        <ArrowBackIosNewIcon /><h4>Return to products</h4>
+                        <ArrowBackIosNewIcon/><h4>Return to products</h4>
                     </Button>
                 </Link>
             </div>
@@ -192,16 +191,16 @@ export const SellerProductsPage = () => {
         <Grid className="sellerContainer">
             <Grid container className="sellerTableContainer">
                 <Grid item xs={12}>
-                    <h1 style={{ color: "white", marginTop: 0 }}>Browsing {sellerPageName}'s Products</h1>
+                    <h1 style={{color: "white", marginTop: 0}}>Browsing {sellerPageName}'s Products</h1>
                 </Grid>
-                <Grid item sx={{ marginBottom: '1rem' }} xs={12} spacing={2}>
+                <Grid item container sx={{marginBottom: '1rem'}} xs={12} spacing={2}>
                     {cookies.user.user.role === 'ADMIN' && RenderSellerButtons()}
                 </Grid>
 
                 <Grid item sm={12} className="sellerTable">
-                    <div style={{ minHeight: '10.5rem', height: 400, width: '100%' }}>
-                        <div style={{ display: 'flex', height: '100%' }}>
-                            <div style={{ flexGrow: 1 }}>
+                    <div style={{minHeight: '10.5rem', height: 400, width: '100%'}}>
+                        <div style={{display: 'flex', height: '100%'}}>
+                            <div style={{flexGrow: 1}}>
                                 <DataGrid
                                     rows={sellerProducts}
                                     columns={columns}
@@ -215,16 +214,16 @@ export const SellerProductsPage = () => {
                 <Grid item xs={12} className="sellerButtonsContainer">
                     <Link to="/seller/add-product-form" className="RoutingLink">
                         <Button className="GreenButtonContained" variant="contained">
-                            Add product <AddIcon />
+                            Add product <AddIcon/>
                         </Button>
                     </Link>
                 </Grid>
 
             </Grid>
-            <div style={{ paddingTop: "1rem" }}>
+            <div style={{paddingTop: "1rem"}}>
                 <Link to="/" className='RoutingLink'>
                     <Button variant="text" className="ProductsBackButton">
-                        <ArrowBackIosNewIcon /><h4>Return to products</h4>
+                        <ArrowBackIosNewIcon/><h4>Return to products</h4>
                     </Button>
                 </Link>
             </div>
