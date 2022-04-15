@@ -234,9 +234,7 @@ export const CartPage = () => {
                                 aria-label="close"
                                 color="inherit"
                                 size="small"
-                                onClick={function () {
-                                    setAlertVisible(false);
-                                }}
+                                onClick={() => setAlertVisible(false)}
                             >
                                 <CloseIcon fontSize="inherit"/>
                             </IconButton>
@@ -300,9 +298,7 @@ export const CartPage = () => {
                             aria-label="close"
                             color="inherit"
                             size="small"
-                            onClick={function () {
-                                setAlertVisible(false);
-                            }}
+                            onClick={() => setAlertVisible(false)}
                         >
                             <CloseIcon fontSize="inherit"/>
                         </IconButton>

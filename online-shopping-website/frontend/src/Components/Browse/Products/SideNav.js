@@ -55,7 +55,7 @@ const searchBarStyle = {
 
 const PriceFilter = (props) => {
     
-    function valuetext(value) {
+    const valueToText = (value) => {
         return `${value}Ɖ`;
     }
     
@@ -75,11 +75,11 @@ const PriceFilter = (props) => {
     const marks = [
         {
             value: lowestPrice,
-            label: valuetext(lowestPrice),
+            label: valueToText(lowestPrice),
         },
         {
             value: highestPrice,
-            label: valuetext(highestPrice),
+            label: valueToText(highestPrice),
         },
     ];
 
@@ -103,7 +103,7 @@ const PriceFilter = (props) => {
                     value={value}
                     onChange={handleChange}
                     valueLabelDisplay="auto"
-                    getAriaValueText={valuetext}
+                    getAriaValueText={valueToText}
                     step={1}
                     marks={marks}
                     disableSwap
