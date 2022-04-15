@@ -65,7 +65,7 @@ export const SellerProductsPage = () => {
         },
         { field: 'totalQuantity', headerName: 'Quantity', type: 'number', width: 100 }
     ];
-    const [cookies, setCookies] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
 
     const [loading, setLoading] = useState(true);
     const [sellers, setSellers] = useState([]);

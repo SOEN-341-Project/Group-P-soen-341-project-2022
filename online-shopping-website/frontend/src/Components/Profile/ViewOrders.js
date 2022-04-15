@@ -19,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SearchBar } from '../Browse/Products/SearchBar';
 
 export const ViewOrders = () => {
-    const [cookie, setCookie] = useCookies(['user']);
+    const [cookie] = useCookies(['user']);
 
     let [searchFilter] = useState({searchQuery: ''});
     const [unfilteredOrders, setUnfilteredOrders] = useState(null);

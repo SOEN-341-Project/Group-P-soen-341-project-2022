@@ -1,3 +1,4 @@
+import { cookieAge } from '../CookieAge';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import * as React from 'react';
@@ -50,7 +51,7 @@ const ProductButtons = (props) => {
                 return { ...product, quantity: newQuantity };
             }
             return product;
-        }));
+        }), { maxAge: cookieAge });
     }
 
     const AddToCart = () => {
@@ -73,7 +74,7 @@ const ProductButtons = (props) => {
             }
 
             //setting cookie to the new created item
-            setCookie("cart", [newCartItem]);
+            setCookie("cart", [newCartItem], { maxAge: cookieAge });
         }
 
         // Item already in cart
@@ -102,7 +103,7 @@ const ProductButtons = (props) => {
                 newCartItem
             );
 
-            setCookie("cart", cookies.cart);
+            setCookie("cart", cookies.cart, { maxAge: cookieAge });
         }
     }
 
