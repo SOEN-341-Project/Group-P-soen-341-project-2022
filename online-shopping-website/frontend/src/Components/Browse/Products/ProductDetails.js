@@ -245,5 +245,4 @@ ProductButtons.propTypes = {
         price: propTypes.number,
         totalQuantity: propTypes.number,
     })
-    // product: propTypes.object
 }
