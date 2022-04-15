@@ -24,10 +24,10 @@ userRouter.post('/register', async (req: Request, res: Response) => {
     }if(role === UserRole.SELLER && (req.body.sellerName === null || req.body.sellerName === undefined)){
       throw (new Error().message = format('Seller name is missing'));
     }
-    const encrypted_password = await bcrypt.hash(req.body.password, 5); //encrypt password
+    const encryptedPassword = await bcrypt.hash(req.body.password, 5); //encrypt password
     const newUser = await createUser({
       email: req.body.email,
-      pWord: encrypted_password,
+      pWord: encryptedPassword,
       role: role,
       uName: req.body.username,
       firstName: req.body.firstName,
@@ -76,15 +76,15 @@ userRouter.post('/update', async (req: Request, res: Response) => { // updates a
     if (!match){
       throw new Error('Password is incorrect');
     }
-    let encrypted_password: string | undefined;
+    let encryptedPassword: string | undefined;
     if (req.body.password !== undefined) {
       //new password
-      encrypted_password = await bcrypt.hash(req.body.password, 5);
+      encryptedPassword = await bcrypt.hash(req.body.password, 5);
     }
-    const new_usr = await updateUser({
+    const newUsr = await updateUser({
       userId: usr.id,
       email: req.body.email || usr.email,
-      pWord: encrypted_password || usr.password,
+      pWord: encryptedPassword || usr.password,
       role: usr.role,
       uName: req.body.username || usr.username,
       firstName: req.body.firstName || usr.firstName,
@@ -92,12 +92,13 @@ userRouter.post('/update', async (req: Request, res: Response) => { // updates a
       address1: req.body.address1 || usr.address1,
       sellerName: req.body.sellerName || usr.sellerName,
     });
-    const new_token = signToken(new_usr);
-    res.status(200).json({ user: new_usr, token: new_token });
+    const newToken = signToken(newUsr);
+    res.status(200).json({ user: newUsr, token: newToken });
   } catch (e) {
     if (e.code === 'P2002') {
       e.message = 'Unique constraint on ' + e.meta.target + ' failed';
     }
+    console.log(e);
     res.status(400).json({ error: e, message: e.message });
   }
 });
