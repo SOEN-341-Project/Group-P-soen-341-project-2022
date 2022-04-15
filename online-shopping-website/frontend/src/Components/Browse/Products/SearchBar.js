@@ -20,7 +20,7 @@ export const SearchBar = (props) => {
             <TextField
                 sx={props.style}
                 value={searchValue}
-                label="Search Products"
+                label={props.label}
                 variant="outlined"
                 type="search"
                 onChange={(e) => handleSearchChange(e.target.value)}

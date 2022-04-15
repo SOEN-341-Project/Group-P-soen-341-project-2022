@@ -31,7 +31,7 @@ const profileProperties = {
 
 //signing up function
 export const Register = () => {
-    const [userCookie, setUserCookie, deleteUserCookie] = useCookies(['user']);
+    const [userCookie, setUserCookie] = useCookies(['user']);
 
     let navigator = useNavigate();
 
