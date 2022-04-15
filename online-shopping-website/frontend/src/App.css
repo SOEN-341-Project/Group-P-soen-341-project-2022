@@ -6,10 +6,6 @@ body {
     padding: 1.25em;
 }
 
-.SearchBar {
-    margin-bottom: 1rem;
-}
-
 .RoutingLink {
     text-decoration: none;
     color: inherit;
@@ -37,43 +33,9 @@ body {
     margin: 0;
 }
 
-/* SlideShow styles */
-.ProductImageShow {
-    display: block;
-    margin: auto;
-    max-height: 200px;
-    max-width: 100%;
-}
-
-.ProductDetailsShow {
-    background-color: white;
-    border-radius: 10px;
-    margin: 1rem 2.5rem 2.5rem 2.5rem;
-    padding: 1rem 2rem;
-}
-
-.SlideshowPadding {
-    background-color: rgb(62, 134, 62);
-    border-radius: 10px;
-    color: white;
-    margin-bottom: 4rem;
-    padding: 1rem;
-    text-align: center;
-}
 
 @media only screen and (max-width: 670px) {
     .EditProfileButtonLarge {
-        display: none;
-    }
-
-    .CartText {
-        text-align: center;
-        margin: auto;
-        justify-content: center;
-        padding-bottom: 1rem;
-    }
-
-    .CartItemImage {
         display: none;
     }
 
@@ -99,26 +61,9 @@ body {
         text-align: center;
         min-height: 90%;
     }
-
-    .navbar-links {
-        display: none;
-    }
-
-    .Navbar-LogoLarge {
-        display: none;
-    }
-
-    .Navbar-LogoSmall {
-        max-width: 3.5rem;
-    }
 }
 
 @media only screen and (min-width: 670px) {
-    .CartText {
-        display: flex;
-        padding-bottom: 1rem;
-    }
-
     .ProductDetails-Container {
         padding-bottom: 3.5rem;
         margin: 3.5rem auto;
@@ -140,13 +85,19 @@ body {
         text-align: center;
     }
 
-    .Navbar-LogoSmall {
-        display: none;
-    }
-
     .EditProfileButtonSmall {
         display: none;
     }
+}
+
+.ProductsBackButton {
+    color: #c46b6b;
+    padding: 0 0.5rem 0 0;
+    max-height: 2rem;
+}
+
+.ProductsBackButton:hover {
+    background-color: #e88c8c10;
 }
 
 @media only screen and (min-width: 900px) {
@@ -174,34 +125,6 @@ body {
 .ProductDetails-ImageContainer {
     background-color: white;
     border-radius: 10px;
-}
-
-@media only screen and (max-width: 900px) {
-    .CartItemImage {
-        display: none;
-    }
-}
-
-@media only screen and (min-width: 900px) {
-    .CartItemImage {
-        max-width: 8rem;
-        max-height: 8rem;
-        width: auto;
-        height: auto;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
-
-    .CartItem {
-        background-color: rgba(89, 163, 89, 0.842);
-        margin-bottom: 2rem;
-        border-radius: 10px;
-        max-height: 15rem;
-    }
 }
 
 /* Shared between cart page and product details */
@@ -233,78 +156,6 @@ body {
     display: flex;
 }
 
-/* Cart Page */
-.Cart-Container {
-    max-width: 90rem;
-    margin: auto;
-}
-
-.Cart-Alert {
-    margin-top: 1.5rem;
-}
-
-.CartItemsContainer {
-    color: white;
-}
-
-.CartItem {
-    background-color: rgba(89, 163, 89, 0.842);
-    margin-bottom: 2rem;
-    border-radius: 10px;
-}
-
-.Cart-RetailerInfo {
-    display: flex;
-}
-
-.Cart-SideBannerContainer {
-    height: fit-content;
-}
-
-.Cart-SideBanner {
-    height: fit-content;
-    min-width: 19rem;
-    max-width: 19rem;
-    border-radius: 10px;
-    border: solid 7px #e88c8c;
-    padding: 0 2rem;
-    margin: 0 auto 2rem auto;
-}
-
-.Cart-OrderButton {
-    padding: 2rem 0;
-}
-
-.Cart-Quantity {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto 1rem auto;
-}
-
-.Cart-CloseButton {
-    padding: 0;
-    border-radius: 40px;
-    color: #ff7e7e;
-}
-
-.Cart-CloseButton:hover {
-    color: #e47272;
-}
-
-.Cart-CloseButton:active {
-    color: white;
-}
-
-.ProductsBackButton {
-    color: #c46b6b;
-    padding: 0 0.5rem 0 0;
-    max-height: 2rem;
-}
-
-.ProductsBackButton:hover {
-    background-color: #e88c8c10;
-}
-
 /* Register Page */
 
 .register-page {
@@ -320,18 +171,6 @@ body {
     padding: 3rem;
     background-color: white;
     border-radius: 10px;
-}
-
-/*Navbar styles*/
-
-.NavBar {
-    margin-bottom: 10px;
-    background-color: rgb(62, 134, 62);
-}
-
-.Navbar-RoutingLink {
-    color: white;
-    text-decoration: none;
 }
 
 /*Profile page*/

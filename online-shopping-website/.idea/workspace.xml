@@ -2,18 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1d15284-baae-49aa-8ac6-83f204b6bf2d" name="Changes" comment="Fixed grid compilation error.&#10;&#10;Run time error of not rendering still exists.">
-      <change afterPath="$PROJECT_DIR$/frontend/src/Components/LoadingSpinner.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/Components/LoadingSpinner.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/Components/Profile/AdminPage.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsPage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/CartPage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/SearchBar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/Slideshow.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Components/NavBar.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/ProductDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/ProductDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/ProductPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/ProductPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Profile/AdminPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Profile/AdminPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Profile/ViewOrders.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Profile/ViewOrders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Seller/SellerProductsPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Browse/CartPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/CartPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/SearchBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/SearchBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/Slideshow.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Browse/Products/Slideshow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/NavBar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -1,0 +1,29 @@
+.NavBar {
+    margin-bottom: 10px;
+    background-color: rgb(62, 134, 62);
+}
+
+.Navbar-RoutingLink {
+    color: white;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 670px) {
+    .navbar-links {
+        display: none;
+    }
+
+    .Navbar-LogoLarge {
+        display: none;
+    }
+
+    .Navbar-LogoSmall {
+        max-width: 3.5rem;
+    }
+}
+
+@media only screen and (min-width: 670px) {
+    .Navbar-LogoSmall {
+        display: none;
+    }
+}
