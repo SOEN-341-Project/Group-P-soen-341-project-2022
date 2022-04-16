@@ -1,3 +1,4 @@
+import { cookieAge } from '../Browse/CookieAge';
 import * as React from 'react';
 import { useState } from 'react';
 import Button from "@mui/material/Button";
@@ -38,7 +39,7 @@ export const ProfilePage = () => {
                 (err.response.data.message ? err.response.data.message + "." : ""));
         }
 
-        setCookie("user", updateProfileResponse.data);
+        setCookie("user", updateProfileResponse.data, { maxAge: cookieAge });
         setEditable(false);
     }
 

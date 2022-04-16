@@ -1,7 +1,7 @@
 import hasRequiredBrandCreationParams from "../src/helpers/verifyBrandCreation";
 
 const data = ["name", "description"];
-let requestBody: any = { name: 'name', description: 'description'};
+const requestBody: any = { name: 'name', description: 'description'};
 
 describe("Required Brand Creation Params Tests", () => {
     test("No name", () => {
