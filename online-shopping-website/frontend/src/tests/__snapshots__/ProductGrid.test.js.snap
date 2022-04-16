@@ -1,0 +1,308 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Product Grid Tests should render 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5 css-1ld3b9g-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-xl-4 css-70jto0-MuiGrid-root"
+        >
+          <a
+            class="RoutingLink"
+            href="/1/thing 1"
+          >
+            <button
+              class="MuiButtonBase-root css-f8eae8-MuiButtonBase-root"
+              tabindex="0"
+              type="button"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root ProductContainer css-bhp9pd-MuiPaper-root-MuiCard-root"
+              >
+                <div
+                  class="css-1shxafo-MuiStack-root"
+                >
+                  <div
+                    class="css-nzye12-MuiStack-root"
+                  >
+                    <img
+                      alt="thing 1"
+                      class="ProductImage"
+                      src="https://www.irishtimes.com/polopoly_fs/1.3628113.1536842312!/image/image.jpg_gen/derivatives/ratio_1x1_w1200/image.jpg"
+                    />
+                  </div>
+                  <div>
+                    <h3>
+                      thing 1
+                    </h3>
+                    <p>
+                      <strong>
+                        Brand:
+                      </strong>
+                       
+                      Test product 1
+                    </p>
+                    <p>
+                      <strong>
+                        Sold by:
+                      </strong>
+                       
+                      Test seller 1
+                    </p>
+                  </div>
+                  <h4
+                    class="ProductPrice"
+                  >
+                     Ɖ
+                  </h4>
+                </div>
+              </div>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-xl-4 css-70jto0-MuiGrid-root"
+        >
+          <a
+            class="RoutingLink"
+            href="/2/thing 2"
+          >
+            <button
+              class="MuiButtonBase-root css-f8eae8-MuiButtonBase-root"
+              tabindex="0"
+              type="button"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root ProductContainer css-bhp9pd-MuiPaper-root-MuiCard-root"
+              >
+                <div
+                  class="css-1shxafo-MuiStack-root"
+                >
+                  <div
+                    class="css-nzye12-MuiStack-root"
+                  >
+                    <img
+                      alt="thing 2"
+                      class="ProductImage"
+                      src="https://i.kym-cdn.com/entries/icons/original/000/033/421/cover2.jpg"
+                    />
+                  </div>
+                  <div>
+                    <h3>
+                      thing 2
+                    </h3>
+                    <p>
+                      <strong>
+                        Brand:
+                      </strong>
+                       
+                      Test product 2
+                    </p>
+                    <p>
+                      <strong>
+                        Sold by:
+                      </strong>
+                       
+                      Test seller 2
+                    </p>
+                  </div>
+                  <h4
+                    class="ProductPrice"
+                  >
+                     Ɖ
+                  </h4>
+                </div>
+              </div>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-5 css-1ld3b9g-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-xl-4 css-70jto0-MuiGrid-root"
+      >
+        <a
+          class="RoutingLink"
+          href="/1/thing 1"
+        >
+          <button
+            class="MuiButtonBase-root css-f8eae8-MuiButtonBase-root"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root ProductContainer css-bhp9pd-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="css-1shxafo-MuiStack-root"
+              >
+                <div
+                  class="css-nzye12-MuiStack-root"
+                >
+                  <img
+                    alt="thing 1"
+                    class="ProductImage"
+                    src="https://www.irishtimes.com/polopoly_fs/1.3628113.1536842312!/image/image.jpg_gen/derivatives/ratio_1x1_w1200/image.jpg"
+                  />
+                </div>
+                <div>
+                  <h3>
+                    thing 1
+                  </h3>
+                  <p>
+                    <strong>
+                      Brand:
+                    </strong>
+                     
+                    Test product 1
+                  </p>
+                  <p>
+                    <strong>
+                      Sold by:
+                    </strong>
+                     
+                    Test seller 1
+                  </p>
+                </div>
+                <h4
+                  class="ProductPrice"
+                >
+                   Ɖ
+                </h4>
+              </div>
+            </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </a>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-xl-4 css-70jto0-MuiGrid-root"
+      >
+        <a
+          class="RoutingLink"
+          href="/2/thing 2"
+        >
+          <button
+            class="MuiButtonBase-root css-f8eae8-MuiButtonBase-root"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root ProductContainer css-bhp9pd-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="css-1shxafo-MuiStack-root"
+              >
+                <div
+                  class="css-nzye12-MuiStack-root"
+                >
+                  <img
+                    alt="thing 2"
+                    class="ProductImage"
+                    src="https://i.kym-cdn.com/entries/icons/original/000/033/421/cover2.jpg"
+                  />
+                </div>
+                <div>
+                  <h3>
+                    thing 2
+                  </h3>
+                  <p>
+                    <strong>
+                      Brand:
+                    </strong>
+                     
+                    Test product 2
+                  </p>
+                  <p>
+                    <strong>
+                      Sold by:
+                    </strong>
+                     
+                    Test seller 2
+                  </p>
+                </div>
+                <h4
+                  class="ProductPrice"
+                >
+                   Ɖ
+                </h4>
+              </div>
+            </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
