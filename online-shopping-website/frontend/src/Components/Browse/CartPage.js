@@ -33,22 +33,24 @@ export const CartPage = () => {
 
     // Refresh cart items in cookie on first CartPage render
     useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
-        .then((response) => {
-            // Remove deleted items from cart
-            setCookie("cart", cookies.cart.filter((cartProduct) => {
-                return response.data.some((product) => {
-                    return product.id === cartProduct.id;
-                })
-            }), { maxAge: cookieAge });
-
-            // Update cart items with new product data
-            setCookie("cart", cookies.cart.map((cartProduct) => {
-                return Object.assign(cartProduct, response.data.find(product => (
-                    product.id === cartProduct.id
-                )));
-            }), { maxAge: cookieAge });
-        });
+        if (cookies.cart) {
+            axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
+            .then((response) => {
+                // Remove deleted items from cart
+                setCookie("cart", cookies.cart.filter((cartProduct) => {
+                    return response.data.some((product) => {
+                        return product.id === cartProduct.id;
+                    })
+                }), { maxAge: cookieAge });
+    
+                // Update cart items with new product data
+                setCookie("cart", cookies.cart.map((cartProduct) => {
+                    return Object.assign(cartProduct, response.data.find(product => (
+                        product.id === cartProduct.id
+                    )));
+                }), { maxAge: cookieAge });
+            });
+        }
     }, []);
 
     const calculateCartTally = () => {

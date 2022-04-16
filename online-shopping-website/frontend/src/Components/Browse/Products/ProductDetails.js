@@ -2,7 +2,7 @@ import propTypes from 'prop-types';
 import { cookieAge } from '../CookieAge';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
@@ -162,14 +162,14 @@ export const ProductDetails = () => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
-    const [selectedProduct, setSelectedProduct] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     //Getting product name from URL
     const productParams = useParams();
 
     // Get product by id
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productParams.productId).then((res) => {
             setSelectedProduct(res.data);
             setLoading(false);
