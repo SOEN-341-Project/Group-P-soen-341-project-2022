@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { ProductGrid } from '../Components/Browse/Products/ProductGrid'
 import * as React from 'react';
 import { BrowserRouter } from "react-router-dom";
@@ -28,10 +28,12 @@ const testProducts = [
 ]
 
 describe('Product Grid Tests', () => {
+  // check if product grid has changed or not
   test('should render', () => {
     const component = render(<BrowserRouter><ProductGrid products={testProducts} /></BrowserRouter>);
     expect(component).toMatchSnapshot();
   });
+  // check if iterate products work by seeing if all the products have their titles in the product grid
   test('all titles are present', async () => {
     const resProducts = await axios.get('https://api.bobbleshop.me/api/items/all');
     const products = resProducts.data;
