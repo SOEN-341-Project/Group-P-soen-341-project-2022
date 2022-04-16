@@ -17,7 +17,7 @@ export const ProfilePage = () => {
     const [userData, setUserData] = useState(cookie.user.user);
     const [password, setPassword] = useState('');
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async () => {
         let updateProfileResponse;
         try {
             updateProfileResponse = await axios.post(
@@ -39,7 +39,7 @@ export const ProfilePage = () => {
                 (err.response.data.message ? err.response.data.message + "." : ""));
         }
 
-        setCookie("user", updateProfileResponse.data, { maxAge: cookieAge });
+        setCookie("user", updateProfileResponse ? updateProfileResponse.data : null, { maxAge: cookieAge });
         setEditable(false);
     }
 
@@ -137,7 +137,6 @@ export const ProfilePage = () => {
                             required
                             className="ProfileTextField"
                             style={{ margin: '1.5rem 0 1rem 0' }}
-                            // type='password'
                             disabled={!editable}
                             placeholder='New Password'
                             inputProps={{
@@ -152,7 +151,6 @@ export const ProfilePage = () => {
                             disabled={!editable}
                             required
                             className="ProfileTextField"
-                            // type = 'password'
                             placeholder="Confirm New Password" variant="outlined"
                             onChange={(e) => setUserData({ ...userData, confPassword: e.target.value })} 
                         />

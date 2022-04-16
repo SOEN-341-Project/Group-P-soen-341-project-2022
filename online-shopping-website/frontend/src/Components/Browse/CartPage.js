@@ -33,22 +33,24 @@ export const CartPage = () => {
 
     // Refresh cart items in cookie on first CartPage render
     useEffect(() => {
-        axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
-        .then((response) => {
-            // Remove deleted items from cart
-            setCookie("cart", cookies.cart.filter((cartProduct) => {
-                return response.data.some((product) => {
-                    return product.id === cartProduct.id;
-                })
-            }), { maxAge: cookieAge });
-
-            // Update cart items with new product data
-            setCookie("cart", cookies.cart.map((cartProduct) => {
-                return Object.assign(cartProduct, response.data.find(product => (
-                    product.id === cartProduct.id
-                )));
-            }), { maxAge: cookieAge });
-        });
+        if (cookies.cart) {
+            axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/all")
+            .then((response) => {
+                // Remove deleted items from cart
+                setCookie("cart", cookies.cart.filter((cartProduct) => {
+                    return response.data.some((product) => {
+                        return product.id === cartProduct.id;
+                    })
+                }), { maxAge: cookieAge });
+    
+                // Update cart items with new product data
+                setCookie("cart", cookies.cart.map((cartProduct) => {
+                    return Object.assign(cartProduct, response.data.find(product => (
+                        product.id === cartProduct.id
+                    )));
+                }), { maxAge: cookieAge });
+            });
+        }
     }, []);
 
     const calculateCartTally = () => {
@@ -65,11 +67,11 @@ export const CartPage = () => {
         total = subtotal + GST + QST;
     }
 
-    const EmptyCart = () => {
+    const emptyCart = () => {
         deleteCookie('cart');
     }
 
-    const PlaceOrder = () => {
+    const placeOrder = () => {
         //Opening order placement alert
         setAlertVisible(true);
         window.scrollTo(0, 0);
@@ -95,7 +97,7 @@ export const CartPage = () => {
         });
 
         //Clearing cart
-        EmptyCart();
+        emptyCart();
     }
 
     //Displays cart items breakdown
@@ -127,7 +129,7 @@ export const CartPage = () => {
             }), { maxAge: cookieAge });
         }
 
-        function IncrementItem(item) {
+        const incrementItem = item => {
             //Increment quantity, ensuring that quantity does not exceed number of items of product in backend (totalQuantity)
             if (item.quantity < item.totalQuantity) {
                 modifyItemQuantity(item.id, item.quantity + 1);
@@ -135,7 +137,7 @@ export const CartPage = () => {
             forceUpdate();
         }
 
-        function DecreaseItem(item) {
+        const decreaseItem = item => {
             //Decrement quantity, ensuring that quantity has at least 1 item per product in the cart
             if (item.quantity > 1) {
                 modifyItemQuantity(item.id, item.quantity - 1);
@@ -143,7 +145,7 @@ export const CartPage = () => {
             forceUpdate();
         }
 
-        function RemoveItem(itemID) {
+        const removeItem = itemID => {
             //Creates new array containing every product in the cart except the one being removed
             setCookie("cart", cookies.cart.filter(product => product.id !== itemID), { maxAge: cookieAge });
             forceUpdate();
@@ -167,7 +169,7 @@ export const CartPage = () => {
                                     {/*Remove item button*/}
                                     <Grid item xs={3} md={1} sx={{margin: 'auto', textAlign: 'center'}}>
                                         <Button className="Cart-CloseButton"
-                                                onClick={() => RemoveItem(item.id)}>
+                                                onClick={() => removeItem(item.id)}>
                                             <CloseIcon/>
                                         </Button>
                                     </Grid>
@@ -200,7 +202,7 @@ export const CartPage = () => {
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
                                                         disabled={item.quantity <= 1}
-                                                        onClick={() => DecreaseItem(item)}>
+                                                        onClick={() => decreaseItem(item)}>
                                                     <RemoveIcon/>
                                                 </Button>
                                                 <input className="inputne" disabled={true}
@@ -208,7 +210,7 @@ export const CartPage = () => {
                                                 <Button className="QuantityButtons-Shared PinkButtonContained"
                                                         variant="contained"
                                                         disabled={item.quantity >= item.totalQuantity}
-                                                        onClick={() => IncrementItem(item)}>
+                                                        onClick={() => incrementItem(item)}>
                                                     <AddIcon/>
                                                 </Button>
                                             </Stack>
@@ -234,9 +236,7 @@ export const CartPage = () => {
                                 aria-label="close"
                                 color="inherit"
                                 size="small"
-                                onClick={function () {
-                                    setAlertVisible(false);
-                                }}
+                                onClick={() => setAlertVisible(false)}
                             >
                                 <CloseIcon fontSize="inherit"/>
                             </IconButton>
@@ -300,9 +300,7 @@ export const CartPage = () => {
                             aria-label="close"
                             color="inherit"
                             size="small"
-                            onClick={function () {
-                                setAlertVisible(false);
-                            }}
+                            onClick={() => setAlertVisible(false)}
                         >
                             <CloseIcon fontSize="inherit"/>
                         </IconButton>
@@ -361,7 +359,7 @@ export const CartPage = () => {
                         className='TextPink'>{total.toFixed(2)} Ɖ</h4>
                 </Grid>
                 <Grid item xs={12} className="Cart-OrderButton">
-                    <Button variant="contained" className="GreenButtonContained" onClick={PlaceOrder}
+                    <Button variant="contained" className="GreenButtonContained" onClick={placeOrder}
                             disabled={cookies.cart.length === 0}>
                         Place order
                     </Button>

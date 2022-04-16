@@ -17,7 +17,7 @@ export const SideNav = (props) => {
     return (
         <Card sx={{ backgroundColor: 'rgb(62, 134, 62)', borderRadius: '10px', display: 'flex', justifyContent: 'center', padding: '1.5em', color: 'white'}}>
             <Stack xs={12} sx={{ width: '100%' }} spacing={1}>
-                <SearchBar className="SearchBar" style={searchBarStyle} filterData={props.filterProducts} filters={props.filters} />
+                <SearchBar className="SearchBar" label={'Search Products'} style={searchBarStyle} filterData={props.filterProducts} filters={props.filters} />
                 <PriceFilter unfilteredProducts={props.unfilteredProducts} onSliderChange={props.onSliderChange} />
                 <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
                 <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
@@ -55,7 +55,7 @@ const searchBarStyle = {
 
 const PriceFilter = (props) => {
     
-    function valuetext(value) {
+    const valueToText = (value) => {
         return `${value}Ɖ`;
     }
     
@@ -75,11 +75,11 @@ const PriceFilter = (props) => {
     const marks = [
         {
             value: lowestPrice,
-            label: valuetext(lowestPrice),
+            label: valueToText(lowestPrice),
         },
         {
             value: highestPrice,
-            label: valuetext(highestPrice),
+            label: valueToText(highestPrice),
         },
     ];
 
@@ -103,7 +103,7 @@ const PriceFilter = (props) => {
                     value={value}
                     onChange={handleChange}
                     valueLabelDisplay="auto"
-                    getAriaValueText={valuetext}
+                    getAriaValueText={valueToText}
                     step={1}
                     marks={marks}
                     disableSwap

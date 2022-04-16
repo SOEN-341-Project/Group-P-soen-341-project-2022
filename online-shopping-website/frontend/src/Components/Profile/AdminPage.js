@@ -93,6 +93,7 @@ export const AdminPage = () => {
         );
     }
 
+    // Render admin page if user is admin, display permission error message otherwise
     if(cookies.user.user.role === 'ADMIN'){
         return (
         <Grid className="sellerContainer">

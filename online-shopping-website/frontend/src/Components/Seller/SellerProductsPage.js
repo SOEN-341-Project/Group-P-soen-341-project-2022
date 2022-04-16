@@ -143,7 +143,7 @@ export const SellerProductsPage = () => {
         setSellerPageName(event.target.name);
     }
 
-    const RenderSellerButtons = () => {
+    const renderSellerButtons = () => {
         return (
             sellers.map((seller, index) => {
                 return <Button 
@@ -195,7 +195,7 @@ export const SellerProductsPage = () => {
                     <h1 style={{ color: "white", marginTop: 0 }}>Browsing {sellerPageName}'s Products</h1>
                 </Grid>
                 <Grid item sx={{ marginBottom: '1rem' }} xs={12} spacing={2}>
-                    {cookies.user.user.role === 'ADMIN' && RenderSellerButtons()}
+                    {cookies.user.user.role === 'ADMIN' && renderSellerButtons()}
                 </Grid>
 
                 <Grid item sm={12} className="sellerTable">
@@ -229,8 +229,6 @@ export const SellerProductsPage = () => {
                 </Link>
             </div>
         </Grid>
-
-    )
-        ;
+    );
 }
 

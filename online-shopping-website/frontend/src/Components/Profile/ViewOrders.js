@@ -158,8 +158,7 @@ export const ViewOrders = () => {
                         <CardActions disableSpacing>
                             <Typography style={{ paddingLeft: '0.5rem' }}>View more</Typography>
                             <ExpandMore key={index}
-                               // expand={expanded}
-                                onClick={event => handleExpandClick(index)}
+                                onClick={() => handleExpandClick(index)}
                                 aria-expanded={expandedId === index}
                                 aria-label="show more"
                             >

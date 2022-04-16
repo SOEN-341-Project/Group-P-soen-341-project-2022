@@ -11,7 +11,6 @@ import { Link, useNavigate } from "react-router-dom";
 import navLogo from '../icons/BOBBLE-05.png';
 import smallNavLogo from '../icons/BOBBLE-03.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import Typography from "@mui/material/Typography";
 

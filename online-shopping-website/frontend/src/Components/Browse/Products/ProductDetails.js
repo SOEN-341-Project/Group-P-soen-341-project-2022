@@ -2,8 +2,7 @@ import propTypes from 'prop-types';
 import { cookieAge } from '../CookieAge';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
@@ -26,7 +25,7 @@ const ProductButtons = (props) => {
 
     const productInCart = cookies.cart ? cookies.cart.find(product => props.product.id === product.id) : null;
 
-    const IncrementItem = () => {
+    const incrementItem = () => {
         //Increment quantity, ensuring that quantity does not exceed maximum 10 items per product in the cart
 
         if (((productInCart ? productInCart.quantity : 0) + quantity) <= props.product.totalQuantity) {
@@ -34,7 +33,7 @@ const ProductButtons = (props) => {
         }
         forceUpdate();
     }
-    const DecreaseItem = () => {
+    const decreaseItem = () => {
         //Decrement quantity, ensuring that quantity has at least 1 item per product in the cart
         if (quantity !== 1) {
             setQuantity(quantity - 1);
@@ -55,7 +54,7 @@ const ProductButtons = (props) => {
         }), { maxAge: cookieAge });
     }
 
-    const AddToCart = () => {
+    const addToCart = () => {
         let item = props.product;
 
         // Cart is empty, set it to an array containing one product 
@@ -119,13 +118,13 @@ const ProductButtons = (props) => {
             <Stack className="ProductDetails-QuantityButtonsStack" direction="row" spacing={1}>
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
                     disabled={quantity === 1}
-                    onClick={DecreaseItem}>
+                    onClick={decreaseItem}>
                     <RemoveIcon />
                 </Button>
                 <input className="inputne" disabled={true} value={quantity} />
                 <Button className="QuantityButtons-Shared GreenButtonContained" variant="contained"
                     disabled={((productInCart ? productInCart.quantity : 0) + quantity) >= props.product.totalQuantity}
-                    onClick={IncrementItem}>
+                    onClick={incrementItem}>
                     <AddIcon />
                 </Button>
             </Stack>
@@ -143,7 +142,7 @@ const ProductButtons = (props) => {
                     !cookies.user
                     || cookies.user.user.role !== 'CUSTOMER'
                     || ((productInCart ? productInCart.quantity : 0) + quantity) > props.product.totalQuantity}
-                onClick={AddToCart}>
+                onClick={addToCart}>
                 Add to cart
             </Button>
             {
@@ -163,14 +162,14 @@ export const ProductDetails = () => {
     //Resetting scrolling to top of the page
     window.scrollTo(0, 0);
 
-    const [selectedProduct, setSelectedProduct] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     //Getting product name from URL
     const productParams = useParams();
 
     // Get product by id
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get(process.env.REACT_APP_DB_CONNECTION + "/api/items/find/?id=" + productParams.productId).then((res) => {
             setSelectedProduct(res.data);
             setLoading(false);
