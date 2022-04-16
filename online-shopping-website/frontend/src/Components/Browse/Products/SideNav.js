@@ -17,7 +17,7 @@ export const SideNav = (props) => {
     return (
         <Card sx={{ backgroundColor: 'rgb(62, 134, 62)', borderRadius: '10px', display: 'flex', justifyContent: 'center', padding: '1.5em', color: 'white'}}>
             <Stack xs={12} sx={{ width: '100%' }} spacing={1}>
-                <SearchBar className="SearchBar" label={searchBarLabel} style={searchBarStyle} filterData={props.filterProducts} filters={props.filters} />
+                <SearchBar className="SearchBar" label={'Search Products'} style={searchBarStyle} filterData={props.filterProducts} filters={props.filters} />
                 <PriceFilter unfilteredProducts={props.unfilteredProducts} onSliderChange={props.onSliderChange} />
                 <BrandDropdown brands={props.brands} onCheckboxChange={props.onCheckboxChange} />
                 <SellerDropdown sellers={props.sellers} onCheckboxChange={props.onCheckboxChange} />
