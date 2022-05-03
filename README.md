@@ -29,9 +29,6 @@ Admins will have access to all user profiles, users' order histories, and detail
 - Alexandra Spyridakos
   - GitHub: [@aspyridakos](https://github.com/aspyridakos)
   - Role: Front-end
-- Ricky Guan
-  - GitHub: ricks021
-  - Role: Front-end
 
 ## Programming Languages Used
 - HTML
