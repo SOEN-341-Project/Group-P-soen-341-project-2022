@@ -1,3 +1,5 @@
+_**PLEASE NOTE: Bobble website URL has been decommissioned. To view website, clone repo on local machine, run `npm i` then `npm start` to kickoff localhost environment.**_ 
+
 # Online Shopping Website
 **Before starting, please review the [GitHub Projects: How-to Guide](https://github.com/SOEN-341-Project/Online-Shopping-Website/blob/7464f2cce2d6086d896a20e5abc670403e24e762/GitHub%20Projects%20-%20How-to%20Guide.md).**
 
